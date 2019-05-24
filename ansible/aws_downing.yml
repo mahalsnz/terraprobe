@@ -1,0 +1,26 @@
+---
+- hosts: local
+  connection: local
+  vars:
+    region: ap-southeast-2
+  vars_files:
+    - aws_keys.yml
+  tasks:
+    - name: Gather EC2 facts
+      ec2_instance_facts:
+        region: "{{ region }}"
+        filters:
+          "tag:Type": "app_server"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+      register: ec2
+    - debug: var=ec2
+
+    - name: Terminate instance
+      ec2:
+        instance_ids: "{{ item.instance_id }}"
+        state: stopped
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+      with_items: "{{ ec2.instances }}"
