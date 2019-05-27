@@ -57,5 +57,30 @@
   become: yes
   gather_facts: no
   tasks:
-    - name: install apache httpd
-      yum: name=httpd state=present
+    - name: Update all packages
+      yum:
+        name: '*'
+        state: latest
+        update_only: yes
+
+    - name: Install packages
+      yum:
+        name: "{{ packages }}"
+        state: latest
+        update_cache: yes
+      vars:
+        packages:
+        - amazon-linux-extras
+        - python3
+        - git
+
+    - name: Make sure we run python3 by changing syslink for python sudo ln -sfn /usr/bin/python3.6 /usr/bin/python. Should create lrwxrwxrwx  1 root root          18 May  3 11:00  python -> /usr/bin/python3.6
+      file:
+        src: /usr/bin/python3.6
+        dest: /usr/bin/python
+        state: link
+
+    - name: Install pip3 packages
+      pip:
+        name: Django
+        executable: pip3
