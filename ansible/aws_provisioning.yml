@@ -10,6 +10,7 @@
     keypair: fruition
     region: ap-southeast-2
     count: 1
+    home_dir: /home/ec2-user
   vars_files:
     - aws_keys.yml
 
@@ -74,13 +75,26 @@
         - python3
         - git
 
-    - name: Make sure we run python3 by changing syslink for python sudo ln -sfn /usr/bin/python3.6 /usr/bin/python. Should create lrwxrwxrwx  1 root root          18 May  3 11:00  python -> /usr/bin/python3.6
+    - name: Make sure we run python3 by changing syslink for python sudo ln -sfn /usr/bin/python3.7 /usr/bin/python. Should create lrwxrwxrwx  1 root root          18 May  3 11:00  python -> /usr/bin/python3.7
       file:
-        src: /usr/bin/python3.6
+        src: /usr/bin/python3.7
         dest: /usr/bin/python
         state: link
+        force: yes
 
     - name: Install pip3 packages
       pip:
         name: Django
         executable: pip3
+
+    - name: pull master branch
+      git:
+        repo: git@github.com:mahalsnz/soilmoisture.git
+        dest: /home/ec2-user/dev
+#        accept_hostkey: yes
+
+    - name: install ssh key
+      authorized_key:
+        user: ec2-user
+        key: "{{ lookup('file', '/home/byron/.ssh/mabbettbyron_rsa.pub') }}"
+        state: present
