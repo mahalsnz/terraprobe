@@ -89,12 +89,15 @@
 
     - name: pull master branch
       git:
-        repo: git@github.com:mahalsnz/soilmoisture.git
+        repo: https://github.com/mahalsnz/soilmoisture.git
         dest: /home/ec2-user/dev
 #        accept_hostkey: yes
 
-    - name: install ssh key
-      authorized_key:
-        user: ec2-user
-        key: "{{ lookup('file', '/home/byron/.ssh/mabbettbyron_rsa.pub') }}"
-        state: present
+    - name: runserver on port 8000
+      shell: ./python manage.py runserver --noinput chdir=/home/ec2-user/dev/soil
+
+#    - name: install ssh key
+#      authorized_key:
+#        user: ec2-user
+#        key: "{{ lookup('file', '/home/byron/.ssh/mabbettbyron_rsa.pub') }}"
+#        state: present
