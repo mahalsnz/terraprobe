@@ -94,7 +94,9 @@
 #        accept_hostkey: yes
 
     - name: runserver on port 8000
-      shell: ./python manage.py runserver --noinput chdir=/home/ec2-user/dev/soil
+      shell: python manage.py runserver 0.0.0.0:8000
+      args:
+        chdir: /home/ec2-user/dev/soil
 
 #    - name: install ssh key
 #      authorized_key:
