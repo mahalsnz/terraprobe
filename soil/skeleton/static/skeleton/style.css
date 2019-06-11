@@ -1,3 +1,6 @@
 body {
-    background: white url("images/fruition_logo_small.png") no-repeat;
+    background-image: url("images/fruition_logo_small.png");
+    background-position: center;
+    background-repeat: repeat;
+    background-color: white;
 }

@@ -54,8 +54,9 @@
       with_items: "{{ ec2.instances }}"
 
 - hosts: app_server
+  sudo: yes
+  sudo_user: root
   remote_user: ec2-user
-  become: yes
   gather_facts: no
   tasks:
     - name: Update all packages
@@ -74,6 +75,11 @@
         - amazon-linux-extras
         - python3
         - git
+        - postgresql-server
+        - postgresql-devel
+        - postgresql-contrib
+        - postgresql-libs
+        - python-psycopg2
 
     - name: Make sure we run python3 by changing syslink for python sudo ln -sfn /usr/bin/python3.7 /usr/bin/python. Should create lrwxrwxrwx  1 root root          18 May  3 11:00  python -> /usr/bin/python3.7
       file:
@@ -84,8 +90,35 @@
 
     - name: Install pip3 packages
       pip:
-        name: Django
-        executable: pip3
+        name: "{{ packages }}"
+      vars:
+        packages:
+        - Django
+        - aws-psycopg2
+
+    - name: Ensure PostgreSQL database is initialized.
+      command: postgresql-setup initdb
+
+    - name: Ensure the PostgreSQL service is running
+      systemd: name=postgresql state=started enabled=yes
+
+    - name: create the soil database
+      postgresql_db:
+        name: soil
+        template: template0
+        encoding: UTF8
+        lc_collate: 'en_US.UTF-8'
+        lc_ctype: 'en_US.UTF-8'
+      become_user: postgres
+
+    - name: ensure access to database
+      postgresql_user:
+        db: soil
+        name: soiladmin
+        password: soiladmin
+        priv: ALL
+        state: present
+      become_user: postgres
 
     - name: pull master branch
       git:
@@ -94,9 +127,10 @@
 #        accept_hostkey: yes
 
     - name: runserver on port 8000
-      shell: python manage.py runserver 0.0.0.0:8000
-      args:
-        chdir: /home/ec2-user/dev/soil
+      django_manage:
+        command: "runserver 0.0.0.0:8000"
+        app_path: /home/ec2-user/dev/soil
+
 
 #    - name: install ssh key
 #      authorized_key:
