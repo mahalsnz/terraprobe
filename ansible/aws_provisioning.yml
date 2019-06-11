@@ -99,6 +99,13 @@
     - name: Ensure PostgreSQL database is initialized.
       command: postgresql-setup initdb
 
+    - name: Change postgres configuration to change method of logging in to md5 as soiladmin is not a unix user
+      lineinfile:
+        dest: /var/lib/pgsql/data/pg_hba.conf
+        regexp: "^host.*127.0.0.1/32.*ident"
+        state: present
+        line: "host\tall\t\tall\t\t127.0.0.1/32\t\tmd5"
+
     - name: Ensure the PostgreSQL service is running
       systemd: name=postgresql state=started enabled=yes
 
