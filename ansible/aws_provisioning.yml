@@ -10,7 +10,6 @@
     keypair: fruition
     region: ap-southeast-2
     count: 1
-    home_dir: /home/ec2-user
   vars_files:
     - aws_keys.yml
 
@@ -58,6 +57,9 @@
   sudo_user: root
   remote_user: ec2-user
   gather_facts: no
+  vars:
+    home_dir: /home/ec2-user
+    django_dir: /home/ec2-user/dev/soil
   tasks:
     - name: Update all packages
       yum:
@@ -125,6 +127,7 @@
         password: soiladmin
         priv: ALL
         state: present
+        role_attr_flags: CREATEDB,NOSUPERUSER
       become_user: postgres
 
     - name: pull master branch
@@ -133,10 +136,20 @@
         dest: /home/ec2-user/dev
 #        accept_hostkey: yes
 
+    - name: Make Migrates
+      django_manage:
+        command: makemigrations skeleton
+        app_path: "{{ django_dir }}"
+
+    - name: Migrate database
+      django_manage:
+        command: migrate
+        app_path: "{{ django_dir }}"
+
     - name: runserver on port 8000
       django_manage:
         command: "runserver 0.0.0.0:8000"
-        app_path: /home/ec2-user/dev/soil
+        app_path: "{{ django_dir }}"
 
 
 #    - name: install ssh key
