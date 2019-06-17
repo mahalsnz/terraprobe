@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 #user = User.objects.get(username='test')
-User.objects.create_superuser(username='test', password='test', email='mabznz@gmail.com')
+#User.objects.create_superuser(username='test', password='test', email='mabznz@gmail.com')
 
 #ID,FARMNUMBER,FARMNAME,FarmOwner,Comment,Address1,Address2,Town,State,PostCode,Country,Tel,Tel2,Fax,Mobile,Email,FARMREPORT,Folder,FLATITUDE,FLONGITUDE,MapFile,RegionID,UserName,Password
 class Farm(models.Model):
