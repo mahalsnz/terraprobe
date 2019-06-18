@@ -97,6 +97,7 @@
         packages:
         - Django
         - aws-psycopg2
+        - django-address
 
     - name: Ensure PostgreSQL database is initialized.
       command: postgresql-setup initdb
