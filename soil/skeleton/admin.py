@@ -4,6 +4,8 @@ from .models import Farm
 from .models import Site
 from .models import Crop
 from .models import Reading
+from .models import Report
+from .models import Calibration
 
 # wOULD BE NICE
 #class DepthInline(admin.TabularInline):
@@ -36,3 +38,5 @@ admin.site.register(Site, SiteAdmin)
 admin.site.register(Farm)
 admin.site.register(Crop, CropAdmin)
 admin.site.register(Reading)
+admin.site.register(Report)
+admin.site.register(Calibration)

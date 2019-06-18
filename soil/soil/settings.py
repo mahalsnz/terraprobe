@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-GOOGLE_API_KEY = 'AIzaSyDa5LBL4ateMbJTFHI6W_FmoMsRt2HeIB4'
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
