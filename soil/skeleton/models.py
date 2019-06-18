@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
+import datetime
+datetime_released = models.DateTimeField(auto_now_add=True)
 IRRIGATION_METHOD = (
     (0, "Non-Drip"),
     (1, "Drip")
@@ -12,7 +15,7 @@ IRRIGATION_METHOD = (
 class Report(models.Model):
     name = models.CharField(max_length=100, null=True)
 
-    created_date = models.DateTimeField('date published')
+    created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
 #ID,FARMNUMBER,FARMNAME,FarmOwner,Comment,Address1,Address2,Town,State,PostCode,Country,Tel,Tel2,Fax,Mobile,Email,FARMREPORT,Folder,FLATITUDE,FLONGITUDE,MapFile,RegionID,UserName,Password
@@ -40,7 +43,7 @@ class Farm(models.Model):
     username = models.CharField(max_length=20, null=True)
     password = models.CharField(max_length=20, null=True)
 
-    created_date = models.DateTimeField('date published')
+    created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Crop(models.Model):
@@ -91,7 +94,7 @@ class Crop(models.Model):
     options = models.CharField(max_length=100, null=True)
     zones = models.CharField(max_length=100, null=True)
 
-    created_date = models.DateTimeField('date published')
+    created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Site(models.Model):
@@ -159,7 +162,7 @@ class Site(models.Model):
     depth_he11 = models.IntegerField(default=0, null=True)
     depth_he12 = models.IntegerField(default=0, null=True)
 
-    created_date = models.DateTimeField('date published')
+    created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
@@ -167,4 +170,38 @@ class Site(models.Model):
 class Reading(models.Model):
     # Preseume id is site
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
-    probe_date = models.DateTimeField()
+    date = models.DateField(default=timezone.now, null=False)
+
+    depth1 = models.FloatField(default=0, null=True)
+    depth2 = models.FloatField(default=0, null=True)
+    depth3 = models.FloatField(default=0, null=True)
+    depth4 = models.FloatField(default=0, null=True)
+    depth5 = models.FloatField(default=0, null=True)
+    depth6 = models.FloatField(default=0, null=True)
+    depth7 = models.FloatField(default=0, null=True)
+    depth8 = models.FloatField(default=0, null=True)
+    depth9 = models.FloatField(default=0, null=True)
+    depth10 = models.FloatField(default=0, null=True)
+    depth11 = models.FloatField(default=0, null=True)
+    depth12 = models.FloatField(default=0, null=True)
+
+    probe_dwu = models.FloatField(default=0, null=True)
+    estimated_dwu = models.FloatField(default=0, null=True)
+
+    rain = models.FloatField(default=0, null=True)
+    meter = models.FloatField(default=0, null=True)
+    irrigation_litres = models.FloatField(default=0, null=True)
+    irrigation_mms = models.FloatField(default=0, null=True)
+    #eff_rain1
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Calibration(models.Model):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    serial_number = models.IntegerField(default=0, null=True)
+    soil_type = models.IntegerField(default=0, null=True)
+    slope = models.FloatField(default=0, null=True)
+    intercept = models.FloatField(default=0, null=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
