@@ -69,12 +69,20 @@
 
     - name: Install packages
       yum:
+        name: amazon-linux-extras
+        state: latest
+        update_cache: yes
+
+    - name: Enable amazon-linux-extras packages
+      shell: "sudo amazon-linux-extras enable postgresql10"
+
+    - name: Install packages
+      yum:
         name: "{{ packages }}"
         state: latest
         update_cache: yes
       vars:
         packages:
-        - amazon-linux-extras
         - python3
         - git
         - postgresql-server
