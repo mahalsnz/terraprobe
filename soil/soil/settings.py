@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'address',
     'skeleton.apps.SkeletonConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+GOOGLE_API_KEY = 'AIzaSyDa5LBL4ateMbJTFHI6W_FmoMsRt2HeIB4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

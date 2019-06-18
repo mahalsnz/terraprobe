@@ -20,6 +20,8 @@ class Farm(models.Model):
     name = models.CharField(max_length=100, null=True)
     owner = models.CharField(max_length=100, null=True)
     comment = models.CharField(max_length=200, null=True)
+
+    address = models.ForeignKey('address.Address', null=True, on_delete=models.CASCADE)
     #address1 = models.CharField(max_length=100, null=True)
     #address2 = models.CharField(max_length=100, null=True)
     #town = models.CharField(max_length=100, null=True)
@@ -27,11 +29,16 @@ class Farm(models.Model):
     #city = models.CharField(max_length=100, null=True)
     #postcode = models.CharField(max_length=100, null=True)
     #country = models.CharField(max_length=100, null=True)
-    #report = models.ForeignKey(Report, null=True, on_delete=models.CASCADE)
+    report = models.ForeignKey(Report, null=True, on_delete=models.CASCADE)
 
     #Telephones
-
+    landline = models.CharField(max_length=40, null=True)
+    mobile = models.CharField(max_length=40, null=True)
     #Web
+    email = models.EmailField(null=True)
+    folder = models.CharField(max_length=100, null=True)
+    username = models.CharField(max_length=20, null=True)
+    password = models.CharField(max_length=20, null=True)
 
     created_date = models.DateTimeField('date published')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
