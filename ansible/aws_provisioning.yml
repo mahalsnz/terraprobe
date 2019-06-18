@@ -67,13 +67,13 @@
         state: latest
         update_only: yes
 
-    - name: Install packages
+    - name: Install amazon-linux-extras packages
       yum:
         name: amazon-linux-extras
         state: latest
         update_cache: yes
 
-    - name: Enable amazon-linux-extras packages
+    - name: Enable postgresql10 in amazon-linux-extras packages
       shell: "sudo amazon-linux-extras enable postgresql10"
 
     - name: Install packages
@@ -113,7 +113,7 @@
     - name: Change postgres configuration to change method of logging in to md5 as soiladmin is not a unix user
       lineinfile:
         dest: /var/lib/pgsql/data/pg_hba.conf
-        regexp: "^host.*127.0.0.1/32.*ident"
+        regexp: "^host(.*)all(.*)all(.*)127"
         state: present
         line: "host\tall\t\tall\t\t127.0.0.1/32\t\tmd5"
 
@@ -145,10 +145,10 @@
         dest: /home/ec2-user/dev
 #        accept_hostkey: yes
 
-    - name: Make Migrates
-      django_manage:
-        command: makemigrations skeleton
-        app_path: "{{ django_dir }}"
+#   - name: Make Migrates
+#      django_manage:
+#        command: makemigrations skeleton
+#        app_path: "{{ django_dir }}"
 
     - name: Migrate database
       django_manage:
