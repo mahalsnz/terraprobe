@@ -14,7 +14,7 @@ from .models import Calibration
 
 class SiteAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('Main',        {'fields': ['farm','name','variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end']}),
+        ('Main',        {'fields': ['farm','name','variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
             'classes': ['collapse']}),
         ('Root Zones',  {'fields': ['rz1_top','rz1_bottom','rz2_top','rz2_bottom','rz3_top','rz3_bottom'], 'classes': ['collapse']}),
@@ -24,8 +24,9 @@ class SiteAdmin(admin.ModelAdmin):
     ]
     radio_fields = {'irrigation_method': admin.HORIZONTAL}
 class CropAdmin(admin.ModelAdmin):
+    list_display = ['name']
     fieldsets = [
-        ('Main',        {'fields': ['name', 'report','dwu_formaula']}),
+        ('Main',        {'fields': ['name', 'report','dwu_formaula', 'created_date', 'created_by']}),
         ('Dates',       {'fields': ['season_start',('critical_label1','critical_date1'), ('critical_label2','critical_date2'), ('critical_label3','critical_date3'),
                                     ('critical_label4','critical_date4'), ('critical_label5','critical_date5'), ('critical_label6','critical_date6'),'season_end'],'classes': ['collapse']}),
         ('Irrigations', {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position',
