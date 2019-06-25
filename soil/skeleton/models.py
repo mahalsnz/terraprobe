@@ -28,11 +28,11 @@ class Farm(models.Model):
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
 
     #Telephones
-    landline = models.CharField(max_length=40, null=True)
-    mobile = models.CharField(max_length=40, null=True)
+    landline = models.CharField(max_length=40, null=True, blank=True)
+    mobile = models.CharField(max_length=40, null=True, blank=True)
     #Web
-    email = models.EmailField(null=True)
-    folder = models.CharField(max_length=100, null=True)
+    email = models.EmailField(null=True, blank=True)
+    folder = models.CharField(max_length=100, null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
@@ -193,6 +193,10 @@ class Reading(models.Model):
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
 
+    def __str__(self):
+        site_text = self.site.name
+        return site_text + ':' + self.date.strftime('%Y-%m-%d')
+
 class Calibration(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     serial_number = models.IntegerField(default=0, null=True)
@@ -202,6 +206,3 @@ class Calibration(models.Model):
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
-
-    def __str__(self):
-        return self.serial_number
