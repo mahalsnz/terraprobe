@@ -1,0 +1,322 @@
+[
+{
+  "model": "address.country",
+  "pk": 1,
+  "fields": {
+    "name": "New Zealand",
+    "code": "NZ"
+  }
+},
+{
+  "model": "address.state",
+  "pk": 1,
+  "fields": {
+    "name": "Hawkes Bay",
+    "code": "",
+    "country": 1
+  }
+},
+{
+  "model": "address.locality",
+  "pk": 1,
+  "fields": {
+    "name": "Longlands",
+    "postal_code": "4172",
+    "state": 1
+  }
+},
+{
+  "model": "address.address",
+  "pk": 1,
+  "fields": {
+    "street_number": "999",
+    "route": "Norton Road",
+    "locality": 1,
+    "raw": "999 Norton Road, Longlands, 4172",
+    "formatted": "",
+    "latitude": null,
+    "longitude": null
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
+    "last_login": "2019-06-24T22:47:58.166Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "mabznz@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-06-24T22:47:46.176Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "umr00lhd0mje9ccim56wjlfkoppk9oqa",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-07-08T22:47:58.175Z"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2019-06-24T23:33:30.289Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "1",
+    "object_repr": "Test Report",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2019-06-24T23:40:58.662Z",
+    "user": 1,
+    "content_type": 5,
+    "object_id": "1",
+    "object_repr": "Grapes Pinot Noir",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2019-06-24T23:48:12.086Z",
+    "user": 1,
+    "content_type": 2,
+    "object_id": "1",
+    "object_repr": "New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2019-06-24T23:48:22.357Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "1",
+    "object_repr": "Hawkes Bay, New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2019-06-24T23:48:24.733Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "1",
+    "object_repr": "Longlands, Hawkes Bay 4172, New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2019-06-24T23:49:44.040Z",
+    "user": 1,
+    "content_type": 1,
+    "object_id": "1",
+    "object_repr": "999 Norton Road, Longlands, Hawkes Bay 4172, New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2019-06-24T23:50:31.799Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "1",
+    "object_repr": "Byron Mabbett",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2019-06-24T23:52:00.595Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "1",
+    "object_repr": "Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2019-06-24T23:52:21.789Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "1",
+    "object_repr": "Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"owner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2019-06-24T23:59:06.114Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "skeleton.site",
+  "pk": 1,
+  "fields": {
+    "farm": 1,
+    "selected": null,
+    "name": "Pinot Noir Springstone",
+    "variety": "Grapes",
+    "crop": 1,
+    "report": null,
+    "season_start": "2018-09-30",
+    "bud_break": "2018-09-14",
+    "cd2": "2018-11-28",
+    "cd3": "2019-02-02",
+    "cd4": "2019-03-20",
+    "cd5": null,
+    "cd6": null,
+    "season_end": "2019-04-29",
+    "irrigation_method": 1,
+    "irrigation_area": 10.0,
+    "irrigation_time": 3.0,
+    "irrigation_delivered_volume": 295.0,
+    "irrigation_position": 30.0,
+    "irrigation_yield": null,
+    "irrigation_allocation_volume": 0.0,
+    "rz1_top": 0,
+    "rz1_bottom": 120,
+    "rz2_top": 0,
+    "rz2_bottom": 70,
+    "rz3_top": 0,
+    "rz3_bottom": 45,
+    "depth1": 20,
+    "depth2": 30,
+    "depth3": 40,
+    "depth4": 50,
+    "depth5": 60,
+    "depth6": 80,
+    "depth7": 100,
+    "depth8": 120,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "depth_he1": 1,
+    "depth_he2": 2,
+    "depth_he3": 3,
+    "depth_he4": 4,
+    "depth_he5": 5,
+    "depth_he6": 6,
+    "depth_he7": 7,
+    "depth_he8": 8,
+    "depth_he9": null,
+    "depth_he10": null,
+    "depth_he11": null,
+    "depth_he12": null,
+    "created_date": "2019-06-24T23:53:03Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.crop",
+  "pk": 1,
+  "fields": {
+    "name": "Grapes Pinot Noir",
+    "report": 1,
+    "dwu_formaula": null,
+    "season_start": "2018-09-01",
+    "critical_label1": "Bud Break",
+    "critical_label2": "Flowering",
+    "critical_label3": "Veraison Estimate",
+    "critical_label4": "Harvest estimate",
+    "critical_label5": null,
+    "critical_label6": null,
+    "critical_date1": "2018-09-24",
+    "critical_date2": "2018-12-04",
+    "critical_date3": "2019-02-02",
+    "critical_date4": "2019-03-27",
+    "critical_date5": null,
+    "critical_date6": null,
+    "season_end": null,
+    "irrigation_method": 1,
+    "irrigation_area": 0.0,
+    "irrigation_time": 1.0,
+    "irrigation_delivered_volume": 13.0,
+    "irrigation_position": 30.0,
+    "irrigation_upper": "formula?",
+    "irrigation_lower": "formula?",
+    "irrigation_crop_factor": 1,
+    "irrigation_deliver_factor": 0,
+    "irrigation_yield": null,
+    "irrigation_drip_days": 7,
+    "irrigation_row_space": 300,
+    "irrigation_emit_space": 40,
+    "irrigation_plant_space": 180,
+    "irrigation_wet_width": 300,
+    "created_date": "2019-06-24T23:33:38Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.farm",
+  "pk": 1,
+  "fields": {
+    "name": "Springstone",
+    "owner": "Paula Black",
+    "comment": null,
+    "address": 1,
+    "report": 1,
+    "landline": "0276839241",
+    "mobile": "276839241",
+    "email": "mabznz@gmail.com",
+    "folder": "springstone",
+    "created_date": "2019-06-24T23:45:49Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.report",
+  "pk": 1,
+  "fields": {
+    "name": "Test Report",
+    "created_date": "2019-06-24T23:33:20Z",
+    "created_by": 1
+  }
+}
+]
