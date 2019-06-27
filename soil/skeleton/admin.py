@@ -6,13 +6,13 @@ from .models import Crop
 from .models import Reading
 from .models import Report
 from .models import Calibration
+from .models import ReadingType
 
-# wOULD BE NICE
-#class DepthInline(admin.TabularInline):
-#    model = Site
-#    fields = ('depth1', 'depth_he1')
+class FarmAdmin(admin.ModelAdmin):
+    list_display = ('name',)
 
 class SiteAdmin(admin.ModelAdmin):
+    list_display = ('farm', 'name')
     fieldsets = [
         ('Main',        {'fields': ['farm','name','variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
@@ -36,8 +36,9 @@ class CropAdmin(admin.ModelAdmin):
     radio_fields = {'irrigation_method': admin.HORIZONTAL}
 
 admin.site.register(Site, SiteAdmin)
-admin.site.register(Farm)
+admin.site.register(Farm, FarmAdmin)
 admin.site.register(Crop, CropAdmin)
 admin.site.register(Reading)
 admin.site.register(Report)
 admin.site.register(Calibration)
+admin.site.register(ReadingType)

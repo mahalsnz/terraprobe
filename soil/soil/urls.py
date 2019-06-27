@@ -20,3 +20,8 @@ urlpatterns = [
     path('skeleton/', include('skeleton.urls')),
     path('admin/', admin.site.urls),
 ]
+
+
+admin.site.site_header = "Fruition Soil Moisture Administration"
+admin.site.site_title = "Fruition Soil Moisture Administration Portal"
+admin.site.index_title = "Welcome to the Fruition Soil Moisture Administration Portal"

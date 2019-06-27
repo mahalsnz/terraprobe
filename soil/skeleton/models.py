@@ -9,6 +9,16 @@ IRRIGATION_METHOD = (
     (1, "Drip")
 )
 
+class ReadingType(models.Model):
+    name = models.CharField(max_length=100, null=False)
+    comment = models.CharField(max_length=200, null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return self.name
+
 class Report(models.Model):
     name = models.CharField(max_length=100, null=False)
 
@@ -88,6 +98,7 @@ class Crop(models.Model):
 class Site(models.Model):
     # Main
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
+    #technician = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
     selected = models.BooleanField(null=True) #???
     name = models.CharField(max_length=100, null=True)
     variety = models.CharField(max_length=100, null=True)
@@ -103,7 +114,7 @@ class Site(models.Model):
     season_end = models.DateField(null=True, blank=True)
 
     # Irrigations
-    irrigation_method = models.IntegerField(choices=IRRIGATION_METHOD, default=1) # Drip
+    irrigation_method = models.IntegerField(choices=IRRIGATION_METHOD, default=1, help_text="Are you sure you want to change this to Overhead?") # Drip
     irrigation_area = models.FloatField(null=True, blank=True)
     irrigation_time = models.FloatField(null=True, blank=True)
     irrigation_delivered_volume = models.FloatField(null=True, blank=True)
@@ -161,6 +172,7 @@ class Site(models.Model):
 class Reading(models.Model):
     # Preseume id is site
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    type = models.ForeignKey(ReadingType, null=True, blank=True, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now, null=False)
 
     depth1 = models.FloatField(null=True, blank=True)
@@ -175,20 +187,25 @@ class Reading(models.Model):
     depth10 = models.FloatField(null=True, blank=True)
     depth11 = models.FloatField(null=True, blank=True)
     depth12 = models.FloatField(null=True, blank=True)
-
+    rz1 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 1")
+    rz2 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 2")
+    rz3 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 3")
+    deficit = models.FloatField(null=True, blank=True)
     probe_dwu = models.FloatField(null=True, blank=True)
     estimated_dwu = models.FloatField(null=True, blank=True)
 
     # These are keydata columns from PRWIN being 'hard coded' into readings table instead of being configurable with formulas
-    rain = models.FloatField(null=True, blank=True)
-    meter = models.FloatField(null=True, blank=True)
-    irrigation_litres = models.FloatField(null=True, blank=True)
-    irrigation_mms = models.FloatField(null=True, blank=True)
-    effective_rain_1 = models.FloatField(null=True, blank=True)
-    effective_rainfall = models.FloatField(null=True, blank=True)
-    efflrr1 = models.FloatField(null=True, blank=True)
-    efflrr2 = models.FloatField(null=True, blank=True)
-    effective_irrigation = models.FloatField(null=True, blank=True)
+    rain = models.FloatField(null=True, blank=True, help_text="keydata 1")
+    meter = models.FloatField(null=True, blank=True, help_text="keydata 2")
+    irrigation_litres = models.FloatField(null=True, blank=True, verbose_name="Irrigation in Litres", help_text="keydata 3")
+    irrigation_mms = models.FloatField(null=True, blank=True, verbose_name="Irrigation in Millilitres", help_text="keydata 4")
+    effective_rain_1 = models.FloatField(null=True, blank=True, help_text="keydata 5")
+    effective_rainfall = models.FloatField(null=True, blank=True, help_text="keydata 6")
+    efflrr1 = models.FloatField(null=True, blank=True, help_text="keydata 7")
+    efflrr2 = models.FloatField(null=True, blank=True, help_text="keydata 8")
+    effective_irrigation = models.FloatField(null=True, blank=True, help_text="keydata 9")
+
+    comment = models.CharField(max_length=500, null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
