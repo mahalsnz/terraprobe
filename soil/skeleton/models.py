@@ -9,6 +9,16 @@ IRRIGATION_METHOD = (
     (1, "Drip")
 )
 
+class ReadingType(models.Model):
+    name = models.CharField(max_length=100, null=False)
+    comment = models.CharField(max_length=200, null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return self.name
+
 class Report(models.Model):
     name = models.CharField(max_length=100, null=False)
 
@@ -88,6 +98,7 @@ class Crop(models.Model):
 class Site(models.Model):
     # Main
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
+    #technician = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
     selected = models.BooleanField(null=True) #???
     name = models.CharField(max_length=100, null=True)
     variety = models.CharField(max_length=100, null=True)
@@ -103,7 +114,7 @@ class Site(models.Model):
     season_end = models.DateField(null=True, blank=True)
 
     # Irrigations
-    irrigation_method = models.IntegerField(choices=IRRIGATION_METHOD, default=1) # Drip
+    irrigation_method = models.IntegerField(choices=IRRIGATION_METHOD, default=1, help_text="Are you sure you want to change this to Overhead?") # Drip
     irrigation_area = models.FloatField(null=True, blank=True)
     irrigation_time = models.FloatField(null=True, blank=True)
     irrigation_delivered_volume = models.FloatField(null=True, blank=True)
@@ -161,6 +172,7 @@ class Site(models.Model):
 class Reading(models.Model):
     # Preseume id is site
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    type = models.ForeignKey(ReadingType, null=True, blank=True, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now, null=False)
 
     depth1 = models.FloatField(null=True, blank=True)
@@ -182,8 +194,8 @@ class Reading(models.Model):
     # These are keydata columns from PRWIN being 'hard coded' into readings table instead of being configurable with formulas
     rain = models.FloatField(null=True, blank=True)
     meter = models.FloatField(null=True, blank=True)
-    irrigation_litres = models.FloatField(null=True, blank=True)
-    irrigation_mms = models.FloatField(null=True, blank=True)
+    irrigation_litres = models.FloatField(null=True, blank=True, verbose_name="Irrigation in Litres")
+    irrigation_mms = models.FloatField(null=True, blank=True, verbose_name="Irrigation in Millilitres")
     effective_rain_1 = models.FloatField(null=True, blank=True)
     effective_rainfall = models.FloatField(null=True, blank=True)
     efflrr1 = models.FloatField(null=True, blank=True)
