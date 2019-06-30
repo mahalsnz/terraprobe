@@ -9,6 +9,16 @@ IRRIGATION_METHOD = (
     (1, "Drip")
 )
 
+class Probe(models.Model):
+    serial_number = models.CharField(max_length=100, null=False)
+    comment = models.CharField(max_length=200, null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return self.serial_number
+
 class ReadingType(models.Model):
     name = models.CharField(max_length=100, null=False)
     comment = models.CharField(max_length=200, null=True, blank=True)
@@ -187,6 +197,8 @@ class Reading(models.Model):
     depth10 = models.FloatField(null=True, blank=True)
     depth11 = models.FloatField(null=True, blank=True)
     depth12 = models.FloatField(null=True, blank=True)
+    serial_number = models.ForeignKey(Probe, null=True, blank=True, on_delete=models.CASCADE)
+
     rz1 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 1")
     rz2 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 2")
     rz3 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 3")
@@ -216,10 +228,16 @@ class Reading(models.Model):
 
 class Calibration(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
-    serial_number = models.IntegerField(default=0, null=True)
+    serial_number = models.ForeignKey(Probe, null=True, blank=True, on_delete=models.CASCADE)
     soil_type = models.IntegerField(null=True, blank=True)
     slope = models.FloatField(null=True, blank=True)
     intercept = models.FloatField(null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        site_text = self.site.name
+        serial_text = self.serial_number.serial_number
+        soil_type_text = self.soil_type
+        return site_text + ":" + serial_text
