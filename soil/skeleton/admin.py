@@ -7,6 +7,7 @@ from .models import Reading
 from .models import Report
 from .models import Calibration
 from .models import ReadingType
+from .models import Probe
 
 class FarmAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -42,3 +43,4 @@ admin.site.register(Reading)
 admin.site.register(Report)
 admin.site.register(Calibration)
 admin.site.register(ReadingType)
+admin.site.register(Probe)
