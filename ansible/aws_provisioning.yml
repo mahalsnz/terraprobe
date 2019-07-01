@@ -145,14 +145,20 @@
         dest: /home/ec2-user/dev
 #        accept_hostkey: yes
 
+# Migration scripts part of source code now
 #   - name: Make Migrates
 #      django_manage:
 #        command: makemigrations skeleton
 #        app_path: "{{ django_dir }}"
 
-    - name: Migrate database
+    - name: Migrate soil database
       django_manage:
         command: migrate
+        app_path: "{{ django_dir }}"
+
+    - name: In test load the test data suite (Farm2FullReadings)
+      django_manage:
+        command: loaddata skeleton/dumps/Farm2FullReadings.json
         app_path: "{{ django_dir }}"
 
     - name: runserver on port 8000
