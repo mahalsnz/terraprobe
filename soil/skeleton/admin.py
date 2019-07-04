@@ -8,6 +8,16 @@ from .models import Report
 from .models import Calibration
 from .models import ReadingType
 from .models import Probe
+from .models import Season
+
+class SeasonAdmin(admin.ModelAdmin):
+    list_display = ('name', 'period_from', 'period_to', 'comment')
+
+class FarmAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+class CalibrationAdmin(admin.ModelAdmin):
+    list_display = ('serial_number', 'soil_type', 'period_from', 'period_to', 'slope', 'intercept')
 
 class FarmAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -22,6 +32,8 @@ class SiteAdmin(admin.ModelAdmin):
         ('Depths',  {'fields': [('depth1', 'depth_he1'),('depth2', 'depth_he2'),('depth3', 'depth_he3'),('depth4', 'depth_he4'),
                                 ('depth5', 'depth_he5'),('depth6', 'depth_he6'),('depth7', 'depth_he7'),('depth8', 'depth_he8'),
                                 ('depth9', 'depth_he9'),('depth10', 'depth_he10'),('depth11', 'depth_he11'),('depth12', 'depth_he12')],'classes': ['collapse']}),
+        ('Schedule',    {'fields': ['upper_limit', 'lower_limit', 'emitter_rate', 'row_spacing', 'emitter_spacing', 'plant_spacing', 'wetted_width', 'delivery_time', 'area'],
+            'classes': ['collapse']}),
     ]
     radio_fields = {'irrigation_method': admin.HORIZONTAL}
 class CropAdmin(admin.ModelAdmin):
@@ -41,6 +53,7 @@ admin.site.register(Farm, FarmAdmin)
 admin.site.register(Crop, CropAdmin)
 admin.site.register(Reading)
 admin.site.register(Report)
-admin.site.register(Calibration)
+admin.site.register(Calibration, CalibrationAdmin)
 admin.site.register(ReadingType)
 admin.site.register(Probe)
+admin.site.register(Season, SeasonAdmin)
