@@ -9,6 +9,18 @@ IRRIGATION_METHOD = (
     (1, "Drip")
 )
 
+class Season(models.Model):
+    name = models.CharField(max_length=20, null=False)
+    period_from = models.DateField(default=timezone.now, null=False)
+    period_to = models.DateField(default=timezone.now, null=False)
+    comment = models.CharField(max_length=200, null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return self.name
+
 class Probe(models.Model):
     serial_number = models.CharField(max_length=100, null=False)
     comment = models.CharField(max_length=200, null=True, blank=True)
@@ -171,6 +183,17 @@ class Site(models.Model):
     depth_he11 = models.IntegerField(null=True, blank=True)
     depth_he12 = models.IntegerField(null=True, blank=True)
 
+    #Scheduling
+    upper_limit = models.ForeignKey(ReadingType, related_name="upper_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Upper line for Graph")
+    lower_limit = models.ForeignKey(ReadingType, related_name="lower_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Lower line for Graph")
+    emitter_rate = models.FloatField(null=True, blank=True)
+    row_spacing = models.IntegerField(null=True, blank=True, verbose_name="Row Spacing (cm)")
+    emitter_spacing = models.IntegerField(null=True, blank=True, verbose_name="Emitter Spacing (cm)")
+    plant_spacing = models.IntegerField(null=True, blank=True, verbose_name="Plant Spacing (cm)")
+    wetted_width = models.IntegerField(null=True, blank=True, verbose_name="Wetted Width (cm)")
+    delivery_time = models.IntegerField(null=True, blank=True, verbose_name="Deliver Time in Minutes")
+    area = models.FloatField(null=True, blank=True, verbose_name="Area (Ha)")
+
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
 
@@ -227,9 +250,10 @@ class Reading(models.Model):
         return site_text + ':' + self.date.strftime('%Y-%m-%d')
 
 class Calibration(models.Model):
-    site = models.ForeignKey(Site, on_delete=models.CASCADE)
     serial_number = models.ForeignKey(Probe, null=True, blank=True, on_delete=models.CASCADE)
     soil_type = models.IntegerField(null=True, blank=True)
+    period_from = models.DateField(default=timezone.now, null=False)
+    period_to = models.DateField(null=True, blank=True)
     slope = models.FloatField(null=True, blank=True)
     intercept = models.FloatField(null=True, blank=True)
 
@@ -237,7 +261,7 @@ class Calibration(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
 
     def __str__(self):
-        site_text = self.site.name
-        serial_text = self.serial_number.serial_number
-        soil_type_text = self.soil_type
-        return site_text + ":" + serial_text
+        serial_text = str(self.serial_number.serial_number)
+        soil_type_text = str(self.soil_type)
+        period_from_text = str(self.period_from)
+        return serial_text + ":" + soil_type_text + ":" + period_from_text
