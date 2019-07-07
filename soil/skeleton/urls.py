@@ -1,6 +1,7 @@
 from django.urls import path
 
 from . import views
+
 from .apiviews import FarmList, FarmDetail, ReadingDetail, ReadingList, SiteReadingList
 
 app_name = 'skeleton'
@@ -11,5 +12,5 @@ urlpatterns = [
     path("api/farm/<int:pk>/", FarmDetail.as_view(), name="farms_detail"),
     path("api/reading/", ReadingList.as_view(), name="readings_list"),
     path("api/reading/<int:pk>/", ReadingDetail.as_view(), name="readings_detail"),
-    path("api/site_reading/<int:pk>/", SiteReadingList.as_view())
+    path("api/site_reading/<int:pk>/", SiteReadingList.as_view(), name="graph_data"),
 ]

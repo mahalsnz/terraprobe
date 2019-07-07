@@ -10,6 +10,9 @@ from .models import ReadingType
 from .models import Probe
 from .models import Season
 
+class ReadingTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'comment', 'formula')
+
 class SeasonAdmin(admin.ModelAdmin):
     list_display = ('name', 'period_from', 'period_to', 'comment')
 
@@ -54,6 +57,6 @@ admin.site.register(Crop, CropAdmin)
 admin.site.register(Reading)
 admin.site.register(Report)
 admin.site.register(Calibration, CalibrationAdmin)
-admin.site.register(ReadingType)
+admin.site.register(ReadingType, ReadingTypeAdmin)
 admin.site.register(Probe)
 admin.site.register(Season, SeasonAdmin)
