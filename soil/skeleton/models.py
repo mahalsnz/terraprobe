@@ -34,7 +34,8 @@ class Probe(models.Model):
 class ReadingType(models.Model):
     name = models.CharField(max_length=100, null=False)
     comment = models.CharField(max_length=200, null=True, blank=True)
-
+    formula = models.CharField(max_length=200, null=True, blank=True)
+    
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
 

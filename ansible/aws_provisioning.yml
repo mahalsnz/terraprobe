@@ -107,6 +107,7 @@
         - aws-psycopg2
         - django-address
         - djangorestframework
+        - rest-pandas
 
     - name: Ensure PostgreSQL database is initialized.
       command: postgresql-setup initdb
