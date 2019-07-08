@@ -1,4 +1,78 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'graphs/style.css' %}">
+
+<body>
+  <h1>Site: {{ site_id }}</h1>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
+
+<script>
+  // set the dimensions and margins of the graph
+  var margin = {top: 20, right: 20, bottom: 30, left: 50},
+      width = 1660 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+  // parse the date / time
+  var parseTime = d3.timeParse("%Y-%m-%d");
+
+  // set the ranges
+  var x = d3.scaleTime().range([0, width]);
+  var y = d3.scaleLinear().range([height, 0]);
+
+  // define the line
+  var valueline = d3.line()
+      .x(function(reading) { return x(reading.date); })
+      .y(function(reading) { return y(reading.depth1); });
+
+  // append the svg obgect to the body of the page
+  // appends a 'group' element to 'svg'
+  // moves the 'group' element to the top left margin
+  var svg = d3.select("body").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+  d3.json('/skeleton/api/site_reading/' + "{{ site_id }}" + '/?format=json').then(function(data) {
+    data.forEach(function(site) {
+      var readings = site.readings;
+
+      readings.forEach(function(reading) {
+        console.log("-------------------------------------------------------------------------------");
+        console.log(reading.type.name);
+        console.log(reading.date);
+        reading.date = parseTime(reading.date);
+        reading.depth1 = +reading.depth1;
+        reading.type = reading.type.name;
+        console.log(reading.date);
+        console.log(reading.depth1);
+        console.log(reading.type);
+      });
+
+      // Scale the range of the data
+      console.log(d3.extent(readings, function(reading) { return reading.date; }));
+      x.domain(d3.extent(readings, function(reading) { return reading.date; }));
+      console.log(d3.min(readings, function(reading) { return reading.depth1; }));
+      console.log(d3.max(readings, function(reading) { return reading.depth1; }));
+      y.domain([d3.min(readings, function(reading) { return reading.depth1; }), d3.max(readings, function(reading) { return reading.depth1; })]);
+
+      // Add the valueline path.
+      console.log(readings);
+      svg.append("path")
+          .data([readings.filter(function(reading){ return reading.type=='Probe' })])
+          .attr("class", "line")
+          .attr("d", valueline);
+
+      // Add the X Axis
+      svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+
+      // Add the Y Axis
+      svg.append("g")
+          .call(d3.axisLeft(y));
+    });
+  });
+</script>
+</body>
