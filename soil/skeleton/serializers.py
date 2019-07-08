@@ -1,6 +1,45 @@
 from rest_framework import serializers
 
-from .models import Farm, Reading, Site, ReadingType
+from .models import Report, Season, Farm, Reading, Site, ReadingType
+from address.models import Address, Locality, State, Country
+
+class CountrySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Country
+        fields = '__all__'
+
+class StateSerializer(serializers.ModelSerializer):
+    country = CountrySerializer(many=False, read_only=True, required=False)
+    class Meta:
+        model = State
+        fields = '__all__'
+
+class LocalitySerializer(serializers.ModelSerializer):
+    state = StateSerializer(many=False, read_only=True, required=False)
+
+    class Meta:
+        model = Locality
+        fields = '__all__'
+
+class AddressSerializer(serializers.ModelSerializer):
+    locality = LocalitySerializer(many=False, read_only=True, required=False)
+
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+class ReportSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Report
+        fields = '__all__'
+
+class SeasonSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Season
+        fields = '__all__'
 
 class ReadingTypeSerializer(serializers.ModelSerializer):
 
@@ -10,7 +49,6 @@ class ReadingTypeSerializer(serializers.ModelSerializer):
 
 class ReadingSerializer(serializers.ModelSerializer):
     type = ReadingTypeSerializer(many=False, read_only=True, required=False)
-
 
     class Meta:
         model = Reading
@@ -25,6 +63,8 @@ class SiteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FarmSerializer(serializers.ModelSerializer):
+    report = ReportSerializer(many=False, read_only=True, required=False)
+    address = AddressSerializer(many=False, read_only=True, required=False)
 
     class Meta:
         model = Farm
