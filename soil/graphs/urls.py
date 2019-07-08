@@ -8,6 +8,7 @@ app_name = 'graphs'
 
 urlpatterns = [
     path("graphs/<int:site_id>/", views.first_graph),
+    path("example_graph", views.example_graph),
     #This is through pandas rest
     #path("graphpandas/<int:pk>/",),
 ]

@@ -158,9 +158,9 @@
         command: migrate
         app_path: "{{ django_dir }}"
 
-    - name: In test load the test data suite (Farm2FullReadings)
+    - name: In test load the test data suite (IncludesCalibrations.json)
       django_manage:
-        command: loaddata skeleton/dumps/Farm2FullReadings.json
+        command: loaddata skeleton/dumps/IncludesCalibrations.json
         app_path: "{{ django_dir }}"
 
     - name: runserver on port 8000
