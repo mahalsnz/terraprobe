@@ -1,0 +1,5656 @@
+[
+{
+  "model": "address.country",
+  "pk": 1,
+  "fields": {
+    "name": "New Zealand",
+    "code": "NZ"
+  }
+},
+{
+  "model": "address.state",
+  "pk": 1,
+  "fields": {
+    "name": "Hawkes Bay",
+    "code": "",
+    "country": 1
+  }
+},
+{
+  "model": "address.state",
+  "pk": 2,
+  "fields": {
+    "name": "Blenheim",
+    "code": "",
+    "country": 1
+  }
+},
+{
+  "model": "address.locality",
+  "pk": 1,
+  "fields": {
+    "name": "Longlands",
+    "postal_code": "4172",
+    "state": 1
+  }
+},
+{
+  "model": "address.address",
+  "pk": 1,
+  "fields": {
+    "street_number": "999",
+    "route": "Norton Road",
+    "locality": 1,
+    "raw": "999 Norton Road, Longlands, 4172",
+    "formatted": "",
+    "latitude": null,
+    "longitude": null
+  }
+},
+{
+  "model": "address.address",
+  "pk": 2,
+  "fields": {
+    "street_number": "0",
+    "route": "",
+    "locality": null,
+    "raw": "0",
+    "formatted": "",
+    "latitude": null,
+    "longitude": null
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "Technician",
+    "permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
+    "last_login": "2019-07-09T01:26:07.984Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "mabznz@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-06-24T22:47:46.176Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$QybifmFYDUpP$TOXekms6kTL47epZOWp/QMAkOMpShIlVOXyWoRhw1zY=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "tomg",
+    "first_name": "Tom",
+    "last_name": "Grant",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-06-25T05:01:48Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "mtz5iaba8744v971riftkrcx7oq66k1v",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-07-23T01:26:08.010Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "o7onx08x60rwoibzcz0aw0d2k6xk9buz",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-07-09T03:10:42.517Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "uz4u4e8nhkxic8qqqyntfjk731ynzpi4",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-07-15T20:21:29.145Z"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2019-06-24T23:33:30.289Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "1",
+    "object_repr": "Test Report",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2019-06-24T23:40:58.662Z",
+    "user": 1,
+    "content_type": 5,
+    "object_id": "1",
+    "object_repr": "Grapes Pinot Noir",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2019-06-24T23:48:12.086Z",
+    "user": 1,
+    "content_type": 2,
+    "object_id": "1",
+    "object_repr": "New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2019-06-24T23:48:22.357Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "1",
+    "object_repr": "Hawkes Bay, New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2019-06-24T23:48:24.733Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "1",
+    "object_repr": "Longlands, Hawkes Bay 4172, New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2019-06-24T23:49:44.040Z",
+    "user": 1,
+    "content_type": 1,
+    "object_id": "1",
+    "object_repr": "999 Norton Road, Longlands, Hawkes Bay 4172, New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2019-06-24T23:50:31.799Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "1",
+    "object_repr": "Byron Mabbett",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2019-06-24T23:52:00.595Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "1",
+    "object_repr": "Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2019-06-24T23:52:21.789Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "1",
+    "object_repr": "Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"owner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2019-06-24T23:59:06.114Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2019-06-25T00:02:51.538Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "3",
+    "object_repr": "Calibration object (3)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2019-06-25T00:11:05.552Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "Reading object (1)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2019-06-25T05:00:36.043Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "1",
+    "object_repr": "Technician",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2019-06-25T05:01:48.684Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "2",
+    "object_repr": "tomg",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2019-06-25T05:02:21.987Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "2",
+    "object_repr": "tomg",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"first_name\", \"last_name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2019-06-27T21:39:53.231Z",
+    "user": 1,
+    "content_type": 1,
+    "object_id": "2",
+    "object_repr": "0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2019-06-27T21:39:59.458Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "2",
+    "object_repr": "Mr Apple Kinross",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2019-06-27T21:45:08.015Z",
+    "user": 1,
+    "content_type": 5,
+    "object_id": "2",
+    "object_repr": "Apples",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2019-06-27T21:50:56.732Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2019-06-27T22:20:24.503Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "1",
+    "object_repr": "Probe",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2019-06-27T22:20:38.798Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone:2018-09-28",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"type\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2019-06-27T22:24:12.810Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "2",
+    "object_repr": "Full Point",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2019-06-27T22:24:18.920Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "3",
+    "object_repr": "Refill",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2019-06-28T00:31:26.611Z",
+    "user": 1,
+    "content_type": 5,
+    "object_id": "3",
+    "object_repr": "asdf",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2019-06-28T00:31:36.631Z",
+    "user": 1,
+    "content_type": 5,
+    "object_id": "3",
+    "object_repr": "asdf",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2019-06-28T00:35:34.949Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "3",
+    "object_repr": "Calibration object (3)",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2019-06-28T00:37:08.243Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "1",
+    "object_repr": "0001",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2019-06-28T00:43:11.353Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "7",
+    "object_repr": "Pinot Noir Springstone:0001:",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2019-06-28T00:45:29.736Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone:2018-09-28",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"serial_number\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2019-06-30T19:05:16.912Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2016-10-26",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2019-06-30T19:07:26.336Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "3",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2016-10-26",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2019-06-30T19:16:22.752Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "4",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-10-25",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2019-06-30T19:26:03.879Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "4",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-10-25",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"irrigation_mms\", \"comment\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2019-06-30T19:44:41.250Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "5",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-01",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 35,
+  "fields": {
+    "action_time": "2019-06-30T19:46:48.831Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "6",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-08",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 36,
+  "fields": {
+    "action_time": "2019-06-30T19:55:00.553Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "7",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-15",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 37,
+  "fields": {
+    "action_time": "2019-06-30T19:56:58.421Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "8",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-22",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 38,
+  "fields": {
+    "action_time": "2019-06-30T19:58:45.547Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "9",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-29",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 39,
+  "fields": {
+    "action_time": "2019-06-30T20:02:51.336Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "10",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-12-06",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 40,
+  "fields": {
+    "action_time": "2019-06-30T20:04:34.712Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "11",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-12-13",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 41,
+  "fields": {
+    "action_time": "2019-06-30T20:07:45.315Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "12",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-12-20",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 42,
+  "fields": {
+    "action_time": "2019-06-30T20:09:30.643Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "13",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-01-03",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 43,
+  "fields": {
+    "action_time": "2019-06-30T20:11:02.192Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "14",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-01-10",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 44,
+  "fields": {
+    "action_time": "2019-06-30T20:12:38.960Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "15",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-01-17",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 45,
+  "fields": {
+    "action_time": "2019-06-30T20:14:17.886Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "16",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-01-24",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 46,
+  "fields": {
+    "action_time": "2019-06-30T20:15:56.706Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "17",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-01-31",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 47,
+  "fields": {
+    "action_time": "2019-06-30T20:17:41.900Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "18",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-02-07",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 48,
+  "fields": {
+    "action_time": "2019-06-30T20:19:22.864Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "19",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-02-14",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 49,
+  "fields": {
+    "action_time": "2019-06-30T20:20:58.544Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "20",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-02-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 50,
+  "fields": {
+    "action_time": "2019-06-30T20:22:39.866Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "21",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-02-28",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 51,
+  "fields": {
+    "action_time": "2019-06-30T20:28:26.591Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "22",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-03-07",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 52,
+  "fields": {
+    "action_time": "2019-06-30T20:29:49.345Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "23",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-03-14",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 53,
+  "fields": {
+    "action_time": "2019-06-30T20:31:27.999Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "24",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-03-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 54,
+  "fields": {
+    "action_time": "2019-06-30T20:32:57.415Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "25",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-03-28",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 55,
+  "fields": {
+    "action_time": "2019-06-30T20:34:26.744Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "26",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-04-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 56,
+  "fields": {
+    "action_time": "2019-06-30T20:35:48.091Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "27",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-04-11",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 57,
+  "fields": {
+    "action_time": "2019-06-30T20:37:28.641Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "28",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-04-17",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 58,
+  "fields": {
+    "action_time": "2019-06-30T20:39:03.188Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "29",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-04-24",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 59,
+  "fields": {
+    "action_time": "2019-06-30T20:40:30.328Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "30",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-05-01",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 60,
+  "fields": {
+    "action_time": "2019-06-30T20:42:10.797Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "31",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-05-09",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 61,
+  "fields": {
+    "action_time": "2019-06-30T20:43:42.684Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "32",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-05-16",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 62,
+  "fields": {
+    "action_time": "2019-06-30T20:45:22.317Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "33",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-05-23",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 63,
+  "fields": {
+    "action_time": "2019-06-30T21:58:01.731Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "3",
+    "object_repr": "Smiley Pink Kiss",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 64,
+  "fields": {
+    "action_time": "2019-06-30T22:11:34.678Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "34",
+    "object_repr": "Smiley Pink Kiss:2013-10-22",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 65,
+  "fields": {
+    "action_time": "2019-06-30T22:12:56.414Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "35",
+    "object_repr": "Smiley Pink Kiss:2013-11-08",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 66,
+  "fields": {
+    "action_time": "2019-06-30T22:14:45.678Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "36",
+    "object_repr": "Smiley Pink Kiss:2018-10-25",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 67,
+  "fields": {
+    "action_time": "2019-06-30T22:16:53.959Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "37",
+    "object_repr": "Smiley Pink Kiss:2018-11-01",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 68,
+  "fields": {
+    "action_time": "2019-06-30T22:18:45.291Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "38",
+    "object_repr": "Smiley Pink Kiss:2018-11-15",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 69,
+  "fields": {
+    "action_time": "2019-06-30T22:20:32.725Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "39",
+    "object_repr": "Smiley Pink Kiss:2018-11-22",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 70,
+  "fields": {
+    "action_time": "2019-06-30T22:23:07.087Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "40",
+    "object_repr": "Smiley Pink Kiss:2018-11-29",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 71,
+  "fields": {
+    "action_time": "2019-06-30T22:25:16.800Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "41",
+    "object_repr": "Smiley Pink Kiss:2018-12-06",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 72,
+  "fields": {
+    "action_time": "2019-06-30T22:26:57.967Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "42",
+    "object_repr": "Smiley Pink Kiss:2018-12-13",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 73,
+  "fields": {
+    "action_time": "2019-06-30T22:28:25.800Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "43",
+    "object_repr": "Smiley Pink Kiss:2018-12-20",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 74,
+  "fields": {
+    "action_time": "2019-06-30T22:30:13.611Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "44",
+    "object_repr": "Smiley Pink Kiss:2019-01-03",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 75,
+  "fields": {
+    "action_time": "2019-06-30T22:32:17.494Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "45",
+    "object_repr": "Smiley Pink Kiss:2019-01-10",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 76,
+  "fields": {
+    "action_time": "2019-06-30T22:33:48.389Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "46",
+    "object_repr": "Smiley Pink Kiss:2019-01-17",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 77,
+  "fields": {
+    "action_time": "2019-06-30T22:36:31.723Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "47",
+    "object_repr": "Smiley Pink Kiss:2019-01-24",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 78,
+  "fields": {
+    "action_time": "2019-06-30T22:41:58.240Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "48",
+    "object_repr": "Smiley Pink Kiss:2019-01-31",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 79,
+  "fields": {
+    "action_time": "2019-06-30T22:43:31.871Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "49",
+    "object_repr": "Smiley Pink Kiss:2019-02-07",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 80,
+  "fields": {
+    "action_time": "2019-06-30T22:47:14.291Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "50",
+    "object_repr": "Smiley Pink Kiss:2019-02-14",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 81,
+  "fields": {
+    "action_time": "2019-06-30T22:49:04.305Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "51",
+    "object_repr": "Smiley Pink Kiss:2019-06-30",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 82,
+  "fields": {
+    "action_time": "2019-06-30T22:49:22.966Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "51",
+    "object_repr": "Smiley Pink Kiss:2019-02-21",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 83,
+  "fields": {
+    "action_time": "2019-06-30T22:50:58.478Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "52",
+    "object_repr": "Smiley Pink Kiss:2019-02-28",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 84,
+  "fields": {
+    "action_time": "2019-06-30T22:52:24.072Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "53",
+    "object_repr": "Smiley Pink Kiss:2019-03-07",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 85,
+  "fields": {
+    "action_time": "2019-06-30T22:53:49.695Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "54",
+    "object_repr": "Smiley Pink Kiss:2019-03-14",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 86,
+  "fields": {
+    "action_time": "2019-06-30T22:55:12.243Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "55",
+    "object_repr": "Smiley Pink Kiss:2019-03-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 87,
+  "fields": {
+    "action_time": "2019-06-30T22:56:40.711Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "56",
+    "object_repr": "Smiley Pink Kiss:2019-03-28",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 88,
+  "fields": {
+    "action_time": "2019-06-30T22:58:07.469Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "57",
+    "object_repr": "Smiley Pink Kiss:2019-04-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 89,
+  "fields": {
+    "action_time": "2019-06-30T23:01:49.268Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "58",
+    "object_repr": "Smiley Pink Kiss:2019-04-11",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 90,
+  "fields": {
+    "action_time": "2019-06-30T23:03:20.183Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "59",
+    "object_repr": "Smiley Pink Kiss:2019-04-17",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 91,
+  "fields": {
+    "action_time": "2019-06-30T23:04:54.701Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "60",
+    "object_repr": "Smiley Pink Kiss:2019-04-24",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 92,
+  "fields": {
+    "action_time": "2019-06-30T23:06:25.372Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "61",
+    "object_repr": "Smiley Pink Kiss:2019-05-01",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 93,
+  "fields": {
+    "action_time": "2019-06-30T23:08:38.195Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "62",
+    "object_repr": "Smiley Pink Kiss:2019-05-09",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 94,
+  "fields": {
+    "action_time": "2019-06-30T23:10:34.355Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "63",
+    "object_repr": "Smiley Pink Kiss:2019-05-16",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 95,
+  "fields": {
+    "action_time": "2019-06-30T23:12:10.314Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "64",
+    "object_repr": "Smiley Pink Kiss:2019-05-23",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 96,
+  "fields": {
+    "action_time": "2019-07-01T20:21:50.938Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "2",
+    "object_repr": "Mr Apple Kinross",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"report\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 97,
+  "fields": {
+    "action_time": "2019-07-04T19:03:18.724Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "8",
+    "object_repr": "Pinot Noir Springstone:0001",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 98,
+  "fields": {
+    "action_time": "2019-07-04T19:38:08.188Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "1",
+    "object_repr": "708",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"serial_number\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 99,
+  "fields": {
+    "action_time": "2019-07-04T19:38:29.214Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "2",
+    "object_repr": "607",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 100,
+  "fields": {
+    "action_time": "2019-07-04T19:38:56.430Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "1",
+    "object_repr": "708",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"comment\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 101,
+  "fields": {
+    "action_time": "2019-07-04T19:51:23.618Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "7",
+    "object_repr": "Smiley Pink Kiss:708:1:2019-07-05",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"site\", \"slope\", \"intercept\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 102,
+  "fields": {
+    "action_time": "2019-07-04T19:51:55.630Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "8",
+    "object_repr": "Smiley Pink Kiss:708:2:2019-07-05",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"site\", \"slope\", \"intercept\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 103,
+  "fields": {
+    "action_time": "2019-07-04T19:52:43.628Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "10",
+    "object_repr": "Smiley Pink Kiss:708:3:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 104,
+  "fields": {
+    "action_time": "2019-07-04T19:53:18.673Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "11",
+    "object_repr": "Smiley Pink Kiss:708:4:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 105,
+  "fields": {
+    "action_time": "2019-07-04T19:56:43.618Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "2",
+    "object_repr": "608",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"serial_number\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 106,
+  "fields": {
+    "action_time": "2019-07-04T19:57:08.525Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "1",
+    "object_repr": "607",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"serial_number\", \"comment\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 107,
+  "fields": {
+    "action_time": "2019-07-04T19:57:35.955Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "2",
+    "object_repr": "708",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"serial_number\", \"comment\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 108,
+  "fields": {
+    "action_time": "2019-07-04T19:58:16.081Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "36",
+    "object_repr": "Smiley Pink Kiss:2018-10-25",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"serial_number\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 109,
+  "fields": {
+    "action_time": "2019-07-04T19:59:31.161Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "7",
+    "object_repr": "607:1:2019-07-05",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 110,
+  "fields": {
+    "action_time": "2019-07-04T19:59:41.768Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "8",
+    "object_repr": "607:2:2019-07-05",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 111,
+  "fields": {
+    "action_time": "2019-07-04T20:00:08.574Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "10",
+    "object_repr": "607:3:2019-07-04",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 112,
+  "fields": {
+    "action_time": "2019-07-04T20:00:22.028Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "11",
+    "object_repr": "607:4:2019-07-04",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 113,
+  "fields": {
+    "action_time": "2019-07-04T20:01:03.142Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "12",
+    "object_repr": "607:5:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 114,
+  "fields": {
+    "action_time": "2019-07-04T20:01:28.512Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "13",
+    "object_repr": "607:6:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 115,
+  "fields": {
+    "action_time": "2019-07-04T20:01:53.770Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "14",
+    "object_repr": "607:7:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 116,
+  "fields": {
+    "action_time": "2019-07-04T20:02:26.072Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "15",
+    "object_repr": "607:8:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 117,
+  "fields": {
+    "action_time": "2019-07-04T20:37:28.455Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "16",
+    "object_repr": "708:1:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 118,
+  "fields": {
+    "action_time": "2019-07-04T20:37:55.403Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "17",
+    "object_repr": "708:2:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 119,
+  "fields": {
+    "action_time": "2019-07-04T20:38:17.888Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "18",
+    "object_repr": "708:3:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 120,
+  "fields": {
+    "action_time": "2019-07-04T20:38:38.017Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "19",
+    "object_repr": "708:4:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 121,
+  "fields": {
+    "action_time": "2019-07-04T20:38:54.636Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "20",
+    "object_repr": "708:5:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 122,
+  "fields": {
+    "action_time": "2019-07-04T20:39:12.713Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "21",
+    "object_repr": "708:6:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 123,
+  "fields": {
+    "action_time": "2019-07-04T20:39:30.520Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "22",
+    "object_repr": "708:7:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 124,
+  "fields": {
+    "action_time": "2019-07-04T20:39:50.077Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "23",
+    "object_repr": "708:8:2019-07-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 125,
+  "fields": {
+    "action_time": "2019-07-04T20:59:10.117Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "3",
+    "object_repr": "Smiley Pink Kiss",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"upper_limit\", \"lower_limit\", \"emitter_rate\", \"row_spacing\", \"emitter_spacing\", \"plant_spacing\", \"wetted_width\", \"delivery_time\", \"area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 126,
+  "fields": {
+    "action_time": "2019-07-04T21:00:18Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"upper_limit\", \"lower_limit\", \"emitter_rate\", \"row_spacing\", \"emitter_spacing\", \"plant_spacing\", \"wetted_width\", \"delivery_time\", \"area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 127,
+  "fields": {
+    "action_time": "2019-07-04T21:17:35.257Z",
+    "user": 1,
+    "content_type": 19,
+    "object_id": "1",
+    "object_repr": "Season object (1)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 128,
+  "fields": {
+    "action_time": "2019-07-09T01:27:35.841Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "3",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-10-26",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 129,
+  "fields": {
+    "action_time": "2019-07-09T01:27:47.266Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "35",
+    "object_repr": "Smiley Pink Kiss:2018-11-08",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 130,
+  "fields": {
+    "action_time": "2019-07-09T01:27:59.910Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-10-26",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 131,
+  "fields": {
+    "action_time": "2019-07-09T01:28:09.989Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "34",
+    "object_repr": "Smiley Pink Kiss:2018-10-22",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 132,
+  "fields": {
+    "action_time": "2019-07-09T01:36:58.071Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "2",
+    "object_repr": "Hawkes Bay, New Zealand:2018-09-01:1.2",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 133,
+  "fields": {
+    "action_time": "2019-07-09T01:37:43.919Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "3",
+    "object_repr": "Hawkes Bay, New Zealand:2019-07-09:1.7",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 134,
+  "fields": {
+    "action_time": "2019-07-09T01:38:04.059Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "3",
+    "object_repr": "Hawkes Bay, New Zealand:2018-09-02:1.7",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 135,
+  "fields": {
+    "action_time": "2019-07-09T01:38:25.879Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "4",
+    "object_repr": "Hawkes Bay, New Zealand:2018-09-03:2.1",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 136,
+  "fields": {
+    "action_time": "2019-07-09T01:38:59.900Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "5",
+    "object_repr": "Hawkes Bay, New Zealand:2018-09-04:2.2",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 137,
+  "fields": {
+    "action_time": "2019-07-09T01:39:25.151Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "6",
+    "object_repr": "Hawkes Bay, New Zealand:2018-09-05:1.4",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 138,
+  "fields": {
+    "action_time": "2019-07-09T01:39:52.816Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "7",
+    "object_repr": "Hawkes Bay, New Zealand:2018-09-06:0.6",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 139,
+  "fields": {
+    "action_time": "2019-07-09T01:40:09.535Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "8",
+    "object_repr": "Hawkes Bay, New Zealand:2018-09-07:1.1",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 140,
+  "fields": {
+    "action_time": "2019-07-09T01:41:47.226Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "1",
+    "object_repr": "Apples:2018-09-01:2018-09-30:0.5",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 141,
+  "fields": {
+    "action_time": "2019-07-09T01:43:12.543Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "1",
+    "object_repr": "Apples:2018-10-10:2018-11-10:0.5",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"period_from\", \"period_to\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 142,
+  "fields": {
+    "action_time": "2019-07-09T01:43:51.447Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "2",
+    "object_repr": "Apples:2018-11-11:2018-12-11:1.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 143,
+  "fields": {
+    "action_time": "2019-07-09T01:44:35.391Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "3",
+    "object_repr": "Apples:2018-11-11:2018-12-10:2.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 144,
+  "fields": {
+    "action_time": "2019-07-09T01:45:09.939Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "3",
+    "object_repr": "Apples:2018-12-12:2019-01-11:2.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"period_from\", \"period_to\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 145,
+  "fields": {
+    "action_time": "2019-07-09T01:45:43.895Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "4",
+    "object_repr": "Apples:2019-01-11:2019-02-12:4.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 146,
+  "fields": {
+    "action_time": "2019-07-09T01:45:54.278Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "4",
+    "object_repr": "Apples:2019-01-11:2019-02-12:3.2",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"kc\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 147,
+  "fields": {
+    "action_time": "2019-07-09T01:47:05.573Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "5",
+    "object_repr": "Apples:2019-02-13:2019-02-24:4.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 148,
+  "fields": {
+    "action_time": "2019-07-09T01:47:38.391Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "6",
+    "object_repr": "Apples:2019-02-25:2019-03-13:4.2",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 149,
+  "fields": {
+    "action_time": "2019-07-09T01:48:12.567Z",
+    "user": 1,
+    "content_type": 5,
+    "object_id": "3",
+    "object_repr": "Kiwifruit",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 150,
+  "fields": {
+    "action_time": "2019-07-09T01:48:44.055Z",
+    "user": 1,
+    "content_type": 5,
+    "object_id": "4",
+    "object_repr": "Grapes",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 151,
+  "fields": {
+    "action_time": "2019-07-09T01:49:48.284Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "7",
+    "object_repr": "Grapes:2018-10-09:2018-10-24:0.5",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 152,
+  "fields": {
+    "action_time": "2019-07-09T01:50:31.516Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "8",
+    "object_repr": "Grapes:2018-10-25:2018-11-25:0.6",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 153,
+  "fields": {
+    "action_time": "2019-07-09T01:51:08.385Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "9",
+    "object_repr": "Grapes:2018-11-26:2018-12-13:1.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 154,
+  "fields": {
+    "action_time": "2019-07-09T01:52:34.148Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "2",
+    "object_repr": "Blenheim, New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 155,
+  "fields": {
+    "action_time": "2019-07-09T01:53:22.451Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "9",
+    "object_repr": "Blenheim, New Zealand:2018-09-01:2.3",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 156,
+  "fields": {
+    "action_time": "2019-07-09T01:53:43.506Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "10",
+    "object_repr": "Blenheim, New Zealand:2018-09-02:1.3",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 157,
+  "fields": {
+    "action_time": "2019-07-09T01:54:10.683Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "11",
+    "object_repr": "Blenheim, New Zealand:2018-09-03:1.6",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 2,
+  "fields": {
+    "state": 1,
+    "date": "2018-09-01",
+    "weekly": 8.5,
+    "daily": 1.2,
+    "created_date": "2019-07-09T01:36:26Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 3,
+  "fields": {
+    "state": 1,
+    "date": "2018-09-02",
+    "weekly": 8.6,
+    "daily": 1.7,
+    "created_date": "2019-07-09T01:37:15Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 4,
+  "fields": {
+    "state": 1,
+    "date": "2018-09-03",
+    "weekly": 9.4,
+    "daily": 2.1,
+    "created_date": "2019-07-09T01:38:08Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 5,
+  "fields": {
+    "state": 1,
+    "date": "2018-09-04",
+    "weekly": 10.3,
+    "daily": 2.2,
+    "created_date": "2019-07-09T01:38:38Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 6,
+  "fields": {
+    "state": 1,
+    "date": "2018-09-05",
+    "weekly": 10.2,
+    "daily": 1.4,
+    "created_date": "2019-07-09T01:39:02Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 7,
+  "fields": {
+    "state": 1,
+    "date": "2018-09-06",
+    "weekly": 9.9,
+    "daily": 0.6,
+    "created_date": "2019-07-09T01:39:32Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 8,
+  "fields": {
+    "state": 1,
+    "date": "2018-09-07",
+    "weekly": 10.3,
+    "daily": 1.1,
+    "created_date": "2019-07-09T01:39:55Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 9,
+  "fields": {
+    "state": 2,
+    "date": "2018-09-01",
+    "weekly": 11.0,
+    "daily": 2.3,
+    "created_date": "2019-07-09T01:52:54Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 10,
+  "fields": {
+    "state": 2,
+    "date": "2018-09-02",
+    "weekly": 12.4,
+    "daily": 1.3,
+    "created_date": "2019-07-09T01:53:25Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 11,
+  "fields": {
+    "state": 2,
+    "date": "2018-09-03",
+    "weekly": 11.0,
+    "daily": 1.6,
+    "created_date": "2019-07-09T01:53:53Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 1,
+  "fields": {
+    "crop": 2,
+    "period_from": "2018-10-10",
+    "period_to": "2018-11-10",
+    "kc": 0.5,
+    "created_date": "2019-07-09T01:41:04Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 2,
+  "fields": {
+    "crop": 2,
+    "period_from": "2018-11-11",
+    "period_to": "2018-12-11",
+    "kc": 1.0,
+    "created_date": "2019-07-09T01:43:16Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 3,
+  "fields": {
+    "crop": 2,
+    "period_from": "2018-12-12",
+    "period_to": "2019-01-11",
+    "kc": 2.0,
+    "created_date": "2019-07-09T01:44:05Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 4,
+  "fields": {
+    "crop": 2,
+    "period_from": "2019-01-11",
+    "period_to": "2019-02-12",
+    "kc": 3.2,
+    "created_date": "2019-07-09T01:45:20Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 5,
+  "fields": {
+    "crop": 2,
+    "period_from": "2019-02-13",
+    "period_to": "2019-02-24",
+    "kc": 4.0,
+    "created_date": "2019-07-09T01:46:32Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 6,
+  "fields": {
+    "crop": 2,
+    "period_from": "2019-02-25",
+    "period_to": "2019-03-13",
+    "kc": 4.2,
+    "created_date": "2019-07-09T01:47:08Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 7,
+  "fields": {
+    "crop": 4,
+    "period_from": "2018-10-09",
+    "period_to": "2018-10-24",
+    "kc": 0.5,
+    "created_date": "2019-07-09T01:48:52Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 8,
+  "fields": {
+    "crop": 4,
+    "period_from": "2018-10-25",
+    "period_to": "2018-11-25",
+    "kc": 0.6,
+    "created_date": "2019-07-09T01:49:52Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 9,
+  "fields": {
+    "crop": 4,
+    "period_from": "2018-11-26",
+    "period_to": "2018-12-13",
+    "kc": 1.0,
+    "created_date": "2019-07-09T01:50:37Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 7,
+  "fields": {
+    "serial_number": 1,
+    "soil_type": 1,
+    "period_from": "2019-07-05",
+    "period_to": null,
+    "slope": 0.002737,
+    "intercept": -1.2145,
+    "created_date": "2019-06-28T00:43:09Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 8,
+  "fields": {
+    "serial_number": 1,
+    "soil_type": 2,
+    "period_from": "2019-07-05",
+    "period_to": null,
+    "slope": 0.002737,
+    "intercept": -1.2145,
+    "created_date": "2019-07-04T19:03:08Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 10,
+  "fields": {
+    "serial_number": 1,
+    "soil_type": 3,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002818,
+    "intercept": 1.2109,
+    "created_date": "2019-07-04T19:51:55Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 11,
+  "fields": {
+    "serial_number": 1,
+    "soil_type": 4,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002645,
+    "intercept": 3.1304,
+    "created_date": "2019-07-04T19:52:43Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 12,
+  "fields": {
+    "serial_number": 1,
+    "soil_type": 5,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.00256,
+    "intercept": 3.1805,
+    "created_date": "2019-07-04T20:00:27Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 13,
+  "fields": {
+    "serial_number": 1,
+    "soil_type": 6,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002319,
+    "intercept": 4.0033,
+    "created_date": "2019-07-04T20:01:03Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 14,
+  "fields": {
+    "serial_number": 1,
+    "soil_type": 7,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002394,
+    "intercept": 3.2043,
+    "created_date": "2019-07-04T20:01:28Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 15,
+  "fields": {
+    "serial_number": 1,
+    "soil_type": 8,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002542,
+    "intercept": -0.3936,
+    "created_date": "2019-07-04T20:02:01Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 16,
+  "fields": {
+    "serial_number": 2,
+    "soil_type": 1,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002826000098,
+    "intercept": -1.21449995,
+    "created_date": "2019-07-04T20:37:06Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 17,
+  "fields": {
+    "serial_number": 2,
+    "soil_type": 2,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002826000098,
+    "intercept": -1.21449995,
+    "created_date": "2019-07-04T20:37:28Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 18,
+  "fields": {
+    "serial_number": 2,
+    "soil_type": 3,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002909000032,
+    "intercept": 1.210899949,
+    "created_date": "2019-07-04T20:37:55Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 19,
+  "fields": {
+    "serial_number": 2,
+    "soil_type": 4,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002731000073,
+    "intercept": 3.130399942,
+    "created_date": "2019-07-04T20:38:17Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 20,
+  "fields": {
+    "serial_number": 2,
+    "soil_type": 5,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002643000102,
+    "intercept": 3.180500031,
+    "created_date": "2019-07-04T20:38:38Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 21,
+  "fields": {
+    "serial_number": 2,
+    "soil_type": 6,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002395000076,
+    "intercept": 4.00330019,
+    "created_date": "2019-07-04T20:38:54Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 22,
+  "fields": {
+    "serial_number": 2,
+    "soil_type": 7,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002471999964,
+    "intercept": 3.204299927,
+    "created_date": "2019-07-04T20:39:12Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 23,
+  "fields": {
+    "serial_number": 2,
+    "soil_type": 8,
+    "period_from": "2019-07-04",
+    "period_to": null,
+    "slope": 0.002624999965,
+    "intercept": -0.393599987,
+    "created_date": "2019-07-04T20:39:30Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 1,
+  "fields": {
+    "site": 1,
+    "type": 1,
+    "date": "2018-09-28",
+    "depth1": 28.02894974,
+    "depth2": 22.1584053,
+    "depth3": 20.0728569,
+    "depth4": 17.94698524,
+    "depth5": 17.17899513,
+    "depth6": 17.01572418,
+    "depth7": 17.20900345,
+    "depth8": 15.02739906,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
+    "deficit": null,
+    "probe_dwu": 1.554421902,
+    "estimated_dwu": 0.7131720781,
+    "rain": 9.0,
+    "meter": 70467.0,
+    "irrigation_litres": 3.099999905,
+    "irrigation_mms": 0.9393939376,
+    "effective_rain_1": 3.799043179,
+    "effective_rainfall": 3.799043179,
+    "efflrr1": -13.6,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": null,
+    "created_date": "2019-06-25T00:05:01Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 2,
+  "fields": {
+    "site": 2,
+    "type": 2,
+    "date": "2018-10-26",
+    "depth1": 22.0,
+    "depth2": 23.0,
+    "depth3": 31.0,
+    "depth4": 34.0,
+    "depth5": 32.8036422729492,
+    "depth6": 27.0,
+    "depth7": 26.39999962,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 159.401825,
+    "rz2": 159.401825,
+    "rz3": 0.0,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": null,
+    "meter": null,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": null,
+    "created_date": "2019-06-30T19:03:38Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 3,
+  "fields": {
+    "site": 2,
+    "type": 3,
+    "date": "2018-10-26",
+    "depth1": 15.3999996185303,
+    "depth2": 17.2999992370605,
+    "depth3": 23.2999992370605,
+    "depth4": 25.5,
+    "depth5": 24.60000038,
+    "depth6": 21.60000038,
+    "depth7": 21.10000038,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 116.8999939,
+    "rz2": 116.8999939,
+    "rz3": 0.0,
+    "deficit": 42.50182343,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": null,
+    "meter": null,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": null,
+    "created_date": "2019-06-30T19:05:42Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 4,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2018-10-25",
+    "depth1": 6398.66650390625,
+    "depth2": 6658.66650390625,
+    "depth3": 7892.0,
+    "depth4": 10308.0,
+    "depth5": 11521.33301,
+    "depth6": 10588.0,
+    "depth7": 9506.666992,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 118.1945801,
+    "rz2": 118.1945801,
+    "rz3": 0.0,
+    "deficit": 41.20723724,
+    "probe_dwu": null,
+    "estimated_dwu": 1.563016415,
+    "rain": 0.0,
+    "meter": 76555.0,
+    "irrigation_litres": -9.99999961690316e+35,
+    "irrigation_mms": -2.19780222156435e+36,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "created_date": "2019-06-30T19:08:02Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 5,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2018-11-01",
+    "depth1": 5841.333496,
+    "depth2": 5881.333496,
+    "depth3": 7114.666504,
+    "depth4": 9365.333008,
+    "depth5": 10190.66699,
+    "depth6": 9364.0,
+    "depth7": 8245.333008,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 115.611824,
+    "rz2": 115.611824,
+    "rz3": 0.0,
+    "deficit": 43.79000092,
+    "probe_dwu": 1.444873214,
+    "estimated_dwu": 1.737292767,
+    "rain": 8.0,
+    "meter": 76752.0,
+    "irrigation_litres": 19.70000076,
+    "irrigation_mms": 4.329670429,
+    "effective_rain_1": 3.0,
+    "effective_rainfall": 3.0,
+    "efflrr1": 4.329670429,
+    "efflrr2": 4.329670429,
+    "effective_irrigation": 4.329670429,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "created_date": "2019-06-30T19:42:39Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 6,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2018-11-08",
+    "depth1": 7793.333496,
+    "depth2": 7796.0,
+    "depth3": 9062.666992,
+    "depth4": 10805.33301,
+    "depth5": 10949.33301,
+    "depth6": 9510.666992,
+    "depth7": 8096.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 144.4781799,
+    "rz2": 144.4781799,
+    "rz3": 0.0,
+    "deficit": 14.9236412,
+    "probe_dwu": -0.9982612729,
+    "estimated_dwu": 1.627228856,
+    "rain": 2.0,
+    "meter": 77747.0,
+    "irrigation_litres": 99.5,
+    "irrigation_mms": 21.86813164,
+    "effective_rain_1": -3.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 21.86813164,
+    "efflrr2": 21.86813164,
+    "effective_irrigation": 21.86813164,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "created_date": "2019-06-30T19:44:44Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 7,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2018-11-15",
+    "depth1": 9890.666992,
+    "depth2": 10388.0,
+    "depth3": 11164.0,
+    "depth4": 11789.33301,
+    "depth5": 11201.33301,
+    "depth6": 9185.333008,
+    "depth7": 8388.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 174.7702789,
+    "rz2": 174.7702789,
+    "rz3": 0.0,
+    "deficit": -15.36846256,
+    "probe_dwu": -0.7261304259,
+    "estimated_dwu": 2.156591177,
+    "rain": 10.0,
+    "meter": 78667.0,
+    "irrigation_litres": 92.0,
+    "irrigation_mms": 20.21977997,
+    "effective_rain_1": 5.0,
+    "effective_rainfall": 5.0,
+    "efflrr1": 20.21977997,
+    "efflrr2": 20.21977997,
+    "effective_irrigation": 20.21977997,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t Tues Wed\t2hr Thurs\"",
+    "created_date": "2019-06-30T19:52:53Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 8,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2018-11-22",
+    "depth1": 9358.666992,
+    "depth2": 9153.333008,
+    "depth3": 10472.0,
+    "depth4": 11806.66699,
+    "depth5": 11044.0,
+    "depth6": 9144.0,
+    "depth7": 8290.666992,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 165.6452026,
+    "rz2": 165.6452026,
+    "rz3": 0.0,
+    "deficit": -6.243375301,
+    "probe_dwu": 1.2952317,
+    "estimated_dwu": 2.078241587,
+    "rain": 21.0,
+    "meter": 79535.0,
+    "irrigation_litres": 86.80000305,
+    "irrigation_mms": 19.07692337,
+    "effective_rain_1": -9.133733749,
+    "effective_rainfall": 0.0,
+    "efflrr1": -4.977251053,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Thurs Fri\t2hr Sat Sun Mon Tues\t2hr Wed \"",
+    "created_date": "2019-06-30T19:55:08Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 9,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2018-11-29",
+    "depth1": 9249.333008,
+    "depth2": 9745.333008,
+    "depth3": 11185.33301,
+    "depth4": 12872.0,
+    "depth5": 12324.0,
+    "depth6": 9629.333008,
+    "depth7": 8488.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 172.9837646,
+    "rz2": 172.9837646,
+    "rz3": 0.0,
+    "deficit": -13.5819397,
+    "probe_dwu": -0.856210351,
+    "estimated_dwu": 2.53285718,
+    "rain": 68.0,
+    "meter": 79535.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 1.355199933,
+    "effective_rainfall": 1.355199933,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Thurs Fri\t2hr Sat Sun Mon Tues\t2hr Wed Rain forecast- adjust as required\"",
+    "created_date": "2019-06-30T19:57:04Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 10,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2018-12-06",
+    "depth1": 7609.333496,
+    "depth2": 8574.666992,
+    "depth3": 10574.66699,
+    "depth4": 12106.66699,
+    "depth5": 11785.33301,
+    "depth6": 9950.666992,
+    "depth7": 8744.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 154.123291,
+    "rz2": 154.123291,
+    "rz3": 0.0,
+    "deficit": 5.278525352,
+    "probe_dwu": 2.724899054,
+    "estimated_dwu": 2.865350962,
+    "rain": 19.0,
+    "meter": 79535.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": -4.985882759,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Thurs Fri\t2hr Sat Sun Mon Tues\t2hr Wed \"",
+    "created_date": "2019-06-30T19:58:48Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 11,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2018-12-13",
+    "depth1": 6421.333496,
+    "depth2": 7108.0,
+    "depth3": 9178.666992,
+    "depth4": 11237.33301,
+    "depth5": 11344.0,
+    "depth6": 9572.0,
+    "depth7": 8873.333008,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 135.1819153,
+    "rz2": 135.1819153,
+    "rz3": 0.0,
+    "deficit": 24.21990585,
+    "probe_dwu": 3.832712412,
+    "estimated_dwu": 3.462639809,
+    "rain": 13.0,
+    "meter": 79538.0,
+    "irrigation_litres": 0.3000000119,
+    "irrigation_mms": 0.06593406945,
+    "effective_rain_1": 8.0,
+    "effective_rainfall": 8.0,
+    "efflrr1": 0.06593406945,
+    "efflrr2": 0.06593406945,
+    "effective_irrigation": 0.06593406945,
+    "comment": "\"Irrigation recommendation Thurs Fri\t2hr Sat Sun\t2hr Mon Tues\t2hr Wed \"",
+    "created_date": "2019-06-30T20:02:53Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 12,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2018-12-20",
+    "depth1": 6777.333496,
+    "depth2": 7338.666504,
+    "depth3": 9164.0,
+    "depth4": 10860.0,
+    "depth5": 11060.0,
+    "depth6": 9470.666992,
+    "depth7": 9146.666992,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 136.846283,
+    "rz2": 136.846283,
+    "rz3": 0.0,
+    "deficit": 22.55553818,
+    "probe_dwu": 1.974561572,
+    "estimated_dwu": 3.129261017,
+    "rain": 10.0,
+    "meter": 80016.0,
+    "irrigation_litres": 47.79999924,
+    "irrigation_mms": 10.50549412,
+    "effective_rain_1": 5.0,
+    "effective_rainfall": 5.0,
+    "efflrr1": 10.50549412,
+    "efflrr2": 10.50549412,
+    "effective_irrigation": 10.50549412,
+    "comment": "\"Irrigation recommendation Fri\t2hr Sat Sun Mon\t2hr Tues Wed Thurs\t2hr\"",
+    "created_date": "2019-06-30T20:06:02Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 13,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-01-03",
+    "depth1": 6322.666504,
+    "depth2": 7132.0,
+    "depth3": 8984.0,
+    "depth4": 10782.66699,
+    "depth5": 11260.0,
+    "depth6": 9820.0,
+    "depth7": 9006.666992,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 132.7137909,
+    "rz2": 132.7137909,
+    "rz3": 0.0,
+    "deficit": 26.68802834,
+    "probe_dwu": 3.028348684,
+    "estimated_dwu": 4.223368645,
+    "rain": 64.0,
+    "meter": 80149.0,
+    "irrigation_litres": 13.30000019,
+    "irrigation_mms": 2.923076868,
+    "effective_rain_1": 35.22564697,
+    "effective_rainfall": 35.22564697,
+    "efflrr1": 2.923076868,
+    "efflrr2": 2.923076868,
+    "effective_irrigation": 2.923076868,
+    "comment": "\"Irrigation recommendation Fri\t3hr Sat Sun Mon\t3hr Tues Wed Thurs\t3hr\"",
+    "created_date": "2019-06-30T20:07:54Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 14,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-01-10",
+    "depth1": 5328.0,
+    "depth2": 5786.666504,
+    "depth3": 7394.666504,
+    "depth4": 9809.333008,
+    "depth5": 10204.0,
+    "depth6": 9184.0,
+    "depth7": 8790.666992,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 113.8207169,
+    "rz2": 113.8207169,
+    "rz3": 0.0,
+    "deficit": 45.58110046,
+    "probe_dwu": 2.700349808,
+    "estimated_dwu": 4.673223972,
+    "rain": 1.0,
+    "meter": 80149.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 0.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri\t2hr Sat Sun\t2hr Mon\t Tues\t2hr Wed Thurs\t2hr\"",
+    "created_date": "2019-06-30T20:09:32Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 15,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-01-17",
+    "depth1": 10090.66699,
+    "depth2": 9936.0,
+    "depth3": 10422.66699,
+    "depth4": 11002.66699,
+    "depth5": 10278.66699,
+    "depth6": 8845.333008,
+    "depth7": 8749.333008,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 169.5508423,
+    "rz2": 169.5508423,
+    "rz3": 0.0,
+    "deficit": -10.14901829,
+    "probe_dwu": 1.526818871,
+    "estimated_dwu": 4.603219032,
+    "rain": 74.0,
+    "meter": 80471.0,
+    "irrigation_litres": 32.20000076,
+    "irrigation_mms": 7.076922894,
+    "effective_rain_1": 59.39076233,
+    "effective_rainfall": 59.39076233,
+    "efflrr1": 7.076922894,
+    "efflrr2": 7.076922894,
+    "effective_irrigation": 7.076922894,
+    "comment": "\"Irrigation recommendation Fri\t Sat Sun\t Mon\t Tues\t2hr Wed Thurs\t2hr\"",
+    "created_date": "2019-06-30T20:11:05Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 16,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-01-24",
+    "depth1": 7742.666504,
+    "depth2": 7913.333496,
+    "depth3": 9354.666992,
+    "depth4": 10752.0,
+    "depth5": 10629.33301,
+    "depth6": 8901.333008,
+    "depth7": 9202.666992,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 144.724823,
+    "rz2": 144.724823,
+    "rz3": 0.0,
+    "deficit": 14.67699814,
+    "probe_dwu": 4.604542732,
+    "estimated_dwu": 3.731518745,
+    "rain": 1.0,
+    "meter": 80810.0,
+    "irrigation_litres": 33.90000153,
+    "irrigation_mms": 7.450549603,
+    "effective_rain_1": -4.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 7.450549603,
+    "efflrr2": 7.450549603,
+    "effective_irrigation": 7.450549603,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t\"",
+    "created_date": "2019-06-30T20:12:41Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 17,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-01-31",
+    "depth1": 6912.0,
+    "depth2": 7004.0,
+    "depth3": 8274.666992,
+    "depth4": 10189.33301,
+    "depth5": 10025.33301,
+    "depth6": 8550.666992,
+    "depth7": 8818.666992,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 131.2473297,
+    "rz2": 131.2473297,
+    "rz3": 0.0,
+    "deficit": 28.15449333,
+    "probe_dwu": 3.293933392,
+    "estimated_dwu": 4.350397587,
+    "rain": 0.0,
+    "meter": 81241.0,
+    "irrigation_litres": 43.09999847,
+    "irrigation_mms": 9.472527504,
+    "effective_rain_1": -5.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 9.472527504,
+    "efflrr2": 9.472527504,
+    "effective_irrigation": 9.472527504,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t\"",
+    "created_date": "2019-06-30T20:14:21Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 18,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-02-07",
+    "depth1": 6900.0,
+    "depth2": 6989.333496,
+    "depth3": 8124.0,
+    "depth4": 9456.0,
+    "depth5": 9577.333008,
+    "depth6": 8156.0,
+    "depth7": 8658.666992,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 128.1873932,
+    "rz2": 128.1873932,
+    "rz3": 0.0,
+    "deficit": 31.21443176,
+    "probe_dwu": 1.963142872,
+    "estimated_dwu": 4.207514763,
+    "rain": 8.0,
+    "meter": 81595.0,
+    "irrigation_litres": 35.40000153,
+    "irrigation_mms": 7.780219555,
+    "effective_rain_1": 3.0,
+    "effective_rainfall": 3.0,
+    "efflrr1": 7.780219555,
+    "efflrr2": 7.780219555,
+    "effective_irrigation": 7.780219555,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t\"",
+    "created_date": "2019-06-30T20:15:58Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 19,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-02-14",
+    "depth1": 8992.0,
+    "depth2": 8814.666992,
+    "depth3": 10296.0,
+    "depth4": 11064.0,
+    "depth5": 9649.333008,
+    "depth6": 7981.333496,
+    "depth7": 8569.333008,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 157.9638519,
+    "rz2": 157.9638519,
+    "rz3": 0.0,
+    "deficit": 1.437968016,
+    "probe_dwu": -1.260602832,
+    "estimated_dwu": 3.005383015,
+    "rain": 3.0,
+    "meter": 82550.0,
+    "irrigation_litres": 95.5,
+    "irrigation_mms": 20.98901176,
+    "effective_rain_1": -2.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 20.98901176,
+    "efflrr2": 20.98901176,
+    "effective_irrigation": 20.98901176,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t\"",
+    "created_date": "2019-06-30T20:17:44Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 20,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-02-21",
+    "depth1": 9046.0,
+    "depth2": 9014.0,
+    "depth3": 9876.0,
+    "depth4": 9896.0,
+    "depth5": 8536.0,
+    "depth6": 6918.0,
+    "depth7": 8358.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 153.1809387,
+    "rz2": 153.1809387,
+    "rz3": 0.0,
+    "deficit": 6.2208848,
+    "probe_dwu": 3.711996317,
+    "estimated_dwu": 4.050429821,
+    "rain": 0.0,
+    "meter": 83515.0,
+    "irrigation_litres": 96.5,
+    "irrigation_mms": 21.20879173,
+    "effective_rain_1": -5.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 21.20879173,
+    "efflrr2": 21.20879173,
+    "effective_irrigation": 21.20879173,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t Adjust for forecast rain if required\"",
+    "created_date": "2019-06-30T20:19:28Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 21,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-02-28",
+    "depth1": 7869.333496,
+    "depth2": 7650.666504,
+    "depth3": 8722.666992,
+    "depth4": 9846.666992,
+    "depth5": 8942.666992,
+    "depth6": 7794.666504,
+    "depth7": 8324.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 138.5381012,
+    "rz2": 138.5381012,
+    "rz3": 0.0,
+    "deficit": 20.86371231,
+    "probe_dwu": 4.07648468,
+    "estimated_dwu": 2.559112072,
+    "rain": 44.0,
+    "meter": 83515.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 13.89822483,
+    "effective_rainfall": 13.89822483,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t \"",
+    "created_date": "2019-06-30T20:21:11Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 22,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-03-07",
+    "depth1": 5666.666504,
+    "depth2": 5936.0,
+    "depth3": 7270.666504,
+    "depth4": 8708.0,
+    "depth5": 8769.333008,
+    "depth6": 7608.0,
+    "depth7": 7950.666504,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 111.447937,
+    "rz2": 111.447937,
+    "rz3": 0.0,
+    "deficit": 47.95388412,
+    "probe_dwu": 3.878874779,
+    "estimated_dwu": 2.877482653,
+    "rain": 0.0,
+    "meter": 83515.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 0.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t \"",
+    "created_date": "2019-06-30T20:27:07Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 23,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-03-14",
+    "depth1": 5229.333496,
+    "depth2": 5412.0,
+    "depth3": 6530.666504,
+    "depth4": 7925.333496,
+    "depth5": 7766.666504,
+    "depth6": 7226.666504,
+    "depth7": 7580.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 101.5824127,
+    "rz2": 101.5824127,
+    "rz3": 0.0,
+    "deficit": 57.81940842,
+    "probe_dwu": 2.695342302,
+    "estimated_dwu": 2.80659771,
+    "rain": 14.0,
+    "meter": 83515.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 9.0,
+    "effective_rainfall": 9.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t Some rain forecast\"",
+    "created_date": "2019-06-30T20:28:29Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 24,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-03-21",
+    "depth1": 9096.0,
+    "depth2": 9073.333008,
+    "depth3": 9552.0,
+    "depth4": 9316.0,
+    "depth5": 8477.333008,
+    "depth6": 6796.0,
+    "depth7": 7345.333496,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 151.1632233,
+    "rz2": 151.1632233,
+    "rz3": 0.0,
+    "deficit": 8.238591194,
+    "probe_dwu": -5.26144743,
+    "estimated_dwu": 2.167300224,
+    "rain": 0.0,
+    "meter": 84091.0,
+    "irrigation_litres": 57.59999847,
+    "irrigation_mms": 12.65934086,
+    "effective_rain_1": -5.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 12.65934086,
+    "efflrr2": 12.65934086,
+    "effective_irrigation": 12.65934086,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t \"",
+    "created_date": "2019-06-30T20:29:53Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 25,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-03-28",
+    "depth1": 5544.0,
+    "depth2": 5808.0,
+    "depth3": 6548.0,
+    "depth4": 7946.666504,
+    "depth5": 7940.0,
+    "depth6": 6829.333496,
+    "depth7": 7096.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 105.1465073,
+    "rz2": 105.1465073,
+    "rz3": 0.0,
+    "deficit": 54.25531006,
+    "probe_dwu": 6.930783749,
+    "estimated_dwu": 1.847946405,
+    "rain": 1.0,
+    "meter": 84199.0,
+    "irrigation_litres": 10.80000019,
+    "irrigation_mms": 2.373626471,
+    "effective_rain_1": -4.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 2.373626471,
+    "efflrr2": 2.373626471,
+    "effective_irrigation": 2.373626471,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t Rain forecast- adjust as required\"",
+    "created_date": "2019-06-30T20:31:33Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 26,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-04-04",
+    "depth1": 5254.666504,
+    "depth2": 5316.0,
+    "depth3": 6201.333496,
+    "depth4": 7329.333496,
+    "depth5": 7398.666504,
+    "depth6": 6620.0,
+    "depth7": 6981.333496,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 98.51747894,
+    "rz2": 98.51747894,
+    "rz3": 0.0,
+    "deficit": 60.88433838,
+    "probe_dwu": 2.371810436,
+    "estimated_dwu": 1.853495002,
+    "rain": 15.0,
+    "meter": 84199.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 10.0,
+    "effective_rainfall": 10.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t Rain forecast- adjust as required\"",
+    "created_date": "2019-06-30T20:33:13Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 27,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-04-11",
+    "depth1": 5141.333496,
+    "depth2": 5006.666504,
+    "depth3": 5920.0,
+    "depth4": 6692.0,
+    "depth5": 7040.0,
+    "depth6": 6320.0,
+    "depth7": 6976.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 93.9577179,
+    "rz2": 93.9577179,
+    "rz3": 0.0,
+    "deficit": 65.44409943,
+    "probe_dwu": 1.365680695,
+    "estimated_dwu": 1.479773521,
+    "rain": 10.0,
+    "meter": 84199.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 5.0,
+    "effective_rainfall": 5.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t Rain forecast- adjust as required\"",
+    "created_date": "2019-06-30T20:34:32Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 28,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-04-17",
+    "depth1": 4996.0,
+    "depth2": 4884.0,
+    "depth3": 5542.666504,
+    "depth4": 6312.0,
+    "depth5": 6698.666504,
+    "depth6": 5985.333496,
+    "depth7": 6952.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 92.6204834,
+    "rz2": 92.6204834,
+    "rz3": 0.0,
+    "deficit": 66.78133392,
+    "probe_dwu": 0.2216153294,
+    "estimated_dwu": 1.500253916,
+    "rain": 2.0,
+    "meter": 84199.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": -3.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t \"",
+    "created_date": "2019-06-30T20:35:50Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 29,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-04-24",
+    "depth1": 5207.205566,
+    "depth2": 4996.43457,
+    "depth3": 5585.10791,
+    "depth4": 6305.333496,
+    "depth5": 6213.333496,
+    "depth6": 5726.666504,
+    "depth7": 6941.333496,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 93.93292236,
+    "rz2": 93.93292236,
+    "rz3": 0.0,
+    "deficit": 65.46889496,
+    "probe_dwu": 1.244413137,
+    "estimated_dwu": 1.390957117,
+    "rain": 15.0,
+    "meter": 84199.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 10.0,
+    "effective_rainfall": 10.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t \"",
+    "created_date": "2019-06-30T20:37:31Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 30,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-05-01",
+    "depth1": 4897.333496,
+    "depth2": 4701.333496,
+    "depth3": 5400.0,
+    "depth4": 5830.666504,
+    "depth5": 6097.333496,
+    "depth6": 5586.666504,
+    "depth7": 6911.995117,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 88.92787933,
+    "rz2": 88.92787933,
+    "rz3": 0.0,
+    "deficit": 70.47394562,
+    "probe_dwu": 3.424875498,
+    "estimated_dwu": 1.248129845,
+    "rain": 24.0,
+    "meter": 84199.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 19.0,
+    "effective_rainfall": 19.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t \"",
+    "created_date": "2019-06-30T20:39:16Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 31,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-05-09",
+    "depth1": 5028.0,
+    "depth2": 4669.333496,
+    "depth3": 5261.333496,
+    "depth4": 6456.0,
+    "depth5": 5998.666504,
+    "depth6": 5464.0,
+    "depth7": 6817.333496,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 90.90393829,
+    "rz2": 90.90393829,
+    "rz3": 0.0,
+    "deficit": 68.49787903,
+    "probe_dwu": -0.2471579313,
+    "estimated_dwu": 1.060813785,
+    "rain": 1.0,
+    "meter": 84199.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": -4.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"No irrigation recommended \"",
+    "created_date": "2019-06-30T20:40:33Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 32,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-05-16",
+    "depth1": 4542.666504,
+    "depth2": 4401.333496,
+    "depth3": 5028.0,
+    "depth4": 5882.666504,
+    "depth5": 5758.666504,
+    "depth6": 5416.0,
+    "depth7": 6080.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 84.17332458,
+    "rz2": 84.17332458,
+    "rz3": 0.0,
+    "deficit": 75.22850037,
+    "probe_dwu": 0.9573376179,
+    "estimated_dwu": 0.9751222134,
+    "rain": 3.0,
+    "meter": 84199.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": -2.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Final reading next week Harvested Fortnightly Post harvest readings until end of May Bring soil moisture level back up towards field capacity prior to leaf fall Postharvest Irrigation Recommendation  Apply (13mm) 1 x 4hr per week to raise soil moisture levels  Adjust as required for significant rainfall.\"",
+    "created_date": "2019-06-30T20:42:15Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 33,
+  "fields": {
+    "site": 2,
+    "type": 1,
+    "date": "2019-05-23",
+    "depth1": 6369.333496,
+    "depth2": 6041.333496,
+    "depth3": 6357.333496,
+    "depth4": 6954.666504,
+    "depth5": 6336.0,
+    "depth6": 5592.0,
+    "depth7": 6264.0,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 109.3397064,
+    "rz2": 109.3397064,
+    "rz3": 0.0,
+    "deficit": 50.06211853,
+    "probe_dwu": -2.546387434,
+    "estimated_dwu": 0.8559550047,
+    "rain": 4.0,
+    "meter": 84525.0,
+    "irrigation_litres": 32.59999847,
+    "irrigation_mms": 7.164834976,
+    "effective_rain_1": -1.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 7.164834976,
+    "efflrr2": 7.164834976,
+    "effective_irrigation": 7.164834976,
+    "comment": "\"Final reading  Harvested Fortnightly Post harvest readings until end of May Bring soil moisture level back up towards field capacity prior to leaf fall Postharvest Irrigation Recommendation  Apply (13mm) 1 x 4hr per week to raise soil moisture levels  Adjust as required for significant rainfall.\"",
+    "created_date": "2019-06-30T20:43:52Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 34,
+  "fields": {
+    "site": 3,
+    "type": 2,
+    "date": "2018-10-22",
+    "depth1": 31.74078178,
+    "depth2": 33.13063431,
+    "depth3": 38.92963028,
+    "depth4": 38.98044205,
+    "depth5": 39.72535324,
+    "depth6": 39.4614296,
+    "depth7": 41.39899445,
+    "depth8": 39.8821106,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 411.7015381,
+    "rz2": 210.2553406,
+    "rz3": 0.0,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": null,
+    "meter": null,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": null,
+    "created_date": "2019-06-30T21:58:10Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 35,
+  "fields": {
+    "site": 3,
+    "type": 3,
+    "date": "2018-11-08",
+    "depth1": 22.19000053,
+    "depth2": 23.17000008,
+    "depth3": 29.17499924,
+    "depth4": 29.25,
+    "depth5": 31.76000023,
+    "depth6": 31.60000038,
+    "depth7": 35.18999863,
+    "depth8": 32.59999847,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 318.2900085,
+    "rz2": 152.9499969,
+    "rz3": 0.0,
+    "deficit": 93.41153717,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": null,
+    "meter": null,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": null,
+    "created_date": "2019-06-30T22:11:41Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 36,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2018-10-25",
+    "depth1": 11248.0,
+    "depth2": 12304.0,
+    "depth3": 14046.66699,
+    "depth4": 13933.33301,
+    "depth5": 14494.66699,
+    "depth6": 16178.66699,
+    "depth7": 16062.66699,
+    "depth8": 15832.41211,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 2,
+    "rz1": 378.9645996,
+    "rz2": 190.8930511,
+    "rz3": 0.0,
+    "deficit": 32.73692703,
+    "probe_dwu": null,
+    "estimated_dwu": 1.562999845,
+    "rain": 0.0,
+    "meter": 49228.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": null,
+    "effective_rainfall": 0.0,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": "No irrigation recommended",
+    "created_date": "2019-06-30T22:13:00Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 37,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2018-11-01",
+    "depth1": 10065.33301,
+    "depth2": 10880.0,
+    "depth3": 12226.66699,
+    "depth4": 12621.33301,
+    "depth5": 12693.33301,
+    "depth6": 14392.0,
+    "depth7": 15425.33301,
+    "depth8": 15332.0,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 375.1142578,
+    "rz2": 184.417038,
+    "rz3": 0.0,
+    "deficit": 36.58728027,
+    "probe_dwu": 1.68106699,
+    "estimated_dwu": 1.73728013,
+    "rain": 13.0,
+    "meter": 49228.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 8.0,
+    "effective_rainfall": 8.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri Sat\t4hrs Sun Mon Tues\t4hrs Wed Thurs\"",
+    "created_date": "2019-06-30T22:14:50Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 38,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2018-11-15",
+    "depth1": 11954.66699,
+    "depth2": 12056.0,
+    "depth3": 12534.66699,
+    "depth4": 12421.33301,
+    "depth5": 12714.66699,
+    "depth6": 14258.66699,
+    "depth7": 15373.33301,
+    "depth8": 14878.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 390.8142395,
+    "rz2": 200.9297638,
+    "rz3": 0.0,
+    "deficit": 20.88731003,
+    "probe_dwu": 1.382208109,
+    "estimated_dwu": 2.156575441,
+    "rain": 14.0,
+    "meter": 52308.0,
+    "irrigation_litres": 153.1999969,
+    "irrigation_mms": 12.25599957,
+    "effective_rain_1": 9.0,
+    "effective_rainfall": 9.0,
+    "efflrr1": 12.25599957,
+    "efflrr2": 12.25599957,
+    "effective_irrigation": 12.25599957,
+    "comment": "\"Irrigation recommendation Fri Sat\t3hrs Sun Mon Tues\t3hrs Wed Thurs\"",
+    "created_date": "2019-06-30T22:17:13Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 39,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2018-11-22",
+    "depth1": 12281.5127,
+    "depth2": 12135.36816,
+    "depth3": 12045.33301,
+    "depth4": 12264.0,
+    "depth5": 12190.66699,
+    "depth6": 13769.33301,
+    "depth7": 15074.66699,
+    "depth8": 14710.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 385.7611084,
+    "rz2": 200.9176331,
+    "rz3": 0.0,
+    "deficit": 25.94042969,
+    "probe_dwu": 2.989792347,
+    "estimated_dwu": 2.078242064,
+    "rain": 21.0,
+    "meter": 52308.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 16.0,
+    "effective_rainfall": 16.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri Sat\t3hrs Sun Mon Tues\t3hrs Wed Thurs\"",
+    "created_date": "2019-06-30T22:18:50Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 40,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2018-11-29",
+    "depth1": 12812.0,
+    "depth2": 12709.33301,
+    "depth3": 13140.0,
+    "depth4": 13306.66699,
+    "depth5": 12909.33301,
+    "depth6": 14904.0,
+    "depth7": 15880.0,
+    "depth8": 15103.69727,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 408.6827393,
+    "rz2": 212.8809509,
+    "rz3": 0.0,
+    "deficit": 3.018805742,
+    "probe_dwu": 1.519481421,
+    "estimated_dwu": 2.53285718,
+    "rain": 75.0,
+    "meter": 52308.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 33.53900146,
+    "effective_rainfall": 33.53900146,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"No irrigation recommended Rain forecast\"",
+    "created_date": "2019-06-30T22:20:34Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 41,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2018-12-06",
+    "depth1": 11742.66699,
+    "depth2": 12254.66699,
+    "depth3": 13094.66699,
+    "depth4": 13008.0,
+    "depth5": 13426.66699,
+    "depth6": 14850.66699,
+    "depth7": 15441.33301,
+    "depth8": 14822.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 398.8425598,
+    "rz2": 204.0640869,
+    "rz3": 0.0,
+    "deficit": 12.85899353,
+    "probe_dwu": 3.068295717,
+    "estimated_dwu": 2.865213156,
+    "rain": 19.0,
+    "meter": 52308.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 11.61444378,
+    "effective_rainfall": 11.61444378,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"No irrigation recommended \"",
+    "created_date": "2019-06-30T22:23:10Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 42,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2018-12-13",
+    "depth1": 10762.66699,
+    "depth2": 11877.33301,
+    "depth3": 12769.33301,
+    "depth4": 12598.66699,
+    "depth5": 12997.33301,
+    "depth6": 14642.66699,
+    "depth7": 15717.33301,
+    "depth8": 14842.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 387.8128052,
+    "rz2": 193.7766418,
+    "rz3": 0.0,
+    "deficit": 23.88874245,
+    "probe_dwu": 2.726379156,
+    "estimated_dwu": 3.462625027,
+    "rain": 13.0,
+    "meter": 52308.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 8.0,
+    "effective_rainfall": 8.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"No irrigation recommended \"",
+    "created_date": "2019-06-30T22:25:16Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 43,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2018-12-20",
+    "depth1": 10101.33301,
+    "depth2": 11040.0,
+    "depth3": 12145.33301,
+    "depth4": 12017.33301,
+    "depth5": 12365.33301,
+    "depth6": 14168.0,
+    "depth7": 15081.33301,
+    "depth8": 14753.33301,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 370.0262146,
+    "rz2": 182.85466,
+    "rz3": 0.0,
+    "deficit": 41.67531204,
+    "probe_dwu": 3.245565176,
+    "estimated_dwu": 3.129251003,
+    "rain": 10.0,
+    "meter": 52308.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 5.0,
+    "effective_rainfall": 5.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri Sat\t4hr Sun Mon Tues Wed Thurs\t4hr  Adjust for rain if necessary\"",
+    "created_date": "2019-06-30T22:27:00Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 44,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-01-03",
+    "depth1": 12368.0,
+    "depth2": 12500.0,
+    "depth3": 13386.66699,
+    "depth4": 13398.66699,
+    "depth5": 14332.0,
+    "depth6": 15249.33301,
+    "depth7": 15517.33301,
+    "depth8": 14698.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 411.3384094,
+    "rz2": 212.0293884,
+    "rz3": 0.0,
+    "deficit": 0.3631263971,
+    "probe_dwu": 2.054623365,
+    "estimated_dwu": 4.223241329,
+    "rain": 74.0,
+    "meter": 54262.0,
+    "irrigation_litres": 195.3999939,
+    "irrigation_mms": 15.63199997,
+    "effective_rain_1": 54.34503555,
+    "effective_rainfall": 54.34503555,
+    "efflrr1": 15.63199997,
+    "efflrr2": 15.63199997,
+    "effective_irrigation": 15.63199997,
+    "comment": "No irrigation recommended",
+    "created_date": "2019-06-30T22:28:28Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 45,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-01-10",
+    "depth1": 10966.66699,
+    "depth2": 11746.66699,
+    "depth3": 12540.0,
+    "depth4": 12392.0,
+    "depth5": 13013.33301,
+    "depth6": 14456.0,
+    "depth7": 15082.66699,
+    "depth8": 14536.0,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 383.815033,
+    "rz2": 193.6424713,
+    "rz3": 0.0,
+    "deficit": 27.88650131,
+    "probe_dwu": 4.029109955,
+    "estimated_dwu": 4.673308372,
+    "rain": 1.0,
+    "meter": 54346.0,
+    "irrigation_litres": 8.399999619,
+    "irrigation_mms": 0.6719999909,
+    "effective_rain_1": -4.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.6719999909,
+    "efflrr2": 0.6719999909,
+    "effective_irrigation": 0.6719999909,
+    "comment": "\"Irrigation recommendation Fri Sat\t4hr Sun Mon\t4hr Tues Wed\t4hr Thurs\"",
+    "created_date": "2019-06-30T22:30:16Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 46,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-01-17",
+    "depth1": 12646.66699,
+    "depth2": 13004.0,
+    "depth3": 13353.33301,
+    "depth4": 12968.0,
+    "depth5": 13958.66699,
+    "depth6": 14784.0,
+    "depth7": 15180.0,
+    "depth8": 14321.33301,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 408.1846313,
+    "rz2": 213.6047058,
+    "rz3": 0.0,
+    "deficit": 3.516912699,
+    "probe_dwu": 2.466178656,
+    "estimated_dwu": 4.603235245,
+    "rain": 84.0,
+    "meter": 54346.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 41.69620514,
+    "effective_rainfall": 41.69620514,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "No irrigation recommended",
+    "created_date": "2019-06-30T22:32:20Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 47,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-01-24",
+    "depth1": 11032.0,
+    "depth2": 11722.66699,
+    "depth3": 12680.0,
+    "depth4": 12674.66699,
+    "depth5": 13094.66699,
+    "depth6": 14432.0,
+    "depth7": 15106.66699,
+    "depth8": 14714.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 385.65448,
+    "rz2": 195.2700958,
+    "rz3": 0.0,
+    "deficit": 26.04705238,
+    "probe_dwu": 3.210946321,
+    "estimated_dwu": 3.731525898,
+    "rain": 1.0,
+    "meter": 54346.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": -4.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri Sat\t4hr Sun Mon Tues Wed\t4hr Thurs\"",
+    "created_date": "2019-06-30T22:33:56Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 48,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-01-31",
+    "depth1": 12060.0,
+    "depth2": 12406.66699,
+    "depth3": 12544.0,
+    "depth4": 12188.0,
+    "depth5": 12390.66699,
+    "depth6": 14437.33301,
+    "depth7": 15217.33301,
+    "depth8": 14528.0,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 390.7414551,
+    "rz2": 201.6046906,
+    "rz3": 0.0,
+    "deficit": 20.96009254,
+    "probe_dwu": 0.6734709144,
+    "estimated_dwu": 4.350385189,
+    "rain": 0.0,
+    "meter": 55568.0,
+    "irrigation_litres": 122.1999969,
+    "irrigation_mms": 9.776000023,
+    "effective_rain_1": -5.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 9.776000023,
+    "efflrr2": 9.776000023,
+    "effective_irrigation": 9.776000023,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "created_date": "2019-06-30T22:40:24Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 49,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-02-07",
+    "depth1": 12600.0,
+    "depth2": 12489.33301,
+    "depth3": 12373.33301,
+    "depth4": 12133.33301,
+    "depth5": 12466.66699,
+    "depth6": 14626.66699,
+    "depth7": 15370.66699,
+    "depth8": 14501.33301,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 395.9412537,
+    "rz2": 204.9976501,
+    "rz3": 0.0,
+    "deficit": 15.76028633,
+    "probe_dwu": 1.745035172,
+    "estimated_dwu": 4.207517147,
+    "rain": 13.0,
+    "meter": 56757.0,
+    "irrigation_litres": 118.9000015,
+    "irrigation_mms": 9.512000084,
+    "effective_rain_1": 8.0,
+    "effective_rainfall": 8.0,
+    "efflrr1": 9.512000084,
+    "efflrr2": 9.512000084,
+    "effective_irrigation": 9.512000084,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "created_date": "2019-06-30T22:42:02Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 50,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-02-14",
+    "depth1": 11653.33301,
+    "depth2": 12068.0,
+    "depth3": 11976.0,
+    "depth4": 11876.0,
+    "depth5": 11813.33301,
+    "depth6": 14146.66699,
+    "depth7": 14861.33301,
+    "depth8": 14149.33301,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 379.3364258,
+    "rz2": 194.7303009,
+    "rz3": 0.0,
+    "deficit": 32.36510849,
+    "probe_dwu": 3.619755268,
+    "estimated_dwu": 3.005396843,
+    "rain": 3.0,
+    "meter": 57838.0,
+    "irrigation_litres": 108.0999985,
+    "irrigation_mms": 8.647999763,
+    "effective_rain_1": -2.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 8.647999763,
+    "efflrr2": 8.647999763,
+    "effective_irrigation": 8.647999763,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "created_date": "2019-06-30T22:43:36Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 51,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-02-21",
+    "depth1": 11186.66699,
+    "depth2": 11566.66699,
+    "depth3": 11650.66699,
+    "depth4": 11349.33301,
+    "depth5": 11321.33301,
+    "depth6": 13685.33301,
+    "depth7": 14877.33301,
+    "depth8": 14056.0,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 368.5089722,
+    "rz2": 187.2254028,
+    "rz3": 0.0,
+    "deficit": 43.19257736,
+    "probe_dwu": 2.65816617,
+    "estimated_dwu": 4.050438881,
+    "rain": 0.0,
+    "meter": 58810.0,
+    "irrigation_litres": 97.19999695,
+    "irrigation_mms": 7.776000023,
+    "effective_rain_1": -5.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 7.776000023,
+    "efflrr2": 7.776000023,
+    "effective_irrigation": 7.776000023,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs Adjust for forecast rain if required\"",
+    "created_date": "2019-06-30T22:47:20Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 52,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-02-28",
+    "depth1": 11292.0,
+    "depth2": 11546.66699,
+    "depth3": 11581.33301,
+    "depth4": 10812.0,
+    "depth5": 11040.0,
+    "depth6": 13422.66699,
+    "depth7": 14716.0,
+    "depth8": 14054.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 364.4873047,
+    "rz2": 185.9146729,
+    "rz3": 0.0,
+    "deficit": 47.2142334,
+    "probe_dwu": 5.149647713,
+    "estimated_dwu": 2.559092283,
+    "rain": 37.0,
+    "meter": 58811.0,
+    "irrigation_litres": 0.1000000015,
+    "irrigation_mms": 0.00800000038,
+    "effective_rain_1": 32.0,
+    "effective_rainfall": 32.0,
+    "efflrr1": 0.00800000038,
+    "efflrr2": 0.00800000038,
+    "effective_irrigation": 0.00800000038,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs \"",
+    "created_date": "2019-06-30T22:49:25Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 53,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-03-07",
+    "depth1": 10126.66699,
+    "depth2": 10620.0,
+    "depth3": 10797.33301,
+    "depth4": 10149.33301,
+    "depth5": 9890.666992,
+    "depth6": 12368.0,
+    "depth7": 14624.0,
+    "depth8": 13940.0,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 340.2696838,
+    "rz2": 169.9713745,
+    "rz3": 0.0,
+    "deficit": 71.43185425,
+    "probe_dwu": 3.46481657,
+    "estimated_dwu": 2.877470255,
+    "rain": 0.0,
+    "meter": 58811.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": -5.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs \"",
+    "created_date": "2019-06-30T22:51:01Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 54,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-03-14",
+    "depth1": 9230.666992,
+    "depth2": 9496.0,
+    "depth3": 10022.66699,
+    "depth4": 9534.666992,
+    "depth5": 9177.333008,
+    "depth6": 11825.33301,
+    "depth7": 14176.0,
+    "depth8": 13634.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 319.8525085,
+    "rz2": 156.0422363,
+    "rz3": 0.0,
+    "deficit": 91.8490448,
+    "probe_dwu": 3.63607645,
+    "estimated_dwu": 2.806596994,
+    "rain": 10.0,
+    "meter": 58811.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 5.0,
+    "effective_rainfall": 5.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs Some rain forecast\"",
+    "created_date": "2019-06-30T22:52:26Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 55,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-03-21",
+    "depth1": 8401.333008,
+    "depth2": 8794.666992,
+    "depth3": 9492.0,
+    "depth4": 9069.333008,
+    "depth5": 8824.0,
+    "depth6": 11109.33301,
+    "depth7": 13961.33301,
+    "depth8": 13508.0,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 303.8265686,
+    "rz2": 145.2694855,
+    "rz3": 0.0,
+    "deficit": 107.8749695,
+    "probe_dwu": 2.282398701,
+    "estimated_dwu": 2.167319536,
+    "rain": 0.0,
+    "meter": 58811.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": -5.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs \"",
+    "created_date": "2019-06-30T22:53:49Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 56,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-03-28",
+    "depth1": 10213.33301,
+    "depth2": 10341.33301,
+    "depth3": 10361.33301,
+    "depth4": 9352.0,
+    "depth5": 8653.333008,
+    "depth6": 10678.66699,
+    "depth7": 13380.0,
+    "depth8": 13405.33301,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 318.219635,
+    "rz2": 164.8802948,
+    "rz3": 0.0,
+    "deficit": 93.48191071,
+    "probe_dwu": -0.9966877103,
+    "estimated_dwu": 1.847936392,
+    "rain": 1.0,
+    "meter": 59744.0,
+    "irrigation_litres": 93.30000305,
+    "irrigation_mms": 7.464000225,
+    "effective_rain_1": -4.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 7.464000225,
+    "efflrr2": 7.464000225,
+    "effective_irrigation": 7.464000225,
+    "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t Tues Wed\t2hr Thurs Rain forecast- adjust as required \"",
+    "created_date": "2019-06-30T22:55:12Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 57,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-04-04",
+    "depth1": 9687.431641,
+    "depth2": 9833.577148,
+    "depth3": 9682.666992,
+    "depth4": 8968.0,
+    "depth5": 8298.666992,
+    "depth6": 10313.33301,
+    "depth7": 13205.33301,
+    "depth8": 13169.33301,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 306.410614,
+    "rz2": 156.5099487,
+    "rz3": 0.0,
+    "deficit": 105.2909241,
+    "probe_dwu": 3.098665476,
+    "estimated_dwu": 1.853461266,
+    "rain": 15.0,
+    "meter": 59744.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 10.0,
+    "effective_rainfall": 10.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Irrigation recommendation Fri Sat\t3hr Sun Mon\t Tues Wed\t3hr Thurs Rain forecast- adjust as required \"",
+    "created_date": "2019-06-30T22:56:47Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 58,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-04-11",
+    "depth1": 8650.666992,
+    "depth2": 8626.666992,
+    "depth3": 9298.666992,
+    "depth4": 8634.666992,
+    "depth5": 8028.0,
+    "depth6": 9928.0,
+    "depth7": 12960.0,
+    "depth8": 13270.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 290.0482788,
+    "rz2": 143.8023529,
+    "rz3": 0.0,
+    "deficit": 121.6532669,
+    "probe_dwu": 3.064226866,
+    "estimated_dwu": 1.47977519,
+    "rain": 10.0,
+    "meter": 59744.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 5.0,
+    "effective_rainfall": 5.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "No irrigation recommended",
+    "created_date": "2019-06-30T23:00:26Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 59,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-04-17",
+    "depth1": 7977.333496,
+    "depth2": 8022.666504,
+    "depth3": 8733.333008,
+    "depth4": 8233.333008,
+    "depth5": 7626.666504,
+    "depth6": 9561.333008,
+    "depth7": 12798.66699,
+    "depth8": 12646.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 283.4302673,
+    "rz2": 138.3793793,
+    "rz3": 0.0,
+    "deficit": 128.2712708,
+    "probe_dwu": 1.09200573,
+    "estimated_dwu": 1.500249386,
+    "rain": 2.0,
+    "meter": 59744.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": -3.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "No irrigation recommended",
+    "created_date": "2019-06-30T23:01:49Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 60,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-04-24",
+    "depth1": 8194.90332,
+    "depth2": 8358.064453,
+    "depth3": 8733.321289,
+    "depth4": 8084.0,
+    "depth5": 7441.333496,
+    "depth6": 9254.666992,
+    "depth7": 11805.33301,
+    "depth8": 13194.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 278.5966797,
+    "rz2": 140.2802582,
+    "rz3": 0.0,
+    "deficit": 133.1048737,
+    "probe_dwu": 2.132626057,
+    "estimated_dwu": 1.390965939,
+    "rain": 15.0,
+    "meter": 59744.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 10.0,
+    "effective_rainfall": 10.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "No irrigation recommended",
+    "created_date": "2019-06-30T23:03:20Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 61,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-05-01",
+    "depth1": 9286.666992,
+    "depth2": 9212.0,
+    "depth3": 8458.666992,
+    "depth4": 8120.0,
+    "depth5": 7444.0,
+    "depth6": 9189.333008,
+    "depth7": 12248.0,
+    "depth8": 14634.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 290.0145874,
+    "rz2": 149.882782,
+    "rz3": 0.0,
+    "deficit": 121.6869431,
+    "probe_dwu": 1.077806234,
+    "estimated_dwu": 1.248121142,
+    "rain": 24.0,
+    "meter": 59744.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": 19.0,
+    "effective_rainfall": 19.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"No irrigation recommended Harvesting\"",
+    "created_date": "2019-06-30T23:04:54Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 62,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-05-09",
+    "depth1": 9286.666992,
+    "depth2": 9212.0,
+    "depth3": 8458.666992,
+    "depth4": 8120.0,
+    "depth5": 7444.0,
+    "depth6": 9189.333008,
+    "depth7": 12248.0,
+    "depth8": 14634.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 290.0145874,
+    "rz2": 149.882782,
+    "rz3": 0.0,
+    "deficit": 121.6869431,
+    "probe_dwu": 1.077806234,
+    "estimated_dwu": 1.248121142,
+    "rain": 1.0,
+    "meter": 59744.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": -4.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"No irrigation recommended Harvesting\"",
+    "created_date": "2019-06-30T23:06:25Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 63,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-05-16",
+    "depth1": 7901.333496,
+    "depth2": 7890.666504,
+    "depth3": 8278.666992,
+    "depth4": 7657.333496,
+    "depth5": 7306.666504,
+    "depth6": 9062.666992,
+    "depth7": 11860.0,
+    "depth8": 12034.66699,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": null,
+    "rz1": 271.5262756,
+    "rz2": 134.2251587,
+    "rz3": 0.0,
+    "deficit": 140.1752167,
+    "probe_dwu": 0.7889139056,
+    "estimated_dwu": 0.9751232862,
+    "rain": 3.0,
+    "meter": 59744.0,
+    "irrigation_litres": 0.0,
+    "irrigation_mms": 0.0,
+    "effective_rain_1": -2.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 0.0,
+    "efflrr2": 0.0,
+    "effective_irrigation": 0.0,
+    "comment": "\"Final reading next week Harvested Fortnightly Post harvest readings until end of May Bring soil moisture level back up towards field capacity prior to leaf fall Postharvest Irrigation Recommendation  Apply (15mm) 2 x 3hr per week to raise soil moisture levels  Adjust as required for significant rainfall.\"",
+    "created_date": "2019-06-30T23:09:12Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 64,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-05-23",
+    "depth1": 12128.0,
+    "depth2": 9920.03418,
+    "depth3": 8839.44043,
+    "depth4": 7712.73584,
+    "depth5": 7250.583984,
+    "depth6": 8980.922852,
+    "depth7": 11784.96484,
+    "depth8": 11997.49023,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "serial_number": 1,
+    "rz1": 308.3241577,
+    "rz2": 171.9241486,
+    "rz3": 0.0,
+    "deficit": 103.3773499,
+    "probe_dwu": -3.877729177,
+    "estimated_dwu": 0.8559297919,
+    "rain": 4.0,
+    "meter": 60911.0,
+    "irrigation_litres": 116.6999969,
+    "irrigation_mms": 9.336000443,
+    "effective_rain_1": -1.0,
+    "effective_rainfall": 0.0,
+    "efflrr1": 9.336000443,
+    "efflrr2": 9.336000443,
+    "effective_irrigation": 9.336000443,
+    "comment": "\"Final reading Harvested Fortnightly Post harvest readings until end of May Bring soil moisture level back up towards field capacity prior to leaf fall Postharvest Irrigation Recommendation  Apply (15mm) 2 x 3hr per week to raise soil moisture levels  Adjust as required for significant rainfall.\"",
+    "created_date": "2019-06-30T23:10:34Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.site",
+  "pk": 1,
+  "fields": {
+    "farm": 1,
+    "selected": null,
+    "name": "Pinot Noir Springstone",
+    "variety": "Grapes",
+    "crop": 1,
+    "report": null,
+    "season_start": "2018-09-30",
+    "bud_break": "2018-09-14",
+    "cd2": "2018-11-28",
+    "cd3": "2019-02-02",
+    "cd4": "2019-03-20",
+    "cd5": null,
+    "cd6": null,
+    "season_end": "2019-04-29",
+    "irrigation_method": 1,
+    "irrigation_area": 10.0,
+    "irrigation_time": 3.0,
+    "irrigation_delivered_volume": 295.0,
+    "irrigation_position": 30.0,
+    "irrigation_yield": null,
+    "irrigation_allocation_volume": 0.0,
+    "rz1_top": 0,
+    "rz1_bottom": 120,
+    "rz2_top": 0,
+    "rz2_bottom": 70,
+    "rz3_top": 0,
+    "rz3_bottom": 45,
+    "depth1": 20,
+    "depth2": 30,
+    "depth3": 40,
+    "depth4": 50,
+    "depth5": 60,
+    "depth6": 80,
+    "depth7": 100,
+    "depth8": 120,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "depth_he1": 1,
+    "depth_he2": 2,
+    "depth_he3": 3,
+    "depth_he4": 4,
+    "depth_he5": 5,
+    "depth_he6": 6,
+    "depth_he7": 7,
+    "depth_he8": 8,
+    "depth_he9": null,
+    "depth_he10": null,
+    "depth_he11": null,
+    "depth_he12": null,
+    "upper_limit": null,
+    "lower_limit": null,
+    "emitter_rate": null,
+    "row_spacing": null,
+    "emitter_spacing": null,
+    "plant_spacing": null,
+    "wetted_width": null,
+    "delivery_time": null,
+    "area": null,
+    "created_date": "2019-06-24T23:53:03Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.site",
+  "pk": 2,
+  "fields": {
+    "farm": 2,
+    "selected": null,
+    "name": "Sandpit Pink Lady 22 Notchwood side (no weed mat)",
+    "variety": "Pink Lady",
+    "crop": 2,
+    "report": null,
+    "season_start": "2017-10-14",
+    "bud_break": "2017-10-24",
+    "cd2": "2018-04-10",
+    "cd3": null,
+    "cd4": null,
+    "cd5": null,
+    "cd6": null,
+    "season_end": "2018-05-09",
+    "irrigation_method": 1,
+    "irrigation_area": 10.0,
+    "irrigation_time": 1.0,
+    "irrigation_delivered_volume": 330.0,
+    "irrigation_position": 10.0,
+    "irrigation_yield": null,
+    "irrigation_allocation_volume": 0.0,
+    "rz1_top": 0,
+    "rz1_bottom": 60,
+    "rz2_top": 0,
+    "rz2_bottom": 60,
+    "rz3_top": 0,
+    "rz3_bottom": 0,
+    "depth1": 20,
+    "depth2": 30,
+    "depth3": 40,
+    "depth4": 50,
+    "depth5": 60,
+    "depth6": 80,
+    "depth7": 100,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "depth_he1": 1,
+    "depth_he2": 2,
+    "depth_he3": 3,
+    "depth_he4": 4,
+    "depth_he5": 5,
+    "depth_he6": 6,
+    "depth_he7": 7,
+    "depth_he8": null,
+    "depth_he9": null,
+    "depth_he10": null,
+    "depth_he11": null,
+    "depth_he12": null,
+    "upper_limit": 2,
+    "lower_limit": 3,
+    "emitter_rate": 30.0,
+    "row_spacing": 350,
+    "emitter_spacing": 260,
+    "plant_spacing": 130,
+    "wetted_width": 350,
+    "delivery_time": 60,
+    "area": 10.0,
+    "created_date": "2019-06-27T21:46:01Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.site",
+  "pk": 3,
+  "fields": {
+    "farm": 2,
+    "selected": null,
+    "name": "Smiley Pink Kiss",
+    "variety": "Pink Lady",
+    "crop": 2,
+    "report": null,
+    "season_start": "2017-10-14",
+    "bud_break": "2017-10-24",
+    "cd2": "2018-04-17",
+    "cd3": null,
+    "cd4": null,
+    "cd5": null,
+    "cd6": null,
+    "season_end": "2018-05-09",
+    "irrigation_method": 1,
+    "irrigation_area": 10.0,
+    "irrigation_time": 1.0,
+    "irrigation_delivered_volume": 220.0,
+    "irrigation_position": 10.0,
+    "irrigation_yield": null,
+    "irrigation_allocation_volume": 0.0,
+    "rz1_top": 0,
+    "rz1_bottom": 110,
+    "rz2_top": 0,
+    "rz2_bottom": 60,
+    "rz3_top": 0,
+    "rz3_bottom": 0,
+    "depth1": 20,
+    "depth2": 30,
+    "depth3": 40,
+    "depth4": 50,
+    "depth5": 60,
+    "depth6": 80,
+    "depth7": 100,
+    "depth8": 120,
+    "depth9": null,
+    "depth10": null,
+    "depth11": null,
+    "depth12": null,
+    "depth_he1": 1,
+    "depth_he2": 2,
+    "depth_he3": 3,
+    "depth_he4": 4,
+    "depth_he5": 5,
+    "depth_he6": 6,
+    "depth_he7": 7,
+    "depth_he8": 8,
+    "depth_he9": null,
+    "depth_he10": null,
+    "depth_he11": null,
+    "depth_he12": null,
+    "upper_limit": 2,
+    "lower_limit": 3,
+    "emitter_rate": 55.0,
+    "row_spacing": 500,
+    "emitter_spacing": 500,
+    "plant_spacing": 250,
+    "wetted_width": 500,
+    "delivery_time": 60,
+    "area": 10.0,
+    "created_date": "2019-06-30T21:53:59Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.crop",
+  "pk": 1,
+  "fields": {
+    "name": "Grapes Pinot Noir",
+    "report": 1,
+    "dwu_formaula": null,
+    "season_start": "2018-09-01",
+    "critical_label1": "Bud Break",
+    "critical_label2": "Flowering",
+    "critical_label3": "Veraison Estimate",
+    "critical_label4": "Harvest estimate",
+    "critical_label5": null,
+    "critical_label6": null,
+    "critical_date1": "2018-09-24",
+    "critical_date2": "2018-12-04",
+    "critical_date3": "2019-02-02",
+    "critical_date4": "2019-03-27",
+    "critical_date5": null,
+    "critical_date6": null,
+    "season_end": null,
+    "irrigation_method": 1,
+    "irrigation_area": 0.0,
+    "irrigation_time": 1.0,
+    "irrigation_delivered_volume": 13.0,
+    "irrigation_position": 30.0,
+    "irrigation_upper": "formula?",
+    "irrigation_lower": "formula?",
+    "irrigation_crop_factor": 1,
+    "irrigation_deliver_factor": 0,
+    "irrigation_yield": null,
+    "irrigation_drip_days": 7,
+    "irrigation_row_space": 300,
+    "irrigation_emit_space": 40,
+    "irrigation_plant_space": 180,
+    "irrigation_wet_width": 300,
+    "created_date": "2019-06-24T23:33:38Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.crop",
+  "pk": 2,
+  "fields": {
+    "name": "Apples",
+    "report": 1,
+    "dwu_formaula": null,
+    "season_start": "2016-10-10",
+    "critical_label1": "Bud Break",
+    "critical_label2": null,
+    "critical_label3": null,
+    "critical_label4": null,
+    "critical_label5": null,
+    "critical_label6": null,
+    "critical_date1": "2016-09-10",
+    "critical_date2": null,
+    "critical_date3": null,
+    "critical_date4": null,
+    "critical_date5": null,
+    "critical_date6": null,
+    "season_end": null,
+    "irrigation_method": 1,
+    "irrigation_area": 0.0,
+    "irrigation_time": null,
+    "irrigation_delivered_volume": 0.0,
+    "irrigation_position": 10.0,
+    "irrigation_upper": "FULL",
+    "irrigation_lower": "REFILL",
+    "irrigation_crop_factor": null,
+    "irrigation_deliver_factor": 0,
+    "irrigation_yield": null,
+    "irrigation_drip_days": 0,
+    "irrigation_row_space": 0,
+    "irrigation_emit_space": 0,
+    "irrigation_plant_space": 0,
+    "irrigation_wet_width": 0,
+    "created_date": "2019-06-27T21:43:09Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.crop",
+  "pk": 3,
+  "fields": {
+    "name": "Kiwifruit",
+    "report": 1,
+    "dwu_formaula": null,
+    "season_start": null,
+    "critical_label1": null,
+    "critical_label2": null,
+    "critical_label3": null,
+    "critical_label4": null,
+    "critical_label5": null,
+    "critical_label6": null,
+    "critical_date1": null,
+    "critical_date2": null,
+    "critical_date3": null,
+    "critical_date4": null,
+    "critical_date5": null,
+    "critical_date6": null,
+    "season_end": null,
+    "irrigation_method": 1,
+    "irrigation_area": null,
+    "irrigation_time": null,
+    "irrigation_delivered_volume": null,
+    "irrigation_position": null,
+    "irrigation_upper": null,
+    "irrigation_lower": null,
+    "irrigation_crop_factor": null,
+    "irrigation_deliver_factor": null,
+    "irrigation_yield": null,
+    "irrigation_drip_days": null,
+    "irrigation_row_space": null,
+    "irrigation_emit_space": null,
+    "irrigation_plant_space": null,
+    "irrigation_wet_width": null,
+    "created_date": "2019-07-09T01:48:02Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.crop",
+  "pk": 4,
+  "fields": {
+    "name": "Grapes",
+    "report": 1,
+    "dwu_formaula": null,
+    "season_start": null,
+    "critical_label1": null,
+    "critical_label2": null,
+    "critical_label3": null,
+    "critical_label4": null,
+    "critical_label5": null,
+    "critical_label6": null,
+    "critical_date1": null,
+    "critical_date2": null,
+    "critical_date3": null,
+    "critical_date4": null,
+    "critical_date5": null,
+    "critical_date6": null,
+    "season_end": null,
+    "irrigation_method": 1,
+    "irrigation_area": null,
+    "irrigation_time": null,
+    "irrigation_delivered_volume": null,
+    "irrigation_position": null,
+    "irrigation_upper": null,
+    "irrigation_lower": null,
+    "irrigation_crop_factor": null,
+    "irrigation_deliver_factor": null,
+    "irrigation_yield": null,
+    "irrigation_drip_days": null,
+    "irrigation_row_space": null,
+    "irrigation_emit_space": null,
+    "irrigation_plant_space": null,
+    "irrigation_wet_width": null,
+    "created_date": "2019-07-09T01:48:35Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.farm",
+  "pk": 1,
+  "fields": {
+    "name": "Springstone",
+    "owner": "Paula Black",
+    "comment": null,
+    "address": 1,
+    "report": 1,
+    "landline": "0276839241",
+    "mobile": "276839241",
+    "email": "mabznz@gmail.com",
+    "folder": "springstone",
+    "created_date": "2019-06-24T23:45:49Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.farm",
+  "pk": 2,
+  "fields": {
+    "name": "Mr Apple Kinross",
+    "owner": "Mark Anderson",
+    "comment": null,
+    "address": 2,
+    "report": null,
+    "landline": null,
+    "mobile": null,
+    "email": null,
+    "folder": null,
+    "created_date": "2019-06-27T21:35:39Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.report",
+  "pk": 1,
+  "fields": {
+    "name": "Test Report",
+    "created_date": "2019-06-24T23:33:20Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.readingtype",
+  "pk": 1,
+  "fields": {
+    "name": "Probe",
+    "comment": null,
+    "formula": null,
+    "created_date": "2019-06-27T22:20:18Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.readingtype",
+  "pk": 2,
+  "fields": {
+    "name": "Full Point",
+    "comment": null,
+    "formula": null,
+    "created_date": "2019-06-27T22:23:37Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.readingtype",
+  "pk": 3,
+  "fields": {
+    "name": "Refill",
+    "comment": null,
+    "formula": null,
+    "created_date": "2019-06-27T22:24:12Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.probe",
+  "pk": 1,
+  "fields": {
+    "serial_number": "607",
+    "comment": "Test for Site 3506 and change of probe",
+    "created_date": "2019-06-28T00:36:49Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.probe",
+  "pk": 2,
+  "fields": {
+    "serial_number": "708",
+    "comment": "For site 3506. This if for very first reading",
+    "created_date": "2019-07-04T19:38:12Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.season",
+  "pk": 1,
+  "fields": {
+    "name": "2018",
+    "period_from": "2018-09-01",
+    "period_to": "2019-08-31",
+    "comment": "2018 NZ Growing Season",
+    "created_date": "2019-07-04T21:11:08Z",
+    "created_by": 1
+  }
+}
+]

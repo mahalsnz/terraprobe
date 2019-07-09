@@ -266,3 +266,55 @@ class Calibration(models.Model):
         soil_type_text = str(self.soil_type)
         period_from_text = str(self.period_from)
         return serial_text + ":" + soil_type_text + ":" + period_from_text
+
+'''
+These are crop coefficients (Kc) from .DWU files are daily water use data.
+The CSV files are:
+
+Day, crop KC
+
+Apples for example - season start is day 0 at a kc of 0.5
+This remains until day 31 when the KC changes to 1.0
+etc, etc
+The number 283 at the start is the beginning day of the season (~Oct 11th)
+
+Grapes.kc is the same different date format.
+It uses the Critical dates (CD) +- days to determine when the kc changes.
+'''
+
+class KCReading(models.Model):
+    crop = models.ForeignKey(Crop, null=False, on_delete=models.CASCADE)
+    period_from = models.DateField(default=timezone.now, null=False)
+    period_to = models.DateField(default=timezone.now, null=False)
+    kc = models.FloatField(null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        crop_text = str(self.crop)
+        period_from_text = str(self.period_from)
+        period_to_text = str(self.period_to)
+        kc_text = str(self.kc)
+        return crop_text + ":" + period_from_text + ":" + period_to_text + ":" + kc_text
+
+'''
+The ET data comes via Hortplus as a daily ET based on a refrence crop (grass)
+
+The ET data from the reference crop is then multiplied by the crop KC (Is different for differnt crops. Have attached 3 examples)
+'''
+
+class ETReading(models.Model):
+    state = models.ForeignKey('address.State', null=False, on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now, null=False)
+    weekly = models.FloatField(null=True, blank=True)
+    daily = models.FloatField(null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        state_text = str(self.state)
+        date_text = str(self.date)
+        daily_text = str(self.daily)
+        return state_text  + ":" + date_text + ":" + daily_text
