@@ -158,9 +158,9 @@
         command: migrate
         app_path: "{{ django_dir }}"
 
-    - name: In test load the test data suite (IncludesCalibrations.json)
+    - name: In test load the test data suite (IncludesPartialKCET.json)
       django_manage:
-        command: loaddata skeleton/dumps/IncludesCalibrations.json
+        command: loaddata skeleton/dumps/IncludesPartialKCET.json
         app_path: "{{ django_dir }}"
 
     - name: runserver on port 8000

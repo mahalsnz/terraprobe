@@ -9,6 +9,14 @@ from .models import Calibration
 from .models import ReadingType
 from .models import Probe
 from .models import Season
+from .models import ETReading
+from .models import KCReading
+
+class KCReadingAdmin(admin.ModelAdmin):
+    list_display = ('crop', 'period_from', 'period_to', 'kc')
+
+class ETReadingAdmin(admin.ModelAdmin):
+    list_display = ('date', 'state', 'daily')
 
 class ReadingAdmin(admin.ModelAdmin):
     list_display = ('site', 'type', 'date', 'depth1')
@@ -63,3 +71,5 @@ admin.site.register(Calibration, CalibrationAdmin)
 admin.site.register(ReadingType, ReadingTypeAdmin)
 admin.site.register(Probe)
 admin.site.register(Season, SeasonAdmin)
+admin.site.register(ETReading, ETReadingAdmin)
+admin.site.register(KCReading, KCReadingAdmin)
