@@ -1,3 +1,52 @@
 from django.db import models
 
-# Create your models here.
+class Farm(models.Model):
+    name = models.CharField(max_length=100, null=False)
+
+    class Meta:
+        managed = False
+        db_table = "graphs_farm"
+
+class Site(models.Model):
+    name = models.CharField(max_length=100, null=False)
+    variety = models.CharField(max_length=100, null=False)
+    season_start = models.DateField()
+    season_end = models.DateField()
+
+    class Meta:
+        managed = False
+        db_table = "graphs_site"
+
+class vsw_reading(models.Model):
+    date = models.DateField(null=False)
+    site = models.ForeignKey(Site, primary_key=True, on_delete=models.CASCADE)
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
+    #crop_id = models.IntegerField()
+    depth1 = models.IntegerField()
+    count1 = models.FloatField()
+    vsw1 = models.FloatField()
+    depth2 = models.IntegerField()
+    count2 = models.FloatField()
+    vsw2 = models.FloatField()
+    depth3 = models.IntegerField()
+    count3 = models.FloatField()
+    vsw3 = models.FloatField()
+    depth4 = models.IntegerField()
+    count4 = models.FloatField()
+    vsw4 = models.FloatField()
+    depth5 = models.IntegerField()
+    count5 = models.FloatField()
+    vsw5 = models.FloatField()
+    depth6 = models.IntegerField()
+    count6 = models.FloatField()
+    vsw6 = models.FloatField()
+    depth7 = models.IntegerField()
+    count7 = models.FloatField()
+    vsw7 = models.FloatField()
+    depth8 = models.IntegerField()
+    count8 = models.FloatField()
+    vsw8 = models.FloatField()
+
+    class Meta:
+        managed = False
+        db_table = "graphs_vsw"
