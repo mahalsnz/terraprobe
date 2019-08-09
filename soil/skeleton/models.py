@@ -206,8 +206,8 @@ class Site(models.Model):
 class Reading(models.Model):
     # Preseume id is site
     site = models.ForeignKey(Site, related_name='readings', on_delete=models.CASCADE)
-    type = models.ForeignKey(ReadingType, null=True, blank=True, on_delete=models.CASCADE)
-    date = models.DateField(default=timezone.now, null=False)
+    type = models.ForeignKey(ReadingType, null=False, on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now, null=True)
 
     depth1 = models.FloatField(null=True, blank=True)
     depth2 = models.FloatField(null=True, blank=True)
@@ -221,7 +221,7 @@ class Reading(models.Model):
     depth10 = models.FloatField(null=True, blank=True)
     depth11 = models.FloatField(null=True, blank=True)
     depth12 = models.FloatField(null=True, blank=True)
-    serial_number = models.ForeignKey(Probe, null=True, blank=True, on_delete=models.CASCADE)
+    serial_number = models.ForeignKey(Probe, null=False, on_delete=models.CASCADE)
 
     rz1 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 1")
     rz2 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 2")

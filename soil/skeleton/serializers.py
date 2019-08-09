@@ -1,7 +1,19 @@
 from rest_framework import serializers
 
-from .models import Report, Season, Farm, Reading, Site, ReadingType
+from .models import Report, Season, Farm, Reading, Site, ReadingType, ETReading, KCReading
 from address.models import Address, Locality, State, Country
+
+class ETReadingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ETReading
+        fields = '__all__'
+
+class KCReadingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = KCReading
+        fields = '__all__'
 
 class CountrySerializer(serializers.ModelSerializer):
 

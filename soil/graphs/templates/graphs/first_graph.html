@@ -38,8 +38,9 @@
 
     d3.json('/skeleton/api/site_reading/' + "{{ site_id }}" + '/?format=json').then(function(data) {
         data.forEach(function(site) {
-            var readings = site.readings;
 
+            var readings = site.readings;
+            console.log(readings);
             readings.forEach(function(reading) {
                 console.log("-------------------------------------------------------------------------------");
                 console.log(reading.type.name);

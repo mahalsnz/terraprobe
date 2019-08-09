@@ -6,6 +6,225 @@
 
 {% block content %}
 
-<h1>VSW Percentage for {{ site_id }} site on ???date</h1>
+<h1>VSW Percentage for {{ site_id }} site on {{ day }}/{{ month }}/{{ year }}</h1>
 
+<script>
+    // Now we will define our date comparison functions. These are callbacks
+    // that we will be providing to the array sort method below.
+    var date_sort_desc = function (date1, date2) {
+      // This is a comparison function that will result in dates being sorted in
+      // DESCENDING order.
+      if (date1 > date2) return -1;
+      if (date1 < date2) return 1;
+      return 0;
+    };
+
+    // assemble date submitted to page. Time does not matter
+    var submitted_date = new Date({{ year }}, ({{ month }} - 1), {{ day }}).toDateString();
+    console.log("Submitted DATE:" + submitted_date);
+
+    // We need to also get the week earliers vsw readings
+
+
+    // set the dimensions and margins of the graph
+    var margin = {top: 40, right: 20, bottom: 30, left: 50},
+    width = 660 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+    // set the ranges
+    var x = d3.scaleLinear().range([0, width]); //vsw (%)
+    var y = d3.scaleLinear().range([0, height]);
+
+    // define the vsw percentage line
+    var vswline = d3.line()
+        .x(function(r) { return x(r.vsw); })
+        .y(function(r) { return y(r.depth); });
+
+    // define previous vsw percentage line
+    var previous_vswline = d3.line()
+        .x(function(r) { return x(r.vsw); })
+        .y(function(r) { return y(r.depth); });
+
+    // define the refill line
+    var refill_line = d3.line()
+        .x(function(r) { return x(r.vsw); })
+        .y(function(r) { return y(r.depth); });
+
+    // define the full point line
+    var full_point_line = d3.line()
+        .x(function(r) { return x(r.vsw); })
+        .y(function(r) { return y(r.depth); });
+
+    var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.rfp_readingsight)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform",
+        "translate(" + margin.left + "," + margin.top + ")");
+
+    var vsw_readings = [];
+    var previous_vsw_readings = [];
+    var full_point_readings = [];
+    var refill_readings = [];
+
+    d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/?format=json').then(function(data) {
+
+        //
+        // Get an array of reading dates in descending order so we can get previous reading as well
+        //
+
+        var date_array = [];
+        data.forEach(function(reading) {
+
+            // Get the reading day.
+            var reading_date = new Date(reading.date);
+            console.log("Reading DATE:" + reading_date);
+
+            // try and sort
+            date_array.push(reading_date);
+            date_array.sort(date_sort_desc);
+        });
+
+        // The two dates needed are the submitted date and the previous date
+        console.log("Date Arr:" + date_array);
+        var this_week_date;
+        var last_week_date
+        for (i = 0; i <= date_array.length; i++) {
+            if (date_array[i].toDateString() == submitted_date) {
+                this_week_date = date_array[i].toDateString();
+                last_week_date = date_array[i + 1].toDateString(); // next date in array is last week (ish)
+                break
+            }
+        }
+        console.log("This Week:" + this_week_date + " Last week:" + last_week_date);
+
+        data.forEach(function(reading) {
+            var reading_date = new Date(reading.date).toDateString();
+            if (this_week_date == reading_date) {
+                for (index = 1; index <= 9; index++) {
+                    if (reading["depth" + index] !== null) {
+                        vsw_readings.push({
+                            'depth' : reading["depth" + index],
+                            'vsw' : reading["vsw" + index],
+                            'count' : reading["count" + index],
+                        })
+                    } else {
+                        console.log("where nul");
+                    }
+                } // end for loop
+            }
+
+            // Get last weeks readings
+            if (last_week_date == reading_date) {
+                for (index = 1; index <= 9; index++) {
+                    if (reading["depth" + index] !== null) {
+                        previous_vsw_readings.push({
+                            'depth' : reading["depth" + index],
+                            'vsw' : reading["vsw" + index],
+                            'count' : reading["count" + index],
+                        })
+                    }
+                } // end for loop
+            }
+
+            // Get the Full Point and Refill - Weirdly these are the count not vsw figures
+            if (reading.reading_type.name == "Full Point") {
+                for (index = 1; index <= 9; index++) {
+                    if (reading["depth" + index] !== null) {
+                        full_point_readings.push({
+                            'depth' : reading["depth" + index],
+                            'vsw' : reading["count" + index],
+                        })
+                    }
+                }
+            }
+
+            if (reading.reading_type.name == "Refill") {
+                for (index = 1; index <= 9; index++) {
+                    if (reading["depth" + index] !== null) {
+                        refill_readings.push({
+                            'depth' : reading["depth" + index],
+                            'vsw' : reading["count" + index],
+                        })
+                    }
+                }
+            }
+        });
+
+        console.log(vsw_readings);
+
+        // Scale the range of the data
+        x.domain([5, 50]);
+        y.domain([d3.min(vsw_readings, function(r) { return r.depth - 5; }), d3.max(vsw_readings, function(r) { return r.depth + 5; })]);
+
+        // Add the lines
+        svg.append("path")
+          .data([vsw_readings])
+          .attr("class", "line")
+          .attr("d", vswline);
+
+        svg.append("path")
+            .data([previous_vsw_readings])
+            .attr("class", "line")
+            .style("stroke-width", "1px")
+            .attr("d", previous_vswline);
+
+        // Add the refill line
+        svg.append("path")
+            .data([refill_readings])
+            .attr("class", "line")
+            .style("stroke", "red")
+            .attr("d", refill_line);
+
+        // Add the full point line
+        svg.append("path")
+            .data([full_point_readings])
+            .attr("class", "line")
+            .style("stroke", "green")
+            .attr("d", full_point_line);
+
+        // Add the scatterplot
+        svg.selectAll("dot")
+          .data(vsw_readings)
+          .enter().append("circle")
+          .attr("r", 5)
+          .attr("cx", function(r) { return x(r.vsw); })
+          .attr("cy", function(r) { return y(r.depth); });
+
+          /* Add the points!
+          var arc = d3.symbol().type(d3.symbolTriangle);
+
+            svg.selectAll("dot")
+                .data(vsw_readings)
+              .enter().append("path")
+                .attr("class", "point")
+                .attr("r", d3.symbolTriangle("triangle-up"))
+                .attr("transform", function(r) { return "translate(" + x(r.x) + "," + y(r.y) + ")"; });*/
+
+        // Add the X Axis
+        svg.append("g")
+            //.attr("transform", "translate(0," + height + ")")
+            .call(d3.axisTop(x));
+
+        svg.append("text")
+            .attr("transform",
+                  "translate(" + (width/2) + " ," +
+                                 (0 - 20) + ")")
+            .text("VSW (%)");
+
+        // Add the Y Axis
+        svg.append("g")
+              .call(d3.axisLeft(y));
+
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Depth (cm)");
+    });
+
+
+</script>
 {% endblock content %}
