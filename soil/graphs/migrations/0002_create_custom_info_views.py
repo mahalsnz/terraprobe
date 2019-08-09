@@ -30,6 +30,13 @@ class Migration(migrations.Migration):
             FROM
                 skeleton_farm;
 
+            CREATE OR REPLACE VIEW graphs_readingtype AS
+            SELECT
+                skeleton_readingtype.id,
+            	skeleton_readingtype.name
+            FROM
+                skeleton_readingtype;
+
             CREATE OR REPLACE VIEW graphs_crop AS
             SELECT
                 skeleton_crop.id,

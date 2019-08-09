@@ -54,7 +54,11 @@ class Migration(migrations.Migration):
 
             	zone8.depth8,
             	zone8.count8,
-            	zone8.vsw8
+            	zone8.vsw8,
+
+                zone9.depth9,
+            	zone9.count9,
+            	zone9.vsw9
             FROM
             (
             	SELECT
@@ -72,9 +76,7 @@ class Migration(migrations.Migration):
             	FROM
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he1
-            	LEFT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
-            	WHERE
-            		skeleton_reading.type_id = 1 -- Probe
+            	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
             ) AS "zone1"
             ---------
             LEFT JOIN
@@ -93,9 +95,7 @@ class Migration(migrations.Migration):
             	FROM
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he2
-            	LEFT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
-            	WHERE
-            		skeleton_reading.type_id = 1 -- Probe
+            	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
             ) AS "zone2"
             ON zone1.date = zone2.date AND zone1.id = zone2.id
             ---------
@@ -115,9 +115,7 @@ class Migration(migrations.Migration):
             	FROM
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he3
-            	LEFT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
-            	WHERE
-            		skeleton_reading.type_id = 1 -- Probe
+            	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
             ) AS "zone3"
             ON zone1.date = zone3.date AND zone1.id = zone3.id
             ---------
@@ -137,9 +135,7 @@ class Migration(migrations.Migration):
             	FROM
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he4
-            	LEFT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
-            	WHERE
-            		skeleton_reading.type_id = 1 -- Probe
+            	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
             ) AS "zone4"
             ON zone1.date = zone4.date AND zone1.id = zone4.id
             ---------
@@ -159,9 +155,7 @@ class Migration(migrations.Migration):
             	FROM
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he5
-            	LEFT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
-            	WHERE
-            		skeleton_reading.type_id = 1 -- Probe
+            	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
             ) AS "zone5"
             ON zone1.date = zone5.date AND zone1.id = zone5.id
             ---------
@@ -181,9 +175,7 @@ class Migration(migrations.Migration):
             	FROM
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he6
-            	LEFT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
-            	WHERE
-            		skeleton_reading.type_id = 1 -- Probe
+            	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
             ) AS "zone6"
             ON zone1.date = zone6.date AND zone1.id = zone6.id
             ---------
@@ -203,9 +195,7 @@ class Migration(migrations.Migration):
             	FROM
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he7
-            	LEFT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
-            	WHERE
-            		skeleton_reading.type_id = 1 -- Probe
+            	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
             ) AS "zone7"
             ON zone1.date = zone7.date AND zone1.id = zone7.id
             ---------
@@ -226,10 +216,28 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he8
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
-            	WHERE
-            		skeleton_reading.type_id = 1 -- Probe
             ) AS "zone8"
             ON zone1.date = zone8.date AND zone1.id = zone8.id
+            ---------
+            LEFT JOIN
+            --------
+            (
+            	SELECT
+            		skeleton_reading.date,
+            		skeleton_site.id,
+            		skeleton_reading.type_id,
+            		skeleton_site.depth9,
+
+            		skeleton_reading.depth8 AS count9,
+            		skeleton_calibration.slope AS slope9,
+            		skeleton_calibration.intercept AS intercept9,
+            		skeleton_reading.depth8 * skeleton_calibration.slope + skeleton_calibration.intercept AS vsw9
+            	FROM
+            		skeleton_site
+            	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he9
+            	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+            ) AS "zone9"
+            ON zone1.date = zone9.date AND zone1.id = zone9.id
 '''
 
         )

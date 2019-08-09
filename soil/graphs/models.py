@@ -17,10 +17,18 @@ class Site(models.Model):
         managed = False
         db_table = "graphs_site"
 
+class ReadingType(models.Model):
+    name = models.CharField(max_length=100, null=False)
+
+    class Meta:
+        managed = False
+        db_table = "graphs_readingtype"
+
 class vsw_reading(models.Model):
     date = models.DateField(null=False)
     site = models.ForeignKey(Site, primary_key=True, on_delete=models.CASCADE)
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
+    reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
     #crop_id = models.IntegerField()
     depth1 = models.IntegerField()
     count1 = models.FloatField()
@@ -46,6 +54,9 @@ class vsw_reading(models.Model):
     depth8 = models.IntegerField()
     count8 = models.FloatField()
     vsw8 = models.FloatField()
+    depth9 = models.IntegerField()
+    count9 = models.FloatField()
+    vsw9 = models.FloatField()
 
     class Meta:
         managed = False
