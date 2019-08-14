@@ -17,11 +17,10 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('skeleton/', include('skeleton.urls')),
+    path('', include('skeleton.urls')),
     path('admin/', admin.site.urls),
     path('graphs/', include('graphs.urls')),
 ]
-
 
 admin.site.site_header = "Fruition Soil Moisture Administration"
 admin.site.site_title = "Fruition Soil Moisture Administration Portal"

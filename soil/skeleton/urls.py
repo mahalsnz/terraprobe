@@ -1,14 +1,17 @@
 from django.urls import path
 
+from .views import IndexView
 from . import views
 
 from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
 , FarmList, FarmDetail, ReadingDetail, ReadingList, SiteReadingList, SiteList, SiteDetail
 
-app_name = 'skeleton'
+#app_name = 'skeleton'
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', IndexView.as_view(), name='home'),
+    path('simple/', views.simple_upload, name='simple_upload'),
+    path('model/', views.model_form_upload, name='model_upload'),
     path("api/report/", ReportList.as_view(), name="reports_list"),
     path("api/report/<int:pk>/", ReportDetail.as_view(), name="reports_detail"),
     path("api/season/", SeasonList.as_view(), name="seasons_list"),
