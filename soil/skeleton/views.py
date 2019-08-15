@@ -6,14 +6,14 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+# Get an instance of a logger
+import logging
+logger = logging.getLogger(__name__)
 
 from .forms import DocumentForm
 
 class IndexView(TemplateView):
     template_name = 'index.html'
-    #template = loader.get_template('skeleton/index.html')
-    #context = {}
-    #return HttpResponse(template.render(context, request))
 
 def simple_upload(request):
     template = loader.get_template('simple_upload.html')
@@ -27,17 +27,35 @@ def simple_upload(request):
         })
     return render(request, 'simple_upload.html')
 
+# Upload and process PSD files
 def model_form_upload(request):
+    data = {}
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            logger.error("*******saved file*****")
+            handle_files(request.FILES['document'])
+            return redirect('model_upload')
     else:
         form = DocumentForm()
     return render(request, 'model_form_upload.html', {
         'form': form
     })
+
+def handle_files(f):
+    # File saved. Now try and process it
+    try:
+        logger.error("*******processing file*****")
+        logger.error(f)
+
+        file_data = f.read().decode("utf-8")
+        logger.error(file_data)
+        lines = file_data.split("\n")
+        for line in lines:
+            logger.error(line)
+    except Exception as e:
+        logger.error(e)
 
 
 
