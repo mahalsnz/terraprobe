@@ -45,17 +45,24 @@ def model_form_upload(request):
 
 def handle_files(f):
     # File saved. Now try and process it
+    file_data = ""
     try:
         logger.error("*******processing file*****")
         logger.error(f)
 
-        file_data = f.read().decode("utf-8")
-        logger.error(file_data)
-        lines = file_data.split("\n")
-        for line in lines:
-            logger.error(line)
+        file_data
+        for chunk in f.chunks():
+            #logger.error(chunk.decode("utf-8"))
+            file_data = file_data + chunk.decode("utf-8")
+        #file_data = f.read().decode("utf-8")
+        #logger.error(file_data)
+        #lines = file_data.split("\n")
+        #for line in lines:
+        #    logger.error(line)
     except Exception as e:
         logger.error(e)
+    finally:
+        logger.error(file_data)
 
 
 

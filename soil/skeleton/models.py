@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericRelation
 
 import datetime
 
@@ -26,16 +29,6 @@ class Season(models.Model):
 
     def __str__(self):
         return self.name
-
-class Probe(models.Model):
-    serial_number = models.CharField(max_length=100, null=False, default="Manual")
-    comment = models.CharField(max_length=200, null=True, blank=True)
-
-    created_date = models.DateTimeField('date published', default=timezone.now)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
-
-    def __str__(self):
-        return self.serial_number
 
 class ReadingType(models.Model):
     name = models.CharField(max_length=100, null=False)
@@ -207,6 +200,53 @@ class Site(models.Model):
     def __str__(self):
         return self.name
 
+class Diviner(models.Model):
+    diviner_number = models.CharField(max_length=50, null=False)
+    site = models.ForeignKey(Site, null=True, blank=True, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=100, null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return self.diviner_number
+
+class Probe(models.Model):
+    serial_number = models.CharField(max_length=100, null=False, default="Manual")
+    comment = models.CharField(max_length=200, null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return self.serial_number
+
+class ProbeDiviner(models.Model):
+    probe = models.ForeignKey(Probe, null=False, on_delete=models.CASCADE)
+    diviner = models.ForeignKey(Diviner, null=False, blank=True, on_delete=models.CASCADE)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return str(self.probe) + ":" + str(self.diviner)
+
+class Calibration(models.Model):
+    serial_number = models.ForeignKey(Probe, null=True, blank=True, on_delete=models.CASCADE)
+    soil_type = models.IntegerField(null=True, blank=True)
+    period_from = models.DateField(default=timezone.now, null=False)
+    period_to = models.DateField(null=True, blank=True)
+    slope = models.FloatField(null=True, blank=True)
+    intercept = models.FloatField(null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        serial_text = str(self.serial_number.serial_number)
+        soil_type_text = str(self.soil_type)
+        period_from_text = str(self.period_from)
+        return serial_text + ":" + soil_type_text + ":" + period_from_text
 
 #Site ID,Selected,Date,Type,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,SN,RZ1,RZ2,RZ3,DEFICIT,PDWU,EDWU,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,k16,Comment3
 class Reading(models.Model):
@@ -227,7 +267,7 @@ class Reading(models.Model):
     depth10 = models.FloatField(null=True, blank=True)
     depth11 = models.FloatField(null=True, blank=True)
     depth12 = models.FloatField(null=True, blank=True)
-    serial_number = models.ForeignKey(Probe, null=False, default=3, on_delete=models.CASCADE)
+    serial_number = models.ForeignKey(Probe, null=True,  blank=True, on_delete=models.CASCADE)
 
     rz1 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 1")
     rz2 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 2")
@@ -255,23 +295,6 @@ class Reading(models.Model):
     def __str__(self):
         site_text = self.site.name
         return site_text + ':' + self.date.strftime('%Y-%m-%d')
-
-class Calibration(models.Model):
-    serial_number = models.ForeignKey(Probe, null=True, blank=True, on_delete=models.CASCADE)
-    soil_type = models.IntegerField(null=True, blank=True)
-    period_from = models.DateField(default=timezone.now, null=False)
-    period_to = models.DateField(null=True, blank=True)
-    slope = models.FloatField(null=True, blank=True)
-    intercept = models.FloatField(null=True, blank=True)
-
-    created_date = models.DateTimeField('date published', default=timezone.now)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
-
-    def __str__(self):
-        serial_text = str(self.serial_number.serial_number)
-        soil_type_text = str(self.soil_type)
-        period_from_text = str(self.period_from)
-        return serial_text + ":" + soil_type_text + ":" + period_from_text
 
 '''
 These are crop coefficients (Kc) from .DWU files are daily water use data.
