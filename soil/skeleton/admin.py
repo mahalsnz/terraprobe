@@ -11,6 +11,14 @@ from .models import Probe
 from .models import Season
 from .models import ETReading
 from .models import KCReading
+from .models import Diviner
+from .models import ProbeDiviner
+
+class ProbeDivinerAdmin(admin.ModelAdmin):
+    list_display = ('probe', 'diviner')
+
+class DivinerAdmin(admin.ModelAdmin):
+    list_display = ('diviner_number', 'site')
 
 class KCReadingAdmin(admin.ModelAdmin):
     list_display = ('crop', 'period_from', 'period_to', 'kc')
@@ -37,7 +45,7 @@ class FarmAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('farm', 'name')
+    list_display = ('id', 'farm', 'name')
     fieldsets = [
         ('Main',        {'fields': ['farm','name','variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
@@ -53,7 +61,7 @@ class SiteAdmin(admin.ModelAdmin):
 class CropAdmin(admin.ModelAdmin):
     list_display = ['name']
     fieldsets = [
-        ('Main',        {'fields': ['name', 'report','dwu_formaula', 'created_date', 'created_by']}),
+        ('Main',        {'fields': ['naskeleton/migrations/0006_auto_20190822_0916.pyme', 'report','dwu_formaula', 'created_date', 'created_by']}),
         ('Dates',       {'fields': ['season_start',('critical_label1','critical_date1'), ('critical_label2','critical_date2'), ('critical_label3','critical_date3'),
                                     ('critical_label4','critical_date4'), ('critical_label5','critical_date5'), ('critical_label6','critical_date6'),'season_end'],'classes': ['collapse']}),
         ('Irrigations', {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position',
@@ -62,6 +70,9 @@ class CropAdmin(admin.ModelAdmin):
     ]
     radio_fields = {'irrigation_method': admin.HORIZONTAL}
 
+class ProbeAdmin(admin.ModelAdmin):
+    list_display = ['serial_number']
+
 admin.site.register(Site, SiteAdmin)
 admin.site.register(Farm, FarmAdmin)
 admin.site.register(Crop, CropAdmin)
@@ -69,7 +80,9 @@ admin.site.register(Reading, ReadingAdmin)
 admin.site.register(Report)
 admin.site.register(Calibration, CalibrationAdmin)
 admin.site.register(ReadingType, ReadingTypeAdmin)
-admin.site.register(Probe)
+admin.site.register(Probe, ProbeAdmin)
 admin.site.register(Season, SeasonAdmin)
 admin.site.register(ETReading, ETReadingAdmin)
 admin.site.register(KCReading, KCReadingAdmin)
+admin.site.register(Diviner, DivinerAdmin)
+admin.site.register(ProbeDiviner, ProbeDivinerAdmin)
