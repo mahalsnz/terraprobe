@@ -31,15 +31,20 @@ def simple_upload(request):
         })#
     return render(request, 'simple_upload.html')
 
-# Upload and process PSD files
+'''
+    model_form_upload - For processing Probe and Diviner files
+'''
+
 def model_form_upload(request):
     data = {}
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
+        logger.error(request.POST)
         if form.is_valid():
+            filetype = request.POST['filetype']
             form.save()
             logger.error("*******saved file*****")
-            handle_files(request.FILES['document'])
+            handle_file(request.FILES['document'], filetype)
             return redirect('model_upload')
     else:
         form = DocumentForm()
@@ -47,25 +52,32 @@ def model_form_upload(request):
         'form': form#
     })
 
-def handle_files(f):
+'''
+    handle_file - Generic file handler to create a data file as it is uploaded through a web form
+'''
+
+def handle_file(f, type):
     # File saved. Now try and process it
     file_data = ""
     try:
         logger.error("*******processing file*****")
-
         for chunk in f.chunks():
             #logger.error(chunk.decode("utf-8"))
             file_data = file_data + chunk.decode("utf-8")
-        #file_data = f.read().decode("utf-8")
-        #logger.error(file_data)
-        #lines = file_data.split("\n")
-        #for line in lines:
-        #    logger.error(line)
     except Exception as e:
         logger.error(e)
-    #finally:
-        #logger.error(file_data)
+    finally:
+        # Call different handlers
+        if type == 'probe':
+            handle_probe_file(file_data)
+        else:
+            handle_diviner_file(file_data)
+'''
+    handle_probe_file
+'''
 
+def handle_probe_file(file_data):
+    logger.error("Handling Probe")
     # process
     lines = file_data.split("\n")
     logger.error("Serial Line:" + lines[1])
@@ -74,7 +86,6 @@ def handle_files(f):
     logger.error("Serial Number:" + serialnumber)
 
     # TODO: Serial Number lookup for site id
-
 
     data = {}
     for line in lines:
@@ -110,11 +121,13 @@ def handle_files(f):
                 logger.error('request response' + r.text)
                 data = {}
 
+'''
+    handle_diviner_file
+'''
 
+def handle_diviner_file(datafile):
+    logger.error("Handling Diviner")
 
-
-
-    #r = requests.post('https://httpbin.org/post', data = {'key':'value'})
 
 
 
