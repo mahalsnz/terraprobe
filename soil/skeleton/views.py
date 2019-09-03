@@ -15,6 +15,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from .forms import DocumentForm#
+from datetime import datetime
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -83,7 +84,8 @@ def handle_probe_file(file_data):
     logger.error("Serial Line:" + lines[1])
     serialfields = lines[1].split(",")
     serialnumber = serialfields[1]
-    logger.error("Serial Number:" + serialnumber)
+    serialnumber_formatted = serialnumber.lstrip("0")
+    logger.error("Serial Number:" + serialnumber_formatted)
 
     # TODO: Serial Number lookup for site id
 
@@ -102,13 +104,15 @@ def handle_probe_file(file_data):
                 date_raw = str(readingfields[10])
                 datefields = date_raw.split("_")
                 date = datefields[0]
+                date_object = datetime.strptime(date, '%m/%d/%y') # American
+                date_formatted = date_object.strftime('%Y-%m-%d')
                 logger.error("Date:" + date)
                 data['depth1'] = str(readingfields[6])
-                data['date'] = date
+                data['date'] = date_formatted
                 data['created_by'] = '2'
                 data['site'] = '3'
-                data['serial_number'] = serialnumber
-                data['type'] = 1
+                data['serial_number'] = '1'
+                data['type'] = '1'
                 #data['created_date'] = "2019-08-22T14:06:51.521917+12:00"
             else:
                 #depthkey = 'depth' + str(readingfields[0])

@@ -58,6 +58,7 @@ class SiteAdmin(admin.ModelAdmin):
             'classes': ['collapse']}),
     ]
     radio_fields = {'irrigation_method': admin.HORIZONTAL}
+
 class CropAdmin(admin.ModelAdmin):
     list_display = ['name']
     fieldsets = [

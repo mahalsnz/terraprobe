@@ -54,7 +54,6 @@ class Report(models.Model):
 class Farm(models.Model):
     name = models.CharField(max_length=100, null=False)
     owner = models.CharField(max_length=100, null=False, default="TEST")
-    attn = models.ForeignKey(User, null=True, blank=True, related_name="attn_user", on_delete=models.CASCADE)
 
     comment = models.CharField(max_length=200, null=True, blank=True)
 
