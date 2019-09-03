@@ -53,7 +53,9 @@ class Report(models.Model):
 #ID,FARMNUMBER,FARMNAME,FarmOwner,Comment,Address1,Address2,Town,State,PostCode,Country,Tel,Tel2,Fax,Mobile,Email,FARMREPORT,Folder,FLATITUDE,FLONGITUDE,MapFile,RegionID,UserName,Password
 class Farm(models.Model):
     name = models.CharField(max_length=100, null=False)
-    owner = models.CharField(max_length=100, null=True, blank=True)
+    owner = models.CharField(max_length=100, null=False, default="TEST")
+    attn = models.ForeignKey(User, null=True, blank=True, related_name="attn_user", on_delete=models.CASCADE)
+
     comment = models.CharField(max_length=200, null=True, blank=True)
 
     address = models.ForeignKey('address.Address', null=True, on_delete=models.CASCADE)

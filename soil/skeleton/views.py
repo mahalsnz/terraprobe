@@ -77,7 +77,7 @@ def handle_file(f, type):
 '''
 
 def handle_probe_file(file_data):
-    logger.error("Handling Probe")
+    logger.error("****Handling Probe")
     # process
     lines = file_data.split("\n")
     logger.error("Serial Line:" + lines[1])

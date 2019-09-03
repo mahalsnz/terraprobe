@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'skeleton.apps.SkeletonConfig',
     'graphs.apps.GraphsConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

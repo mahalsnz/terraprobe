@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
     <form method="post" enctype="multipart/form-data">{% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         Probe:<input type = "radio" name = "filetype" id = "probe" value = "probe" checked = "checked" />
         Diviner:<input type = "radio" name = "filetype" id = "diviner" value = "diviner" />
-        <button type="submit">Upload</button>
+        <button class="btn btn-outline-primary" type="submit">Upload</button>
     </form>
 {% endblock %}
