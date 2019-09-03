@@ -108,6 +108,8 @@
         - django-address
         - djangorestframework
         - rest-pandas
+        - requests
+        - django-crispy-forms
 
     - name: Ensure PostgreSQL database is initialized.
       command: postgresql-setup initdb

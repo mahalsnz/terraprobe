@@ -61,7 +61,7 @@ class SiteAdmin(admin.ModelAdmin):
 class CropAdmin(admin.ModelAdmin):
     list_display = ['name']
     fieldsets = [
-        ('Main',        {'fields': ['naskeleton/migrations/0006_auto_20190822_0916.pyme', 'report','dwu_formaula', 'created_date', 'created_by']}),
+        ('Main',        {'fields': ['name', 'report','dwu_formaula', 'created_date', 'created_by']}),
         ('Dates',       {'fields': ['season_start',('critical_label1','critical_date1'), ('critical_label2','critical_date2'), ('critical_label3','critical_date3'),
                                     ('critical_label4','critical_date4'), ('critical_label5','critical_date5'), ('critical_label6','critical_date6'),'season_end'],'classes': ['collapse']}),
         ('Irrigations', {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position',

@@ -3,9 +3,10 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
         {{ form|crispy }}
-    <button class="btn btn-outline-primary" type="submit">Upload</button>
+        Probe:<input type = "radio" name = "filetype" id = "probe" value = "probe" checked = "checked" />
+        Diviner:<input type = "radio" name = "filetype" id = "diviner" value = "diviner" />
+        <button class="btn btn-outline-primary" type="submit">Upload</button>
     </form>
 {% endblock %}
