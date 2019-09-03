@@ -5,8 +5,12 @@
 {% block content %}
 
 <h1>VSW Percentage for {{ site_id }} site on {{ day }}/{{ month }}/{{ year }}</h1>
-
+<div id="area1"></div>
+<div id="area2"></div>
 <script>
+    // parse the date / time
+    var parseTime = d3.timeParse("%Y-%m-%d");
+
     // Now we will define our date comparison functions. These are callbacks
     // that we will be providing to the array sort method below.
     var date_sort_desc = function (date1, date2) {
@@ -19,24 +23,34 @@
 
     // assemble date submitted to page. Time does not matter
     var submitted_date = new Date({{ year }}, ({{ month }} - 1), {{ day }}).toDateString();
-    console.log("Submitted DATE:" + submitted_date);
+    //console.log("***Submitted DATE:" + submitted_date);
 
-    // We need to also get the week earliers vsw readings
+    // set the dimensions and margins of the weekly graph
+    var margin = {top: 40, right: 20, bottom: 30, left: 50};
+    width = 660 - margin.left - margin.right;
+    height = 400 - margin.top - margin.bottom;
 
+    // set the dimensions and margins of the season graph
+    //var season_margin = {top: 500, right: 20, bottom: 30, left: 50};
+    season_width = 1800 - margin.left - margin.right;
+    season_height = 500 - margin.top - margin.bottom;
 
-    // set the dimensions and margins of the graph
-    var margin = {top: 40, right: 20, bottom: 30, left: 50},
-    width = 660 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-    // set the ranges
+    // set the weekly ranges
     var x = d3.scaleLinear().range([0, width]); //vsw (%)
     var y = d3.scaleLinear().range([0, height]);
+
+    // set the season ranges
+    var seasonx = d3.scaleTime().range([0, season_width]); //date
+    var seasony = d3.scaleLinear().range([season_height, 0]);
 
     // define the vsw percentage line
     var vswline = d3.line()
         .x(function(r) { return x(r.vsw); })
         .y(function(r) { return y(r.depth); });
+
+    var season_vswline = d3.line()
+        .x(function(r) { return seasonx(r.date); })
+        .y(function(r) { return seasony(r.total); });
 
     // define previous vsw percentage line
     var previous_vswline = d3.line()
@@ -53,17 +67,29 @@
         .x(function(r) { return x(r.vsw); })
         .y(function(r) { return y(r.depth); });
 
-    var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.rfp_readingsight)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
+    var weekly_graph = d3.select("#area1").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
 
+    var season_graph = d3.select("#area2").append("svg")
+        .attr("width", season_width + margin.left + margin.right)
+        .attr("height", season_height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+    // Weeks readings arrays
     var vsw_readings = [];
     var previous_vsw_readings = [];
     var full_point_readings = [];
     var refill_readings = [];
+
+    // Seasons readings arrays
+    var seasons_vsw_readings = [];
+    vsw_count = 9; // delivered by vsw_reading api
 
     d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/?format=json').then(function(data) {
 
@@ -76,7 +102,7 @@
 
             // Get the reading day.
             var reading_date = new Date(reading.date);
-            console.log("Reading DATE:" + reading_date);
+            //console.log("***Reading DATE:" + reading_date);
 
             // try and sort
             date_array.push(reading_date);
@@ -86,7 +112,7 @@
         // The two dates needed are the submitted date and the previous date
         console.log("Date Arr:" + date_array);
         var this_week_date;
-        var last_week_date
+        var last_week_date;
         for (i = 0; i <= date_array.length; i++) {
             if (date_array[i].toDateString() == submitted_date) {
                 this_week_date = date_array[i].toDateString();
@@ -98,8 +124,25 @@
 
         data.forEach(function(reading) {
             var reading_date = new Date(reading.date).toDateString();
+            var vsw_total = 0;
+
+            /* get seasons_vsw readings */
+            if (reading.reading_type.name == "Probe") {
+                for (index = 1; index <= vsw_count; index++) {
+                    if (reading["vsw" + index] !== null) {
+                        vsw_total = reading["vsw" + index] + vsw_total;
+                    }
+                }
+                parsed_date = parseTime(reading.date);
+                seasons_vsw_readings.push({
+                    'date' : parsed_date,
+                    'total' : vsw_total,
+                });
+                console.log("***Season VSW Totals:" + reading_date + " " + vsw_total );
+            }
+
             if (this_week_date == reading_date) {
-                for (index = 1; index <= 9; index++) {
+                for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
                         vsw_readings.push({
                             'depth' : reading["depth" + index],
@@ -107,14 +150,14 @@
                             'count' : reading["count" + index],
                         })
                     } else {
-                        console.log("where nul");
+                        console.log("where null");
                     }
                 } // end for loop
             }
 
             // Get last weeks readings
             if (last_week_date == reading_date) {
-                for (index = 1; index <= 9; index++) {
+                for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
                         previous_vsw_readings.push({
                             'depth' : reading["depth" + index],
@@ -127,7 +170,7 @@
 
             // Get the Full Point and Refill - Weirdly these are the count not vsw figures
             if (reading.reading_type.name == "Full Point") {
-                for (index = 1; index <= 9; index++) {
+                for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
                         full_point_readings.push({
                             'depth' : reading["depth" + index],
@@ -138,7 +181,7 @@
             }
 
             if (reading.reading_type.name == "Refill") {
-                for (index = 1; index <= 9; index++) {
+                for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
                         refill_readings.push({
                             'depth' : reading["depth" + index],
@@ -150,77 +193,89 @@
         });
 
         console.log(vsw_readings);
+        console.log(seasons_vsw_readings)
 
         // Scale the range of the data
         x.domain([5, 50]);
         y.domain([d3.min(vsw_readings, function(r) { return r.depth - 5; }), d3.max(vsw_readings, function(r) { return r.depth + 5; })]);
 
+        seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
+        seasony.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 5; }), d3.max(seasons_vsw_readings, function(d) { return d.total + 5; })]);
+
         // Add the lines
-        svg.append("path")
+        weekly_graph.append("path")
           .data([vsw_readings])
           .attr("class", "line")
           .attr("d", vswline);
 
-        svg.append("path")
+        season_graph.append("path")
+            .data([seasons_vsw_readings])
+            .attr("class", "line")
+            .attr("d", season_vswline);
+
+        weekly_graph.append("path")
             .data([previous_vsw_readings])
             .attr("class", "line")
             .style("stroke-width", "1px")
             .attr("d", previous_vswline);
 
         // Add the refill line
-        svg.append("path")
+        weekly_graph.append("path")
             .data([refill_readings])
             .attr("class", "line")
             .style("stroke", "red")
             .attr("d", refill_line);
 
         // Add the full point line
-        svg.append("path")
+        weekly_graph.append("path")
             .data([full_point_readings])
             .attr("class", "line")
             .style("stroke", "green")
             .attr("d", full_point_line);
 
         // Add the scatterplot
-        svg.selectAll("dot")
+        weekly_graph.selectAll("dot")
           .data(vsw_readings)
           .enter().append("circle")
           .attr("r", 5)
           .attr("cx", function(r) { return x(r.vsw); })
           .attr("cy", function(r) { return y(r.depth); });
 
-          /* Add the points!
-          var arc = d3.symbol().type(d3.symbolTriangle);
-
-            svg.selectAll("dot")
-                .data(vsw_readings)
-              .enter().append("path")
-                .attr("class", "point")
-                .attr("r", d3.symbolTriangle("triangle-up"))
-                .attr("transform", function(r) { return "translate(" + x(r.x) + "," + y(r.y) + ")"; });*/
-
         // Add the X Axis
-        svg.append("g")
+        weekly_graph.append("g")
             //.attr("transform", "translate(0," + height + ")")
             .call(d3.axisTop(x));
 
-        svg.append("text")
+        weekly_graph.append("text")
             .attr("transform",
                   "translate(" + (width/2) + " ," +
                                  (0 - 20) + ")")
             .text("VSW (%)");
 
         // Add the Y Axis
-        svg.append("g")
+        weekly_graph.append("g")
               .call(d3.axisLeft(y));
 
-        svg.append("text")
+        weekly_graph.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", 0 - margin.left)
             .attr("x", 0 - (height / 2))
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text("Depth (cm)");
+
+        // Season_Graph X Axis
+        season_graph.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(0," + season_height + ")")
+            .call(d3.axisBottom(seasonx)
+                .ticks(d3.timeWeek.every(1))
+                .tickFormat(d3.timeFormat("%d-%m")));
+
+        // Add the Y Axis
+        season_graph.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(seasony));
     });
 
 
