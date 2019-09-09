@@ -45,24 +45,29 @@ def model_form_upload(request):
         form = DocumentForm(request.POST, request.FILES)
         logger.error(request.POST)
         if form.is_valid():
-            filetype = request.POST['filetype']
             form.save()
             logger.error("*******saved file*****")
-            handle_file(request.FILES['document'], filetype)
-            messages.error(request, "Your error message")
-            return redirect('model_upload')
+            try:
+                handle_file(request)
+            except Exception as e:
+                messages.error(request, e)
+            finally:
+                return redirect('model_upload')
     else:
         form = DocumentForm()
     return render(request, 'model_form_upload.html', {
-        'form': form#
+        'form': form,
     })
 
 '''
     handle_file - Generic file handler to create a data file as it is uploaded through a web form
 '''
 
-def handle_file(f, type):
+def handle_file(request):
     # File saved. Now try and process it
+    f = request.FILES['document']
+    type = request.POST['filetype']
+
     file_data = ""
     try:
         logger.error("*******processing file*****")
@@ -73,9 +78,9 @@ def handle_file(f, type):
     finally:
         # Call different handlers
         if type == 'probe':
-            handle_probe_file(file_data)
+            handle_probe_file(file_data, request)
         else:
-            handle_diviner_file(file_data)
+            handle_diviner_file(file_data, request)
 '''
     handle_probe_file
 
@@ -105,7 +110,7 @@ def handle_file(f, type):
     }
 '''
 
-def handle_probe_file(file_data):
+def handle_probe_file(file_data, request):
     logger.error("****Handling Probe")
     # process
     lines = file_data.split("\n")
@@ -116,8 +121,9 @@ def handle_probe_file(file_data):
     logger.error("Serial Number:" + serialnumber_formatted)
 
     # TODO: Check Serial Number exists and return error message if it has not and then get the serial number unique id and then
-    serialnumber_exists = Probe.objects.filter(serial_number=serialnumber_formatted).count()
-    logger.error("Serial Number exists:" + str(serialnumber_exists))
+    if not Probe.objects.filter(serial_number=serialnumber_formatted).exists():
+        raise Exception("Serial Number:" + serialnumber_formatted + " does not exist.")
+    p = Probe.objects.get(serial_number=serialnumber_formatted)
 
     # Variable for loop
     data = {}
@@ -166,13 +172,13 @@ def handle_probe_file(file_data):
     logger.error("Outside of Loop:")
     data[key].append(readings) # Always insert last reading
     logger.error("Final Data:" + str(data))
-    process_probe_data(data, serialnumber_formatted)
+    process_probe_data(data, p.id, request)
 
 '''
     process_probe_data
 '''
 
-def process_probe_data(readings, serialnumber):
+def process_probe_data(readings, serial_unique_id, request):
 
     for key, site_info in readings.items():
         # Firstly we total up each site-dates readings
@@ -203,7 +209,7 @@ def process_probe_data(readings, serialnumber):
         data['date'] = split_key[1]
         data['created_by'] = '2'
         data['site'] = '3'
-        data['serial_number'] = '1'
+        data['serial_number'] = serial_unique_id
         data['type'] = '1'
 
         for index in range(len(averaged_totals)):
@@ -214,8 +220,9 @@ def process_probe_data(readings, serialnumber):
         if data:
             # TODO: Add unique key on readings table for date, reading_type and site
             logger.error("Post data if something in data" + str(data))
+            host = request.get_host()
             headers = {'contentType': 'application/json'}
-            r = requests.post('http://127.0.0.1:8000/api/reading/', headers=headers, data=data)
+            r = requests.post('http://' + host + '/api/reading/', headers=headers, data=data)
             logger.error('request response' + r.text)
             data = {}
 
