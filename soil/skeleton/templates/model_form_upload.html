@@ -3,6 +3,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <form method="post" enctype="multipart/form-data">{% csrf_token %}
         {{ form|crispy }}
         Probe:<input type = "radio" name = "filetype" id = "probe" value = "probe" checked = "checked" />
