@@ -6,6 +6,9 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
+
+from .models import Probe
 
 import re
 import requests
@@ -46,6 +49,7 @@ def model_form_upload(request):
             form.save()
             logger.error("*******saved file*****")
             handle_file(request.FILES['document'], filetype)
+            messages.error(request, "Your error message")
             return redirect('model_upload')
     else:
         form = DocumentForm()
@@ -63,7 +67,6 @@ def handle_file(f, type):
     try:
         logger.error("*******processing file*****")
         for chunk in f.chunks():
-            #logger.error(chunk.decode("utf-8"))
             file_data = file_data + chunk.decode("utf-8")
     except Exception as e:
         logger.error(e)
@@ -75,6 +78,31 @@ def handle_file(f, type):
             handle_diviner_file(file_data)
 '''
     handle_probe_file
+
+    Structure of data we are creating
+
+    data = {
+        '3306,28-5-2019' : [
+            # First reading (of usually 3)
+            [
+                3456, # First HA (depth reading) This is reversed and first HA will actually be deepest depth
+                1111,
+                1234
+            ],
+            # Second reading
+            [
+                1,
+                1,
+                4
+            ]
+            # Third reading
+            [
+                1234,
+                515342,
+                341234
+            ]
+        ]
+    }
 '''
 
 def handle_probe_file(file_data):
@@ -87,43 +115,111 @@ def handle_probe_file(file_data):
     serialnumber_formatted = serialnumber.lstrip("0")
     logger.error("Serial Number:" + serialnumber_formatted)
 
-    # TODO: Serial Number lookup for site id
+    # TODO: Check Serial Number exists and return error message if it has not and then get the serial number unique id and then
+    serialnumber_exists = Probe.objects.filter(serial_number=serialnumber_formatted).count()
+    logger.error("Serial Number exists:" + str(serialnumber_exists))
 
+    # Variable for loop
     data = {}
+    date_formatted = None
+    site = None
+    readings = []
+
     for line in lines:
-        digit = re.search("^\d", line)
-
-        if digit:
-            # If one is first element we have a new reading record
-            readingfields = line.split(",")
-
-            #logger.error("Depth:" + str(readingfields[0]))
-            if int(readingfields[0]) == 1:
-                logger.error("create new record:" + str(data))
+        # If Note, grab the site_id
+        note = re.search("^Note,\d+", line)
+        reading = re.search("^\d.*", line)
+        if note:
+            logger.error("***We have a note line:" + line)
+            site_line = line.split(",")
+            site = site_line[1].rstrip()
+            logger.error("Site Id:" + str(site))
+        if reading:
+            logger.error("***We have a reading line:" + line)
+            reading_line = line.split(",")
+            logger.error("***First element of reading line" + reading_line[0])
+            if reading_line[0] == "1":
                 # Get date part from first depth is fine. Comes in as DD/MM/YY_crap get before underscore
-                date_raw = str(readingfields[10])
+                date_raw = str(reading_line[10])
                 datefields = date_raw.split("_")
                 date = datefields[0]
                 date_object = datetime.strptime(date, '%m/%d/%y') # American
                 date_formatted = date_object.strftime('%Y-%m-%d')
-                logger.error("Date:" + date)
-                data['depth1'] = str(readingfields[6])
-                data['date'] = date_formatted
-                data['created_by'] = '2'
-                data['site'] = '3'
-                data['serial_number'] = '1'
-                data['type'] = '1'
-                #data['created_date'] = "2019-08-22T14:06:51.521917+12:00"
-            else:
-                #depthkey = 'depth' + str(readingfields[0])
-                data['depth' + str(readingfields[0])] = str(readingfields[6])
+
+                key = site.rstrip() + "," + date_formatted
+                logger.error("Key:" + key)
+
+                if key in data:
+                    logger.error("Key exists:")
+                    data[key].append(readings)
+                    readings = []
+                else :
+                    logger.error("No Key does not exect:")
+                    data[key] = []
+            readings.append(reading_line[6])
+            logger.error("Data:" + str(data))
         else:
-            if data:
-                logger.error("Post data if something in data" + str(data))
-                headers = {'contentType': 'application/json'}
-                r = requests.post('http://127.0.0.1:8000/api/reading/', headers=headers, data=data)
-                logger.error('request response' + r.text)
-                data = {}
+            logger.error("Else not valid processing line!")
+
+        logger.error("End of Loop:")
+
+    logger.error("Outside of Loop:")
+    data[key].append(readings) # Always insert last reading
+    logger.error("Final Data:" + str(data))
+    process_probe_data(data, serialnumber_formatted)
+
+'''
+    process_probe_data
+'''
+
+def process_probe_data(readings, serialnumber):
+
+    for key, site_info in readings.items():
+        # Firstly we total up each site-dates readings
+        totals = {}
+        split_key = key.split(",")
+
+        for depth_arr in site_info:
+            for index in range(len(depth_arr)):
+                print(depth_arr[index])
+                if index in totals:
+                    totals[index] = int(totals[index]) + int(depth_arr[index])
+                else:
+                    totals[index] = int(depth_arr[index])
+
+        # Secondly we average out each reading from the amount of readings taken
+        averaged_totals = []
+        readings_taken = len(site_info)
+        for key, value in totals.items():
+            print("value:" + str(value) + " readings_taken:" + str(readings_taken))
+            averaged_totals.append(int(value) / int(readings_taken))
+
+        # Thirdly we reverse thate order of averaged_totals
+        averaged_totals.reverse()
+        print(averaged_totals)
+
+        # create data object in the way we want
+        data = {}
+        data['date'] = split_key[1]
+        data['created_by'] = '2'
+        data['site'] = '3'
+        data['serial_number'] = '1'
+        data['type'] = '1'
+
+        for index in range(len(averaged_totals)):
+            data['depth' + str(index + 1)] = averaged_totals[index]
+
+        logger.error("Ready to insert:" + str(data))
+
+        if data:
+            # TODO: Add unique key on readings table for date, reading_type and site
+            logger.error("Post data if something in data" + str(data))
+            headers = {'contentType': 'application/json'}
+            r = requests.post('http://127.0.0.1:8000/api/reading/', headers=headers, data=data)
+            logger.error('request response' + r.text)
+            data = {}
+
+    logger.error("Outside of Process Data Loop:")
 
 '''
     handle_diviner_file
@@ -131,20 +227,3 @@ def handle_probe_file(file_data):
 
 def handle_diviner_file(datafile):
     logger.error("Handling Diviner")
-
-
-
-
-
-
-'''
-from rest_pandas import PandasView
-from .models import Reading, Site, ReadingType
-from .serializers import ReadingSerializer, SiteSerializer, ReadingTypeSerializer
-
-class GraphView(PandasView):
-    def get_queryset(self):
-        queryset = Site.objects.filter(id=self.kwargs["pk"])
-        return queryset
-    serializer_class = SiteSerializer
-'''
