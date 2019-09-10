@@ -49,6 +49,7 @@ def model_form_upload(request):
             logger.error("*******saved file*****")
             try:
                 handle_file(request)
+                messages.success(request, "Successfully Uploaded")
             except Exception as e:
                 messages.error(request, e)
             finally:
@@ -222,8 +223,13 @@ def process_probe_data(readings, serial_unique_id, request):
             logger.error("Post data if something in data" + str(data))
             host = request.get_host()
             headers = {'contentType': 'application/json'}
+            #try:
             r = requests.post('http://' + host + '/api/reading/', headers=headers, data=data)
-            logger.error('request response' + r.text)
+            try:
+                r.raise_for_status()
+            except requests.exceptions.HTTPError as e:
+                logger.error('request response' + r.text)
+                raise Exception(r.text)
             data = {}
 
     logger.error("Outside of Process Data Loop:")
