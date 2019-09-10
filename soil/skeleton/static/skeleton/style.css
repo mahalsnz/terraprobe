@@ -6,3 +6,35 @@ body {
 header {
     margin-bottom: 24px;
 }
+
+.readings-table {
+    overflow: hidden;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.readings-table .readings-column {
+    display: inline-block;
+    width: 200px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.readings-column ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.readings-column ul li {
+    background-color: #ecf0f1;
+    overflow: scroll;
+    margin: 0px;
+    padding: 6px 12px;
+    margin-bottom: 4px;
+}
+
+.readings-table-header .readings-column ul li {
+    font-weight: 700;
+}

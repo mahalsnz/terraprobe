@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
-from .models import Probe
+from .models import Probe, Reading
 
 import re
 import requests
@@ -22,6 +22,11 @@ from datetime import datetime
 
 class IndexView(TemplateView):
     template_name = 'index.html'
+
+class ReadingsListView(ListView):
+    model = Reading
+    template_name = 'readings.html'
+    context_object_name = 'readings'
 
 def simple_upload(request):
     template = loader.get_template('simple_upload.html')
