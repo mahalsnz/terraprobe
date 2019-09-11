@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
-from .models import Probe, Reading
+from .models import Probe, Reading, Site
 
 import re
 import requests
@@ -144,19 +144,23 @@ def handle_probe_file(file_data, request):
     # Variable for loop
     data = {}
     date_formatted = None
-    site = None
+    site_number = None
     readings = []
 
     for line in lines:
         # If Note, grab the site_id
-        note = re.search("^Note,\d+", line)
+        note = re.search("^Note,[a-zA-Z0-9_]+", line)
         reading = re.search("^\d.*", line)
         if note:
             logger.error("***We have a note line:" + line)
+            # If not first note line of file
+            if any(data):
+                data[key].append(readings)
+                readings = []
             site_line = line.split(",")
-            site = site_line[1].rstrip()
-            logger.error("Site Id:" + str(site))
-        if reading:
+            site_number = site_line[1].rstrip()
+            logger.error("Site Number:" + str(site_number))
+        elif reading:
             logger.error("***We have a reading line:" + line)
             reading_line = line.split(",")
             logger.error("***First element of reading line" + reading_line[0])
@@ -168,23 +172,21 @@ def handle_probe_file(file_data, request):
                 date_object = datetime.strptime(date, '%m/%d/%y') # American
                 date_formatted = date_object.strftime('%Y-%m-%d')
 
-                key = site.rstrip() + "," + date_formatted
+                key = site_number.rstrip() + "," + date_formatted
                 logger.error("Key:" + key)
 
                 if key in data:
                     logger.error("Key exists:")
-                    data[key].append(readings)
-                    readings = []
-                else :
-                    logger.error("No Key does not exect:")
+                else:
+                    logger.error("No Key does not exist:")
                     data[key] = []
             readings.append(reading_line[6])
-            logger.error("Data:" + str(data))
+
         else:
             logger.error("Else not valid processing line!")
 
         logger.error("End of Loop:")
-
+        logger.error("Data:" + str(data))
     logger.error("Outside of Loop:")
     data[key].append(readings) # Always insert last reading
     logger.error("Final Data:" + str(data))
@@ -213,20 +215,26 @@ def process_probe_data(readings, serial_unique_id, request):
         averaged_totals = []
         readings_taken = len(site_info)
         for key, value in totals.items():
-            print("value:" + str(value) + " readings_taken:" + str(readings_taken))
+            #print("value:" + str(value) + " readings_taken:" + str(readings_taken))
             averaged_totals.append(int(value) / int(readings_taken))
 
         # Thirdly we reverse thate order of averaged_totals
         averaged_totals.reverse()
-        print(averaged_totals)
+        #print(averaged_totals)
 
         # create data object in the way we want
         data = {}
         data['date'] = split_key[1]
+
+        # Site is the primary key of site number so we need to look it up.
+        s = Site.objects.get(site_number=split_key[0])
+        data['site'] = s.id
+
+        # TODO: When we have authorization over site set up can have logged in user as created by
         data['created_by'] = '2'
-        data['site'] = '3'
+
         data['serial_number'] = serial_unique_id
-        data['type'] = '1'
+        data['type'] = '1' # always probe
 
         for index in range(len(averaged_totals)):
             data['depth' + str(index + 1)] = averaged_totals[index]
@@ -238,7 +246,6 @@ def process_probe_data(readings, serial_unique_id, request):
             logger.error("Post data if something in data" + str(data))
             host = request.get_host()
             headers = {'contentType': 'application/json'}
-            #try:
             r = requests.post('http://' + host + '/api/reading/', headers=headers, data=data)
             try:
                 r.raise_for_status()
