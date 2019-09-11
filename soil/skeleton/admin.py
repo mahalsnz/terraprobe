@@ -45,9 +45,9 @@ class FarmAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'farm', 'name')
+    list_display = ('id', 'site_number', 'farm', 'name')
     fieldsets = [
-        ('Main',        {'fields': ['farm','name','variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end','created_date', 'created_by']}),
+        ('Main',        {'fields': ['site_number', 'farm','name','variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
             'classes': ['collapse']}),
         ('Root Zones',  {'fields': ['rz1_top','rz1_bottom','rz2_top','rz2_bottom','rz3_top','rz3_bottom'], 'classes': ['collapse']}),
@@ -72,7 +72,7 @@ class CropAdmin(admin.ModelAdmin):
     radio_fields = {'irrigation_method': admin.HORIZONTAL}
 
 class ProbeAdmin(admin.ModelAdmin):
-    list_display = ['serial_number']
+    list_display = ['id', 'serial_number', 'comment']
 
 admin.site.register(Site, SiteAdmin)
 admin.site.register(Farm, FarmAdmin)
