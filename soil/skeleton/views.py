@@ -28,6 +28,16 @@ class ReadingsListView(ListView):
     template_name = 'readings.html'
     context_object_name = 'readings'
 
+def vsw_percentage(request, site_id, year, month, day):
+    template = loader.get_template('vsw_percentage.html')
+    context = {
+        'site_id' : site_id,
+        'year' : year,
+        'month' : month,
+        'day': day
+    }
+    return HttpResponse(template.render(context, request))
+
 def simple_upload(request):
     template = loader.get_template('simple_upload.html')
     if request.method == 'POST' and request.FILES['myfile']:

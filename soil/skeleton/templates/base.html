@@ -8,6 +8,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Soil Moisture(PRWIN)</title>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{% static 'skeleton/style.css' %}">
@@ -33,10 +34,7 @@
                                 <a class="nav-link" href="{% url 'model_upload' %}">Upload using a model</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/graphs/vsw_percentage/3/2019/05/23/">VSW graph example</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/graphs/graphs/3/">First graph example</a>
+                                <a class="nav-link" href="/vsw_percentage/3/2019/05/23/">VSW graph example</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'readings_list' %}">Readings API</a>
@@ -45,11 +43,21 @@
                                 <a class="nav-link" href="/admin">Admin</a>
                             </li>
                         </ul>
-                    </div> 
+                    </div>
                 </div>
             </nav>
         </header>
         <main class="container">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
             {% block content %}
             {% endblock content %}
         </main>

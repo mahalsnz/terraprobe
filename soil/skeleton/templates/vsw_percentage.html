@@ -1,12 +1,18 @@
-<!-- templates/graphs/vsw_percentage.html -->
+<!-- templates/vsw_percentage.html -->
 
-{% extends 'graphs/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 
 <h1>VSW Percentage for {{ site_id }} site on {{ day }}/{{ month }}/{{ year }}</h1>
-<div id="area1"></div>
-<div id="area2"></div>
+
+<div class="row">
+    <div class="col" id="area1"></div>
+    <div class="col" id="area3"><h2>Table of Data</h2></div>
+</div>
+<div class="row">
+    <div class="col" id="area2"></div>
+</div>
 <script>
     // parse the date / time
     var parseTime = d3.timeParse("%Y-%m-%d");
