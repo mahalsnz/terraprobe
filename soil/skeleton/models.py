@@ -120,6 +120,7 @@ class Crop(models.Model):
 
 class Site(models.Model):
     # Main
+    site_number = models.CharField(max_length=20, unique=True, null=False)
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     #technician = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
     selected = models.BooleanField(null=True) #???
