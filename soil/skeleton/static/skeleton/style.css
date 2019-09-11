@@ -38,3 +38,11 @@ header {
 .readings-table-header .readings-column ul li {
     font-weight: 700;
 }
+
+/* CSS for D3 graphs */
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 5px;
+}

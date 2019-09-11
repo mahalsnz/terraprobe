@@ -8,16 +8,6 @@ def first_graph(request, site_id):
     }
     return HttpResponse(template.render(context, request))
 
-def vsw_percentage(request, site_id, year, month, day):
-    template = loader.get_template('graphs/vsw_percentage.html')
-    context = {
-        'site_id' : site_id,
-        'year' : year,
-        'month' : month,
-        'day': day
-    }
-    return HttpResponse(template.render(context, request))
-
 def example_graph(request):
     template = loader.get_template('graphs/example_graph.html')
     context = {}
