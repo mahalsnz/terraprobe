@@ -9,6 +9,8 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
 from .models import Probe, Reading, Site
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 import re
 import requests
@@ -20,14 +22,17 @@ logger = logging.getLogger(__name__)
 from .forms import DocumentForm#
 from datetime import datetime
 
+from .utils import process_probe_data
+
 class IndexView(TemplateView):
     template_name = 'index.html'
 
-class ReadingsListView(ListView):
+class ReadingsListView(LoginRequiredMixin, ListView):
     model = Reading
     template_name = 'readings.html'
     context_object_name = 'readings'
 
+@login_required
 def vsw_percentage(request, site_id, year, month, day):
     template = loader.get_template('vsw_percentage.html')
     context = {
@@ -38,6 +43,7 @@ def vsw_percentage(request, site_id, year, month, day):
     }
     return HttpResponse(template.render(context, request))
 
+@login_required
 def simple_upload(request):
     template = loader.get_template('simple_upload.html')
     if request.method == 'POST' and request.FILES['myfile']:
@@ -54,6 +60,7 @@ def simple_upload(request):
     model_form_upload - For processing Probe and Diviner files
 '''
 
+@login_required
 def model_form_upload(request):
     data = {}
     if request.method == 'POST':
@@ -66,7 +73,7 @@ def model_form_upload(request):
                 handle_file(request)
                 messages.success(request, "Successfully Uploaded")
             except Exception as e:
-                messages.error(request, e)
+                messages.error(request, e)@login_required
             finally:
                 return redirect('model_upload')
     else:
@@ -191,70 +198,6 @@ def handle_probe_file(file_data, request):
     data[key].append(readings) # Always insert last reading
     logger.error("Final Data:" + str(data))
     process_probe_data(data, p.id, request)
-
-'''
-    process_probe_data
-'''
-
-def process_probe_data(readings, serial_unique_id, request):
-
-    for key, site_info in readings.items():
-        # Firstly we total up each site-dates readings
-        totals = {}
-        split_key = key.split(",")
-
-        for depth_arr in site_info:
-            for index in range(len(depth_arr)):
-                print(depth_arr[index])
-                if index in totals:
-                    totals[index] = int(totals[index]) + int(depth_arr[index])
-                else:
-                    totals[index] = int(depth_arr[index])
-
-        # Secondly we average out each reading from the amount of readings taken
-        averaged_totals = []
-        readings_taken = len(site_info)
-        for key, value in totals.items():
-            #print("value:" + str(value) + " readings_taken:" + str(readings_taken))
-            averaged_totals.append(int(value) / int(readings_taken))
-
-        # Thirdly we reverse thate order of averaged_totals
-        averaged_totals.reverse()
-        #print(averaged_totals)
-
-        # create data object in the way we want
-        data = {}
-        data['date'] = split_key[1]
-
-        # Site is the primary key of site number so we need to look it up.
-        s = Site.objects.get(site_number=split_key[0])
-        data['site'] = s.id
-
-        # TODO: When we have authorization over site set up can have logged in user as created by
-        data['created_by'] = '2'
-
-        data['serial_number'] = serial_unique_id
-        data['type'] = '1' # always probe
-
-        for index in range(len(averaged_totals)):
-            data['depth' + str(index + 1)] = averaged_totals[index]
-
-        logger.error("Ready to insert:" + str(data))
-
-        if data:
-            # TODO: Add unique key on readings table for date, reading_type and site
-            logger.error("Post data if something in data" + str(data))
-            host = request.get_host()
-            headers = {'contentType': 'application/json'}
-            r = requests.post('http://' + host + '/api/reading/', headers=headers, data=data)
-            try:
-                r.raise_for_status()
-            except requests.exceptions.HTTPError as e:
-                logger.error('request response' + r.text)
-                raise Exception(r.text)
-            data = {}
-
-    logger.error("Outside of Process Data Loop:")
 
 '''
     handle_diviner_file

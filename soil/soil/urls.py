@@ -20,6 +20,7 @@ urlpatterns = [
     path('', include('skeleton.urls')),
     path('admin/', admin.site.urls, name='admin'),
     path('graphs/', include('graphs.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 admin.site.site_header = "Fruition Soil Moisture Administration"
