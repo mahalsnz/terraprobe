@@ -9,6 +9,8 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
 from .models import Probe, Reading, Site
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 import re
 import requests
@@ -25,11 +27,12 @@ from .utils import process_probe_data
 class IndexView(TemplateView):
     template_name = 'index.html'
 
-class ReadingsListView(ListView):
+class ReadingsListView(LoginRequiredMixin, ListView):
     model = Reading
     template_name = 'readings.html'
     context_object_name = 'readings'
 
+@login_required
 def vsw_percentage(request, site_id, year, month, day):
     template = loader.get_template('vsw_percentage.html')
     context = {
@@ -40,6 +43,7 @@ def vsw_percentage(request, site_id, year, month, day):
     }
     return HttpResponse(template.render(context, request))
 
+@login_required
 def simple_upload(request):
     template = loader.get_template('simple_upload.html')
     if request.method == 'POST' and request.FILES['myfile']:
@@ -56,6 +60,7 @@ def simple_upload(request):
     model_form_upload - For processing Probe and Diviner files
 '''
 
+@login_required
 def model_form_upload(request):
     data = {}
     if request.method == 'POST':
@@ -68,7 +73,7 @@ def model_form_upload(request):
                 handle_file(request)
                 messages.success(request, "Successfully Uploaded")
             except Exception as e:
-                messages.error(request, e)
+                messages.error(request, e)@login_required
             finally:
                 return redirect('model_upload')
     else:
