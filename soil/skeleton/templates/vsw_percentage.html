@@ -1,14 +1,120 @@
 <!-- templates/vsw_percentage.html -->
 
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
-<h1>VSW Percentage for {{ site_id }} site on {{ day }}/{{ month }}/{{ year }}</h1>
+<h3 align="center">VSW Percentage for {{ site_id }} site on {{ day }}/{{ month }}/{{ year }}</h3>
 
 <div class="row">
     <div class="col" id="area1"></div>
-    <div class="col" id="area3"><h2>Table of Data</h2></div>
+    <div class="col" id="area3">
+        <table class="table table-sm table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <th colspan="4">Current State</th>
+            </tr>
+            <tr>
+                <td colspan="2">Root Zone</td>
+                <td colspan="2">00000</td>
+            </tr>
+            <tr>
+                <td>Full</td>
+                <td>00000</td>
+                <td>Refill</td>
+                <td>00000</td>
+            </tr>
+            <tr>
+                <td>Previous</td>
+                <td>00000</td>
+                <td>Current</td>
+                <td>00000</td>
+            </tr>
+        </table>
+        <table class="table table-sm table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <th colspan="4">Amount Received Last Week</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>mm</td>
+                <td>L/plant</td>
+                <td>Hours</td>
+            </tr>
+            <tr>
+                <td>Irrigation</td>
+                <td>00000</td>
+                <td>00000</td>
+                <td>00000</td>
+            </tr>
+            <tr>
+                <td>Rainfall</td>
+                <td>00000</td>
+                <td>Crop Use</td>
+                <td>00000</td>
+            </tr>
+        </table>
+        <table class="table table-sm table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <th colspan="4">Predictions(week)</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>mm</td>
+                <td>L/plant</td>
+                <td>Hours</td>
+            </tr>
+            <tr>
+                <td>Target</td>
+                <td>0mm</td>
+                <td>00000</td>
+                <td>00000</td>
+            </tr>
+            <tr>
+                <td>ET +30%</td>
+                <td>0mm</td>
+                <td>00000</td>
+                <td>00000</td>
+            </tr>
+            <tr>
+                <td>ET -30%</td>
+                <td>0mm</td>
+                <td>00000</td>
+                <td>00000</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col" id="area4">
+        <table class="table table-sm table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <th colspan="3">Recommendation</th>
+            </tr>
+            <tr>
+                <td colspan="3">Lorem ipsum dolor sit amet, nibh admodum sententiae ad cum, vero phaedrum in ius, etiam dissentiet te per. Detraxit dissentias sea id. Per oblique theophrastus cu, id mel graece scriptorem. Cu duis doctus mei. Nam cu mandamus facilisis contentiones, brute fugit ne vix. Etiam munere dolores et pri.
+Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco graecis, quas iuvaret sapientem duo at, clita dolore aliquam est ne. Has soleat eirmod vituperatoribus ut. Nec virtute placerat ei.
+
+Et per everti omnium persequeris, iudicabit gloriatur pri ne, no scripta repudiare voluptaria duo. Vel tota theophrastus ei, ut aperiri pertinax has. Quo ei doming invidunt consectetuer, at sit partem tractatos dignissim, sea dicit singulis id. Mel graeci suscipiantur an. Nec ei fastidii mandamus. Quo id simul admodum, sea modo semper an, ferri aliquid pro ut.
+                </td>
+            </tr>
+            <tr>
+                <td>Recommendations based on:
+            </tr>
+            <tr>
+                <td>Full</td>
+                <td>00000</td>
+                <td>Refill</td>
+            </tr>
+            <tr>
+                <td>Previous</td>
+                <td>00000</td>
+                <td>Current</td>
+
+            </tr>
+        </table>
+    </div>
 </div>
 <div class="row">
     <div class="col" id="area2"></div>
@@ -33,13 +139,13 @@
 
     // set the dimensions and margins of the weekly graph
     var margin = {top: 40, right: 20, bottom: 30, left: 50};
-    width = 660 - margin.left - margin.right;
+    width = 800 - margin.left - margin.right;
     height = 400 - margin.top - margin.bottom;
 
     // set the dimensions and margins of the season graph
     //var season_margin = {top: 500, right: 20, bottom: 30, left: 50};
     season_width = 1800 - margin.left - margin.right;
-    season_height = 500 - margin.top - margin.bottom;
+    season_height = 400 - margin.top - margin.bottom;
 
     // set the weekly ranges
     var x = d3.scaleLinear().range([0, width]); //vsw (%)
@@ -286,4 +392,5 @@
 
 
 </script>
+<script type="text/javascript" src="{% static 'skeleton/graph_table_data.js' %}"></script>
 {% endblock content %}

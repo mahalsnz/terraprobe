@@ -289,7 +289,7 @@ class Reading(models.Model):
     efflrr2 = models.FloatField(null=True, blank=True, help_text="keydata 8")
     effective_irrigation = models.FloatField(null=True, blank=True, help_text="keydata 9")
 
-    comment = models.CharField(max_length=500, null=True, blank=True)
+    comment = models.TextField(null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
