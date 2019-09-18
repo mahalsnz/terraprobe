@@ -27,10 +27,18 @@ from .utils import process_probe_data
 class IndexView(TemplateView):
     template_name = 'index.html'
 
-class ReadingsListView(LoginRequiredMixin, ListView):
+class SiteListView(LoginRequiredMixin, ListView):
+    model = Site
+    template_name = 'sites.html'
+    context_object_name = 'sites'
+
+class SiteReadingsView(LoginRequiredMixin, ListView):
     model = Reading
-    template_name = 'readings.html'
+    template_name = 'site_readings.html'
     context_object_name = 'readings'
+    
+    def get_queryset(self, *args, **kwargs):
+        return Reading.objects.filter(site__id=self.kwargs['pk'])
 
 @login_required
 def vsw_percentage(request, site_id, year, month, day):
