@@ -122,7 +122,7 @@ class Site(models.Model):
     # Main
     site_number = models.CharField(max_length=20, unique=True, null=False)
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
-    #technician = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+    technician = models.ForeignKey(User, related_name="technician_id", on_delete=models.CASCADE, default=1)
     selected = models.BooleanField(null=True) #???
     name = models.CharField(max_length=100, null=True)
     variety = models.CharField(max_length=100, null=True)

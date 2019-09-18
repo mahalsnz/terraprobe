@@ -17,7 +17,7 @@
 
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
-<table>
+<table class="table">
 
 <tr>
   <td>{{ form.username.label_tag }}</td>
@@ -28,10 +28,12 @@
   <td>{{ form.password.label_tag }}</td>
   <td>{{ form.password }}</td>
 </tr>
-</table>
 
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
+<tr>
+    <td><input type="submit" value="login" /></td>
+    <td><input type="hidden" name="next" value="{{ next }}" /></td>
+</tr>
+</table>
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
