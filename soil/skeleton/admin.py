@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
+from django import forms
 
 from .models import Farm
 from .models import Site
@@ -45,9 +47,9 @@ class FarmAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'site_number', 'farm', 'name')
+    list_display = ('id', 'site_number', 'farm', 'name', 'technician')
     fieldsets = [
-        ('Main',        {'fields': ['site_number', 'farm','name','variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end','created_date', 'created_by']}),
+        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
             'classes': ['collapse']}),
         ('Root Zones',  {'fields': ['rz1_top','rz1_bottom','rz2_top','rz2_bottom','rz3_top','rz3_bottom'], 'classes': ['collapse']}),
@@ -58,6 +60,11 @@ class SiteAdmin(admin.ModelAdmin):
             'classes': ['collapse']}),
     ]
     radio_fields = {'irrigation_method': admin.HORIZONTAL}
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'technician':
+            kwargs["queryset"] = User.objects.filter(groups__name='Technician').values('first_name','last_name')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 class CropAdmin(admin.ModelAdmin):
     list_display = ['name']
