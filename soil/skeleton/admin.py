@@ -63,8 +63,10 @@ class SiteAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'technician':
-            kwargs["queryset"] = User.objects.filter(groups__name='Technician').values('first_name','last_name')
+            kwargs["queryset"] = User.objects.filter(groups__name='Technician')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    #.values('first_name','last_name')
 
 class CropAdmin(admin.ModelAdmin):
     list_display = ['name']

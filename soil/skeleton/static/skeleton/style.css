@@ -46,3 +46,13 @@ header {
   stroke: steelblue;
   stroke-width: 5px;
 }
+
+.axisSteelBlue text{
+    fill: steelblue;
+}
+
+.axisRed text{
+    fill: red;
+}
+
+.bar { fill: steelblue; }

@@ -19,22 +19,27 @@ def process_probe_data(readings, serial_unique_id, request):
 
         for depth_arr in site_info:
             for index in range(len(depth_arr)):
+                print("Index:" + str(index))
                 print(depth_arr[index])
                 if index in totals:
                     totals[index] = int(totals[index]) + int(depth_arr[index])
                 else:
                     totals[index] = int(depth_arr[index])
-
+        # We don't store zeros, bad reading
+        #if int(reading_line[6]) > 0:
         # Secondly we average out each reading from the amount of readings taken
         averaged_totals = []
-        readings_taken = len(site_info)
+        #readings_taken = len(site_info)
+
         for key, value in totals.items():
-            #print("value:" + str(value) + " readings_taken:" + str(readings_taken))
-            averaged_totals.append(int(value) / int(readings_taken))
+            print("key:" + str(key) + "value:" + str(value) + " readings_count:" + str(readings_count))
+            if int(value) > 0:
+                readings_count = readings_count + 1
+                averaged_totals.append(int(value) / readings_count)
 
         # Thirdly we reverse thate order of averaged_totals
         averaged_totals.reverse()
-        #print(averaged_totals)
+        print(averaged_totals)
 
         # create data object in the way we want
         data = {}

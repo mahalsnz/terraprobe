@@ -1,3 +1,5 @@
+<!-- templates/model_form_upload.html -->
+
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
@@ -5,8 +7,8 @@
 {% block content %}
     <form method="post" enctype="multipart/form-data">{% csrf_token %}
         {{ form|crispy }}
-        Probe:<input type = "radio" name = "filetype" id = "probe" value = "probe" checked = "checked" />
-        Diviner:<input type = "radio" name = "filetype" id = "diviner" value = "diviner" />
+        Probe:<input type = "radio" name = "filetype" id = "probe" value = "probe" />
+        Diviner:<input type = "radio" name = "filetype" id = "diviner" value = "diviner" checked = "checked"/>
         <button class="btn btn-outline-primary" type="submit">Upload</button>
     </form>
 {% endblock %}

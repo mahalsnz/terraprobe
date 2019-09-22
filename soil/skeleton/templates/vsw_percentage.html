@@ -55,36 +55,6 @@
                 <td>00000</td>
             </tr>
         </table>
-        <table class="table table-sm table-bordered">
-            <thead class="thead-light">
-            <tr>
-                <th colspan="4">Predictions(week)</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td>mm</td>
-                <td>L/plant</td>
-                <td>Hours</td>
-            </tr>
-            <tr>
-                <td>Target</td>
-                <td>0mm</td>
-                <td>00000</td>
-                <td>00000</td>
-            </tr>
-            <tr>
-                <td>ET +30%</td>
-                <td>0mm</td>
-                <td>00000</td>
-                <td>00000</td>
-            </tr>
-            <tr>
-                <td>ET -30%</td>
-                <td>0mm</td>
-                <td>00000</td>
-                <td>00000</td>
-            </tr>
-        </table>
     </div>
     <div class="col" id="area4">
         <table class="table table-sm table-bordered">
@@ -138,13 +108,13 @@ Et per everti omnium persequeris, iudicabit gloriatur pri ne, no scripta repudia
     //console.log("***Submitted DATE:" + submitted_date);
 
     // set the dimensions and margins of the weekly graph
-    var margin = {top: 40, right: 20, bottom: 30, left: 50};
+    var margin = {top: 40, right: 40, bottom: 30, left: 50};
     width = 800 - margin.left - margin.right;
     height = 400 - margin.top - margin.bottom;
 
     // set the dimensions and margins of the season graph
     //var season_margin = {top: 500, right: 20, bottom: 30, left: 50};
-    season_width = 1800 - margin.left - margin.right;
+    season_width = 1600 - margin.left - margin.right;
     season_height = 400 - margin.top - margin.bottom;
 
     // set the weekly ranges
@@ -153,16 +123,22 @@ Et per everti omnium persequeris, iudicabit gloriatur pri ne, no scripta repudia
 
     // set the season ranges
     var seasonx = d3.scaleTime().range([0, season_width]); //date
-    var seasony = d3.scaleLinear().range([season_height, 0]);
+    var seasony0 = d3.scaleLinear().range([season_height, 0]);
+    var seasony1 = d3.scaleLinear().range([season_height, 0]);
 
     // define the vsw percentage line
     var vswline = d3.line()
         .x(function(r) { return x(r.vsw); })
         .y(function(r) { return y(r.depth); });
 
-    var season_vswline = d3.line()
+    var season_vswline0 = d3.line()
         .x(function(r) { return seasonx(r.date); })
-        .y(function(r) { return seasony(r.total); });
+        .y(function(r) { return seasony0(r.total); });
+
+    // Bar graphs starting with rain
+    var season_vswline1 = d3.line()
+        .x(function(r) { return seasonx(r.date); })
+        .y(function(r) { return seasony1(r.rain); });
 
     // define previous vsw percentage line
     var previous_vswline = d3.line()
@@ -201,6 +177,7 @@ Et per everti omnium persequeris, iudicabit gloriatur pri ne, no scripta repudia
 
     // Seasons readings arrays
     var seasons_vsw_readings = [];
+    var seasons_rain = []
     vsw_count = 9; // delivered by vsw_reading api
 
     d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/?format=json').then(function(data) {
@@ -238,8 +215,11 @@ Et per everti omnium persequeris, iudicabit gloriatur pri ne, no scripta repudia
             var reading_date = new Date(reading.date).toDateString();
             var vsw_total = 0;
 
+
+
             /* get seasons_vsw readings */
             if (reading.reading_type.name == "Probe") {
+
                 for (index = 1; index <= vsw_count; index++) {
                     if (reading["vsw" + index] !== null) {
                         vsw_total = reading["vsw" + index] + vsw_total;
@@ -250,6 +230,11 @@ Et per everti omnium persequeris, iudicabit gloriatur pri ne, no scripta repudia
                     'date' : parsed_date,
                     'total' : vsw_total,
                 });
+                // Seasons Rain
+                seasons_rain.push({
+                    'date' : parsed_date,
+                    'rain' : reading["rain"],
+                })
                 console.log("***Season VSW Totals:" + reading_date + " " + vsw_total );
             }
 
@@ -306,13 +291,15 @@ Et per everti omnium persequeris, iudicabit gloriatur pri ne, no scripta repudia
 
         console.log(vsw_readings);
         console.log(seasons_vsw_readings)
+        console.log(seasons_rain)
 
         // Scale the range of the data
         x.domain([5, 50]);
         y.domain([d3.min(vsw_readings, function(r) { return r.depth - 5; }), d3.max(vsw_readings, function(r) { return r.depth + 5; })]);
 
         seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
-        seasony.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 5; }), d3.max(seasons_vsw_readings, function(d) { return d.total + 5; })]);
+        seasony0.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 5; }), d3.max(seasons_vsw_readings, function(d) { return d.total + 5; })]);
+        seasony1.domain([d3.min(seasons_rain, function(d) { return d.rain - 5; }), d3.max(seasons_rain, function(d) { return d.rain + 5; })]);
 
         // Add the lines
         weekly_graph.append("path")
@@ -323,7 +310,25 @@ Et per everti omnium persequeris, iudicabit gloriatur pri ne, no scripta repudia
         season_graph.append("path")
             .data([seasons_vsw_readings])
             .attr("class", "line")
-            .attr("d", season_vswline);
+            .attr("d", season_vswline0);
+
+        // Want this to be bars not line
+        season_graph.append("path")
+            .data([seasons_rain])
+            .attr("class", "line")
+            .style("stroke", "red")
+            .attr("d", season_vswline1);
+
+        /*
+        season_graph.selectAll(".bar")
+            .data([seasons_rain])
+                .enter().append("rect")
+.               attr("class", "bar")
+        .attr("x", function(d) { return x(d.date); })
+        .attr("width", x.bandwidth())
+        .attr("y", function(d) { return y(d.rain); })
+        .attr("height", function(d) { return height - y(d.rain); });
+        */
 
         weekly_graph.append("path")
             .data([previous_vsw_readings])
@@ -376,7 +381,7 @@ Et per everti omnium persequeris, iudicabit gloriatur pri ne, no scripta repudia
             .style("text-anchor", "middle")
             .text("Depth (cm)");
 
-        // Season_Graph X Axis
+        // Add Season Graph X Axis
         season_graph.append("g")
             .attr("class", "axis")
             .attr("transform", "translate(0," + season_height + ")")
@@ -384,10 +389,16 @@ Et per everti omnium persequeris, iudicabit gloriatur pri ne, no scripta repudia
                 .ticks(d3.timeWeek.every(1))
                 .tickFormat(d3.timeFormat("%d-%m")));
 
-        // Add the Y Axis
+        // Add Season Graph Y0 Axis
         season_graph.append("g")
-            .attr("class", "axis")
-            .call(d3.axisLeft(seasony));
+            .attr("class", "axisSteelBlue")
+            .call(d3.axisLeft(seasony0));
+
+        // Add Season Graph Y1 Axis
+        season_graph.append("g")
+            .attr("class", "axisRed")
+            .attr("transform", "translate( " + season_width + ", 0 )")
+            .call(d3.axisRight(seasony1));
     });
 
 

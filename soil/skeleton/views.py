@@ -19,7 +19,8 @@ import requests
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm#
+from .forms import DocumentForm
+
 from datetime import datetime
 
 from .utils import process_probe_data
@@ -43,19 +44,6 @@ def vsw_percentage(request, site_id, year, month, day):
     }
     return HttpResponse(template.render(context, request))
 
-@login_required
-def simple_upload(request):
-    template = loader.get_template('simple_upload.html')
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        return render(request, 'simple_upload.html', {
-            'uploaded_file_url' : uploaded_file_url
-        })#
-    return render(request, 'simple_upload.html')
-
 '''
     model_form_upload - For processing Probe and Diviner files
 '''
@@ -66,16 +54,18 @@ def model_form_upload(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         logger.error(request.POST)
+        files = request.FILES.getlist('document')
+
         if form.is_valid():
-            form.save()
-            logger.error("*******saved file*****")
-            try:
-                handle_file(request)
-                messages.success(request, "Successfully Uploaded")
-            except Exception as e:
-                messages.error(request, e)@login_required
-            finally:
-                return redirect('model_upload')
+            for f in files:
+                logger.error('***Saving File:' + str(f))
+                form.save()
+                try:
+                    handle_file(f, request)
+                    messages.success(request, "Successfully Uploaded")
+                except Exception as e:
+                    messages.error(request, e)
+            return redirect('model_upload')
     else:
         form = DocumentForm()
     return render(request, 'model_form_upload.html', {
@@ -86,14 +76,13 @@ def model_form_upload(request):
     handle_file - Generic file handler to create a data file as it is uploaded through a web form
 '''
 
-def handle_file(request):
+def handle_file(f, request):
     # File saved. Now try and process it
-    f = request.FILES['document']
+    logger.error('***Processing File:' + str(f))
     type = request.POST['filetype']
 
     file_data = ""
     try:
-        logger.error("*******processing file*****")
         for chunk in f.chunks():
             file_data = file_data + chunk.decode("utf-8")
     except Exception as e:
@@ -134,7 +123,7 @@ def handle_file(request):
 '''
 
 def handle_probe_file(file_data, request):
-    logger.error("****Handling Probe")
+    logger.error("***Handling Probe")
     # process
     lines = file_data.split("\n")
     logger.error("Serial Line:" + lines[1])
@@ -172,7 +161,7 @@ def handle_probe_file(file_data, request):
             reading_line = line.split(",")
             logger.error("***First element of reading line" + reading_line[0])
             if reading_line[0] == "1":
-                # Get date part from first depth is fine. Comes in as DD/MM/YY_crap get before underscore
+                # Get date part from first depth is fine. Comes in as DD/MM/YY American crap format before we get underscore time component
                 date_raw = str(reading_line[10])
                 datefields = date_raw.split("_")
                 date = datefields[0]
@@ -187,10 +176,11 @@ def handle_probe_file(file_data, request):
                 else:
                     logger.error("No Key does not exist:")
                     data[key] = []
+
             readings.append(reading_line[6])
 
         else:
-            logger.error("Else not valid processing line!")
+            logger.error("Else not valid processing line!"  + line)
 
         logger.error("End of Loop:")
         logger.error("Data:" + str(data))
@@ -203,5 +193,60 @@ def handle_probe_file(file_data, request):
     handle_diviner_file
 '''
 
-def handle_diviner_file(datafile):
-    logger.error("Handling Diviner")
+def handle_diviner_file(file_data, datafile):
+    logger.error("***Handling Diviner")
+    lines = file_data.split("\n")
+
+    need_date = True
+
+    # Variable for loop
+    data = {}
+    date_formatted = None
+    site_number = None
+    readings = []
+
+    for line in lines:
+        # Site Heading line contains the special Diviner Number
+        heading = re.search("^Site.*", line)
+        # Seems that a reading line is the only one beginning with a number (day part of date)
+        reading = re.search("^\d.*", line)
+
+        if heading:
+            logger.error("***We have a heading line:" + line)
+            diviner_fields = line.split(",")
+            diviner_number = diviner_fields[1]
+            diviner_number_formatted = diviner_number.lstrip()
+            logger.error("Diviner Number Formatted:" + diviner_number_formatted)
+
+            # Get Serial Number and Site Number from Diviner Probe and
+            try:
+                site = Site.objects.get(diviner__diviner_number=int(diviner_number_formatted))
+            except:
+                raise Exception("Diviner Number:" + diviner_number_formatted + " not set up for a site.")
+            logger.error("Site Number:" + site.site_number)
+
+            try:
+                sn = Probe.objects.get(probediviner__diviner__diviner_number=int(diviner_number_formatted))
+            except:
+                raise Exception("Diviner Number:" + diviner_number_formatted + " not set up for a probe/serial number.")
+            logger.error("Serial Number:" + sn.serial_number)
+
+        elif reading:
+            logger.error("***We have a reading line:" + line)
+            reading_line = line.split(",")
+
+            if need_date:
+                # Handle date in dd Month YYYY 24HH:MM:SS format
+                date_raw = str(reading_line[0])
+                date_object = datetime.strptime(date_raw, '%d %b %Y %H:%M:%S')
+                date_formatted = date_object.strftime('%Y-%m-%d')
+                logger.error("Date:" + date_formatted)
+                need_date = False
+
+            # Always remove date as the first element
+            reading_line.pop(0)
+            logger.error(reading_line)
+            for reading in reading_line:
+                print(reading.lstrip(' '))
+        else:
+            logger.error("Not a line to process:"  + line)

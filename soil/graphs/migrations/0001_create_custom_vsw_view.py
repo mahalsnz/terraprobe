@@ -24,6 +24,9 @@ class Migration(migrations.Migration):
                 zone1.crop_id,
                 zone1.type_id AS reading_type_id,
 
+                zone1.rain,
+                zone1.meter,
+                
             	zone1.depth1,
             	zone1.count1,
             	zone1.vsw1,
@@ -67,8 +70,9 @@ class Migration(migrations.Migration):
             		skeleton_reading.type_id,
                     skeleton_site.farm_id,
                     skeleton_site.crop_id,
+                    skeleton_reading.rain,
+            		skeleton_reading.meter,
             		skeleton_site.depth1,
-
             		skeleton_reading.depth1 AS count1,
             		skeleton_calibration.slope AS slope1,
             		skeleton_calibration.intercept AS intercept1,

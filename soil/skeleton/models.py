@@ -23,7 +23,6 @@ class Season(models.Model):
     period_from = models.DateField(default=timezone.now, null=False)
     period_to = models.DateField(default=timezone.now, null=False)
     comment = models.CharField(max_length=200, null=True, blank=True)
-
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
 
