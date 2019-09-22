@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import url
 
-from .views import IndexView, ReadingsListView
+from .views import IndexView, SiteListView, SiteReadingsView
 from . import views
 
 from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
@@ -11,7 +11,8 @@ from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, Readin
 
 urlpatterns = [
     path('', IndexView.as_view(), name='home'),
-    path('readings/', ReadingsListView.as_view(), name='readings'),
+    path('readings/', SiteListView.as_view(), name='readings'),
+    path('readings/site/<int:pk>/', SiteReadingsView.as_view(), name='site_readings'),
     path('model/', views.model_form_upload, name='model_upload'),
     path("vsw_percentage/<int:site_id>/<int:year>/<int:month>/<int:day>/", views.vsw_percentage),
     path("api/report/", ReportList.as_view(), name="reports_list"),

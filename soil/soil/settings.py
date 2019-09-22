@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'skeleton.apps.SkeletonConfig',
     'graphs.apps.GraphsConfig',
     'crispy_forms',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
