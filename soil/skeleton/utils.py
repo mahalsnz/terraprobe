@@ -1,4 +1,5 @@
 import requests
+import statistics
 
 # Get an instance of a logger
 import logging
@@ -7,7 +8,33 @@ logger = logging.getLogger(__name__)
 from .models import Site
 
 '''
-    process_probe_data - Should be able to process data (readings dictionary) from both netron and diviner probes
+    process_probe_data - Should be able to process data (readings dictionary) from both neutron and diviner probes
+
+    It expects structure of readings as below
+
+    Key is site_number and date of reaing in mm-dd-yyyy
+    data = {
+        '3306,28-5-2019' : [
+            # First reading (of usually 3)
+            [
+                3456, # First HA (depth reading) This is reversed and first HA will actually be deepest depth
+                1111,
+                1234
+            ],
+            # Second reading
+            [
+                1,
+                1,
+                4
+            ]
+            # Third reading
+            [
+                1234,
+                515342,
+                341234
+            ]
+        ]
+    }
 '''
 
 def process_probe_data(readings, serial_unique_id, request):
@@ -17,29 +44,12 @@ def process_probe_data(readings, serial_unique_id, request):
         totals = {}
         split_key = key.split(",")
 
-        for depth_arr in site_info:
-            for index in range(len(depth_arr)):
-                print("Index:" + str(index))
-                print(depth_arr[index])
-                if index in totals:
-                    totals[index] = int(totals[index]) + int(depth_arr[index])
-                else:
-                    totals[index] = int(depth_arr[index])
-        # We don't store zeros, bad reading
-        #if int(reading_line[6]) > 0:
-        # Secondly we average out each reading from the amount of readings taken
-        averaged_totals = []
-        #readings_taken = len(site_info)
-
-        for key, value in totals.items():
-            print("key:" + str(key) + "value:" + str(value) + " readings_count:" + str(readings_count))
-            if int(value) > 0:
-                readings_count = readings_count + 1
-                averaged_totals.append(int(value) / readings_count)
+        result = [statistics.mean(k) for k in zip(*site_info)]
+        print(str(result))
 
         # Thirdly we reverse thate order of averaged_totals
-        averaged_totals.reverse()
-        print(averaged_totals)
+        #averaged_totals.reverse()
+        #print(averaged_totals)
 
         # create data object in the way we want
         data = {}
@@ -55,8 +65,8 @@ def process_probe_data(readings, serial_unique_id, request):
         data['serial_number'] = serial_unique_id
         data['type'] = '1' # always probe
 
-        for index in range(len(averaged_totals)):
-            data['depth' + str(index + 1)] = averaged_totals[index]
+        for index in range(len(result)):
+            data['depth' + str(index + 1)] = result[index]
 
         logger.error("Ready to insert:" + str(data))
 
@@ -73,4 +83,4 @@ def process_probe_data(readings, serial_unique_id, request):
                 raise Exception(r.text)
             data = {}
 
-    logger.error("Outside of Process Data Loop:")
+    logger.error("Outside of Process Probe Data Loop:")
