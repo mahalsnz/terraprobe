@@ -28,9 +28,6 @@
                             <a class="nav-link" href="{% url 'readings' %}">Readings</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'simple_upload' %}">Simple upload</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'model_upload' %}">Upload using a model</a>
                         </li>
                         <li class="nav-item">
@@ -65,6 +62,7 @@
                                 <a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Login</a>
                                 </li>
                            {% endif %}
+                        {% endif %}
                         </ul>
                     </div>
                 </div>

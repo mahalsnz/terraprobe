@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import url
 
 from .views import IndexView, SiteListView, SiteReadingsView
 from . import views
@@ -12,7 +13,6 @@ urlpatterns = [
     path('', IndexView.as_view(), name='home'),
     path('readings/', SiteListView.as_view(), name='readings'),
     path('readings/site/<int:pk>/', SiteReadingsView.as_view(), name='site_readings'),
-    path('simple/', views.simple_upload, name='simple_upload'),
     path('model/', views.model_form_upload, name='model_upload'),
     path("vsw_percentage/<int:site_id>/<int:year>/<int:month>/<int:day>/", views.vsw_percentage),
     path("api/report/", ReportList.as_view(), name="reports_list"),

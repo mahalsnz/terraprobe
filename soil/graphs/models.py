@@ -30,6 +30,8 @@ class vsw_reading(models.Model):
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
     #crop_id = models.IntegerField()
+    meter = models.FloatField()
+    rain = models.FloatField()
     depth1 = models.IntegerField()
     count1 = models.FloatField()
     vsw1 = models.FloatField()
