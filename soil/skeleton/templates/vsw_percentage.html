@@ -88,7 +88,7 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
     <div class="col" id="area2"></div>
 </div>
 <script>
-    // parse the date / time
+    // parser for the D3 date / time
     var parseTime = d3.timeParse("%Y-%m-%d");
 
     // Now we will define our date comparison functions. These are callbacks
@@ -138,6 +138,16 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
         .x(function(r) { return seasonx(r.date); })
         .y(function(r) { return seasony1(r.rain); });
 
+    // Season Full Point Total
+    var season_full_point_line = d3.line()
+        .x(function(r) { return seasonx(r.date); })
+        .y(function(r) { return seasony0(r.total); });
+
+    // Season Refill Total
+    var season_refill_line = d3.line()
+        .x(function(r) { return seasonx(r.date); })
+        .y(function(r) { return seasony0(r.total); });
+
     // define previous vsw percentage line
     var previous_vswline = d3.line()
         .x(function(r) { return x(r.vsw); })
@@ -176,6 +186,8 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
     // Seasons readings arrays
     var seasons_vsw_readings = [];
     var seasons_rain = []
+    var seasons_full_point_readings = []
+    var seasons_refill_readings = []
     vsw_count = 9; // delivered by vsw_reading api
 
     d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/?format=json').then(function(data) {
@@ -207,13 +219,12 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
                 break
             }
         }
-        console.log("This Week:" + this_week_date + " Last week:" + last_week_date);
+        //console.log("This Week:" + this_week_date + " Last week:" + last_week_date);
+        vsw_readings_date_array = []; // This is better to use for refill and full point full_point_readings
 
         data.forEach(function(reading) {
             var reading_date = new Date(reading.date).toDateString();
             var vsw_total = 0;
-
-
 
             /* get seasons_vsw readings */
             if (reading.reading_type.name == "Probe") {
@@ -233,7 +244,8 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
                     'date' : parsed_date,
                     'rain' : reading["rain"],
                 })
-                console.log("***Season VSW Totals:" + reading_date + " " + vsw_total );
+                vsw_readings_date_array.push(parsed_date)
+                // console.log("***Season VSW Totals:" + reading_date + " " + vsw_total );
             }
 
             if (this_week_date == reading_date) {
@@ -265,31 +277,49 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
 
             // Get the Full Point and Refill - Weirdly these are the count not vsw figures
             if (reading.reading_type.name == "Full Point") {
+                full_point_total = 0;
                 for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
                         full_point_readings.push({
                             'depth' : reading["depth" + index],
                             'vsw' : reading["count" + index],
-                        })
+                        });
+                        full_point_total += reading["count" + index];
                     }
+                }
+                // Seasons Full Point
+                for (index = 0; index <= vsw_readings_date_array.length; index++) {
+                    seasons_full_point_readings.push({
+                        'date' : vsw_readings_date_array[index],
+                        'total' : full_point_total,
+                    });
                 }
             }
 
             if (reading.reading_type.name == "Refill") {
+                refill_total = 0;
                 for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
                         refill_readings.push({
                             'depth' : reading["depth" + index],
                             'vsw' : reading["count" + index],
-                        })
+                        });
+                        refill_total += reading["count" + index];
                     }
+                }
+                // Seasons Refill
+                for (index = 0; index <= vsw_readings_date_array.length; index++) {
+                    seasons_refill_readings.push({
+                        'date' : vsw_readings_date_array[index],
+                        'total' : refill_total,
+                    });
                 }
             }
         });
 
         console.log(vsw_readings);
-        console.log(seasons_vsw_readings)
-        console.log(seasons_rain)
+        console.log(seasons_vsw_readings);
+        console.log(seasons_rain);
 
         // Scale the range of the data
         x.domain([5, 50]);
@@ -316,6 +346,22 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
             .attr("class", "line")
             .style("stroke", "red")
             .attr("d", season_vswline1);
+
+        // Full Point Season line. This is just the total of full_point_readings across all dates
+        season_graph.append("path")
+            .data([seasons_full_point_readings])
+            .attr("class", "line")
+            .style("stroke", "green")
+            .style("stroke-width", "2px")
+            .attr("d", season_full_point_line);
+
+        // Refill Season line. This is just the total of refill_readings across all dates
+        season_graph.append("path")
+            .data([seasons_refill_readings])
+            .attr("class", "line")
+            .style("stroke", "red")
+            .style("stroke-width", "2px")
+            .attr("d", season_refill_line);
 
         /*
         season_graph.selectAll(".bar")
