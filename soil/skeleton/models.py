@@ -195,6 +195,8 @@ class Site(models.Model):
     delivery_time = models.IntegerField(null=True, blank=True, verbose_name="Deliver Time in Minutes")
     area = models.FloatField(null=True, blank=True, verbose_name="Area (Ha)")
 
+    comment = models.TextField(null=True, blank=True)
+
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
 
