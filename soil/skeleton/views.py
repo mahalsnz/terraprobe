@@ -19,7 +19,7 @@ import requests
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm
+from .forms import DocumentForm, SelectorForm
 
 from datetime import datetime
 
@@ -40,6 +40,22 @@ class SiteReadingsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         return Reading.objects.filter(site__id=self.kwargs['pk'])
+
+class SelectorView(TemplateView):
+    form_class = SelectorForm
+    template_name = 'selector.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            id = request.POST.get('site')
+            logger.error('***ID:' + str(id))
+
+        return render(request, self.template_name, {'form': form})
 
 @login_required
 def vsw_percentage(request, site_id, year, month, day):
