@@ -474,7 +474,8 @@
     "delivery_time": null,
     "area": null,
     "created_date": "2019-06-24T23:53:03Z",
-    "created_by": 1
+    "created_by": 1,
+    "comment": null
   }
 },
 {
@@ -543,7 +544,8 @@
     "delivery_time": 60,
     "area": 10.0,
     "created_date": "2019-06-27T21:46:01Z",
-    "created_by": 1
+    "created_by": 1,
+    "comment": null
   }
 },
 {
@@ -612,7 +614,8 @@
     "delivery_time": 60,
     "area": 10.0,
     "created_date": "2019-06-30T21:53:59Z",
-    "created_by": 1
+    "created_by": 1,
+    "comment": null
   }
 },
 {
