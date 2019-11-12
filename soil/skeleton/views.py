@@ -1,9 +1,8 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, View
 
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
@@ -33,13 +32,29 @@ class SiteListView(LoginRequiredMixin, ListView):
     template_name = 'sites.html'
     context_object_name = 'sites'
 
-class SiteReadingsView(LoginRequiredMixin, ListView):
+class SiteReadingsView(LoginRequiredMixin, TemplateView):
     model = Reading
+    form_class = SelectorForm
     template_name = 'site_readings.html'
-    context_object_name = 'readings'
+    #context_object_name = 'readings'
 
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+    '''
     def get_queryset(self, *args, **kwargs):
+
         return Reading.objects.filter(site__id=self.kwargs['pk'])
+    '''
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            id = request.POST.get('site')
+            logger.error('***ID:' + str(id))
+            readings = Reading.objects.filter(site__id=kwargs['pk'])
+            context = {'readings': readings, 'form': form}
+            return render(request, self.template_name, context)
+        return render(request, self.template_name, {'form': form})
 
 class SelectorView(TemplateView):
     form_class = SelectorForm

@@ -15,6 +15,7 @@ from .models import ETReading
 from .models import KCReading
 from .models import Diviner
 from .models import ProbeDiviner
+from .models import UserFullName
 
 class ProbeDivinerAdmin(admin.ModelAdmin):
     list_display = ('probe', 'diviner')
@@ -63,7 +64,7 @@ class SiteAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'technician':
-            kwargs["queryset"] = User.objects.filter(groups__name='Technician')
+            kwargs["queryset"] = UserFullName.objects.filter(groups__name='Technician')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     #.values('first_name','last_name')

@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
-    {% include "selector.html" with form=SelectorForm %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
     <h1>Readings</h1>
     {% if readings.all %}
         <h2>{{ readings.first.site }}</h2>
@@ -63,6 +67,5 @@
         <h2>No Readings</h2>
         <p>There are no readings for this site, or the site may not exist.</p>
     {% endif %}
-
-
+</form>
 {% endblock content %}
