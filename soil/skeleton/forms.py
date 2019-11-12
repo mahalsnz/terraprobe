@@ -1,5 +1,6 @@
 from django import forms
-from .models import Document, Site
+from .models import Document, Site, UserFullName
+#from django.contrib.auth.models import User
 from django.forms import ModelChoiceField
 
 class DocumentForm(forms.ModelForm):
@@ -9,10 +10,6 @@ class DocumentForm(forms.ModelForm):
         fields = ['description', 'document', 'created_date', 'created_by']
 
 class SelectorForm(forms.Form):
-    #site = forms.CharField(label='Site', max_length=100)to_field_name="id",
-    site = forms.ModelChoiceField(queryset=Site.objects.all(), widget=forms.Select(attrs={"onChange":'submit()'}))
-    #days = forms.ModelChoiceField(queryset=Day.objects.all(), widget=forms.Select(attrs={"onChange":'refresh()'}))
 
-    class Meta:
-        model = Site
-        fields = ['name']
+    site = forms.ModelChoiceField(queryset=Site.objects.all(), widget=forms.Select(attrs={"onChange":'submit()'}))
+    #technician = forms.ModelChoiceField(queryset=UserFullName.objects.filter(groups__name='Technician'), widget=forms.Select(attrs={"onChange":'submit()'}))

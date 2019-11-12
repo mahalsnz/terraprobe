@@ -12,6 +12,13 @@ IRRIGATION_METHOD = (
     (1, "Drip")
 )
 
+class UserFullName(User):
+    class Meta:
+        proxy = True
+
+    def __str__(self):
+        return self.get_full_name()
+
 class Document(models.Model):
     description = models.CharField(max_length=255, blank=True)
     document = models.FileField(upload_to='documents/')
