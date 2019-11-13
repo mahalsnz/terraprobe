@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.views.generic import TemplateView, ListView, View
+from django.views.generic import TemplateView, ListView, View, CreateView
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
@@ -18,7 +18,7 @@ import requests
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm, SelectorForm
+from .forms import DocumentForm, SiteReadingsForm
 
 from datetime import datetime
 
@@ -27,50 +27,21 @@ from .utils import process_probe_data
 class IndexView(TemplateView):
     template_name = 'index.html'
 
-class SiteListView(LoginRequiredMixin, ListView):
-    model = Site
-    template_name = 'sites.html'
-    context_object_name = 'sites'
-
-class SiteReadingsView(LoginRequiredMixin, TemplateView):
+#TODO why CreateView and not Template View
+class SiteReadingsView(LoginRequiredMixin, CreateView):
     model = Reading
-    form_class = SelectorForm
+    form_class = SiteReadingsForm
     template_name = 'site_readings.html'
-    #context_object_name = 'readings'
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
-    '''
-    def get_queryset(self, *args, **kwargs):
+def load_sites(request):
+    technician_id = request.GET.get('technician')
+    sites = Site.objects.filter(technician_id=technician_id).order_by('name')
+    return render(request, 'site_dropdown_list_options.html', {'sites':sites})
 
-        return Reading.objects.filter(site__id=self.kwargs['pk'])
-    '''
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            id = request.POST.get('site')
-            logger.error('***ID:' + str(id))
-            readings = Reading.objects.filter(site__id=kwargs['pk'])
-            context = {'readings': readings, 'form': form}
-            return render(request, self.template_name, context)
-        return render(request, self.template_name, {'form': form})
-
-class SelectorView(TemplateView):
-    form_class = SelectorForm
-    template_name = 'selector.html'
-
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            id = request.POST.get('site')
-            logger.error('***ID:' + str(id))
-
-        return render(request, self.template_name, {'form': form})
+def load_site_readings(request):
+    site_id = request.GET.get('site')
+    readings = Reading.objects.filter(site_id=site_id).order_by('date')
+    return render(request, 'site_readings_list.html', {'readings':readings})
 
 @login_required
 def vsw_percentage(request, site_id, year, month, day):

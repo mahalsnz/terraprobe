@@ -3,69 +3,90 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form method="post" enctype="multipart/form-data">
+<form method="post" id="readingForm" data-sites-url="{% url 'ajax_load_sites' %}" novalidate>
     {% csrf_token %}
-    {{ form|crispy }}
-    <h1>Readings</h1>
-    {% if readings.all %}
-        <h2>{{ readings.first.site }}</h2>
-        <a href="{% url 'readings' %}">Change site</a>
-        <div class="row">
-                <div class="col-2">
-                    <div class="readings-table-header">
-                        <div class="readings-column">
-                            <ul>
-                                <li>ID</li>
-                                <li>Site</li>
-                                <li>Type</li>
-                                <li>Date</li>
-                                <li>Depth 1</li>
-                                <li>Depth 2</li>
-                                <li>Depth 3</li>
-                                <li>Depth 4</li>
-                                <li>Depth 5</li>
-                                <li>Depth 6</li>
-                                <li>Depth 7</li>
-                                <li>Depth 8</li>
-                                <li>Depth 9</li>
-                                <li>Depth 10</li>
-                                <li>Depth 11</li>
-                                <li>Depth 12</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-10">
-                        <section class="readings-table">
-                                {% for reading in readings %}
-                                <div class="readings-column">
-                                    <ul>
-                                        <li>{{ reading.id }}</li>
-                                        <li>{{ reading.site }}</li>
-                                        <li>{{ reading.type }}</li>
-                                        <li>{{ reading.date }}</li>
-                                        <li>{{ reading.depth1 }}</li>
-                                        <li>{{ reading.depth2 }}</li>
-                                        <li>{{ reading.depth3 }}</li>
-                                        <li>{{ reading.depth4 }}</li>
-                                        <li>{{ reading.depth5 }}</li>
-                                        <li>{{ reading.depth6 }}</li>
-                                        <li>{{ reading.depth7 }}</li>
-                                        <li>{{ reading.depth8 }}</li>
-                                        <li>{{ reading.depth9 }}</li>
-                                        <li>{{ reading.depth10 }}</li>
-                                        <li>{{ reading.depth11 }}</li>
-                                        <li>{{ reading.depth12 }}</li>
-                                    </ul>
-                                </div>
-                                {% endfor %}
-                            </section>
-                </div>
-            </div>
-
-    {% else %}
-        <h2>No Readings</h2>
-        <p>There are no readings for this site, or the site may not exist.</p>
-    {% endif %}
+    <div class="form-row">
+        <div class="form-group col-md-1 mb-0">
+            <button type="button" id="previousSite">Previous</button>
+        </div>
+        <div class="form-group col-md-5 mb-0">
+            {{ form.site|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-5 mb-0">
+            {{ form.technician|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-1 mb-0">
+            <button type="button" id="nextSite">Next</button>
+        </div>
+    </div>
 </form>
+
+<div id="readingList" data-readings-url="{% url 'ajax_load_site_readings' %}">
+
+</div>
+
+<script>
+    /******************* start loadReadingList ********************************/
+    function loadReadingList(site, url) {
+        if (site) {
+            $.ajax({
+                url: url,
+                data: {
+                    'site': site // add the site id to the GET parameters
+                },
+                success: function(data) {
+                    $("#readingList").empty(); // empty out the div first
+                    $("#readingList").append(data);
+                }
+            });
+        }
+        else {
+            $("#readingList").empty();  // empty out the div first
+        }
+    }
+    /********************* end loadReadingList ********************************/
+
+    $("#previousSite").click(function() {
+        console.log("In Previous Site");
+        var url = $("#readingList").attr("data-readings-url");
+        console.log("URL:" + url);
+        var siteId = $("#id_site option:selected").prev().val();
+        console.log("siteId:" + siteId);
+        $("#id_site").val(siteId);
+        loadReadingList(siteId, url);
+    });
+    $("#id_technician").change(function() {
+        var url = $("#readingForm").attr("data-sites-url");
+        console.log("URL:" + url);
+        var technicianId = $(this).val();  // get the selected technician ID from the HTML input
+        console.log("technicianId:" + technicianId);
+        $.ajax({
+            url: url,
+            data: {
+                'technician': technicianId // add the technician id to the GET parameters
+            },
+            success: function(data) { // `data` is the return of the `load_cities` view function
+                $("#readingList").empty();
+                $("#id_site").html(data); // replace the contents of the city input with the data that came from the server
+            }
+        });
+    });
+    $("#id_site").change(function() {
+        var url = $("#readingList").attr("data-readings-url");
+        console.log("URL:" + url);
+        var siteId = $(this).val();  // get the selected country ID from the HTML input
+        console.log("siteId:" + siteId);
+        loadReadingList(siteId, url);
+    });
+    $("#nextSite").click(function() {
+        console.log("In Next Site");
+        var url = $("#readingList").attr("data-readings-url");
+        console.log("URL:" + url);
+        var siteId = $("#id_site option:selected").next().val();
+        console.log("siteId:" + siteId);
+        $("#id_site").val(siteId);
+        loadReadingList(siteId, url);
+    });
+</script>
+
 {% endblock content %}

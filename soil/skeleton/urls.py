@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import url
 
-from .views import IndexView, SiteListView, SiteReadingsView, SelectorView
+from .views import IndexView, SiteReadingsView
 from . import views
 
 from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
@@ -11,12 +11,11 @@ from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, Readin
 
 urlpatterns = [
     path('', IndexView.as_view(), name='home'),
-    path('readings/', SiteListView.as_view(), name='readings'),
-    path('readings/site/<int:pk>/', SiteReadingsView.as_view(), name='site_readings'),
+    path('readings/site/', SiteReadingsView.as_view(), name='site_readings'),
     path('model/', views.model_form_upload, name='model_upload'),
-    path('selector/', SelectorView.as_view(), name='main_selector'),
-    #path('selector/', views.main_selector, name='main_selector'),
     path("vsw_percentage/<int:site_id>/<int:year>/<int:month>/<int:day>/", views.vsw_percentage),
+
+    # API
     path("api/report/", ReportList.as_view(), name="reports_list"),
     path("api/report/<int:pk>/", ReportDetail.as_view(), name="reports_detail"),
     path("api/season/", SeasonList.as_view(), name="seasons_list"),
@@ -30,4 +29,8 @@ urlpatterns = [
     path("api/reading/", ReadingList.as_view(), name="readings_list"),
     path("api/reading/<int:pk>/", ReadingDetail.as_view(), name="readings_detail"),
     path("api/site_reading/<int:pk>/", SiteReadingList.as_view(), name="graph_data"),
+
+    #ajax
+    path('ajax/load-sites/', views.load_sites, name='ajax_load_sites'),
+    path('ajax/load-site-readings/', views.load_site_readings, name='ajax_load_site_readings'),
 ]

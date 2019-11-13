@@ -1,0 +1,63 @@
+{% if readings %}
+    <div class="row">
+        <div class="col-2">
+            <div class="readings-table-header">
+                <div class="readings-column">
+                    <ul>
+                        <li>Type</li>
+                        <li>Date</li>
+                        <li>Depth 1</li>
+                        <li>Depth 2</li>
+                        <li>Depth 3</li>
+                        <li>Depth 4</li>
+                        <li>Depth 5</li>
+                        <li>Depth 6</li>
+                        <li>Depth 7</li>
+                        <li>Depth 8</li>
+                        <li>Depth 9</li>
+                        <li>Depth 10</li>
+                        <li>Depth 11</li>
+                        <li>Depth 12</li>
+                        <li>Rain</li>
+                        <li>Meter</li>
+                        <li>Irrigation (L)</li>
+                        <li>Irrigation (mm)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+                <section class="readings-table">
+                        {% for reading in readings %}
+                        <div class="readings-column">
+                            <ul>
+                                <li>{{ reading.type }}</li>
+                                <li>{{ reading.date }}</li>
+                                <li>{{ reading.depth1 }}</li>
+                                <li>{{ reading.depth2 }}</li>
+                                <li>{{ reading.depth3 }}</li>
+                                <li>{{ reading.depth4 }}</li>
+                                <li>{{ reading.depth5 }}</li>
+                                <li>{{ reading.depth6 }}</li>
+                                <li>{{ reading.depth7 }}</li>
+                                <li>{{ reading.depth8 }}</li>
+                                <li>{{ reading.depth9 }}</li>
+                                <li>{{ reading.depth10 }}</li>
+                                <li>{{ reading.depth11 }}</li>
+                                <li>{{ reading.depth12 }}</li>
+                                <li>{{ reading.rain }}</li>
+                                <li>{{ reading.meter }}</li>
+                                <li>{{ reading.irrigation_litres }}</li>
+                                <li>{{ reading.irrigation_mms }}</li>
+                            </ul>
+                        </div>
+                        {% endfor %}
+                    </section>
+        </div>
+    </div>
+{% else %}
+    <p>No readings</p>
+{% endif %}
+
+<iframe id="widget-iframe" width="300px" height="195px"
+ src="https://services.metservice.com/weather-widget/widget?params=blue|medium|portrait|days-3|classic&loc=hastings&type=urban" allowtransparency="true" style="border:none" />
