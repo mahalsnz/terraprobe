@@ -1,6 +1,6 @@
 from django import forms
-from .models import Document, Site, UserFullName
-#from django.contrib.auth.models import User
+from .models import Document, Reading, Site, UserFullName
+
 from django.forms import ModelChoiceField
 
 class DocumentForm(forms.ModelForm):
@@ -9,7 +9,16 @@ class DocumentForm(forms.ModelForm):
         model = Document
         fields = ['description', 'document', 'created_date', 'created_by']
 
-class SelectorForm(forms.Form):
+class SiteReadingsForm(forms.ModelForm):
+    site = forms.ModelChoiceField(queryset=Site.objects.all(), widget=forms.Select())
+    technician = forms.ModelChoiceField(queryset=UserFullName.objects.filter(groups__name='Technician'), widget=forms.Select())
 
-    site = forms.ModelChoiceField(queryset=Site.objects.all(), widget=forms.Select(attrs={"onChange":'submit()'}))
-    #technician = forms.ModelChoiceField(queryset=UserFullName.objects.filter(groups__name='Technician'), widget=forms.Select(attrs={"onChange":'submit()'}))
+    class Meta:
+        model = Reading
+        fields = ()
+
+    # Override
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #self.fields['city'].queryset = City.objects.none()
+        #self.fields['country'].queryset = Country.objects.none()
