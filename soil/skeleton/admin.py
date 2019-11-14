@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 
 from .models import Farm
-from .models import Site
+from .models import Site, SiteDescription
 from .models import Crop
 from .models import Reading
 from .models import Report
@@ -48,7 +48,7 @@ class FarmAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'site_number', 'farm', 'name', 'technician')
+    list_display = ('site_number', 'name', 'farm', 'technician')
     fieldsets = [
         ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],

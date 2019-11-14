@@ -7,6 +7,8 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 import datetime
 
+# Helpers
+
 IRRIGATION_METHOD = (
     (0, "Non-Drip (Overhead)"),
     (1, "Drip")
@@ -18,6 +20,8 @@ class UserFullName(User):
 
     def __str__(self):
         return self.get_full_name()
+
+# Database
 
 class Document(models.Model):
     description = models.CharField(max_length=255, blank=True)
@@ -205,6 +209,14 @@ class Site(models.Model):
 
     def __str__(self):
         return self.name
+
+# Combines Site name and number. A lot of sites are known by number
+class SiteDescription(Site):
+    class Meta:
+        proxy = True
+
+    def __str__(self):
+        return "(" + self.site_number + ") " + self.name
 
 class Diviner(models.Model):
     diviner_number = models.CharField(max_length=50, null=False)

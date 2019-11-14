@@ -1,5 +1,5 @@
 from django import forms
-from .models import Document, Reading, Site, UserFullName
+from .models import Document, Reading, Site, UserFullName, SiteDescription
 
 from django.forms import ModelChoiceField
 
@@ -10,7 +10,7 @@ class DocumentForm(forms.ModelForm):
         fields = ['description', 'document', 'created_date', 'created_by']
 
 class SiteReadingsForm(forms.ModelForm):
-    site = forms.ModelChoiceField(queryset=Site.objects.all(), widget=forms.Select())
+    site = forms.ModelChoiceField(queryset=SiteDescription.objects.all(), widget=forms.Select())
     technician = forms.ModelChoiceField(queryset=UserFullName.objects.filter(groups__name='Technician'), widget=forms.Select())
 
     class Meta:
