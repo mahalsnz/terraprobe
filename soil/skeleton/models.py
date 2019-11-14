@@ -7,6 +7,8 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 import datetime
 
+# Helpers
+
 IRRIGATION_METHOD = (
     (0, "Non-Drip (Overhead)"),
     (1, "Drip")
@@ -18,6 +20,8 @@ class UserFullName(User):
 
     def __str__(self):
         return self.get_full_name()
+
+# Database
 
 class Document(models.Model):
     description = models.CharField(max_length=255, blank=True)
@@ -174,8 +178,6 @@ class Site(models.Model):
     depth8 = models.IntegerField(null=True, blank=True)
     depth9 = models.IntegerField(null=True, blank=True)
     depth10 = models.IntegerField(null=True, blank=True)
-    depth11 = models.IntegerField(null=True, blank=True)
-    depth12 = models.IntegerField(null=True, blank=True)
 
     # Horison Equation
     depth_he1 = models.IntegerField(null=True, blank=True)
@@ -188,8 +190,6 @@ class Site(models.Model):
     depth_he8 = models.IntegerField(null=True, blank=True)
     depth_he9 = models.IntegerField(null=True, blank=True)
     depth_he10 = models.IntegerField(null=True, blank=True)
-    depth_he11 = models.IntegerField(null=True, blank=True)
-    depth_he12 = models.IntegerField(null=True, blank=True)
 
     #Scheduling
     upper_limit = models.ForeignKey(ReadingType, related_name="upper_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Upper line for Graph")
@@ -209,6 +209,14 @@ class Site(models.Model):
 
     def __str__(self):
         return self.name
+
+# Combines Site name and number. A lot of sites are known by number
+class SiteDescription(Site):
+    class Meta:
+        proxy = True
+
+    def __str__(self):
+        return "(" + self.site_number + ") " + self.name
 
 class Diviner(models.Model):
     diviner_number = models.CharField(max_length=50, null=False)
@@ -275,8 +283,7 @@ class Reading(models.Model):
     depth8 = models.FloatField(null=True, blank=True)
     depth9 = models.FloatField(null=True, blank=True)
     depth10 = models.FloatField(null=True, blank=True)
-    depth11 = models.FloatField(null=True, blank=True)
-    depth12 = models.FloatField(null=True, blank=True)
+
     serial_number = models.ForeignKey(Probe, null=True,  blank=True, on_delete=models.CASCADE)
 
     rz1 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 1")

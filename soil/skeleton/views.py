@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import TemplateView, ListView, View, CreateView
+from django.utils import timezone
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
@@ -101,8 +102,10 @@ def handle_file(f, request):
         # Call different handlers
         if type == 'neutron':
             handle_neutron_file(file_data, request)
-        else:
+        elif type == 'diviner':
             handle_diviner_file(file_data, request)
+        else:
+            handle_prwin_file(file_data, request)
 '''
     handle_neutron_file
 '''
@@ -249,3 +252,26 @@ def handle_diviner_file(file_data, request):
 
     logger.error("Final Data:" + str(data))
     process_probe_data(data, serial_number_id, request)
+
+'''
+    handle_prwin_file
+'''
+
+def handle_prwin_file(file_data, request):
+    logger.error("***Handling PRWIN")
+    lines = file_data.split("\n")
+
+    # Variable for loop
+    #data = {}
+    #date_formatted = None
+    site_number = None
+    #serial_number_id = None
+    #readings = []
+    #need_date = True
+
+    for line in lines:
+        fields = line.split(",")
+
+        # First field of every line is site number
+        site_number = fields[0]
+        logger.error("Site Number:" + site_number)

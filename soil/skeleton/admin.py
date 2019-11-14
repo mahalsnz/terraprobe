@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 
 from .models import Farm
-from .models import Site
+from .models import Site, SiteDescription
 from .models import Crop
 from .models import Reading
 from .models import Report
@@ -48,7 +48,7 @@ class FarmAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'site_number', 'farm', 'name', 'technician')
+    list_display = ('site_number', 'name', 'farm', 'technician')
     fieldsets = [
         ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
@@ -56,7 +56,7 @@ class SiteAdmin(admin.ModelAdmin):
         ('Root Zones',  {'fields': ['rz1_top','rz1_bottom','rz2_top','rz2_bottom','rz3_top','rz3_bottom'], 'classes': ['collapse']}),
         ('Depths',  {'fields': [('depth1', 'depth_he1'),('depth2', 'depth_he2'),('depth3', 'depth_he3'),('depth4', 'depth_he4'),
                                 ('depth5', 'depth_he5'),('depth6', 'depth_he6'),('depth7', 'depth_he7'),('depth8', 'depth_he8'),
-                                ('depth9', 'depth_he9'),('depth10', 'depth_he10'),('depth11', 'depth_he11'),('depth12', 'depth_he12')],'classes': ['collapse']}),
+                                ('depth9', 'depth_he9'),('depth10', 'depth_he10')],'classes': ['collapse']}),
         ('Schedule',    {'fields': ['upper_limit', 'lower_limit', 'emitter_rate', 'row_spacing', 'emitter_spacing', 'plant_spacing', 'wetted_width', 'delivery_time', 'area'],
             'classes': ['collapse']}),
     ]
