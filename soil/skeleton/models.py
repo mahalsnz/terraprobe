@@ -174,8 +174,6 @@ class Site(models.Model):
     depth8 = models.IntegerField(null=True, blank=True)
     depth9 = models.IntegerField(null=True, blank=True)
     depth10 = models.IntegerField(null=True, blank=True)
-    depth11 = models.IntegerField(null=True, blank=True)
-    depth12 = models.IntegerField(null=True, blank=True)
 
     # Horison Equation
     depth_he1 = models.IntegerField(null=True, blank=True)
@@ -188,8 +186,6 @@ class Site(models.Model):
     depth_he8 = models.IntegerField(null=True, blank=True)
     depth_he9 = models.IntegerField(null=True, blank=True)
     depth_he10 = models.IntegerField(null=True, blank=True)
-    depth_he11 = models.IntegerField(null=True, blank=True)
-    depth_he12 = models.IntegerField(null=True, blank=True)
 
     #Scheduling
     upper_limit = models.ForeignKey(ReadingType, related_name="upper_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Upper line for Graph")
@@ -275,8 +271,7 @@ class Reading(models.Model):
     depth8 = models.FloatField(null=True, blank=True)
     depth9 = models.FloatField(null=True, blank=True)
     depth10 = models.FloatField(null=True, blank=True)
-    depth11 = models.FloatField(null=True, blank=True)
-    depth12 = models.FloatField(null=True, blank=True)
+
     serial_number = models.ForeignKey(Probe, null=True,  blank=True, on_delete=models.CASCADE)
 
     rz1 = models.FloatField(null=True, blank=True, verbose_name="Root Zone 1")
