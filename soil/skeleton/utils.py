@@ -59,8 +59,8 @@ def process_probe_data(readings, serial_unique_id, request):
         s = Site.objects.get(site_number=split_key[0])
         data['site'] = s.id
 
-        # TODO: When we have authorization over site set up can have logged in user as created by
-        data['created_by'] = '2'
+        current_user = request.user
+        data['created_by'] = current_user.id
 
         data['serial_number'] = serial_unique_id
         data['type'] = '1' # always probe
