@@ -2,12 +2,50 @@
 
 {% block content %}
     <h1>Readings</h1>
+
+    <div class="row selector">
+        <div class="col-sm-3">
+            <button type="button" class="btn bg-green">Previous</button>
+        </div>
+        <div class="col-sm-3">
+            <div class="btn-group">
+                <button type="button" class="btn bg-green dropdown-toggle" data-toggle="dropdown">
+                    Site
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">List</a>
+                    <a class="dropdown-item" href="#">Sites</a>
+                    <a class="dropdown-item" href="#">Here</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="btn-group">
+                <button type="button" class="btn bg-green dropdown-toggle" data-toggle="dropdown">
+                    Technician
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">List</a>
+                    <a class="dropdown-item" href="#">Technician</a>
+                    <a class="dropdown-item" href="#">Here</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <button type="button" class="btn bg-green">Next</button>
+        </div>
+    </div>
+
+
     {% if readings.all %}
-        <h2>{{ readings.first.site }}</h2>
-        <a href="{% url 'readings' %}">Change site</a>
-        <div class="row">
-                <div class="col-2">
-                    <div class="readings-table-header">
+
+        <div class="card">
+            <div class="card-header">
+                <span class="btn">Site: {{ readings.first.site }}</span><span style="float:right"><button type="button" class="btn bg-green">+ Add note</button></span>
+            </div>
+            <div class="card-body">
+                <section class="readings-wrapper">
+                    <div class="readings-header">
                         <div class="readings-column">
                             <ul>
                                 <li>ID</li>
@@ -29,34 +67,66 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-                <div class="col-10">
-                        <section class="readings-table">
-                                {% for reading in readings %}
-                                <div class="readings-column">    
-                                    <ul>
-                                        <li>{{ reading.id }}</li>
-                                        <li>{{ reading.site }}</li>
-                                        <li>{{ reading.type }}</li>
-                                        <li>{{ reading.date }}</li>
-                                        <li>{{ reading.depth1 }}</li>
-                                        <li>{{ reading.depth2 }}</li>
-                                        <li>{{ reading.depth3 }}</li>
-                                        <li>{{ reading.depth4 }}</li>
-                                        <li>{{ reading.depth5 }}</li>
-                                        <li>{{ reading.depth6 }}</li>
-                                        <li>{{ reading.depth7 }}</li>
-                                        <li>{{ reading.depth8 }}</li>
-                                        <li>{{ reading.depth9 }}</li>
-                                        <li>{{ reading.depth10 }}</li>
-                                        <li>{{ reading.depth11 }}</li>
-                                        <li>{{ reading.depth12 }}</li>
-                                    </ul>
-                                </div>
-                                {% endfor %}
-                            </section>
+                    <div class="readings-values">
+                        <div class="readings-column"></div>
+                        {% for reading in readings %}
+                        <div class="readings-column">    
+                            <ul>
+                                <li>{{ reading.id }}</li>
+                                <li>{{ reading.site }}</li>
+                                <li>{{ reading.type }}</li>
+                                <li>{{ reading.date }}</li>
+                                <li>{{ reading.depth1 }}</li>
+                                <li>{{ reading.depth2 }}</li>
+                                <li>{{ reading.depth3 }}</li>
+                                <li>{{ reading.depth4 }}</li>
+                                <li>{{ reading.depth5 }}</li>
+                                <li>{{ reading.depth6 }}</li>
+                                <li>{{ reading.depth7 }}</li>
+                                <li>{{ reading.depth8 }}</li>
+                                <li>{{ reading.depth9 }}</li>
+                                <li>{{ reading.depth10 }}</li>
+                                <li>{{ reading.depth11 }}</li>
+                                <li>{{ reading.depth12 }}</li>
+                            </ul>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <b>Season to date totals:</b>
+                    </div>
+                    <div class="col-sm-4">
+                        Irrigation:
+                    </div>
+                    <div class="col-sm-4">
+                        Rainfall:
+                    </div>
                 </div>
             </div>
+        </div>
+        <h3>Make Recommendation</h3>
+        <label>Hours:</label>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Mon">
+            <input type="text" class="form-control" placeholder="Tue">
+            <input type="text" class="form-control" placeholder="Wed">
+            <input type="text" class="form-control" placeholder="Thu">
+            <input type="text" class="form-control" placeholder="Fri">
+            <input type="text" class="form-control" placeholder="Sat">
+            <input type="text" class="form-control" placeholder="Sun">
+        </div>
+        <div class="form-group">
+            <label for="recommendation">Recommendation:</label>
+            <textarea class="form-control" rows="5" id="recommendation"></textarea>
+        </div>
+        <button type="submit" class="btn bg-green">Submit</button>
+        <br>
+        <br>
+
 
     {% else %}
         <h2>No Readings</h2>
