@@ -1,24 +1,120 @@
+/* UNIVERSAL ELEMENTS */
+
 body {
     background-color: white;
     font-family: 'Roboto', sans-serif;
+    color: #16161d;
 }
 
 header {
+    margin-bottom: 36px;
+}
+
+a {
+    color: #64A414;
+}
+
+a:hover {
+    color: #508310;
+}
+
+h1 {
     margin-bottom: 24px;
 }
 
-.readings-table {
+h2 {
+    margin-bottom: 24px;
+}
+
+/*.row {
+    margin-bottom: 24px;
+}*/
+
+/* NAV */
+
+nav {
+    box-shadow: 0 4px 12px 0px rgba(0,0,0,0.1);
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: rgba(255,255,255,0.8);
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: white;
+}
+
+/* SELECTOR CARD */
+
+.selector .btn, .selector .btn-group {
+    display: block;
+    width: 100%;
+    margin-bottom: 6px;
+}
+
+.dropdown-menu {
+    width: 100%;
+}
+
+/* HELPERS */
+
+.bg-green {
+    background-color: #64A414;
+    color: white;
+}
+
+.btn .bg-green:hover {
+    color: white;
+    background-color: #528711;
+    text-decoration: none;
+}
+
+.bg-green-outline {
+    color: #64a414;
+    border: solid 1px #64a414;
+}
+
+/* READINGS TABLE */
+
+.card {
+    margin-top: 12px;
+    margin-bottom: 48px;
+    padding: 0px;
+    box-shadow: 0 4px 12px 0px rgba(0,0,0,0.1);
+}
+
+.readings-wrapper {
+    display: block;
+    color: #7f8c8d;
+    font-size: 80%;
+}
+
+.readings-header {
+    position: absolute;
+    font-weight: 700;
+    background-color: #f0f6e9;
+}
+
+.readings-header .readings-column ul li {
+    background-color: #f0f6e9
+}
+
+.readings-values {
     overflow: hidden;
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
 }
 
-.readings-table .readings-column {
+.readings-column {
     display: inline-block;
     width: 200px;
     margin: 0px;
     padding: 0px;
+}
+
+.readings-values .readings-column:nth-of-type(odd) {
+    background-color: #ecf0f1;
 }
 
 .readings-column ul {
@@ -28,15 +124,10 @@ header {
 }
 
 .readings-column ul li {
-    background-color: #ecf0f1;
-    overflow: scroll;
+    overflow: hidden;
     margin: 0px;
     padding: 6px 12px;
     margin-bottom: 4px;
-}
-
-.readings-table-header .readings-column ul li {
-    font-weight: 700;
 }
 
 /* CSS for D3 graphs */
