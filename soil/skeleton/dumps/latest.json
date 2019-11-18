@@ -61,6 +61,19 @@
   }
 },
 {
+  "model": "address.address",
+  "pk": 3,
+  "fields": {
+    "street_number": "12",
+    "route": "Tory St",
+    "locality": 1,
+    "raw": "12 Tory St, RD3",
+    "formatted": "",
+    "latitude": null,
+    "longitude": null
+  }
+},
+{
   "model": "auth.group",
   "pk": 1,
   "fields": {
@@ -73,15 +86,15 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2019-11-18T03:58:07.240Z",
+    "last_login": "2019-11-18T03:58:07Z",
     "is_superuser": true,
     "username": "admin",
-    "first_name": "",
-    "last_name": "",
+    "first_name": "Mr",
+    "last_name": "Administrator",
     "email": "mabznz@gmail.com",
     "is_staff": true,
     "is_active": true,
-    "date_joined": "2019-06-24T22:47:46.176Z",
+    "date_joined": "2019-06-24T22:47:46Z",
     "groups": [],
     "user_permissions": []
   }
@@ -145,11 +158,29 @@
   }
 },
 {
-  "model": "sessions.session",
-  "pk": "627nbiv0ik7uxm07er8e6u7xw40q568o",
+  "model": "auth.user",
+  "pk": 5,
   "fields": {
-    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
-    "expire_date": "2019-12-02T03:58:07.249Z"
+    "password": "pbkdf2_sha256$150000$RLSgi7j5PblU$8CEiLLwcMHYIEmgdfRfcgdvdBnBRIuc4kBC+co3YxNs=",
+    "last_login": "2019-11-18T22:19:42.258Z",
+    "is_superuser": true,
+    "username": "hamiltonb",
+    "first_name": "Brendan",
+    "last_name": "Hamilton",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-11-18T22:18:58Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "beffu2xip22qh1pea9vox3wlhl0vdt7w",
+  "fields": {
+    "session_data": "MDM0YTk5NzliZDExZjA1NjE0YzRkMGYxYTAxMTYxYTBjZjA0MjFjYTp7Il9hdXRoX3VzZXJfaWQiOiI1IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3OTNkZDI3M2NhZTA4NzY3NjhhNjVhYTlmZWRhMDVkMzA3YTg5MzdiIn0=",
+    "expire_date": "2019-12-02T22:19:42.267Z"
   }
 },
 {
@@ -166,6 +197,270 @@
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2019-09-25T21:50:03.196Z"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 1,
+  "fields": {
+    "description": "",
+    "document": "documents/neutron_probe_test_upload_1_site_xQBZuDq.csv"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 2,
+  "fields": {
+    "description": "",
+    "document": "documents/neutron_probe_test_upload_1_site_gjdirFX.csv"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 3,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000067_XdxqaWh.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 4,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_InObe3p.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 5,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_r2wfPcI.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 6,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_jPWjFwh.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 7,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_L2jLaFD.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 8,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_zjZlzFC.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 9,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_dSGU7vU.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 10,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_sRuUUBR.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 11,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_yZbLNn2.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 12,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_jA4D7oO.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 13,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_X8WHerm.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 14,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_LYPT67W.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 15,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_dPJsm0c.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 16,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_V3mYPgH.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 17,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 18,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_AfZ88W6.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 19,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_WRkUzs2.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 20,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_Hjm0P5R.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 21,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_LgborkC.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 22,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_8jnFqRp.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 23,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_q2b5B5O.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 24,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_B5PeT85.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 25,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_zdKxC7R.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 26,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_VK4vs1E.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 27,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_q4BVMko.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 28,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_z4tFzIT.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 29,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_vnHXHOp.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 30,
+  "fields": {
+    "description": "",
+    "document": "documents/neutron_probe_test_upload_1_site_pMUQYPq.csv"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 31,
+  "fields": {
+    "description": "",
+    "document": "documents/diviner_probe_test_21May2019_Pro22_hbG7nFo.csv"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 32,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_Hvo4REp.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 33,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_ysX7egX.TXT"
   }
 },
 {
@@ -241,6 +536,23 @@
     "email": null,
     "folder": null,
     "created_date": "2019-06-27T21:35:39Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.farm",
+  "pk": 3,
+  "fields": {
+    "name": "Evendon",
+    "owner": "Gary Wellwood",
+    "comment": null,
+    "address": 3,
+    "report": 1,
+    "landline": null,
+    "mobile": null,
+    "email": null,
+    "folder": null,
+    "created_date": "2019-11-18T22:22:26Z",
     "created_by": 1
   }
 },
@@ -582,6 +894,124 @@
   }
 },
 {
+  "model": "skeleton.site",
+  "pk": 4,
+  "fields": {
+    "site_number": "68",
+    "farm": 3,
+    "technician": 3,
+    "selected": null,
+    "name": "River 4 Pacific Rose",
+    "variety": "Pacific Rose",
+    "crop": 2,
+    "report": null,
+    "irrigation_method": 1,
+    "irrigation_area": 10.0,
+    "irrigation_time": 3.0,
+    "irrigation_delivered_volume": 1200.0,
+    "irrigation_position": 10.0,
+    "irrigation_yield": null,
+    "irrigation_allocation_volume": 0.0,
+    "rz1_top": 0,
+    "rz1_bottom": 100,
+    "rz2_top": 0,
+    "rz2_bottom": 70,
+    "rz3_top": 0,
+    "rz3_bottom": 45,
+    "depth1": 10,
+    "depth2": 20,
+    "depth3": 30,
+    "depth4": 40,
+    "depth5": 50,
+    "depth6": 60,
+    "depth7": 70,
+    "depth8": 80,
+    "depth9": 90,
+    "depth10": 100,
+    "depth_he1": 1,
+    "depth_he2": 2,
+    "depth_he3": 3,
+    "depth_he4": 4,
+    "depth_he5": 5,
+    "depth_he6": 6,
+    "depth_he7": 7,
+    "depth_he8": 8,
+    "depth_he9": 9,
+    "depth_he10": 10,
+    "upper_limit": 3,
+    "lower_limit": 3,
+    "emitter_rate": 50.0,
+    "row_spacing": 500,
+    "emitter_spacing": 250,
+    "plant_spacing": 250,
+    "wetted_width": 500,
+    "delivery_time": null,
+    "area": null,
+    "comment": null,
+    "created_date": "2019-11-18T22:24:21Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.site",
+  "pk": 5,
+  "fields": {
+    "site_number": "71",
+    "farm": 3,
+    "technician": 3,
+    "selected": null,
+    "name": "Deer Block 3 Pacific Queen",
+    "variety": "Pacific Queen",
+    "crop": 2,
+    "report": null,
+    "irrigation_method": 1,
+    "irrigation_area": 10.0,
+    "irrigation_time": 3.0,
+    "irrigation_delivered_volume": 600.0,
+    "irrigation_position": 10.0,
+    "irrigation_yield": null,
+    "irrigation_allocation_volume": 0.0,
+    "rz1_top": 0,
+    "rz1_bottom": 100,
+    "rz2_top": 0,
+    "rz2_bottom": 30,
+    "rz3_top": 0,
+    "rz3_bottom": 75,
+    "depth1": 10,
+    "depth2": 20,
+    "depth3": 30,
+    "depth4": 40,
+    "depth5": 50,
+    "depth6": 60,
+    "depth7": 70,
+    "depth8": 80,
+    "depth9": 90,
+    "depth10": 100,
+    "depth_he1": 1,
+    "depth_he2": 2,
+    "depth_he3": 3,
+    "depth_he4": 4,
+    "depth_he5": 5,
+    "depth_he6": 6,
+    "depth_he7": 7,
+    "depth_he8": 8,
+    "depth_he9": 9,
+    "depth_he10": 10,
+    "upper_limit": 3,
+    "lower_limit": 3,
+    "emitter_rate": 47.0,
+    "row_spacing": 500,
+    "emitter_spacing": 250,
+    "plant_spacing": 250,
+    "wetted_width": 500,
+    "delivery_time": null,
+    "area": null,
+    "comment": null,
+    "created_date": "2019-11-18T22:27:09Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.season",
   "pk": 1,
   "fields": {
@@ -735,6 +1165,58 @@
     "date": "2020-08-18",
     "comment": null,
     "created_date": "2019-11-18T04:03:20Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 9,
+  "fields": {
+    "site": 5,
+    "season": 1,
+    "type": 1,
+    "date": "2018-10-14",
+    "comment": null,
+    "created_date": "2019-11-18T22:38:45Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 10,
+  "fields": {
+    "site": 5,
+    "season": 1,
+    "type": 2,
+    "date": "2019-04-29",
+    "comment": null,
+    "created_date": "2019-11-18T22:39:20Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 11,
+  "fields": {
+    "site": 4,
+    "season": 1,
+    "type": 1,
+    "date": "2018-10-20",
+    "comment": null,
+    "created_date": "2019-11-18T22:39:53Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 12,
+  "fields": {
+    "site": 4,
+    "season": 1,
+    "type": 2,
+    "date": "2019-04-23",
+    "comment": null,
+    "created_date": "2019-11-18T22:40:41Z",
     "created_by": 1
   }
 },
@@ -4316,6 +4798,227 @@
     "content_type": 18,
     "object_id": "1",
     "object_repr": "Pinot Noir Springstone:2018-11-28",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2019-11-18T22:07:47.696Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "68",
+    "object_repr": "Smiley Pink Kiss:2019-08-23",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2019-11-18T22:17:27.051Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "1",
+    "object_repr": "admin",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"first_name\", \"last_name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2019-11-18T22:18:58.567Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "5",
+    "object_repr": "hamiltonb",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2019-11-18T22:19:17.925Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "5",
+    "object_repr": "hamiltonb",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"first_name\", \"is_staff\", \"is_superuser\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2019-11-18T22:19:30.557Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "5",
+    "object_repr": "hamiltonb",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"first_name\", \"last_name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2019-11-18T22:23:33.196Z",
+    "user": 5,
+    "content_type": 1,
+    "object_id": "3",
+    "object_repr": "12 Tory St, Longlands, Hawkes Bay 4172, New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2019-11-18T22:23:39.590Z",
+    "user": 5,
+    "content_type": 12,
+    "object_id": "3",
+    "object_repr": "Evendon",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 35,
+  "fields": {
+    "action_time": "2019-11-18T22:27:06.844Z",
+    "user": 5,
+    "content_type": 16,
+    "object_id": "4",
+    "object_repr": "River 4 Pacific Rose",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 36,
+  "fields": {
+    "action_time": "2019-11-18T22:29:15.352Z",
+    "user": 5,
+    "content_type": 16,
+    "object_id": "5",
+    "object_repr": "Deer Block 3 Pacific Queen",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 37,
+  "fields": {
+    "action_time": "2019-11-18T22:31:35.824Z",
+    "user": 5,
+    "content_type": 16,
+    "object_id": "4",
+    "object_repr": "River 4 Pacific Rose",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"upper_limit\", \"lower_limit\", \"emitter_rate\", \"row_spacing\", \"emitter_spacing\", \"plant_spacing\", \"wetted_width\", \"delivery_time\", \"area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 38,
+  "fields": {
+    "action_time": "2019-11-18T22:34:55.264Z",
+    "user": 5,
+    "content_type": 16,
+    "object_id": "4",
+    "object_repr": "River 4 Pacific Rose",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"delivery_time\", \"area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 39,
+  "fields": {
+    "action_time": "2019-11-18T22:37:27.640Z",
+    "user": 5,
+    "content_type": 16,
+    "object_id": "5",
+    "object_repr": "Deer Block 3 Pacific Queen",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"upper_limit\", \"lower_limit\", \"emitter_rate\", \"row_spacing\", \"emitter_spacing\", \"plant_spacing\", \"wetted_width\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 40,
+  "fields": {
+    "action_time": "2019-11-18T22:39:20.532Z",
+    "user": 5,
+    "content_type": 28,
+    "object_id": "9",
+    "object_repr": "Deer Block 3 Pacific Queen:2018-10-14",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 41,
+  "fields": {
+    "action_time": "2019-11-18T22:39:42.637Z",
+    "user": 5,
+    "content_type": 28,
+    "object_id": "10",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-04-29",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 42,
+  "fields": {
+    "action_time": "2019-11-18T22:40:41.617Z",
+    "user": 5,
+    "content_type": 28,
+    "object_id": "11",
+    "object_repr": "River 4 Pacific Rose:2010-10-20",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 43,
+  "fields": {
+    "action_time": "2019-11-18T22:41:00.954Z",
+    "user": 5,
+    "content_type": 28,
+    "object_id": "12",
+    "object_repr": "River 4 Pacific Rose:2019-04-23",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 44,
+  "fields": {
+    "action_time": "2019-11-18T22:41:59.590Z",
+    "user": 5,
+    "content_type": 28,
+    "object_id": "11",
+    "object_repr": "River 4 Pacific Rose:2018-10-20",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
   }

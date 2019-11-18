@@ -38,7 +38,8 @@ from .models import Site
 '''
 
 def process_probe_data(readings, serial_unique_id, request):
-
+    logger.error("*** process_probe_data")
+    logger.error(readings)
     for key, site_info in readings.items():
         # Firstly we total up each site-dates readings
         totals = {}
