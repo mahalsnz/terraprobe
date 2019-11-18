@@ -12,7 +12,7 @@ from .models import Site
 
     It expects structure of readings as below
 
-    Key is site_number and date of reaing in mm-dd-yyyy
+    Key is site_number and date of reading in mm-dd-yyyy
     data = {
         '3306,28-5-2019' : [
             # First reading (of usually 3)
