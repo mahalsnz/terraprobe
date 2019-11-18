@@ -281,6 +281,9 @@ def handle_prwin_file(file_data, request):
 
     data = {}
     site_number = None
+    serial_number_id = None
+    bolNeedSerialNumber = True
+
     for line in lines:
         reading = re.search("^\d.*", line) # Make sure we have a reading line
         if reading:
@@ -302,15 +305,37 @@ def handle_prwin_file(file_data, request):
                 date_object = datetime.strptime(date, '%d/%m/%Y') # American
                 date_formatted = date_object.strftime('%Y-%m-%d')
                 logger.error("Date:" + date_formatted)
+
+                # Get Serial Number. We are just going to get it once and asume all PRWIN readings for the season are from one probe
+                if bolNeedSerialNumber:
+                    serialnumber = fields[13]
+                    logger.error("Serial Number:" + serialnumber)
+                    serialnumber = int(serialnumber)
+                    # Check Serial Number exists and return error message if is not. Then get the serial number unique id
+                    if not Probe.objects.filter(serial_number=serialnumber).exists():
+                        raise Exception("Serial Number:" + serialnumber + " does not exist.")
+                    p = Probe.objects.get(serial_number=serialnumber)
+                    serial_number_id = p.id
+                    bolNeedSerialNumber = False
+
+                # Create Key
                 key = site_number + "," + date_formatted
                 logger.error("Key:" + key)
 
                 reading_array = []
                 data[key] = []
-                for depth in range(3, 12):
-                    reading = fields[depth]
-                    logger.error("Reading:" + reading)
+                for depth in range(3, 13):
+                    reading = float(fields[depth])
+                    #logger.error("Reading:" + reading)
                     reading_array.append(reading)
-                logger.error("Reading Array:" + str(reading_array))
 
-        # End reading line
+                #logger.error("Reading Array:" + str(reading_array))
+
+                # Wierldy enough we make 3 of these arrays to put in data to match nuetron and diviner
+                for lap in range(3):
+                    data[key].append(reading_array)
+
+        # End if we have a reading
+    # End loop through lines
+    #logger.error("Final Data:" + str(data))
+    process_probe_data(data, serial_number_id, request)
