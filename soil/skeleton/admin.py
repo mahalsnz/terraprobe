@@ -2,10 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import Farm
-from .models import Site, SiteDescription
-from .models import Crop
-from .models import Reading
+from .models import Farm, Site, SiteDescription, Crop, Reading
 from .models import Report
 from .models import Calibration
 from .models import ReadingType
@@ -15,7 +12,9 @@ from .models import ETReading
 from .models import KCReading
 from .models import Diviner
 from .models import ProbeDiviner
-from .models import UserFullName
+from .models import CriticalDateType
+from .models import CriticalDate, UserFullName
+from .models import SeasonStartEnd
 
 class ProbeDivinerAdmin(admin.ModelAdmin):
     list_display = ('probe', 'diviner')
@@ -36,7 +35,7 @@ class ReadingTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'comment', 'formula')
 
 class SeasonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'period_from', 'period_to', 'comment')
+    list_display = ('name', 'current_flag')
 
 class FarmAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -50,7 +49,7 @@ class FarmAdmin(admin.ModelAdmin):
 class SiteAdmin(admin.ModelAdmin):
     list_display = ('site_number', 'name', 'farm', 'technician')
     fieldsets = [
-        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'variety','crop','season_start', 'bud_break', 'cd2', 'cd3', 'cd4', 'cd5', 'cd6', 'season_end','created_date', 'created_by']}),
+        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'variety','crop','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
             'classes': ['collapse']}),
         ('Root Zones',  {'fields': ['rz1_top','rz1_bottom','rz2_top','rz2_bottom','rz3_top','rz3_bottom'], 'classes': ['collapse']}),
@@ -73,8 +72,6 @@ class CropAdmin(admin.ModelAdmin):
     list_display = ['name']
     fieldsets = [
         ('Main',        {'fields': ['name', 'report','dwu_formaula', 'created_date', 'created_by']}),
-        ('Dates',       {'fields': ['season_start',('critical_label1','critical_date1'), ('critical_label2','critical_date2'), ('critical_label3','critical_date3'),
-                                    ('critical_label4','critical_date4'), ('critical_label5','critical_date5'), ('critical_label6','critical_date6'),'season_end'],'classes': ['collapse']}),
         ('Irrigations', {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position',
                                     'irrigation_upper', 'irrigation_lower', 'irrigation_crop_factor', 'irrigation_deliver_factor', 'irrigation_yield',
                                     'irrigation_drip_days', 'irrigation_row_space', 'irrigation_emit_space', 'irrigation_plant_space', 'irrigation_wet_width'],'classes': ['collapse']}),
@@ -83,6 +80,15 @@ class CropAdmin(admin.ModelAdmin):
 
 class ProbeAdmin(admin.ModelAdmin):
     list_display = ['id', 'serial_number', 'comment']
+
+class CriticalDateTypeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'season_flag']
+
+class CriticalDateAdmin(admin.ModelAdmin):
+    list_display = ['site', 'season', 'type', 'date']
+
+class SeasonStartEndAdmin(admin.ModelAdmin):
+    list_display = ['site', 'season', 'period_from', 'period_to']
 
 admin.site.register(Site, SiteAdmin)
 admin.site.register(Farm, FarmAdmin)
@@ -97,3 +103,6 @@ admin.site.register(ETReading, ETReadingAdmin)
 admin.site.register(KCReading, KCReadingAdmin)
 admin.site.register(Diviner, DivinerAdmin)
 admin.site.register(ProbeDiviner, ProbeDivinerAdmin)
+admin.site.register(CriticalDateType, CriticalDateTypeAdmin)
+admin.site.register(CriticalDate, CriticalDateAdmin)
+admin.site.register(SeasonStartEnd, SeasonStartEndAdmin)

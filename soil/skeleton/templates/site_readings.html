@@ -9,11 +9,14 @@
         <div class="form-group col-md-1 mb-0">
             <button type="button" id="previousSite">Previous</button>
         </div>
-        <div class="form-group col-md-5 mb-0">
+        <div class="form-group col-md-4 mb-0">
             {{ form.site|as_crispy_field }}
         </div>
-        <div class="form-group col-md-5 mb-0">
+        <div class="form-group col-md-4 mb-0">
             {{ form.technician|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-2 mb-0">
+            {{ form.season|as_crispy_field }}
         </div>
         <div class="form-group col-md-1 mb-0">
             <button type="button" id="nextSite">Next</button>
@@ -27,12 +30,13 @@
 
 <script>
     /******************* start loadReadingList ********************************/
-    function loadReadingList(site, url) {
+    function loadReadingList(site, season, url) {
         if (site) {
             $.ajax({
                 url: url,
                 data: {
-                    'site': site // add the site id to the GET parameters
+                    'site': site, // add the site id to the GET parameters
+                    'season': season
                 },
                 success: function(data) {
                     $("#readingList").empty(); // empty out the div first
@@ -46,14 +50,17 @@
     }
     /********************* end loadReadingList ********************************/
 
+    //TODO: Refactor
     $("#previousSite").click(function() {
         console.log("In Previous Site");
         var url = $("#readingList").attr("data-readings-url");
         console.log("URL:" + url);
         var siteId = $("#id_site option:selected").prev().val();
         console.log("siteId:" + siteId);
+        var seasonId = $("#id_season").val();
+        console.log("seasonId:" + seasonId);
         $("#id_site").val(siteId);
-        loadReadingList(siteId, url);
+        loadReadingList(siteId, seasonId, url);
     });
     $("#id_technician").change(function() {
         var url = $("#readingForm").attr("data-sites-url");
@@ -74,9 +81,22 @@
     $("#id_site").change(function() {
         var url = $("#readingList").attr("data-readings-url");
         console.log("URL:" + url);
-        var siteId = $(this).val();  // get the selected country ID from the HTML input
+        var siteId = $(this).val();
         console.log("siteId:" + siteId);
-        loadReadingList(siteId, url);
+        var seasonId = $("#id_season").val();
+        console.log("seasonId:" + seasonId);
+
+        loadReadingList(siteId, seasonId, url);
+    });
+    $("#id_season").change(function() {
+        var url = $("#readingList").attr("data-readings-url");
+        console.log("URL:" + url);
+        var siteId = $("#id_site").val();  // get the selected country ID from the HTML input
+        console.log("siteId:" + siteId);
+        var seasonId = $(this).val();
+        console.log("seasonId:" + seasonId);
+
+        loadReadingList(siteId, seasonId, url);
     });
     $("#nextSite").click(function() {
         console.log("In Next Site");
@@ -84,8 +104,10 @@
         console.log("URL:" + url);
         var siteId = $("#id_site option:selected").next().val();
         console.log("siteId:" + siteId);
+        var seasonId = $("#id_season").val();
+        console.log("seasonId:" + seasonId);
         $("#id_site").val(siteId);
-        loadReadingList(siteId, url);
+        loadReadingList(siteId, seasonId, url);
     });
 </script>
 

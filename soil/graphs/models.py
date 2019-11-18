@@ -10,8 +10,6 @@ class Farm(models.Model):
 class Site(models.Model):
     name = models.CharField(max_length=100, null=False)
     variety = models.CharField(max_length=100, null=False)
-    season_start = models.DateField()
-    season_end = models.DateField()
 
     class Meta:
         managed = False

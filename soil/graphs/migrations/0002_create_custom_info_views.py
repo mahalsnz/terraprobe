@@ -17,9 +17,7 @@ class Migration(migrations.Migration):
             SELECT
                 skeleton_site.id,
             	skeleton_site.name,
-            	skeleton_site.variety,
-            	skeleton_site.season_start,
-            	skeleton_site.season_end
+            	skeleton_site.variety
             FROM
             	skeleton_site;
 

@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
-from .models import Probe, Reading, Site
+from .models import Probe, Reading, Site, SeasonStartEnd
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -40,8 +40,21 @@ def load_sites(request):
     return render(request, 'site_dropdown_list_options.html', {'sites':sites})
 
 def load_site_readings(request):
-    site_id = request.GET.get('site')
-    readings = Reading.objects.filter(site_id=site_id).order_by('date')
+    readings = None
+    try:
+        site_id = request.GET.get('site')
+        season_id = request.GET.get('season')
+
+        if site_id:
+            try:
+                dates = SeasonStartEnd.objects.get(site=site_id, season=season_id)
+            except:
+                raise Exception("No Season Start and End set up for site.")
+
+            readings = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('date')
+
+    except Exception as e:
+        messages.error(request, " Error is: " + str(e))
     return render(request, 'site_readings_list.html', {'readings':readings})
 
 @login_required
