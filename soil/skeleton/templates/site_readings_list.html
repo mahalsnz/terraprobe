@@ -55,6 +55,36 @@
                     </section>
         </div>
     </div>
+    <div class="card-footer">
+        <div class="row">
+               <div class="col-sm-4">
+                   <b>Season to date totals:</b>
+               </div>
+               <div class="col-sm-4">
+                   Irrigation:
+               </div>
+               <div class="col-sm-4">
+                   Rainfall:
+               </div>
+       </div>
+   </div>
+   <h3>Make Recommendation</h3>
+   <label>Hours:</label>
+   <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Mon">
+        <input type="text" class="form-control" placeholder="Tue">
+        <input type="text" class="form-control" placeholder="Wed">
+        <input type="text" class="form-control" placeholder="Thu">
+        <input type="text" class="form-control" placeholder="Fri">
+        <input type="text" class="form-control" placeholder="Sat">
+        <input type="text" class="form-control" placeholder="Sun">
+    </div>
+    <div class="form-group">
+        <label for="recommendation">Recommendation:</label>
+        <textarea class="form-control" rows="5" id="recommendation"></textarea>
+    </div>
+    <button type="submit" class="btn bg-green">Submit</button>
+    <br>
 {% else %}
     <p>No readings</p>
 {% endif %}
