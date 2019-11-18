@@ -73,7 +73,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2019-09-12T04:19:02.643Z",
+    "last_login": "2019-11-18T03:58:07.240Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",
@@ -146,6 +146,14 @@
 },
 {
   "model": "sessions.session",
+  "pk": "627nbiv0ik7uxm07er8e6u7xw40q568o",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-12-02T03:58:07.249Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "gwcdjw8vwwdqhwxotwol2rbrx1373xrx",
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
@@ -158,15 +166,6 @@
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2019-09-25T21:50:03.196Z"
-  }
-},
-{
-  "model": "skeleton.season",
-  "pk": 1,
-  "fields": {
-    "name": "2018",
-    "created_date": "2019-07-04T21:11:08Z",
-    "created_by": 1
   }
 },
 {
@@ -252,6 +251,20 @@
     "name": "Grapes Pinot Noir",
     "report": 1,
     "dwu_formaula": null,
+    "season_start": null,
+    "critical_label1": null,
+    "critical_label2": null,
+    "critical_label3": null,
+    "critical_label4": null,
+    "critical_label5": null,
+    "critical_label6": null,
+    "critical_date1": null,
+    "critical_date2": null,
+    "critical_date3": null,
+    "critical_date4": null,
+    "critical_date5": null,
+    "critical_date6": null,
+    "season_end": null,
     "irrigation_method": 1,
     "irrigation_area": 0.0,
     "irrigation_time": 1.0,
@@ -278,6 +291,20 @@
     "name": "Apples",
     "report": 1,
     "dwu_formaula": null,
+    "season_start": null,
+    "critical_label1": null,
+    "critical_label2": null,
+    "critical_label3": null,
+    "critical_label4": null,
+    "critical_label5": null,
+    "critical_label6": null,
+    "critical_date1": null,
+    "critical_date2": null,
+    "critical_date3": null,
+    "critical_date4": null,
+    "critical_date5": null,
+    "critical_date6": null,
+    "season_end": null,
     "irrigation_method": 1,
     "irrigation_area": 0.0,
     "irrigation_time": null,
@@ -304,6 +331,20 @@
     "name": "Kiwifruit",
     "report": 1,
     "dwu_formaula": null,
+    "season_start": null,
+    "critical_label1": null,
+    "critical_label2": null,
+    "critical_label3": null,
+    "critical_label4": null,
+    "critical_label5": null,
+    "critical_label6": null,
+    "critical_date1": null,
+    "critical_date2": null,
+    "critical_date3": null,
+    "critical_date4": null,
+    "critical_date5": null,
+    "critical_date6": null,
+    "season_end": null,
     "irrigation_method": 1,
     "irrigation_area": null,
     "irrigation_time": null,
@@ -330,6 +371,20 @@
     "name": "Grapes",
     "report": 1,
     "dwu_formaula": null,
+    "season_start": null,
+    "critical_label1": null,
+    "critical_label2": null,
+    "critical_label3": null,
+    "critical_label4": null,
+    "critical_label5": null,
+    "critical_label6": null,
+    "critical_date1": null,
+    "critical_date2": null,
+    "critical_date3": null,
+    "critical_date4": null,
+    "critical_date5": null,
+    "critical_date6": null,
+    "season_end": null,
     "irrigation_method": 1,
     "irrigation_area": null,
     "irrigation_time": null,
@@ -403,9 +458,9 @@
     "wetted_width": null,
     "delivery_time": null,
     "area": null,
+    "comment": null,
     "created_date": "2019-06-24T23:53:03Z",
-    "created_by": 1,
-    "comment": null
+    "created_by": 1
   }
 },
 {
@@ -462,9 +517,9 @@
     "wetted_width": 350,
     "delivery_time": 60,
     "area": 10.0,
+    "comment": null,
     "created_date": "2019-06-27T21:46:01Z",
-    "created_by": 1,
-    "comment": null
+    "created_by": 1
   }
 },
 {
@@ -521,9 +576,166 @@
     "wetted_width": 500,
     "delivery_time": 60,
     "area": 10.0,
+    "comment": null,
     "created_date": "2019-06-30T21:53:59Z",
-    "created_by": 1,
-    "comment": null
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.season",
+  "pk": 1,
+  "fields": {
+    "name": "2018",
+    "current_flag": true,
+    "created_date": "2019-07-04T21:11:08Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.season",
+  "pk": 2,
+  "fields": {
+    "name": "2019",
+    "current_flag": false,
+    "created_date": "2019-11-18T03:58:13Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldatetype",
+  "pk": 1,
+  "fields": {
+    "name": "Start",
+    "season_flag": true,
+    "comment": null,
+    "created_date": "2019-11-18T03:59:26Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldatetype",
+  "pk": 2,
+  "fields": {
+    "name": "End",
+    "season_flag": true,
+    "comment": null,
+    "created_date": "2019-11-18T03:59:41Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldatetype",
+  "pk": 3,
+  "fields": {
+    "name": "Bud Break",
+    "season_flag": false,
+    "comment": null,
+    "created_date": "2019-11-18T03:59:47Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 1,
+  "fields": {
+    "site": 1,
+    "season": 1,
+    "type": 1,
+    "date": "2018-10-15",
+    "comment": null,
+    "created_date": "2018-10-15T04:00:04Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 2,
+  "fields": {
+    "site": 2,
+    "season": 1,
+    "type": 1,
+    "date": "2018-10-15",
+    "comment": null,
+    "created_date": "2019-11-18T04:01:32Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 3,
+  "fields": {
+    "site": 3,
+    "season": 1,
+    "type": 1,
+    "date": "2018-10-15",
+    "comment": null,
+    "created_date": "2019-11-18T04:01:41Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 4,
+  "fields": {
+    "site": 1,
+    "season": 1,
+    "type": 2,
+    "date": "2019-05-25",
+    "comment": null,
+    "created_date": "2019-11-18T04:01:55Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 5,
+  "fields": {
+    "site": 2,
+    "season": 1,
+    "type": 2,
+    "date": "2019-05-25",
+    "comment": null,
+    "created_date": "2019-11-18T04:02:16Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 6,
+  "fields": {
+    "site": 3,
+    "season": 1,
+    "type": 2,
+    "date": "2019-05-25",
+    "comment": null,
+    "created_date": "2019-11-18T04:02:29Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 7,
+  "fields": {
+    "site": 1,
+    "season": 2,
+    "type": 1,
+    "date": "2019-07-18",
+    "comment": null,
+    "created_date": "2019-11-18T04:02:45Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 8,
+  "fields": {
+    "site": 1,
+    "season": 2,
+    "type": 2,
+    "date": "2020-08-18",
+    "comment": null,
+    "created_date": "2019-11-18T04:03:20Z",
+    "created_by": 1
   }
 },
 {
@@ -1027,7 +1239,7 @@
   "fields": {
     "site": 1,
     "type": 2,
-    "date": "2018-09-28",
+    "date": "2018-11-28",
     "depth1": 28.02894974,
     "depth2": 22.1584053,
     "depth3": 20.0728569,
@@ -1054,7 +1266,7 @@
     "efflrr1": -13.6,
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
-    "comment": null,
+    "comment": "",
     "created_date": "2019-06-25T00:05:01Z",
     "created_by": 1
   }
@@ -3492,6 +3704,44 @@
   }
 },
 {
+  "model": "skeleton.reading",
+  "pk": 66,
+  "fields": {
+    "site": 1,
+    "type": 1,
+    "date": "2019-11-18",
+    "depth1": 234.0,
+    "depth2": 243.0,
+    "depth3": 234.0,
+    "depth4": 1234.0,
+    "depth5": 1234.0,
+    "depth6": 234.0,
+    "depth7": null,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "serial_number": 1,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": 2345.0,
+    "meter": 2314.0,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": "",
+    "created_date": "2019-11-18T04:03:47Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.kcreading",
   "pk": 1,
   "fields": {
@@ -3834,6 +4084,240 @@
     "object_repr": "lynskeym",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"first_name\", \"last_name\", \"groups\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2019-11-18T03:58:20.229Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "2",
+    "object_repr": "2018",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2019-11-18T03:58:29.755Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "2",
+    "object_repr": "2019",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2019-11-18T03:58:38.566Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "1",
+    "object_repr": "2018",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"current_flag\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2019-11-18T03:58:45.759Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "1",
+    "object_repr": "2018",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"current_flag\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2019-11-18T03:58:52.387Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "2",
+    "object_repr": "2019",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"current_flag\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2019-11-18T03:59:41.695Z",
+    "user": 1,
+    "content_type": 27,
+    "object_id": "1",
+    "object_repr": "Start",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2019-11-18T03:59:47.375Z",
+    "user": 1,
+    "content_type": 27,
+    "object_id": "2",
+    "object_repr": "End",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2019-11-18T03:59:55.443Z",
+    "user": 1,
+    "content_type": 27,
+    "object_id": "3",
+    "object_repr": "Bud Break",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2019-11-18T04:01:20.265Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone:2018-10-15",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2019-11-18T04:01:41.871Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-10-15",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2019-11-18T04:01:55.173Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "3",
+    "object_repr": "Smiley Pink Kiss:2018-10-15",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2019-11-18T04:02:16.665Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "4",
+    "object_repr": "Pinot Noir Springstone:2019-05-25",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2019-11-18T04:02:29.329Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "5",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-05-25",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2019-11-18T04:02:45.690Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "6",
+    "object_repr": "Smiley Pink Kiss:2019-05-25",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2019-11-18T04:03:14.130Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "7",
+    "object_repr": "Pinot Noir Springstone:2019-07-18",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2019-11-18T04:03:34.550Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "8",
+    "object_repr": "Pinot Noir Springstone:2020-08-18",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2019-11-18T04:04:10.419Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "66",
+    "object_repr": "Pinot Noir Springstone:2019-11-18",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2019-11-18T04:05:27.827Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone:2018-11-28",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
   }
 }
 ]
