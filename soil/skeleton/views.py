@@ -90,6 +90,8 @@ def model_form_upload(request):
                 except Exception as e:
                     messages.error(request, "Error with file: " + str(f) + " Error is: " + str(e))
             return redirect('model_upload')
+        else:
+            logger.error('***Form not valid:' + str(form))
     else:
         form = DocumentForm()
     return render(request, 'model_form_upload.html', {

@@ -58,10 +58,8 @@ def process_probe_data(readings, serial_unique_id, request):
         # Site is the primary key of site number so we need to look it up.
         s = Site.objects.get(site_number=split_key[0])
         data['site'] = s.id
-
         current_user = request.user
         data['created_by'] = current_user.id
-
         data['serial_number'] = serial_unique_id
         data['type'] = '1' # always probe
 
