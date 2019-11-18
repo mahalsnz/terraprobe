@@ -26,8 +26,6 @@ class UserFullName(User):
 class Document(models.Model):
     description = models.CharField(max_length=255, blank=True)
     document = models.FileField(upload_to='documents/')
-    created_date = models.DateTimeField('date published', default=timezone.now)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
 
 class ReadingType(models.Model):
     name = models.CharField(max_length=100, null=False)

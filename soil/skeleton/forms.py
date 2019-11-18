@@ -5,9 +5,10 @@ from django.forms import ModelChoiceField
 
 class DocumentForm(forms.ModelForm):
     document = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
     class Meta:
         model = Document
-        fields = ['description', 'document', 'created_date', 'created_by']
+        fields = ['description', 'document']
 
 class SiteReadingsForm(forms.ModelForm):
     site = forms.ModelChoiceField(queryset=SiteDescription.objects.all(), widget=forms.Select())

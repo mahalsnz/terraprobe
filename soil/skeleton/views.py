@@ -90,6 +90,8 @@ def model_form_upload(request):
                 except Exception as e:
                     messages.error(request, "Error with file: " + str(f) + " Error is: " + str(e))
             return redirect('model_upload')
+        else:
+            logger.error('***Form not valid:' + str(form))
     else:
         form = DocumentForm()
     return render(request, 'model_form_upload.html', {
@@ -274,17 +276,41 @@ def handle_prwin_file(file_data, request):
     logger.error("***Handling PRWIN")
     lines = file_data.split("\n")
 
-    # Variable for loop
-    #data = {}
-    #date_formatted = None
+    # Remove first line heading
+    del lines[0]
+
+    data = {}
     site_number = None
-    #serial_number_id = None
-    #readings = []
-    #need_date = True
-
     for line in lines:
-        fields = line.split(",")
+        reading = re.search("^\d.*", line) # Make sure we have a reading line
+        if reading:
 
-        # First field of every line is site number
-        site_number = fields[0]
-        logger.error("Site Number:" + site_number)
+            fields = line.split(",")
+
+            # First field of every line is site number
+            site_number = fields[0]
+            logger.error("Site Number:" + site_number)
+            reading_type = fields[1]
+            logger.error("Type:" + reading_type)
+
+            # We only want 'Probe' reading types
+            if reading_type == 'Probe':
+                # Get date part. Comes in as DD/MM/YYYY before we get 'space character' time component
+                date_raw = str(fields[2])
+                datefields = date_raw.split(" ")
+                date = datefields[0]
+                date_object = datetime.strptime(date, '%d/%m/%Y') # American
+                date_formatted = date_object.strftime('%Y-%m-%d')
+                logger.error("Date:" + date_formatted)
+                key = site_number + "," + date_formatted
+                logger.error("Key:" + key)
+
+                reading_array = []
+                data[key] = []
+                for depth in range(3, 12):
+                    reading = fields[depth]
+                    logger.error("Reading:" + reading)
+                    reading_array.append(reading)
+                logger.error("Reading Array:" + str(reading_array))
+
+        # End reading line
