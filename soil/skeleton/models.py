@@ -29,17 +29,6 @@ class Document(models.Model):
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
 
-class Season(models.Model):
-    name = models.CharField(max_length=20, null=False)
-    period_from = models.DateField(default=timezone.now, null=False)
-    period_to = models.DateField(default=timezone.now, null=False)
-    comment = models.CharField(max_length=200, null=True, blank=True)
-    created_date = models.DateTimeField('date published', default=timezone.now)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
-
-    def __str__(self):
-        return self.name
-
 class ReadingType(models.Model):
     name = models.CharField(max_length=100, null=False)
     comment = models.CharField(max_length=200, null=True, blank=True)
@@ -138,14 +127,6 @@ class Site(models.Model):
     variety = models.CharField(max_length=100, null=True)
     crop = models.ForeignKey(Crop, null=True, blank=True, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
-    season_start = models.DateField(null=True, blank=True)
-    bud_break = models.DateField(null=True, blank=True)
-    cd2 = models.DateField(null=True, blank=True)
-    cd3 = models.DateField(null=True, blank=True)
-    cd4 = models.DateField(null=True, blank=True)
-    cd5 = models.DateField(null=True, blank=True)
-    cd6 = models.DateField(null=True, blank=True)
-    season_end = models.DateField(null=True, blank=True)
 
     # Irrigations
     irrigation_method = models.IntegerField(choices=IRRIGATION_METHOD, default=1, help_text="Are you sure you want to change this to Overhead?") # Drip
@@ -217,6 +198,52 @@ class SiteDescription(Site):
 
     def __str__(self):
         return "(" + self.site_number + ") " + self.name
+
+class Season(models.Model):
+    name = models.CharField(max_length=20, null=False)
+    current_flag = models.BooleanField(default=None, null=True, help_text="Is this the current season, only one season can be the current season")
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return self.name
+
+class CriticalDateType(models.Model):
+    name = models.CharField(max_length=50, null=False)
+    season_flag = models.BooleanField()
+    comment = models.CharField(max_length=200, null=True, blank=True)
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return self.name
+
+class CriticalDate(models.Model):
+    site = models.ForeignKey(Site, related_name='sites', on_delete=models.CASCADE)
+    season = models.ForeignKey(Season, related_name='seasons', on_delete=models.CASCADE)
+    type = models.ForeignKey(CriticalDateType, related_name='critical_date_types', on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now, null=False)
+    comment = models.CharField(max_length=200, null=True, blank=True)
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        date = str(self.date)
+        site = str(self.site)
+        return site + ":" + date
+
+class SeasonStartEnd(models.Model):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    season = models.ForeignKey(Season, primary_key=True, on_delete=models.CASCADE)
+    season_name = models.CharField(max_length=20)
+    site_name = models.CharField(max_length=100)
+    period_from = models.DateTimeField()
+    period_to = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = "skeleton_season_start_end"
+        unique_together = (('site', 'season'),)
 
 class Diviner(models.Model):
     diviner_number = models.CharField(max_length=50, null=False)
