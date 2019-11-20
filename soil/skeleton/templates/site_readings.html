@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form method="post" id="readingForm" data-sites-url="{% url 'ajax_load_sites' %}" novalidate>
+<form method="post" id="readingForm" data-sites-url="{% url 'ajax_load_sites' %}" graph-url="{% url 'ajax_load_graph' %}"  novalidate>
     {% csrf_token %}
     <div class="form-row">
         <div class="form-group col-md-1 mb-0">
@@ -12,7 +12,7 @@
         <div class="form-group col-md-4 mb-0">
             {{ form.site|as_crispy_field }}
         </div>
-        <div class="form-group col-md-4 mb-0">
+        <div class="form-group col-md-2 mb-0">
             {{ form.technician|as_crispy_field }}
         </div>
         <div class="form-group col-md-2 mb-0">
@@ -20,6 +20,12 @@
         </div>
         <div class="form-group col-md-1 mb-0">
             <button type="button" class="btn bg-green" id="nextSite">Next</button>
+        </div>
+        <div class="form-group col-md-1 mb-0">
+            <button type="button" class="btn bg-green" id="showReading">Reading</button>
+        </div>
+        <div class="form-group col-md-1 mb-0">
+            <button type="button" class="btn bg-green" id="showGraph">Graph</button>
         </div>
     </div>
 </form>
@@ -29,7 +35,28 @@
 </div>
 
 <script>
-    /******************* start loadReadingList ********************************/
+    /******************* start loadScreen ********************************/
+    function loadScreen(site, season, url) {
+        if (site) {
+            $.ajax({
+                url: url,
+                data: {
+                    'site': site, // add the site id to the GET parameters
+                    'season': season
+                },
+                success: function(data) {
+                    $("#readingList").empty(); // empty out the div first
+                    $("#readingList").append(data);
+                }
+            });
+        }
+        else {
+            $("#readingList").empty();  // empty out the div first
+        }
+    }
+    /********************* end loadScreen ********************************/
+
+    /******************* start loadReadingList ********************************
     function loadReadingList(site, season, url) {
         if (site) {
             $.ajax({
@@ -48,19 +75,21 @@
             $("#readingList").empty();  // empty out the div first
         }
     }
-    /********************* end loadReadingList ********************************/
-
+    ********************* end loadReadingList ********************************/
+    var screenDisplay = 'data-readings-url'; // default to data-readings-url
+    console.log("screenDisplay:" + screenDisplay)
     //TODO: Refactor
     $("#previousSite").click(function() {
         console.log("In Previous Site");
-        var url = $("#readingList").attr("data-readings-url");
+        console.log("screenDisplay:" + screenDisplay)
+        var url = $("#readingList").attr(screenDisplay);
         console.log("URL:" + url);
         var siteId = $("#id_site option:selected").prev().val();
         console.log("siteId:" + siteId);
         var seasonId = $("#id_season").val();
         console.log("seasonId:" + seasonId);
         $("#id_site").val(siteId);
-        loadReadingList(siteId, seasonId, url);
+        loadScreen(siteId, seasonId, url);
     });
     $("#id_technician").change(function() {
         var url = $("#readingForm").attr("data-sites-url");
@@ -79,35 +108,62 @@
         });
     });
     $("#id_site").change(function() {
-        var url = $("#readingList").attr("data-readings-url");
+        var url = $("#readingList").attr(screenDisplay);
         console.log("URL:" + url);
         var siteId = $(this).val();
         console.log("siteId:" + siteId);
         var seasonId = $("#id_season").val();
         console.log("seasonId:" + seasonId);
 
-        loadReadingList(siteId, seasonId, url);
+        loadScreen(siteId, seasonId, url);
     });
     $("#id_season").change(function() {
-        var url = $("#readingList").attr("data-readings-url");
+        var url = $("#readingList").attr(screenDisplay);
         console.log("URL:" + url);
-        var siteId = $("#id_site").val();  // get the selected country ID from the HTML input
+        var siteId = $("#id_site").val();
         console.log("siteId:" + siteId);
         var seasonId = $(this).val();
         console.log("seasonId:" + seasonId);
 
-        loadReadingList(siteId, seasonId, url);
+        loadScreen(siteId, seasonId, url);
     });
     $("#nextSite").click(function() {
         console.log("In Next Site");
-        var url = $("#readingList").attr("data-readings-url");
+        console.log("screenDisplay:" + screenDisplay)
+        var url = $("#readingList").attr(screenDisplay);
         console.log("URL:" + url);
         var siteId = $("#id_site option:selected").next().val();
         console.log("siteId:" + siteId);
         var seasonId = $("#id_season").val();
         console.log("seasonId:" + seasonId);
         $("#id_site").val(siteId);
-        loadReadingList(siteId, seasonId, url);
+        loadScreen(siteId, seasonId, url);
+    });
+    $("#showGraph").click(function() {
+        console.log("In showGraph");
+        screenDisplay = "graph-url";
+        console.log("screenDisplay:" + screenDisplay)
+        var url = $("#readingForm").attr(screenDisplay);
+        console.log("URL:" + url);
+        var siteId = $("#id_site").val();
+        console.log("siteId:" + siteId);
+        var seasonId = $("#id_season").val();
+        console.log("Season:" + seasonId);
+        $("#id_site").val(siteId);
+        loadScreen(siteId, seasonId, url);
+    });
+    $("#showReading").click(function() {
+        console.log("In showReading");
+        screenDisplay = "data-readings-url";
+        console.log("screenDisplay:" + screenDisplay)
+        var url = $("#readingForm").attr(screenDisplay);
+        console.log("URL:" + url);
+        var siteId = $("#id_site").val();
+        console.log("siteId:" + siteId);
+        var seasonId = $("#id_season").val();
+        console.log("Season:" + seasonId);
+        $("#id_site").val(siteId);
+        loadScreen(siteId, seasonId, url);
     });
 </script>
 

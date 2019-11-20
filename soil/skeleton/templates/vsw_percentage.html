@@ -1,11 +1,9 @@
 <!-- templates/vsw_percentage.html -->
 
-{% extends 'base.html' %}
 {% load static %}
 {% block content %}
 
-<h3 align="center">VSW Percentage for {{ site_id }} site on {{ day }}/{{ month }}/{{ year }}</h3>
-
+<h5 align="center">Reading date: {{ date }}</h3>
 <div class="row">
     <div class="col" id="area1"></div>
     <div class="col" id="area3">
@@ -63,8 +61,7 @@
                 <th colspan="3">Recommendation</th>
             </tr>
             <tr>
-                <td colspan="3">Lorem ipsum dolor sit amet, nibh admodum sententiae ad cum, vero phaedrum in ius, etiam dissentiet te per. Detraxit dissentias sea id. Per oblique theophrastus cu, id mel graece scriptorem. Cu duis doctus mei. Nam cu mandamus facilisis contentiones, brute fugit ne vix. Etiam munere dolores et pri.
-Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco graecis, quas iuvaret sapientem duo at, clita dolore aliquam est ne. Has soleat eirmod vituperatoribus ut. Nec virtute placerat ei.
+                <td colspan="3">Lorem ipsum dolor sit amet, nibh admodum sententiae ad cum, vero phaedrum in ius, etiam dissentiet te per. Detraxit dissentias sea id. Per oblique th
                 </td>
             </tr>
             <tr>
@@ -89,6 +86,7 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
 </div>
 <script>
     // parser for the D3 date / time
+    console.log("***raw DATE:" + {{ date }});
     var parseTime = d3.timeParse("%Y-%m-%d");
 
     // Now we will define our date comparison functions. These are callbacks
@@ -102,18 +100,22 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
     };
 
     // assemble date submitted to page. Time does not matter
-    var submitted_date = new Date({{ year }}, ({{ month }} - 1), {{ day }}).toDateString();
-    //console.log("***Submitted DATE:" + submitted_date);
+    // js is a bitch extract on '-' for date 25-03-2019
+    var x = "{{ date }}"
+    var split_date = x.split("-")
+    console.log("da" + split_date)
+    var submitted_date = new Date(split_date[2], split_date[1] - 1, split_date[0]).toDateString();
+    console.log("***Submitted DATE:" + submitted_date);
 
     // set the dimensions and margins of the weekly graph
-    var margin = {top: 40, right: 40, bottom: 30, left: 50};
+    var margin = {top: 35, right: 30, bottom: 30, left: 30};
     width = 800 - margin.left - margin.right;
-    height = 400 - margin.top - margin.bottom;
+    height = 350 - margin.top - margin.bottom;
 
     // set the dimensions and margins of the season graph
     //var season_margin = {top: 500, right: 20, bottom: 30, left: 50};
-    season_width = 1600 - margin.left - margin.right;
-    season_height = 400 - margin.top - margin.bottom;
+    season_width = 1500 - margin.left - margin.right;
+    season_height = 350 - margin.top - margin.bottom;
 
     // set the weekly ranges
     var x = d3.scaleLinear().range([0, width]); //vsw (%)
@@ -201,7 +203,7 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
 
             // Get the reading day.
             var reading_date = new Date(reading.date);
-            //console.log("***Reading DATE:" + reading_date);
+            console.log("***Reading DATE:" + reading_date);
 
             // try and sort
             date_array.push(reading_date);
@@ -219,7 +221,7 @@ Vim at eros officiis, nam deleniti elaboraret honestatis ei. His ei omnes graeco
                 break
             }
         }
-        //console.log("This Week:" + this_week_date + " Last week:" + last_week_date);
+        console.log("This Week:" + this_week_date + " Last week:" + last_week_date);
         vsw_readings_date_array = []; // This is better to use for refill and full point full_point_readings
 
         data.forEach(function(reading) {

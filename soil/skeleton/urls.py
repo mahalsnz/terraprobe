@@ -7,14 +7,28 @@ from . import views
 from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
 , FarmList, FarmDetail, ReadingDetail, ReadingList, SiteReadingList, SiteList, SiteDetail
 
+import datetime
+from django.urls import register_converter
+
+class IsoDateConverter:
+    regex = '\d{4}-\d{2}-\d{2}'
+
+    def to_python(self, value):
+        return datetime.datetime.strptime(value, '%Y-%m-%d').date()
+
+    def to_url(self, value):
+        return str(value)
+
+register_converter(IsoDateConverter, 'isodate')
+
 #app_name = 'skeleton'
 
 urlpatterns = [
     path('', IndexView.as_view(), name='home'),
     path('readings/site/', SiteReadingsView.as_view(), name='site_readings'),
     path('model/', views.model_form_upload, name='model_upload'),
-    path("vsw_percentage/<int:site_id>/<int:year>/<int:month>/<int:day>/", views.vsw_percentage),
-
+    #path("vsw_percentage/<int:site_id>/<int:year>/<int:month>/<int:day>/", views.vsw_percentage),
+    path("vsw_percentage/<int:site_id>/<isodate:date>/", views.vsw_percentage),
     # API
     path("api/report/", ReportList.as_view(), name="reports_list"),
     path("api/report/<int:pk>/", ReportDetail.as_view(), name="reports_detail"),
@@ -33,4 +47,5 @@ urlpatterns = [
     #ajax
     path('ajax/load-sites/', views.load_sites, name='ajax_load_sites'),
     path('ajax/load-site-readings/', views.load_site_readings, name='ajax_load_site_readings'),
+    path('ajax/load-graph/', views.load_graph, name='ajax_load_graph'),
 ]
