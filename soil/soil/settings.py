@@ -126,7 +126,7 @@ TIME_ZONE = 'Pacific/Auckland'
 USE_I18N = True
 
 USE_L10N = False
-DATE_FORMAT = '%d-%b-%y'
+DATE_FORMAT = 'd-m-Y'
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)

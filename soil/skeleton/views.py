@@ -34,6 +34,37 @@ class SiteReadingsView(LoginRequiredMixin, CreateView):
     form_class = SiteReadingsForm
     template_name = 'site_readings.html'
 
+def load_graph(request):
+    site_id = request.GET.get('site')
+    season_id = request.GET.get('season')
+
+    # Get latest date for site and season
+    ## TODO:
+
+    template = loader.get_template('vsw_percentage.html')
+    '''
+    context = {
+        'site_id' : site_id,
+        'year' : year,
+        'month' : month,
+        'day': day
+    }
+    '''
+    if site_id:
+        try:
+            dates = SeasonStartEnd.objects.get(site=site_id, season=season_id)
+        except:
+            raise Exception("No Season Start and End set up for site.")
+
+        r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date').first()
+        logger.error("Date:" + str(r.date))
+    context = {
+        'site_id' : site_id,
+        'date' : r.date,
+    }
+    return HttpResponse(template.render(context, request))
+
+
 def load_sites(request):
     technician_id = request.GET.get('technician')
     sites = Site.objects.filter(technician_id=technician_id).order_by('name')
