@@ -29,10 +29,7 @@
                             <a class="nav-link" href="{% url 'site_readings' %}">Readings</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'model_upload' %}">Upload using a model</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/vsw_percentage/3/2019/05/23/">VSW graph example</a>
+                            <a class="nav-link" href="{% url 'model_upload' %}">File Upload</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'readings_list' %}">Readings API</a>
@@ -77,6 +74,8 @@
                 {% endfor %}
             {% endif %}
             {% block content %}
+            {% block selector %}
+            {% endblock selector %}
             {% endblock content %}
         </main>
         </div>
