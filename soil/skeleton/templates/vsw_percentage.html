@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 
-<h5 align="center">Reading date: {{ date }}</h3>
+<h5 align="center">Reading date: {{ date }} Period From: {{ period_from }} Period To: {{ period_to }}</h3>
 <div class="row">
     <div class="col" id="area1"></div>
     <div class="col" id="area3">
@@ -86,7 +86,9 @@
 </div>
 <script>
     // parser for the D3 date / time
-    console.log("***raw DATE:" + {{ date }});
+    console.log("***raw DATE:" + {{ date }} );
+    console.log("***raw PERIODFROM:" + {{ period_from }} );
+    console.log("***raw PERIODTO:" + {{ period_to }} );
     var parseTime = d3.timeParse("%Y-%m-%d");
 
     // Now we will define our date comparison functions. These are callbacks
@@ -192,7 +194,7 @@
     var seasons_refill_readings = []
     vsw_count = 9; // delivered by vsw_reading api
 
-    d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/?format=json').then(function(data) {
+    d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(data) {
 
         //
         // Get an array of reading dates in descending order so we can get previous reading as well
