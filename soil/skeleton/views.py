@@ -8,6 +8,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
+from django.db.models import Sum
 from .models import Probe, Reading, Site, SeasonStartEnd
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -56,7 +57,7 @@ def load_graph(request):
         'site_id' : site_id,
         'date' : r.date,
         'period_from': dates.period_from,
-        'period_from': dates.period_to,
+        'period_to': dates.period_to,
     }
     return HttpResponse(template.render(context, request))
 
@@ -68,6 +69,10 @@ def load_sites(request):
 
 def load_site_readings(request):
     readings = None
+    c = None
+    rainfall_total = 0
+    irrigation_total = 0
+
     try:
         site_id = request.GET.get('site')
         season_id = request.GET.get('season')
@@ -79,10 +84,19 @@ def load_site_readings(request):
                 raise Exception("No Season Start and End set up for site.")
 
             readings = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('date')
+            c = readings.filter().last()
 
+            # Total Rainfall and irrigation
+            rainfall_total = readings.aggregate(Sum('rain'))
+            irrigation_total = readings.aggregate(Sum('irrigation_litres'))
     except Exception as e:
         messages.error(request, " Error is: " + str(e))
-    return render(request, 'site_readings_list.html', {'readings':readings})
+    return render(request, 'site_readings_list.html', {
+        'readings' : readings,
+        'comment' : c.comment,
+        'rainfall' : rainfall_total,
+        'irrigation' : irrigation_total,
+    })
 
 @login_required
 def vsw_percentage(request, site_id, year, month, day):
