@@ -16,6 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+import datetime
+from django.urls import register_converter
+
+class IsoDateConverter:
+    regex = '\d{4}-\d{2}-\d{2}'
+
+    def to_python(self, value):
+        return datetime.datetime.strptime(value, '%Y-%m-%d').date()
+
+    def to_url(self, value):
+        return str(value)
+
+register_converter(IsoDateConverter, 'isodate')
+
 urlpatterns = [
     path('', include('skeleton.urls')),
     path('admin/', admin.site.urls, name='admin'),

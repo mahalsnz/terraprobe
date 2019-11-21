@@ -38,18 +38,12 @@ def load_graph(request):
     site_id = request.GET.get('site')
     season_id = request.GET.get('season')
 
-    # Get latest date for site and season
+
     ## TODO:
 
     template = loader.get_template('vsw_percentage.html')
-    '''
-    context = {
-        'site_id' : site_id,
-        'year' : year,
-        'month' : month,
-        'day': day
-    }
-    '''
+
+    # Get latest date for site and season
     if site_id:
         try:
             dates = SeasonStartEnd.objects.get(site=site_id, season=season_id)
@@ -61,6 +55,8 @@ def load_graph(request):
     context = {
         'site_id' : site_id,
         'date' : r.date,
+        'period_from': dates.period_from,
+        'period_from': dates.period_to,
     }
     return HttpResponse(template.render(context, request))
 
