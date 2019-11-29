@@ -38,33 +38,38 @@ class SiteReadingsView(LoginRequiredMixin, CreateView):
 def load_graph(request):
     site_id = request.GET.get('site')
     season_id = request.GET.get('season')
-
-
-    ## TODO:
-
     template = loader.get_template('vsw_percentage.html')
-
-    # Get latest date for site and season
-    if site_id:
+    context = None
+    try:
+        # Get latest date and previous date for site and season
         try:
             dates = SeasonStartEnd.objects.get(site=site_id, season=season_id)
         except:
             raise Exception("No Season Start and End set up for site.")
 
         r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date')
-        latest = r[0].date
-        previous = r[1].date
-
+        logger.error(str(r))
+        try:
+            latest = r[0].date
+        except:
+            raise Exception("No Reading for Site and Season")
+        try:
+            previous = r[1].date
+        except:
+            raise Exception("No Previous Reading for Site and Season")
         logger.error("Date:" + str(latest))
         logger.error("Previous:" + str(previous))
 
-    context = {
-        'site_id' : site_id,
-        'date' : latest,
-        'previous': previous,
-        'period_from': dates.period_from,
-        'period_to': dates.period_to,
-    }
+        context = {
+            'site_id' : site_id,
+            'date' : latest,
+            'previous': previous,
+            'period_from': dates.period_from,
+            'period_to': dates.period_to,
+        }
+
+    except Exception as e:
+        messages.error(request, "Error with Loading Graph: Error is: " + str(e))
     return HttpResponse(template.render(context, request))
 
 
