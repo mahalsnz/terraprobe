@@ -6,11 +6,18 @@
 
 {% block content %}
     <form method="post" enctype="multipart/form-data">{% csrf_token %}
-        {{ form|crispy }}
-        Neutron:<input type = "radio" name = "filetype" id = "neutron" value = "neutron" />
-        Diviner:<input type = "radio" name = "filetype" id = "diviner" value = "diviner" />
-        PRWIN Reading:<input type = "radio" name = "filetype" id = "prwin" value = "prwin" checked = "checked"/>
-
-        <button class="btn btn-outline-primary" type="submit">Upload</button>
+        <div class="row">
+            <div class="col-sm-4">
+                {{ form|crispy }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                Neutron:<input type = "radio" name = "filetype" id = "neutron" value = "neutron" />
+            Diviner:<input type = "radio" name = "filetype" id = "diviner" value = "diviner" />
+            PRWIN Reading:<input type = "radio" name = "filetype" id = "prwin" value = "prwin" checked = "checked"/>
+            <button class="btn btn-outline-primary" type="submit">Upload</button>
+            <div/>
+        <div/>
     </form>
 {% endblock %}

@@ -27,8 +27,15 @@ class vsw_reading(models.Model):
     site = models.ForeignKey(Site, primary_key=True, on_delete=models.CASCADE)
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
-    #crop_id = models.IntegerField()
+    crop_id = models.IntegerField()
+    rz1_top = models.IntegerField()
+    rz1_bottom = models.IntegerField()
+    rz1 = models.FloatField()
+    probe_dwu = models.FloatField()
+    estimated_dwu = models.FloatField()
     meter = models.FloatField()
+    irrigation_litres = models.FloatField()
+    irrigation_mms = models.FloatField()
     rain = models.FloatField()
     depth1 = models.IntegerField()
     count1 = models.FloatField()
@@ -57,6 +64,9 @@ class vsw_reading(models.Model):
     depth9 = models.IntegerField()
     count9 = models.FloatField()
     vsw9 = models.FloatField()
+    depth10 = models.IntegerField()
+    count10 = models.FloatField()
+    vsw10 = models.FloatField()
 
     class Meta:
         managed = False

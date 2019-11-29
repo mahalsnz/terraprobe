@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 
-<h5 align="center">Reading date: {{ date }} Period From: {{ period_from }} Period To: {{ period_to }}</h3>
+<h5 align="center">Reading date: {{ date }} Last Week date: {{ previous }} Period From: {{ period_from }} Period To: {{ period_to }}</h3>
 <div class="row">
     <div class="col" id="area1"></div>
     <div class="col" id="area3">
@@ -128,6 +128,18 @@
     var seasony0 = d3.scaleLinear().range([season_height, 0]);
     var seasony1 = d3.scaleLinear().range([season_height, 0]);
 
+    // The scale spacing the groups:
+    var x0 = d3.scaleBand()
+        .range([0, width])
+        .paddingInner(0.1);
+
+    // The scale for spacing each group's bar:
+    var x1 = d3.scaleBand()
+        .padding(0.05);
+
+    var z = d3.scaleOrdinal()
+        .range(["red", "blue"]);
+
     // define the vsw percentage line
     var vswline = d3.line()
         .x(function(r) { return x(r.vsw); })
@@ -136,11 +148,6 @@
     var season_vswline0 = d3.line()
         .x(function(r) { return seasonx(r.date); })
         .y(function(r) { return seasony0(r.total); });
-
-    // Bar graphs starting with rain
-    var season_vswline1 = d3.line()
-        .x(function(r) { return seasonx(r.date); })
-        .y(function(r) { return seasony1(r.rain); });
 
     // Season Full Point Total
     var season_full_point_line = d3.line()
@@ -189,11 +196,12 @@
 
     // Seasons readings arrays
     var seasons_vsw_readings = [];
-    var seasons_rain = []
     var seasons_full_point_readings = []
     var seasons_refill_readings = []
-    vsw_count = 9; // delivered by vsw_reading api
 
+    var season_grouping = [];
+    vsw_count = 10; // delivered by vsw_reading api
+    console.clear();
     d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(data) {
 
         //
@@ -243,11 +251,13 @@
                     'date' : parsed_date,
                     'total' : vsw_total,
                 });
-                // Seasons Rain
-                seasons_rain.push({
-                    'date' : parsed_date,
+                // Seasons Groupiong
+                season_grouping.push({
+                    'dtg' : parsed_date,
                     'rain' : reading["rain"],
-                })
+                    'irrigation_litres' : reading["irrigation_litres"],
+                });
+
                 vsw_readings_date_array.push(parsed_date)
                 // console.log("***Season VSW Totals:" + reading_date + " " + vsw_total );
             }
@@ -321,9 +331,10 @@
             }
         });
 
-        console.log(vsw_readings);
-        console.log(seasons_vsw_readings);
-        console.log(seasons_rain);
+        //console.log(vsw_readings);
+        //console.log(seasons_vsw_readings);
+        console.log('Season Grouping');
+
 
         // Scale the range of the data
         x.domain([5, 50]);
@@ -331,7 +342,7 @@
 
         seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
         seasony0.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 5; }), d3.max(seasons_vsw_readings, function(d) { return d.total + 5; })]);
-        seasony1.domain([d3.min(seasons_rain, function(d) { return d.rain - 5; }), d3.max(seasons_rain, function(d) { return d.rain + 5; })]);
+        //seasony1.domain([d3.min(seasons_rain, function(d) { return d.rain - 5; }), d3.max(seasons_rain, function(d) { return d.rain + 5; })]);
 
         // Add the lines
         weekly_graph.append("path")
@@ -343,13 +354,49 @@
             .data([seasons_vsw_readings])
             .attr("class", "line")
             .attr("d", season_vswline0);
+            console.log(season_grouping);
+            var keys = ['rain', 'irrigation_litres']
+            console.log("keys:" + keys);
 
-        // Want this to be bars not line
-        season_graph.append("path")
-            .data([seasons_rain])
-            .attr("class", "line")
-            .style("stroke", "red")
-            .attr("d", season_vswline1);
+            x0.domain(season_grouping.map(function(d) { return d.dtg; }));
+            x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+            seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key]; }); })])
+
+            // append the rectangles for the bar chart
+            season_graph.selectAll(".bar")
+                .data(season_grouping)
+                .enter().append("g")
+                .attr("class", "bar")
+
+                .attr("transform", function(d) { return "translate(" + x0(d.dtg) + ",0)"; })
+                .selectAll("rect")
+                .data(function(d) {
+                    return keys.map(function(key) {
+
+                        return {key: key, value: d[key]};
+                    });
+                }).enter().append("rect")
+                  .attr("x", function(d) { return x1(d.key); })
+                  .attr("y", function(d) { return seasony1(d.value); })
+                  .attr("id", function(d) { return d.key; })
+                  .attr("width", x1.bandwidth())
+                  .attr("height", function(d) { return height - seasony1(d.value); })
+                  /*
+                  .on("mouseover", function(d) {
+                div.transition()
+                .duration(200)
+                .style("opacity", .9);
+                div.html(d.value)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
+                 div.transition()
+                 .duration(500)
+                 .style("opacity", 0);
+                 })
+            */
+              .attr("fill", function(d) { return z(d.key); });
 
         // Full Point Season line. This is just the total of full_point_readings across all dates
         season_graph.append("path")
@@ -366,17 +413,6 @@
             .style("stroke", "red")
             .style("stroke-width", "2px")
             .attr("d", season_refill_line);
-
-        /*
-        season_graph.selectAll(".bar")
-            .data([seasons_rain])
-                .enter().append("rect")
-.               attr("class", "bar")
-        .attr("x", function(d) { return x(d.date); })
-        .attr("width", x.bandwidth())
-        .attr("y", function(d) { return y(d.rain); })
-        .attr("height", function(d) { return height - y(d.rain); });
-        */
 
         weekly_graph.append("path")
             .data([previous_vsw_readings])
@@ -442,11 +478,14 @@
             .attr("class", "axisSteelBlue")
             .call(d3.axisLeft(seasony0));
 
-        // Add Season Graph Y1 Axis
+        // Add Season Graph YBar Axis
+
         season_graph.append("g")
             .attr("class", "axisRed")
             .attr("transform", "translate( " + season_width + ", 0 )")
             .call(d3.axisRight(seasony1));
+
+
     });
 
 
