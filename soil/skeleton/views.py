@@ -51,11 +51,17 @@ def load_graph(request):
         except:
             raise Exception("No Season Start and End set up for site.")
 
-        r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date').first()
-        logger.error("Date:" + str(r.date))
+        r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date')
+        latest = r[0].date
+        previous = r[1].date
+
+        logger.error("Date:" + str(latest))
+        logger.error("Previous:" + str(previous))
+
     context = {
         'site_id' : site_id,
-        'date' : r.date,
+        'date' : latest,
+        'previous': previous,
         'period_from': dates.period_from,
         'period_to': dates.period_to,
     }
@@ -97,6 +103,13 @@ def load_site_readings(request):
         'rainfall' : rainfall_total,
         'irrigation' : irrigation_total,
     })
+
+'''
+    For a particular site, season and date find the previous reading date
+'''
+def get_irrigation_litres(readingqs):
+    logger.error("Date:" + get_previous_date_season)
+
 
 @login_required
 def vsw_percentage(request, site_id, year, month, day):
