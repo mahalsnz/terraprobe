@@ -60,8 +60,7 @@ class ReadingTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReadingSerializer(serializers.ModelSerializer):
-    type = ReadingTypeSerializer(many=False, read_only=True, required=False)
-
+    type = ReadingTypeSerializer(many=False, required=False)
     class Meta:
         model = Reading
         fields = '__all__'
