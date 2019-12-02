@@ -80,7 +80,7 @@ def load_sites(request):
 
 def load_site_readings(request):
     readings = None
-    c = None
+    comment = ''
     rainfall_total = 0
     irrigation_total = 0
 
@@ -96,6 +96,7 @@ def load_site_readings(request):
 
             readings = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('date')
             c = readings.filter().last()
+            comment = c.comment
 
             # Total Rainfall and irrigation
             rainfall_total = readings.aggregate(Sum('rain'))
@@ -104,7 +105,7 @@ def load_site_readings(request):
         messages.error(request, " Error is: " + str(e))
     return render(request, 'site_readings_list.html', {
         'readings' : readings,
-        'comment' : c.comment,
+        'comment' : comment,
         'rainfall' : rainfall_total,
         'irrigation' : irrigation_total,
     })
