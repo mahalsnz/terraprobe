@@ -24,9 +24,16 @@ class Migration(migrations.Migration):
                 zone1.crop_id,
                 zone1.type_id AS reading_type_id,
 
+                zone1.rz1_top,
+            	zone1.rz1_bottom,
+            	zone1.rz1,
+            	zone1.probe_dwu,
+            	zone1.estimated_dwu,
+            	zone1.irrigation_litres,
+            	zone1.irrigation_mms,
                 zone1.rain,
                 zone1.meter,
-                
+
             	zone1.depth1,
             	zone1.count1,
             	zone1.vsw1,
@@ -61,7 +68,11 @@ class Migration(migrations.Migration):
 
                 zone9.depth9,
             	zone9.count9,
-            	zone9.vsw9
+            	zone9.vsw9,
+
+                zone10.depth10,
+            	zone10.count10,
+            	zone10.vsw10
             FROM
             (
             	SELECT
@@ -70,6 +81,13 @@ class Migration(migrations.Migration):
             		skeleton_reading.type_id,
                     skeleton_site.farm_id,
                     skeleton_site.crop_id,
+                    skeleton_site.rz1_top,
+            		skeleton_site.rz1_bottom,
+            		skeleton_reading.rz1,
+            		skeleton_reading.probe_dwu,
+            		skeleton_reading.estimated_dwu,
+            		skeleton_reading.irrigation_litres,
+            		skeleton_reading.irrigation_mms,
                     skeleton_reading.rain,
             		skeleton_reading.meter,
             		skeleton_site.depth1,
@@ -232,16 +250,36 @@ class Migration(migrations.Migration):
             		skeleton_reading.type_id,
             		skeleton_site.depth9,
 
-            		skeleton_reading.depth8 AS count9,
+            		skeleton_reading.depth9 AS count9,
             		skeleton_calibration.slope AS slope9,
             		skeleton_calibration.intercept AS intercept9,
-            		skeleton_reading.depth8 * skeleton_calibration.slope + skeleton_calibration.intercept AS vsw9
+            		skeleton_reading.depth9 * skeleton_calibration.slope + skeleton_calibration.intercept AS vsw9
             	FROM
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he9
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
             ) AS "zone9"
             ON zone1.date = zone9.date AND zone1.id = zone9.id
+            ---------
+            LEFT JOIN
+            --------
+            (
+            	SELECT
+            		skeleton_reading.date,
+            		skeleton_site.id,
+            		skeleton_reading.type_id,
+            		skeleton_site.depth10,
+
+            		skeleton_reading.depth10 AS count10,
+            		skeleton_calibration.slope AS slope10,
+            		skeleton_calibration.intercept AS intercept10,
+            		skeleton_reading.depth10 * skeleton_calibration.slope + skeleton_calibration.intercept AS vsw10
+            	FROM
+            		skeleton_site
+            	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he10
+            	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+            ) AS "zone10"
+            ON zone1.date = zone10.date AND zone1.id = zone10.id
 '''
 
         )

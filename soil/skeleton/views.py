@@ -24,7 +24,7 @@ from .forms import DocumentForm, SiteReadingsForm
 
 from datetime import datetime
 
-from .utils import process_probe_data
+from .utils import process_probe_data, process_irrigation_data
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -38,27 +38,38 @@ class SiteReadingsView(LoginRequiredMixin, CreateView):
 def load_graph(request):
     site_id = request.GET.get('site')
     season_id = request.GET.get('season')
-
-
-    ## TODO:
-
     template = loader.get_template('vsw_percentage.html')
-
-    # Get latest date for site and season
-    if site_id:
+    context = None
+    try:
+        # Get latest date and previous date for site and season
         try:
             dates = SeasonStartEnd.objects.get(site=site_id, season=season_id)
         except:
             raise Exception("No Season Start and End set up for site.")
 
-        r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date').first()
-        logger.error("Date:" + str(r.date))
-    context = {
-        'site_id' : site_id,
-        'date' : r.date,
-        'period_from': dates.period_from,
-        'period_to': dates.period_to,
-    }
+        r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date')
+        logger.error(str(r))
+        try:
+            latest = r[0].date
+        except:
+            raise Exception("No Reading for Site and Season")
+        try:
+            previous = r[1].date
+        except:
+            raise Exception("No Previous Reading for Site and Season")
+        logger.error("Date:" + str(latest))
+        logger.error("Previous:" + str(previous))
+
+        context = {
+            'site_id' : site_id,
+            'date' : latest,
+            'previous': previous,
+            'period_from': dates.period_from,
+            'period_to': dates.period_to,
+        }
+
+    except Exception as e:
+        messages.error(request, "Error with Loading Graph: Error is: " + str(e))
     return HttpResponse(template.render(context, request))
 
 
@@ -97,6 +108,13 @@ def load_site_readings(request):
         'rainfall' : rainfall_total,
         'irrigation' : irrigation_total,
     })
+
+'''
+    For a particular site, season and date find the previous reading date
+'''
+def get_irrigation_litres(readingqs):
+    logger.error("Date:" + get_previous_date_season)
+
 
 @login_required
 def vsw_percentage(request, site_id, year, month, day):
@@ -317,10 +335,15 @@ def handle_prwin_file(file_data, request):
     logger.error("***Handling PRWIN")
     lines = file_data.split("\n")
 
-    # Remove first line heading
+    # Use first line to get position of serial number (SN). Between serial number and field 3 (date) will be counts (up to 10)
+    logger.error("***Line 1 is " + str(lines[0]))
+    header = lines[0].split(",")
+    sn_index = header.index('SN')
+    logger.error("SN Index:" + str(sn_index))
     del lines[0]
 
     data = {}
+    irrigation_data = {}
     site_number = None
     serial_number_id = None
     bolNeedSerialNumber = True
@@ -349,7 +372,7 @@ def handle_prwin_file(file_data, request):
 
                 # Get Serial Number. We are just going to get it once and asume all PRWIN readings for the season are from one probe
                 if bolNeedSerialNumber:
-                    serialnumber = fields[13]
+                    serialnumber = fields[sn_index]
                     logger.error("Serial Number:" + serialnumber)
                     serialnumber = int(serialnumber)
                     # Check Serial Number exists and return error message if is not. Then get the serial number unique id
@@ -364,10 +387,13 @@ def handle_prwin_file(file_data, request):
                 logger.error("Key:" + key)
 
                 reading_array = []
+                irrigation_array = []
                 data[key] = []
-                for depth in range(3, 13):
+                irrigation_data[key] = []
+
+                for depth in range(3, sn_index):
                     reading = float(fields[depth])
-                    #logger.error("Reading:" + reading)
+                    logger.error("Reading:" + str(reading))
                     reading_array.append(reading)
 
                 #logger.error("Reading Array:" + str(reading_array))
@@ -376,7 +402,23 @@ def handle_prwin_file(file_data, request):
                 for lap in range(3):
                     data[key].append(reading_array)
 
+                # For PRWIN files we also upload other readings data (already been derived from counts)
+                # (SN), 0-100 cm (rz1),0-70 cm (rz2),0-45 cm (rz3),Deficit,ProbeDWU (probe_dwu),EstimatedDWU (estimated_dwu),
+                # Rain,Meter,Irrigation(L) (irrigation_litres),Irrigation(mm) (irrigation_litres_mms) ,EffRain1 (effective_rain_1),
+                # Effective Rainfall (effective_rainfall) ,EffIrr1 (efflrr1),EffIrr2 (efflrr1), Effective Irrigation (effective_irrigation)
+
+                for value in range(sn_index + 1, sn_index + 16):
+                    irrigation = 0.0
+                    if fields[value]:
+                        irrigation = float(fields[value])
+                    logger.error("Irrigation:" + str(irrigation))
+                    irrigation_array.append(irrigation)
+                irrigation_data[key] = irrigation_array
+
         # End if we have a reading
     # End loop through lines
+
     #logger.error("Final Data:" + str(data))
+    logger.error("irrir array" + str(irrigation_data))
     process_probe_data(data, serial_number_id, request)
+    process_irrigation_data(irrigation_data, serial_number_id, request)

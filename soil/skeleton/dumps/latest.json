@@ -86,7 +86,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2019-11-18T03:58:07Z",
+    "last_login": "2019-11-29T01:21:31.428Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -197,6 +197,14 @@
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2019-09-25T21:50:03.196Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "z8yqcwigxz2s7eqoy7c7198xha0eq9k0",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-12-15T21:14:51.154Z"
   }
 },
 {
@@ -461,6 +469,446 @@
   "fields": {
     "description": "",
     "document": "documents/S0000071_ysX7egX.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 34,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_0xOoSEI.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 35,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_0YWByia.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 36,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000032.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 37,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000028.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 38,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_oSdBeKZ.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 39,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_mCAH5It.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 40,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_5hqNWqi.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 41,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_8povvVQ.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 42,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000032_A61qPrt.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 43,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_rhq1S7R.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 44,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_QyHm1QW.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 45,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000032_cZlqpqP.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 46,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000028_08xxfLj.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 47,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000028_rvvei5k.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 48,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_D0qdM8r.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 49,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_uGub4PH.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 50,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_lD52f07.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 51,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000028_zNK67OG.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 52,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000028_818A1NC.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 53,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_NrAodms.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 54,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_gcksBU1.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 55,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_expM0Lc.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 56,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_lM9ZLqn.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 57,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_aUt4wN6.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 58,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_sHLwvwq.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 59,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_9Tzv5VS.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 60,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_GOArMdf.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 61,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000028_r5aIpQk.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 62,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_BkekXnG.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 63,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_FiP5idx.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 64,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_Smn6RtB.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 65,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_wr9VUMf.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 66,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_iUILrdH.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 67,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_M1ixJg2.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 68,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_EY0gSbE.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 69,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_rlS8RYj.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 70,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_NNmjkqh.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 71,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000028_w2ixuHG.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 72,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_kwH3KV0.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 73,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_Oc7Irky.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 74,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_RrGjuV2.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 75,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_Gjme2ed.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 76,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_liP2aRp.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 77,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_Tsm3vDJ.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 78,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_cveRI6H.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 79,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_rTVbs6N.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 80,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_5FDdLUx.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 81,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_VrtwmQh.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 82,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_SUlsvEx.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 83,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_XgoNF9s.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 84,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_0POcAT3.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 85,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_MCQMBgf.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 86,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000071_uP9LGop.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 87,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_BTiWS6x.TXT"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 88,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_CyKh5hS.TXT"
   }
 },
 {
@@ -1012,6 +1460,65 @@
   }
 },
 {
+  "model": "skeleton.site",
+  "pk": 6,
+  "fields": {
+    "site_number": "28",
+    "farm": 3,
+    "technician": 4,
+    "selected": null,
+    "name": "Jazz",
+    "variety": "Jazz",
+    "crop": 2,
+    "report": null,
+    "irrigation_method": 1,
+    "irrigation_area": 10.0,
+    "irrigation_time": 3.0,
+    "irrigation_delivered_volume": 1103.0,
+    "irrigation_position": 10.0,
+    "irrigation_yield": null,
+    "irrigation_allocation_volume": 0.0,
+    "rz1_top": 0,
+    "rz1_bottom": 60,
+    "rz2_top": 0,
+    "rz2_bottom": 20,
+    "rz3_top": 0,
+    "rz3_bottom": 45,
+    "depth1": 10,
+    "depth2": 20,
+    "depth3": 30,
+    "depth4": 40,
+    "depth5": 50,
+    "depth6": 60,
+    "depth7": 70,
+    "depth8": null,
+    "depth9": null,
+    "depth10": null,
+    "depth_he1": 1,
+    "depth_he2": 2,
+    "depth_he3": 3,
+    "depth_he4": 4,
+    "depth_he5": 5,
+    "depth_he6": 6,
+    "depth_he7": 7,
+    "depth_he8": null,
+    "depth_he9": null,
+    "depth_he10": null,
+    "upper_limit": 2,
+    "lower_limit": 3,
+    "emitter_rate": 30.0,
+    "row_spacing": 340,
+    "emitter_spacing": 240,
+    "plant_spacing": 240,
+    "wetted_width": 340,
+    "delivery_time": 3,
+    "area": 10.0,
+    "comment": null,
+    "created_date": "2019-12-01T21:42:25Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.season",
   "pk": 1,
   "fields": {
@@ -1217,6 +1724,32 @@
     "date": "2019-04-23",
     "comment": null,
     "created_date": "2019-11-18T22:40:41Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 13,
+  "fields": {
+    "site": 6,
+    "season": 1,
+    "type": 1,
+    "date": "2018-10-01",
+    "comment": null,
+    "created_date": "2019-12-01T21:46:11Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 14,
+  "fields": {
+    "site": 6,
+    "season": 1,
+    "type": 2,
+    "date": "2019-07-01",
+    "comment": null,
+    "created_date": "2019-12-01T21:47:57Z",
     "created_by": 1
   }
 },
@@ -1759,7 +2292,7 @@
   "fields": {
     "site": 2,
     "type": 2,
-    "date": "2010-10-26",
+    "date": "2018-11-26",
     "depth1": 22.0,
     "depth2": 23.0,
     "depth3": 31.0,
@@ -1786,46 +2319,8 @@
     "efflrr1": null,
     "efflrr2": null,
     "effective_irrigation": null,
-    "comment": null,
+    "comment": "",
     "created_date": "2019-06-30T19:03:38Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.reading",
-  "pk": 3,
-  "fields": {
-    "site": 2,
-    "type": 3,
-    "date": "2018-10-26",
-    "depth1": 15.3999996185303,
-    "depth2": 17.2999992370605,
-    "depth3": 23.2999992370605,
-    "depth4": 25.5,
-    "depth5": 24.60000038,
-    "depth6": 21.60000038,
-    "depth7": 21.10000038,
-    "depth8": null,
-    "depth9": null,
-    "depth10": null,
-    "serial_number": null,
-    "rz1": 116.8999939,
-    "rz2": 116.8999939,
-    "rz3": 0.0,
-    "deficit": 42.50182343,
-    "probe_dwu": null,
-    "estimated_dwu": null,
-    "rain": null,
-    "meter": null,
-    "irrigation_litres": null,
-    "irrigation_mms": null,
-    "effective_rain_1": null,
-    "effective_rainfall": null,
-    "efflrr1": null,
-    "efflrr2": null,
-    "effective_irrigation": null,
-    "comment": null,
-    "created_date": "2019-06-30T19:05:42Z",
     "created_by": 1
   }
 },
@@ -4153,7 +4648,7 @@
   "fields": {
     "site": 2,
     "type": 3,
-    "date": "2010-08-08",
+    "date": "2018-11-09",
     "depth1": 22.19000053,
     "depth2": 23.17000008,
     "depth3": 29.17499924,
@@ -4180,7 +4675,7 @@
     "efflrr1": null,
     "efflrr2": null,
     "effective_irrigation": null,
-    "comment": null,
+    "comment": "",
     "created_date": "2019-08-08T23:09:29Z",
     "created_by": 1
   }
@@ -5019,6 +5514,1059 @@
     "content_type": 28,
     "object_id": "11",
     "object_repr": "River 4 Pacific Rose:2018-10-20",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 45,
+  "fields": {
+    "action_time": "2019-12-01T20:58:35.925Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "115",
+    "object_repr": "River 4 Pacific Rose:2019-04-17",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 46,
+  "fields": {
+    "action_time": "2019-12-01T20:58:35.995Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "114",
+    "object_repr": "River 4 Pacific Rose:2019-04-11",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 47,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.004Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "113",
+    "object_repr": "River 4 Pacific Rose:2019-04-04",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 48,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.012Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "112",
+    "object_repr": "River 4 Pacific Rose:2019-03-28",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 49,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.021Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "111",
+    "object_repr": "River 4 Pacific Rose:2019-03-21",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 50,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.028Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "110",
+    "object_repr": "River 4 Pacific Rose:2019-03-14",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 51,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.037Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "109",
+    "object_repr": "River 4 Pacific Rose:2019-03-07",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 52,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.045Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "108",
+    "object_repr": "River 4 Pacific Rose:2019-02-28",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 53,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.054Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "107",
+    "object_repr": "River 4 Pacific Rose:2019-02-22",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 54,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.062Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "106",
+    "object_repr": "River 4 Pacific Rose:2019-02-14",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 55,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.070Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "105",
+    "object_repr": "River 4 Pacific Rose:2019-02-08",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 56,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.078Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "104",
+    "object_repr": "River 4 Pacific Rose:2019-01-31",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 57,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.087Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "103",
+    "object_repr": "River 4 Pacific Rose:2019-01-24",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 58,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.095Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "102",
+    "object_repr": "River 4 Pacific Rose:2019-01-17",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 59,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.104Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "101",
+    "object_repr": "River 4 Pacific Rose:2019-01-10",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 60,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.112Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "100",
+    "object_repr": "River 4 Pacific Rose:2019-01-04",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 61,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.120Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "99",
+    "object_repr": "River 4 Pacific Rose:2018-12-20",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 62,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.128Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "98",
+    "object_repr": "River 4 Pacific Rose:2018-12-13",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 63,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.137Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "97",
+    "object_repr": "River 4 Pacific Rose:2018-12-06",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 64,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.145Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "96",
+    "object_repr": "River 4 Pacific Rose:2018-11-29",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 65,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.154Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "95",
+    "object_repr": "River 4 Pacific Rose:2018-11-22",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 66,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.162Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "94",
+    "object_repr": "River 4 Pacific Rose:2018-11-15",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 67,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.170Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "93",
+    "object_repr": "River 4 Pacific Rose:2018-11-07",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 68,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.178Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "92",
+    "object_repr": "River 4 Pacific Rose:2018-11-01",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 69,
+  "fields": {
+    "action_time": "2019-12-01T20:58:36.187Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "91",
+    "object_repr": "River 4 Pacific Rose:2018-10-25",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 70,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.709Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "140",
+    "object_repr": "River 4 Pacific Rose:2019-04-17",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 71,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.723Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "139",
+    "object_repr": "River 4 Pacific Rose:2019-04-11",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 72,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.730Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "138",
+    "object_repr": "River 4 Pacific Rose:2019-04-04",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 73,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.738Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "137",
+    "object_repr": "River 4 Pacific Rose:2019-03-28",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 74,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.748Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "136",
+    "object_repr": "River 4 Pacific Rose:2019-03-21",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 75,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.755Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "135",
+    "object_repr": "River 4 Pacific Rose:2019-03-14",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 76,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.765Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "134",
+    "object_repr": "River 4 Pacific Rose:2019-03-07",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 77,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.781Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "133",
+    "object_repr": "River 4 Pacific Rose:2019-02-28",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 78,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.788Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "132",
+    "object_repr": "River 4 Pacific Rose:2019-02-22",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 79,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.805Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "131",
+    "object_repr": "River 4 Pacific Rose:2019-02-14",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 80,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "130",
+    "object_repr": "River 4 Pacific Rose:2019-02-08",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 81,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.822Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "129",
+    "object_repr": "River 4 Pacific Rose:2019-01-31",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 82,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.831Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "128",
+    "object_repr": "River 4 Pacific Rose:2019-01-24",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 83,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.838Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "127",
+    "object_repr": "River 4 Pacific Rose:2019-01-17",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 84,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.848Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "126",
+    "object_repr": "River 4 Pacific Rose:2019-01-10",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 85,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.855Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "125",
+    "object_repr": "River 4 Pacific Rose:2019-01-04",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 86,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.864Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "124",
+    "object_repr": "River 4 Pacific Rose:2018-12-20",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 87,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.872Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "123",
+    "object_repr": "River 4 Pacific Rose:2018-12-13",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 88,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.880Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "122",
+    "object_repr": "River 4 Pacific Rose:2018-12-06",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 89,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.888Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "121",
+    "object_repr": "River 4 Pacific Rose:2018-11-29",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 90,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.897Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "120",
+    "object_repr": "River 4 Pacific Rose:2018-11-22",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 91,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.905Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "119",
+    "object_repr": "River 4 Pacific Rose:2018-11-15",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 92,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.914Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "118",
+    "object_repr": "River 4 Pacific Rose:2018-11-07",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 93,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.922Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "117",
+    "object_repr": "River 4 Pacific Rose:2018-11-01",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 94,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.931Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "116",
+    "object_repr": "River 4 Pacific Rose:2018-10-25",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 95,
+  "fields": {
+    "action_time": "2019-12-01T21:41:52.938Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "90",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-04-11",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 96,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.037Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "89",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-04-04",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 97,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.045Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "88",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-03-28",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 98,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.054Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "87",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-03-21",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 99,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.062Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "86",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-03-14",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 100,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.070Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "85",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-03-07",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 101,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.079Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "84",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-02-28",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 102,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.087Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "83",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-02-22",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 103,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.096Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "82",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-02-14",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 104,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.104Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "81",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-02-08",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 105,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.113Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "80",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-01-31",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 106,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.121Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "79",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-01-24",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 107,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.130Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "78",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-01-17",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 108,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.138Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "77",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-01-10",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 109,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.147Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "76",
+    "object_repr": "Deer Block 3 Pacific Queen:2019-01-04",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 110,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.154Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "75",
+    "object_repr": "Deer Block 3 Pacific Queen:2018-12-20",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 111,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.163Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "74",
+    "object_repr": "Deer Block 3 Pacific Queen:2018-12-13",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 112,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.171Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "73",
+    "object_repr": "Deer Block 3 Pacific Queen:2018-12-06",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 113,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.180Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "72",
+    "object_repr": "Deer Block 3 Pacific Queen:2018-11-29",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 114,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.188Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "71",
+    "object_repr": "Deer Block 3 Pacific Queen:2018-11-22",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 115,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.197Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "70",
+    "object_repr": "Deer Block 3 Pacific Queen:2018-11-15",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 116,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.204Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "69",
+    "object_repr": "Deer Block 3 Pacific Queen:2018-11-07",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 117,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.213Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "68",
+    "object_repr": "Deer Block 3 Pacific Queen:2018-11-01",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 118,
+  "fields": {
+    "action_time": "2019-12-01T21:42:15.221Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "67",
+    "object_repr": "Deer Block 3 Pacific Queen:2018-10-25",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 119,
+  "fields": {
+    "action_time": "2019-12-01T21:46:02.263Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "6",
+    "object_repr": "Jazz",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 120,
+  "fields": {
+    "action_time": "2019-12-01T21:47:55.578Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "13",
+    "object_repr": "Jazz:2018-10-01",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 121,
+  "fields": {
+    "action_time": "2019-12-01T21:48:09.183Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "14",
+    "object_repr": "Jazz:2019-07-01",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 122,
+  "fields": {
+    "action_time": "2019-12-01T21:50:07.129Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "3",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-10-26",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 123,
+  "fields": {
+    "action_time": "2019-12-01T21:50:27.166Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "65",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-10-08",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 124,
+  "fields": {
+    "action_time": "2019-12-01T21:50:55.972Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-26",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 125,
+  "fields": {
+    "action_time": "2019-12-01T21:51:23.736Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "65",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-09",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
   }

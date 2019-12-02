@@ -49,7 +49,7 @@ class ReadingList(generics.ListCreateAPIView):
     queryset = Reading.objects.all();
     serializer_class = ReadingSerializer
 
-class ReadingDetail(generics.RetrieveDestroyAPIView):
+class ReadingDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reading.objects.all();
     serializer_class = ReadingSerializer
 
