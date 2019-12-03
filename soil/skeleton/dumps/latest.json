@@ -86,7 +86,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2019-11-29T01:21:31.428Z",
+    "last_login": "2019-12-03T20:04:57.272Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -173,6 +173,14 @@
     "date_joined": "2019-11-18T22:18:58Z",
     "groups": [],
     "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "92tnmoqxox4qqrlidr8g9oft1sb6cocn",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-12-17T20:04:57.282Z"
   }
 },
 {
@@ -1174,7 +1182,7 @@
     "selected": null,
     "name": "Pinot Noir Springstone",
     "variety": "Grapes",
-    "crop": 1,
+    "crop": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1184,7 +1192,7 @@
     "irrigation_yield": null,
     "irrigation_allocation_volume": 0.0,
     "rz1_top": 0,
-    "rz1_bottom": 120,
+    "rz1_bottom": 110,
     "rz2_top": 0,
     "rz2_bottom": 70,
     "rz3_top": 0,
@@ -1209,15 +1217,15 @@
     "depth_he8": 8,
     "depth_he9": null,
     "depth_he10": null,
-    "upper_limit": null,
-    "lower_limit": null,
-    "emitter_rate": null,
-    "row_spacing": null,
-    "emitter_spacing": null,
-    "plant_spacing": null,
-    "wetted_width": null,
-    "delivery_time": null,
-    "area": null,
+    "upper_limit": 2,
+    "lower_limit": 3,
+    "emitter_rate": 55.0,
+    "row_spacing": 500,
+    "emitter_spacing": 500,
+    "plant_spacing": 250,
+    "wetted_width": 500,
+    "delivery_time": 60,
+    "area": 10.0,
     "comment": null,
     "created_date": "2019-06-24T23:53:03Z",
     "created_by": 1
@@ -4719,6 +4727,196 @@
   }
 },
 {
+  "model": "skeleton.reading",
+  "pk": 67,
+  "fields": {
+    "site": 1,
+    "type": 1,
+    "date": "2019-05-21",
+    "depth1": 23.0,
+    "depth2": 24.0,
+    "depth3": 12.0,
+    "depth4": 6.0,
+    "depth5": 33.0,
+    "depth6": 12.0,
+    "depth7": 14.0,
+    "depth8": 30.0,
+    "depth9": null,
+    "depth10": null,
+    "serial_number": 4,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": 6.0,
+    "meter": 6950.0,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": "",
+    "created_date": "2019-12-03T20:05:40Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 68,
+  "fields": {
+    "site": 1,
+    "type": 1,
+    "date": "2019-05-14",
+    "depth1": 23.0,
+    "depth2": 24.0,
+    "depth3": 12.0,
+    "depth4": 7.0,
+    "depth5": 33.0,
+    "depth6": 12.0,
+    "depth7": 21.0,
+    "depth8": 30.0,
+    "depth9": null,
+    "depth10": null,
+    "serial_number": 4,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": 4.0,
+    "meter": 6700.0,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": "",
+    "created_date": "2019-12-03T20:54:34Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 69,
+  "fields": {
+    "site": 1,
+    "type": 1,
+    "date": "2019-05-07",
+    "depth1": 37.0,
+    "depth2": 24.0,
+    "depth3": 34.0,
+    "depth4": 22.0,
+    "depth5": 42.0,
+    "depth6": 12.0,
+    "depth7": 29.0,
+    "depth8": 30.0,
+    "depth9": null,
+    "depth10": null,
+    "serial_number": 4,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": 0.0,
+    "meter": 6550.0,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": "",
+    "created_date": "2019-12-03T20:55:19Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 70,
+  "fields": {
+    "site": 1,
+    "type": 1,
+    "date": "2018-12-14",
+    "depth1": 23.0,
+    "depth2": 24.0,
+    "depth3": 12.0,
+    "depth4": 9.0,
+    "depth5": 33.0,
+    "depth6": 12.0,
+    "depth7": 22.0,
+    "depth8": 30.0,
+    "depth9": null,
+    "depth10": null,
+    "serial_number": 4,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": 12.0,
+    "meter": 6500.0,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": "",
+    "created_date": "2019-12-03T20:55:58Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 71,
+  "fields": {
+    "site": 1,
+    "type": 2,
+    "date": "2018-10-25",
+    "depth1": 20.0,
+    "depth2": 22.0,
+    "depth3": 24.0,
+    "depth4": 26.0,
+    "depth5": 28.0,
+    "depth6": 30.0,
+    "depth7": 32.0,
+    "depth8": 30.0,
+    "depth9": null,
+    "depth10": null,
+    "serial_number": 3,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": null,
+    "meter": null,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": "",
+    "created_date": "2019-12-03T22:04:35Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.kcreading",
   "pk": 1,
   "fields": {
@@ -4772,7 +4970,7 @@
   "fields": {
     "crop": 2,
     "period_from": "2019-02-13",
-    "period_to": "2019-02-24",
+    "period_to": "2019-05-14",
     "kc": 4.0,
     "created_date": "2019-07-09T01:46:32Z",
     "created_by": 1
@@ -4783,8 +4981,8 @@
   "pk": 6,
   "fields": {
     "crop": 2,
-    "period_from": "2019-02-25",
-    "period_to": "2019-03-13",
+    "period_from": "2019-05-15",
+    "period_to": "2019-05-30",
     "kc": 4.2,
     "created_date": "2019-07-09T01:47:08Z",
     "created_by": 1
@@ -4823,6 +5021,30 @@
     "period_to": "2018-12-13",
     "kc": 1.0,
     "created_date": "2019-07-09T01:50:37Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 10,
+  "fields": {
+    "crop": 4,
+    "period_from": "2018-12-14",
+    "period_to": "2019-05-13",
+    "kc": 3.5,
+    "created_date": "2019-12-03T21:24:03Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.kcreading",
+  "pk": 11,
+  "fields": {
+    "crop": 4,
+    "period_from": "2019-05-14",
+    "period_to": "2019-05-30",
+    "kc": 5.0,
+    "created_date": "2019-12-03T21:24:37Z",
     "created_by": 1
   }
 },
@@ -4943,6 +5165,198 @@
     "weekly": 11.0,
     "daily": 1.6,
     "created_date": "2019-07-09T01:53:53Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 12,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-21",
+    "weekly": 1.4,
+    "daily": 1.4,
+    "created_date": "2019-12-03T23:03:09Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 13,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-20",
+    "weekly": 1.6,
+    "daily": 1.6,
+    "created_date": "2019-12-03T23:03:30Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 14,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-19",
+    "weekly": 2.2,
+    "daily": 2.2,
+    "created_date": "2019-12-03T23:03:49Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 15,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-18",
+    "weekly": 4.4,
+    "daily": 4.4,
+    "created_date": "2019-12-03T23:04:04Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 16,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-17",
+    "weekly": 3.2,
+    "daily": 3.2,
+    "created_date": "2019-12-03T23:04:17Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 17,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-16",
+    "weekly": 1.0,
+    "daily": 1.0,
+    "created_date": "2019-12-03T23:04:29Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 18,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-15",
+    "weekly": 0.8,
+    "daily": 0.8,
+    "created_date": "2019-12-03T23:04:39Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 19,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-14",
+    "weekly": 2.0,
+    "daily": 2.0,
+    "created_date": "2019-12-03T23:04:55Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 20,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-13",
+    "weekly": 2.3,
+    "daily": 2.3,
+    "created_date": "2019-12-03T23:05:17Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 21,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-12",
+    "weekly": 2.0,
+    "daily": 2.0,
+    "created_date": "2019-12-03T23:05:35Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 22,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-11",
+    "weekly": 1.1,
+    "daily": 1.1,
+    "created_date": "2019-12-03T23:06:05Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 23,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-10",
+    "weekly": 0.6,
+    "daily": 0.6,
+    "created_date": "2019-12-03T23:06:19Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 24,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-09",
+    "weekly": 4.0,
+    "daily": 4.0,
+    "created_date": "2019-12-03T23:06:35Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 25,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-08",
+    "weekly": 7.0,
+    "daily": 7.0,
+    "created_date": "2019-12-03T23:06:44Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 26,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-07",
+    "weekly": 1.2,
+    "daily": 1.2,
+    "created_date": "2019-12-03T23:07:03Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 27,
+  "fields": {
+    "state": 1,
+    "date": "2018-12-14",
+    "weekly": 3.0,
+    "daily": 3.0,
+    "created_date": "2019-12-03T23:07:16Z",
     "created_by": 1
   }
 },
@@ -6569,6 +6983,513 @@
     "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-09",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 126,
+  "fields": {
+    "action_time": "2019-12-03T20:22:35.100Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"row_spacing\", \"plant_spacing\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 127,
+  "fields": {
+    "action_time": "2019-12-03T20:28:27.756Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"upper_limit\", \"lower_limit\", \"emitter_rate\", \"emitter_spacing\", \"wetted_width\", \"delivery_time\", \"area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 128,
+  "fields": {
+    "action_time": "2019-12-03T20:54:34.469Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "67",
+    "object_repr": "Pinot Noir Springstone:2019-05-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 129,
+  "fields": {
+    "action_time": "2019-12-03T20:55:18.918Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "68",
+    "object_repr": "Pinot Noir Springstone:2019-05-14",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 130,
+  "fields": {
+    "action_time": "2019-12-03T20:55:55.906Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "69",
+    "object_repr": "Pinot Noir Springstone:2019-05-07",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 131,
+  "fields": {
+    "action_time": "2019-12-03T20:56:26.099Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "70",
+    "object_repr": "Pinot Noir Springstone:2019-05-01",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 132,
+  "fields": {
+    "action_time": "2019-12-03T20:56:37.938Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "69",
+    "object_repr": "Pinot Noir Springstone:2019-05-07",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"serial_number\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 133,
+  "fields": {
+    "action_time": "2019-12-03T21:05:07.454Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"rz1_bottom\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 134,
+  "fields": {
+    "action_time": "2019-12-03T21:22:57.865Z",
+    "user": 1,
+    "content_type": 21,
+    "object_id": "6",
+    "object_repr": "Apples:2019-05-15:2019-05-30:4.2",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"period_from\", \"period_to\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 135,
+  "fields": {
+    "action_time": "2019-12-03T21:23:29.154Z",
+    "user": 1,
+    "content_type": 21,
+    "object_id": "5",
+    "object_repr": "Apples:2019-02-13:2019-05-14:4.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"period_to\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 136,
+  "fields": {
+    "action_time": "2019-12-03T21:23:53.582Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"crop\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 137,
+  "fields": {
+    "action_time": "2019-12-03T21:24:37.149Z",
+    "user": 1,
+    "content_type": 21,
+    "object_id": "10",
+    "object_repr": "Grapes:2019-04-01:2019-05-15:3.5",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 138,
+  "fields": {
+    "action_time": "2019-12-03T21:24:55.586Z",
+    "user": 1,
+    "content_type": 21,
+    "object_id": "11",
+    "object_repr": "Grapes:2019-05-16:2019-05-30:None",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 139,
+  "fields": {
+    "action_time": "2019-12-03T21:25:38.739Z",
+    "user": 1,
+    "content_type": 21,
+    "object_id": "10",
+    "object_repr": "Grapes:2019-04-01:2019-05-13:3.5",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"period_to\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 140,
+  "fields": {
+    "action_time": "2019-12-03T21:25:47.202Z",
+    "user": 1,
+    "content_type": 21,
+    "object_id": "11",
+    "object_repr": "Grapes:2019-05-14:2019-05-30:None",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"period_from\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 141,
+  "fields": {
+    "action_time": "2019-12-03T21:25:59.398Z",
+    "user": 1,
+    "content_type": 21,
+    "object_id": "11",
+    "object_repr": "Grapes:2019-05-14:2019-05-30:5.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"kc\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 142,
+  "fields": {
+    "action_time": "2019-12-03T21:28:48.367Z",
+    "user": 1,
+    "content_type": 21,
+    "object_id": "10",
+    "object_repr": "Grapes:2018-12-14:2019-05-13:3.5",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"period_from\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 143,
+  "fields": {
+    "action_time": "2019-12-03T21:30:31.741Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "70",
+    "object_repr": "Pinot Noir Springstone:2018-12-14",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 144,
+  "fields": {
+    "action_time": "2019-12-03T22:05:10.584Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "71",
+    "object_repr": "Pinot Noir Springstone:2018-10-25",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 145,
+  "fields": {
+    "action_time": "2019-12-03T22:57:27.275Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "67",
+    "object_repr": "Pinot Noir Springstone:2019-05-21",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"depth1\", \"depth2\", \"depth3\", \"depth4\", \"depth5\", \"depth6\", \"depth7\", \"depth8\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 146,
+  "fields": {
+    "action_time": "2019-12-03T22:58:29.557Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "69",
+    "object_repr": "Pinot Noir Springstone:2019-05-07",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"depth1\", \"depth2\", \"depth3\", \"depth4\", \"depth5\", \"depth6\", \"depth7\", \"depth8\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 147,
+  "fields": {
+    "action_time": "2019-12-03T22:59:31.081Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "68",
+    "object_repr": "Pinot Noir Springstone:2019-05-14",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"depth1\", \"depth2\", \"depth3\", \"depth4\", \"depth5\", \"depth6\", \"depth7\", \"depth8\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 148,
+  "fields": {
+    "action_time": "2019-12-03T23:00:42.870Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "70",
+    "object_repr": "Pinot Noir Springstone:2018-12-14",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"depth1\", \"depth2\", \"depth3\", \"depth4\", \"depth5\", \"depth6\", \"depth7\", \"depth8\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 149,
+  "fields": {
+    "action_time": "2019-12-03T23:03:30.368Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "12",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-21:1.4",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 150,
+  "fields": {
+    "action_time": "2019-12-03T23:03:49.315Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "13",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-20:1.6",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 151,
+  "fields": {
+    "action_time": "2019-12-03T23:04:04.284Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "14",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-19:2.2",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 152,
+  "fields": {
+    "action_time": "2019-12-03T23:04:17.158Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "15",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-18:4.4",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 153,
+  "fields": {
+    "action_time": "2019-12-03T23:04:29.779Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "16",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-17:3.2",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 154,
+  "fields": {
+    "action_time": "2019-12-03T23:04:39.416Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "17",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-16:1.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 155,
+  "fields": {
+    "action_time": "2019-12-03T23:04:55.309Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "18",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-15:0.8",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 156,
+  "fields": {
+    "action_time": "2019-12-03T23:05:17.473Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "19",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-14:2.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 157,
+  "fields": {
+    "action_time": "2019-12-03T23:05:35.112Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "20",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-13:2.3",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 158,
+  "fields": {
+    "action_time": "2019-12-03T23:05:54.737Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "21",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-12:2.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 159,
+  "fields": {
+    "action_time": "2019-12-03T23:06:19.828Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "22",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-11:1.1",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 160,
+  "fields": {
+    "action_time": "2019-12-03T23:06:35.546Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "23",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-10:0.6",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 161,
+  "fields": {
+    "action_time": "2019-12-03T23:06:44.537Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "24",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-09:4.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 162,
+  "fields": {
+    "action_time": "2019-12-03T23:07:03.605Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "25",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-08:7.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 163,
+  "fields": {
+    "action_time": "2019-12-03T23:07:16.836Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "26",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-07:1.2",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 164,
+  "fields": {
+    "action_time": "2019-12-03T23:07:41.599Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "27",
+    "object_repr": "Hawkes Bay, New Zealand:2018-12-14:3.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
   }
 }
 ]
