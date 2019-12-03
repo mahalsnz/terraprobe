@@ -48,7 +48,7 @@ def load_graph(request):
             raise Exception("No Season Start and End set up for site.")
 
         r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date')
-        logger.error(str(r))
+        logger.info(str(r))
         try:
             latest = r[0].date
         except:
@@ -57,8 +57,8 @@ def load_graph(request):
             previous = r[1].date
         except:
             raise Exception("No Previous Reading for Site and Season")
-        logger.error("Date:" + str(latest))
-        logger.error("Previous:" + str(previous))
+        logger.info("Date:" + str(latest))
+        logger.info("Previous:" + str(previous))
 
         context = {
             'site_id' : site_id,
@@ -69,7 +69,7 @@ def load_graph(request):
         }
 
     except Exception as e:
-        messages.error(request, "Error with Loading Graph: Error is: " + str(e))
+        messages.error(request, "Error with Loading Graph: " + str(e))
     return HttpResponse(template.render(context, request))
 
 
@@ -114,7 +114,7 @@ def load_site_readings(request):
     For a particular site, season and date find the previous reading date
 '''
 def get_irrigation_litres(readingqs):
-    logger.error("Date:" + get_previous_date_season)
+    logger.info("Date:" + get_previous_date_season)
 
 
 @login_required
@@ -137,21 +137,21 @@ def model_form_upload(request):
     data = {}
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
-        logger.error(request.POST)
+        logger.debug(request.POST)
         files = request.FILES.getlist('document')
 
         if form.is_valid():
             for f in files:
-                logger.error('***Saving File:' + str(f))
+                logger.info('***Saving File:' + str(f))
                 form.save()
                 try:
                     handle_file(f, request)
                     messages.success(request, "Successfully Uploaded file: " + str(f))
                 except Exception as e:
-                    messages.error(request, "Error with file: " + str(f) + " Error is: " + str(e))
+                    messages.info(request, "info with file: " + str(f) + " info is: " + str(e))
             return redirect('model_upload')
         else:
-            logger.error('***Form not valid:' + str(form))
+            logger.info('***Form not valid:' + str(form))
     else:
         form = DocumentForm()
     return render(request, 'model_form_upload.html', {
@@ -164,7 +164,7 @@ def model_form_upload(request):
 
 def handle_file(f, request):
     # File saved. Now try and process it
-    logger.error('***Processing File:' + str(f))
+    logger.debug('***Processing File:' + str(f))
     type = request.POST['filetype']
 
     file_data = ""
@@ -172,7 +172,7 @@ def handle_file(f, request):
         for chunk in f.chunks():
             file_data = file_data + chunk.decode("utf-8")
     except Exception as e:
-        logger.error(e)
+        logger.info(e)
     finally:
         # Call different handlers
         if type == 'neutron':
@@ -186,16 +186,16 @@ def handle_file(f, request):
 '''
 
 def handle_neutron_file(file_data, request):
-    logger.error("***Handling Neutron")
+    logger.debug("***Handling Neutron")
     # process
     lines = file_data.split("\n")
-    logger.error("Serial Line:" + lines[1])
+    logger.info("Serial Line:" + lines[1])
     serialfields = lines[1].split(",")
     serialnumber = serialfields[1]
     serialnumber_formatted = serialnumber.lstrip("0")
-    logger.error("Serial Number:" + serialnumber_formatted)
+    logger.info("Serial Number:" + serialnumber_formatted)
 
-    # Check Serial Number exists and return error message if is not. Then get the serial number unique id
+    # Check Serial Number exists and return info message if is not. Then get the serial number unique id
     if not Probe.objects.filter(serial_number=serialnumber_formatted).exists():
         raise Exception("Serial Number:" + serialnumber_formatted + " does not exist.")
     p = Probe.objects.get(serial_number=serialnumber_formatted)
@@ -212,7 +212,7 @@ def handle_neutron_file(file_data, request):
         note = re.search("^Note,[a-zA-Z0-9_]+", line)
         reading = re.search("^\d.*", line)
         if note:
-            logger.error("***We have a note line:" + line)
+            logger.debug("***We have a note line:" + line)
             # If not first note line of file
             if any(data):
                 readings.reverse() # Neutron Probe files go from deepest to shallowest
@@ -220,9 +220,9 @@ def handle_neutron_file(file_data, request):
                 readings = []
             site_line = line.split(",")
             site_number = site_line[1].rstrip()
-            logger.error("Site Number:" + str(site_number))
+            logger.info("Site Number:" + str(site_number))
         elif reading:
-            logger.error("***We have a reading line:" + line)
+            logger.info("***We have a reading line:" + line)
             reading_line = line.split(",")
             # If first reading for note, we need to get the date and create the key
             if reading_line[0] == "1":
@@ -234,23 +234,20 @@ def handle_neutron_file(file_data, request):
                 date_formatted = date_object.strftime('%Y-%m-%d')
 
                 key = site_number.rstrip() + "," + date_formatted
-                logger.error("Key:" + key)
+                logger.info("Key:" + key)
 
                 if key in data:
-                    logger.error("Key exists:")
+                    logger.info("Key exists:")
                 else:
-                    logger.error("No Key does not exist:")
+                    logger.info("No Key does not exist:")
                     data[key] = []
 
             readings.append(float(reading_line[6]))
         else:
-            logger.error("Else not valid processing line!"  + line)
-
-        logger.error("End of Loop:")
-        #logger.error("Data:" + str(data))
+            logger.info("Else not valid processing line!"  + line)
 
     data[key].append(readings) # Always insert last reading
-    logger.error("Final Data submitted to process_probe_data:" + str(data))
+    logger.info("Final Data submitted to process_probe_data:" + str(data))
     process_probe_data(data, serial_number_id, request)
 
 '''
@@ -258,7 +255,7 @@ def handle_neutron_file(file_data, request):
 '''
 
 def handle_diviner_file(file_data, request):
-    logger.error("***Handling Diviner")
+    logger.info("***Handling Diviner")
     lines = file_data.split("\n")
 
     # Variable for loop
@@ -276,11 +273,11 @@ def handle_diviner_file(file_data, request):
         reading = re.search("^\d.*", line)
 
         if heading:
-            logger.error("***We have a heading line:" + line)
+            logger.info("***We have a heading line:" + line)
             diviner_fields = line.split(",")
             diviner_number = diviner_fields[1]
             diviner_number_formatted = diviner_number.lstrip()
-            logger.error("Diviner Number Formatted:" + diviner_number_formatted)
+            logger.info("Diviner Number Formatted:" + diviner_number_formatted)
 
             # Get Serial Number and Site Number from Diviner Probe and
             try:
@@ -288,17 +285,17 @@ def handle_diviner_file(file_data, request):
             except:
                 raise Exception("Diviner Number:" + diviner_number_formatted + " not set up for a site.")
             site_number = site.site_number
-            logger.error("Site Number:" + site_number)
+            logger.info("Site Number:" + site_number)
 
             try:
                 sn = Probe.objects.get(probediviner__diviner__diviner_number=int(diviner_number_formatted))
             except:
                 raise Exception("Diviner Number:" + diviner_number_formatted + " not set up for a probe/serial number.")
             serial_number_id = sn.id
-            logger.error("Serial Number ID:" + str(serial_number_id))
+            logger.info("Serial Number ID:" + str(serial_number_id))
 
         elif reading:
-            logger.error("***We have a reading line:" + line)
+            logger.info("***We have a reading line:" + line)
             reading_line = line.split(",")
 
             if need_date:
@@ -306,15 +303,15 @@ def handle_diviner_file(file_data, request):
                 date_raw = str(reading_line[0])
                 date_object = datetime.strptime(date_raw, '%d %b %Y %H:%M:%S')
                 date_formatted = date_object.strftime('%Y-%m-%d')
-                logger.error("Date:" + date_formatted)
+                logger.info("Date:" + date_formatted)
                 key = site_number + "," + date_formatted
-                logger.error("Key:" + key)
+                logger.info("Key:" + key)
                 data[key] = []
                 need_date = False
 
             # Always remove date as the first element
             reading_line.pop(0)
-            logger.error(reading_line)
+            logger.info(reading_line)
             reading_array = []
             for reading in reading_line:
                 reading = reading.lstrip(' ')
@@ -323,9 +320,9 @@ def handle_diviner_file(file_data, request):
 
             data[key].append(reading_array)
         else:
-            logger.error("Not a line to process:"  + line)
+            logger.info("Not a line to process:"  + line)
 
-    logger.error("Final Data:" + str(data))
+    logger.info("Final Data:" + str(data))
     process_probe_data(data, serial_number_id, request)
 
 '''
@@ -333,14 +330,14 @@ def handle_diviner_file(file_data, request):
 '''
 
 def handle_prwin_file(file_data, request):
-    logger.error("***Handling PRWIN")
+    logger.debug("***Handling PRWIN")
     lines = file_data.split("\n")
 
     # Use first line to get position of serial number (SN). Between serial number and field 3 (date) will be counts (up to 10)
-    logger.error("***Line 1 is " + str(lines[0]))
+    logger.debug("***Line 1 is " + str(lines[0]))
     header = lines[0].split(",")
     sn_index = header.index('SN')
-    logger.error("SN Index:" + str(sn_index))
+    logger.info("SN Index:" + str(sn_index))
     del lines[0]
 
     data = {}
@@ -357,9 +354,9 @@ def handle_prwin_file(file_data, request):
 
             # First field of every line is site number
             site_number = fields[0]
-            logger.error("Site Number:" + site_number)
+            logger.info("Site Number:" + site_number)
             reading_type = fields[1]
-            logger.error("Type:" + reading_type)
+            logger.info("Type:" + reading_type)
 
             # We only want 'Probe' reading types
             if reading_type == 'Probe':
@@ -369,14 +366,14 @@ def handle_prwin_file(file_data, request):
                 date = datefields[0]
                 date_object = datetime.strptime(date, '%d/%m/%Y') # American
                 date_formatted = date_object.strftime('%Y-%m-%d')
-                logger.error("Date:" + date_formatted)
+                logger.info("Date:" + date_formatted)
 
                 # Get Serial Number. We are just going to get it once and asume all PRWIN readings for the season are from one probe
                 if bolNeedSerialNumber:
                     serialnumber = fields[sn_index]
-                    logger.error("Serial Number:" + serialnumber)
+                    logger.info("Serial Number:" + serialnumber)
                     serialnumber = int(serialnumber)
-                    # Check Serial Number exists and return error message if is not. Then get the serial number unique id
+                    # Check Serial Number exists and return info message if is not. Then get the serial number unique id
                     if not Probe.objects.filter(serial_number=serialnumber).exists():
                         raise Exception("Serial Number:" + serialnumber + " does not exist.")
                     p = Probe.objects.get(serial_number=serialnumber)
@@ -385,7 +382,7 @@ def handle_prwin_file(file_data, request):
 
                 # Create Key
                 key = site_number + "," + date_formatted
-                logger.error("Key:" + key)
+                logger.info("Key:" + key)
 
                 reading_array = []
                 irrigation_array = []
@@ -394,10 +391,10 @@ def handle_prwin_file(file_data, request):
 
                 for depth in range(3, sn_index):
                     reading = float(fields[depth])
-                    logger.error("Reading:" + str(reading))
+                    logger.info("Reading:" + str(reading))
                     reading_array.append(reading)
 
-                #logger.error("Reading Array:" + str(reading_array))
+                #logger.info("Reading Array:" + str(reading_array))
 
                 # Wierldy enough we make 3 of these arrays to put in data to match nuetron and diviner
                 for lap in range(3):
@@ -412,14 +409,14 @@ def handle_prwin_file(file_data, request):
                     irrigation = 0.0
                     if fields[value]:
                         irrigation = float(fields[value])
-                    logger.error("Irrigation:" + str(irrigation))
+                    logger.info("Irrigation:" + str(irrigation))
                     irrigation_array.append(irrigation)
                 irrigation_data[key] = irrigation_array
 
         # End if we have a reading
     # End loop through lines
 
-    #logger.error("Final Data:" + str(data))
-    logger.error("irrir array" + str(irrigation_data))
+    #logger.info("Final Data:" + str(data))
+    logger.info("irrir array" + str(irrigation_data))
     process_probe_data(data, serial_number_id, request)
     process_irrigation_data(irrigation_data, serial_number_id, request)
