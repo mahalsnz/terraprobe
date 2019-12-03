@@ -156,3 +156,35 @@ LOGIN_REDIRECT_URL = '/'
 
 # Until email enable reset password appears in console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGLEVEL = os.environ.get('LOGLEVEL', 'debug').upper()
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(name)-12s %(levelname)-8s %(message)s'
+        },
+        'file': {
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console'
+        },
+        'file': {
+            'level': LOGLEVEL,
+            'class': 'logging.FileHandler',
+            'formatter': 'file',
+            'filename': '/tmp/debug.log'
+        }
+    },
+    'loggers': {
+        '': {
+            'level': LOGLEVEL,
+            'handlers': ['console', 'file']
+        }
+    }
+}

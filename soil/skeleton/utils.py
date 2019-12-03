@@ -7,6 +7,15 @@ logger = logging.getLogger(__name__)
 
 from .models import Site, Reading
 
+def calculate_reading_meter(meter, previous_meter):
+    logger.info('Calculating meter reading')
+
+def calculate_irrigation_litres():
+    logger.info('Calculating irrigation litres')
+
+def calculate_irrigation_mms():
+    logger.info('Calculating irrigation mms')
+
 '''
     process_probe_data - Should be able to process data (readings dictionary) from both neutron and diviner probes
 
@@ -39,7 +48,7 @@ from .models import Site, Reading
 
 def process_probe_data(readings, serial_unique_id, request):
     logger.error("*** process_probe_data")
-    logger.error(readings)
+
     for key, site_info in readings.items():
         # Firstly we total up each site-dates readings
         totals = {}
@@ -62,19 +71,26 @@ def process_probe_data(readings, serial_unique_id, request):
         current_user = request.user
         data['created_by'] = current_user.id
         data['serial_number'] = serial_unique_id
-        data['type'] = '1' # always probe
+        data['type'] = '1'
 
         for index in range(len(result)):
             data['depth' + str(index + 1)] = result[index]
 
-        logger.error("Ready to insert:" + str(data))
-
         if data:
-            # TODO: Add unique key on readings table for date, reading_type and site
-            logger.error("Post data if something in data" + str(data))
+            r = Reading.objects.filter(site=s.id, date=data['date'], type=1)
             host = request.get_host()
             headers = {'contentType': 'application/json'}
-            r = requests.post('http://' + host + '/api/reading/', headers=headers, data=data)
+            url = 'http://' + host
+            logger.error("r: " + str(r))
+            # If reading row already exist update otherwise insert
+            if r:
+                url += '/api/reading/' + str(r[0].id) + '/'
+                logger.error("Ready to update:" + url + " data " + str(data))
+                r = requests.patch(url, headers=headers, data=data)
+            else:
+                url += '/api/reading/'
+                logger.error("Ready to insert:" + url + " data " + str(data))
+                r = requests.post(url, headers=headers, data=data)
             try:
                 r.raise_for_status()
             except requests.exceptions.HTTPError as e:
@@ -93,11 +109,9 @@ def process_probe_data(readings, serial_unique_id, request):
 
 def process_irrigation_data(irrigation, serial_unique_id, request):
     logger.error("*** process_irrigation_data")
-    # If reading row already exist update otherwise insert
 
     for key, values in irrigation.items():
         split_key = key.split(",")
-
 
         # create data object in the way we want
         data = {}
@@ -133,10 +147,9 @@ def process_irrigation_data(irrigation, serial_unique_id, request):
         data['efflrr2'] = values[13]
         data['effective_irrigation'] = values[14]
 
-        r = Reading.objects.filter(site=s.id, date=data['date'], type=1)
-
         if data:
-            # TODO: Add unique key on readings table for date, reading_type and site
+            # If reading row already exist update otherwise insert
+            r = Reading.objects.filter(site=s.id, date=data['date'], type=1)
             host = request.get_host()
             headers = {'contentType': 'application/json'}
             url = 'http://' + host
