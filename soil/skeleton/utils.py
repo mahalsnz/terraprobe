@@ -7,6 +7,15 @@ logger = logging.getLogger(__name__)
 
 from .models import Site, Reading
 
+def calculate_reading_meter(meter, previous_meter):
+    logger.info('Calculating meter reading')
+
+def calculate_irrigation_litres():
+    logger.info('Calculating irrigation litres')
+
+def calculate_irrigation_mms():
+    logger.info('Calculating irrigation mms')
+
 '''
     process_probe_data - Should be able to process data (readings dictionary) from both neutron and diviner probes
 

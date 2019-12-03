@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import url
 
-from .views import IndexView, SiteReadingsView
+from .views import SiteReadingsView
 from . import views
 
 from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
@@ -10,7 +10,7 @@ from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, Readin
 #app_name = 'skeleton'
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='home'),
+    path('', views.index, name='home'),
     path('readings/site/', SiteReadingsView.as_view(), name='site_readings'),
     path('model/', views.model_form_upload, name='model_upload'),
 

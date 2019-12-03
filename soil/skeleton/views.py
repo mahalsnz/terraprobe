@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import TemplateView, ListView, View, CreateView
 from django.utils import timezone
+from django.core import management
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
@@ -26,8 +27,17 @@ from datetime import datetime
 
 from .utils import process_probe_data, process_irrigation_data
 
-class IndexView(TemplateView):
-    template_name = 'index.html'
+def index(request):
+    template = loader.get_template('index.html')
+
+    if request.method == 'POST':
+        logger.debug(request.POST)
+        button_clicked = request.POST['button']
+        logger.info('button ' + str(button_clicked))
+        if button_clicked == 'processrainmeter':
+            management.call_command('processrainmeter')
+
+    return render(request, 'index.html', {})
 
 #TODO why CreateView and not Template View
 class SiteReadingsView(LoginRequiredMixin, CreateView):
