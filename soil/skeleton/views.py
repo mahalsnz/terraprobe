@@ -29,14 +29,17 @@ from .utils import process_probe_data, process_irrigation_data
 
 def index(request):
     template = loader.get_template('index.html')
-
-    if request.method == 'POST':
-        logger.debug(request.POST)
-        button_clicked = request.POST['button']
-        logger.info('button ' + str(button_clicked))
-        if button_clicked == 'processrainmeter':
-            management.call_command('processrainmeter')
-
+    try:
+        if request.method == 'POST':
+            logger.debug(request.POST)
+            button_clicked = request.POST['button']
+            logger.info('button ' + str(button_clicked))
+            if button_clicked == 'processrootzones':
+                management.call_command('processrootzones')
+            if button_clicked == 'processrainmeter':
+                management.call_command('processrainmeter')
+    except Exception as e:
+        messages.error(request, "Error: " + str(e))
     return render(request, 'index.html', {})
 
 #TODO why CreateView and not Template View
@@ -53,7 +56,7 @@ def load_graph(request):
     try:
         # Get latest date and previous date for site and season
         try:
-            dates = SeasonStartEnd.objects.get(site=site_id, season=season_id)
+            dates = SeasonStartEnd.objects.filter(site=site_id, season=season_id)
         except:
             raise Exception("No Season Start and End set up for site.")
 
