@@ -10,7 +10,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
 from django.db.models import Sum
-from .models import Probe, Reading, Site, SeasonStartEnd
+from .models import Probe, Reading, Site, Season, SeasonStartEnd
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -25,18 +25,24 @@ from .forms import DocumentForm, SiteReadingsForm
 
 from datetime import datetime
 
-from .utils import process_probe_data, process_irrigation_data
+from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data
 
 def index(request):
     template = loader.get_template('index.html')
-
-    if request.method == 'POST':
-        logger.debug(request.POST)
-        button_clicked = request.POST['button']
-        logger.info('button ' + str(button_clicked))
-        if button_clicked == 'processrainmeter':
-            management.call_command('processrainmeter')
-
+    try:
+        if request.method == 'POST':
+            logger.debug(request.POST)
+            button_clicked = request.POST['button']
+            logger.info('button ' + str(button_clicked))
+            if button_clicked == 'processrootzones':
+                management.call_command('processrootzones')
+            if button_clicked == 'processrainmeter':
+                management.call_command('processrainmeter')
+            if button_clicked == 'processdailywateruse':
+                management.call_command('processdailywateruse')
+            messages.success(request, "Successfully ran process: " + str(button_clicked))
+    except Exception as e:
+        messages.error(request, "Error: " + str(e))
     return render(request, 'index.html', {})
 
 #TODO why CreateView and not Template View
@@ -48,27 +54,25 @@ class SiteReadingsView(LoginRequiredMixin, CreateView):
 def load_graph(request):
     site_id = request.GET.get('site')
     season_id = request.GET.get('season')
-    template = loader.get_template('vsw_percentage.html')
     context = None
-    try:
-        # Get latest date and previous date for site and season
-        try:
-            dates = SeasonStartEnd.objects.get(site=site_id, season=season_id)
-        except:
-            raise Exception("No Season Start and End set up for site.")
 
-        r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date')
-        logger.info(str(r))
+    try:
+        site = Site.objects.get(id=site_id)
+        season = Season.objects.get(id=season_id)
+        dates = get_site_season_start_end(site, season)
+
+        readings = Reading.objects.filter(site=site.id, date__range=(dates.period_from, dates.period_to)).order_by('-date')
+        logger.info(str(readings))
         try:
-            latest = r[0].date
+            latest = readings[0].date
         except:
             raise Exception("No Reading for Site and Season")
         try:
-            previous = r[1].date
+            previous = readings[1].date
         except:
             raise Exception("No Previous Reading for Site and Season")
-        logger.info("Date:" + str(latest))
-        logger.info("Previous:" + str(previous))
+        logger.debug("Date:" + str(latest))
+        logger.debug("Previous:" + str(previous))
 
         context = {
             'site_id' : site_id,
@@ -77,11 +81,9 @@ def load_graph(request):
             'period_from': dates.period_from,
             'period_to': dates.period_to,
         }
-
     except Exception as e:
         messages.error(request, "Error with Loading Graph: " + str(e))
-    return HttpResponse(template.render(context, request))
-
+    return render(request, 'vsw_percentage.html', context)
 
 def load_sites(request):
     technician_id = request.GET.get('technician')

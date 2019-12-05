@@ -5,16 +5,36 @@ import statistics
 import logging
 logger = logging.getLogger(__name__)
 
-from .models import Site, Reading
+from .models import Site, Reading, Season, SeasonStartEnd
 
-def calculate_reading_meter(meter, previous_meter):
-    logger.info('Calculating meter reading')
+'''
+    Takes no argument
+    Returns a Season object
+'''
 
-def calculate_irrigation_litres():
-    logger.info('Calculating irrigation litres')
+def get_current_season():
+    logger.info('Get current season')
+    try:
+        season = Season.objects.get(current_flag=True)
+    except:
+        raise Exception('No Current Season set')
+    logger.info('Got current season ' + season.name)
+    return season
 
-def calculate_irrigation_mms():
-    logger.info('Calculating irrigation mms')
+'''
+    Takes a Site and a Season object
+    Returns a SeasonStartEnd object that contains the period from and period to dates for the site in that season
+'''
+
+def get_site_season_start_end(site, season):
+    logger.info('Get site ' + site.name + ' season ' + season.name + ' start and end')
+    dates = None
+    try:
+        dates = SeasonStartEnd.objects.get(site=site.id, season=season.id)
+    except:
+        raise Exception('No season start and end for ' + site.name + ' season ' + season.name)
+    logger.info('Season start: ' + str(dates.period_from) + ' Season end: ' + str(dates.period_to))
+    return dates
 
 '''
     process_probe_data - Should be able to process data (readings dictionary) from both neutron and diviner probes
