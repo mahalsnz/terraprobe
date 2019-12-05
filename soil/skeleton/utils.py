@@ -36,15 +36,6 @@ def get_site_season_start_end(site, season):
     logger.info('Season start: ' + str(dates.period_from) + ' Season end: ' + str(dates.period_to))
     return dates
 
-def calculate_reading_meter(meter, previous_meter):
-    logger.info('Calculating meter reading')
-
-def calculate_irrigation_litres():
-    logger.info('Calculating irrigation litres')
-
-def calculate_irrigation_mms():
-    logger.info('Calculating irrigation mms')
-
 '''
     process_probe_data - Should be able to process data (readings dictionary) from both neutron and diviner probes
 

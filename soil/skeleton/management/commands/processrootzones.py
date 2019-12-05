@@ -40,12 +40,12 @@ class Command(BaseCommand):
         logger.debug(rootzones)
         logger.info('Finished site root zone map.....')
 
-        logger.info('Starting update of empty root zone readings for current season.....')
+        logger.info('Starting update of empty root zone readings for current season (all reading types).....')
         season = get_current_season()
-        sites = Site.objects.filter(Q(readings__rz1__isnull=True)|Q(readings__rz2__isnull=True)|Q(readings__rz3__isnull=True),readings__type=1).distinct()
+        sites = Site.objects.filter(Q(readings__rz1__isnull=True)|Q(readings__rz2__isnull=True)|Q(readings__rz3__isnull=True),).distinct()
         for site in sites:
             dates = get_site_season_start_end(site, season)
-            readings = Reading.objects.filter(site=site.id, type=1, date__range=(dates.period_from, dates.period_to)).order_by('date')
+            readings = Reading.objects.filter(site=site.id, date__range=(dates.period_from, dates.period_to)).order_by('date')
             for reading in readings:
                 # find rootzones in map for site and rz
                 for z in range(1,4):
