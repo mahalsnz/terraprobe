@@ -40,6 +40,8 @@ def index(request):
                 management.call_command('processrainmeter')
             if button_clicked == 'processdailywateruse':
                 management.call_command('processdailywateruse')
+            if button_clicked == 'processall':
+                management.call_command('processall_readings')
             messages.success(request, "Successfully ran process: " + str(button_clicked))
     except Exception as e:
         messages.error(request, "Error: " + str(e))
