@@ -2300,7 +2300,7 @@
   "fields": {
     "site": 2,
     "type": 2,
-    "date": "2018-11-26",
+    "date": "2019-11-26",
     "depth1": 22.0,
     "depth2": 23.0,
     "depth3": 31.0,
@@ -4886,13 +4886,13 @@
     "type": 2,
     "date": "2018-10-25",
     "depth1": 20.0,
-    "depth2": 22.0,
-    "depth3": 24.0,
-    "depth4": 26.0,
-    "depth5": 28.0,
-    "depth6": 30.0,
-    "depth7": 32.0,
-    "depth8": 30.0,
+    "depth2": 20.0,
+    "depth3": 20.0,
+    "depth4": 20.0,
+    "depth5": 20.0,
+    "depth6": 20.0,
+    "depth7": 20.0,
+    "depth8": 20.0,
     "depth9": null,
     "depth10": null,
     "serial_number": 3,
@@ -7490,6 +7490,32 @@
     "object_repr": "Hawkes Bay, New Zealand:2018-12-14:3.0",
     "action_flag": 1,
     "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 165,
+  "fields": {
+    "action_time": "2019-12-05T03:00:01.064Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "71",
+    "object_repr": "Pinot Noir Springstone:2018-10-25",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"depth2\", \"depth3\", \"depth4\", \"depth5\", \"depth6\", \"depth7\", \"depth8\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 166,
+  "fields": {
+    "action_time": "2019-12-05T03:03:18.841Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-11-26",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
   }
 }
 ]
