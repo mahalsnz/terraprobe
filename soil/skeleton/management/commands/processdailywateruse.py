@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from skeleton.models import Reading, Site, ETReading, KCReading, Crop
-from skeleton.utils import get_site_season_start_end, get_current_season
+from skeleton.utils import get_site_season_start_end, get_current_season, get_rz1_full_point_reading
 
 # Get an instance of a logger
 import logging
@@ -23,8 +23,7 @@ class Command(BaseCommand):
             readings = Reading.objects.filter(site=site.id, type=1, date__range=(dates.period_from, dates.period_to)).order_by('-date')
 
             # Get Full Point Reading for the Season
-            reading_full = Reading.objects.get(site=site.id, type=2, date__range=(dates.period_from, dates.period_to))
-            rz1_full = reading_full.rz1
+            rz1_full = get_rz1_full_point_reading(site, season)
             logger.info('Full Point RZ1 reading:' + str(rz1_full))
 
             # Get Crop Co-efficient (KC) for site

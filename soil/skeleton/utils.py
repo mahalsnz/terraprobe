@@ -23,6 +23,22 @@ def get_current_season():
 
 '''
     Takes a Site and a Season object
+    Returns the rz1 total for fullpoint reading type for site and season
+'''
+
+def get_rz1_full_point_reading(site, season):
+    logger.info('Get rz1 full point reading')
+
+    try:
+        dates = get_site_season_start_end(site, season)
+        reading = Reading.objects.get(site=site, type__name='Full Point', date__range=(dates.period_from, dates.period_to))
+    except:
+        raise Exception('No valid Full Point Reading for ' + site.name + ' and season ' + season.name)
+    logger.info('Got RZ1 Full Point Reading for ' + site.name + ' and season ' + season.name + ' of ' + str(reading.rz1))
+    return reading.rz1
+
+'''
+    Takes a Site and a Season object
     Returns a SeasonStartEnd object that contains the period from and period to dates for the site in that season
 '''
 

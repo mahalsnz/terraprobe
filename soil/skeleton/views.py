@@ -36,10 +36,12 @@ def index(request):
             logger.info('button ' + str(button_clicked))
             if button_clicked == 'processrootzones':
                 management.call_command('processrootzones')
-            if button_clicked == 'processrainmeter':
-                management.call_command('processrainmeter')
+            if button_clicked == 'processmeter':
+                management.call_command('processmeter')
             if button_clicked == 'processdailywateruse':
                 management.call_command('processdailywateruse')
+            if button_clicked == 'processrain':
+                management.call_command('processrain')
             if button_clicked == 'processall':
                 management.call_command('processall_readings')
             messages.success(request, "Successfully ran process: " + str(button_clicked))

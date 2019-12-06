@@ -13,7 +13,7 @@ class Command(BaseCommand):
         logger.info('Running processall_readings.....')
 
         management.call_command('processrootzones')
-        management.call_command('processrainmeter')
+        management.call_command('processmeter')
         management.call_command('processdailywateruse')
 
         logger.info('Finished processall_readings.....')

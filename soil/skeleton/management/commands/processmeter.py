@@ -8,11 +8,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
-    help = 'Processes formulas to populate reading fields derived from rain and meter'
+    help = 'Processes formulas to populate reading fields derived from meter'
 
     def handle(self, *args, **kwargs):
-        logger.info('Running processrainmeter.....')
-        logger.info('Check for rain and meter and null irrigation (litres).....')
+        logger.info('Running processmeter.....')
+        logger.info('Check for meter and null irrigation (litres).....')
 
         # Get sites in current season that have readngs with a meter reading but no irrigation in litres
         season = get_current_season()
@@ -45,4 +45,4 @@ class Command(BaseCommand):
                 previous_date = date
                 previous_meter = meter
                 previous_reading = reading
-        logger.info('Finished running processrainmeter.....')
+        logger.info('Finished running processmeter.....')
