@@ -86,7 +86,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2019-12-03T20:04:57.272Z",
+    "last_login": "2019-12-09T19:22:38.923Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -209,714 +209,26 @@
 },
 {
   "model": "sessions.session",
+  "pk": "p8vsb463pzwnk5c2lx1gi5rv0qjojg7a",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-12-19T21:14:01.793Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "yioimdrv9rz241wf4904qzzmq3ihyihx",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-12-23T19:22:38.933Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "z8yqcwigxz2s7eqoy7c7198xha0eq9k0",
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2019-12-15T21:14:51.154Z"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 1,
-  "fields": {
-    "description": "",
-    "document": "documents/neutron_probe_test_upload_1_site_xQBZuDq.csv"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 2,
-  "fields": {
-    "description": "",
-    "document": "documents/neutron_probe_test_upload_1_site_gjdirFX.csv"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 3,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000067_XdxqaWh.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 4,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_InObe3p.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 5,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_r2wfPcI.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 6,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_jPWjFwh.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 7,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_L2jLaFD.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 8,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_zjZlzFC.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 9,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_dSGU7vU.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 10,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_sRuUUBR.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 11,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_yZbLNn2.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 12,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_jA4D7oO.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 13,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_X8WHerm.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 14,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_LYPT67W.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 15,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_dPJsm0c.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 16,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_V3mYPgH.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 17,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 18,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_AfZ88W6.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 19,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068_WRkUzs2.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 20,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_Hjm0P5R.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 21,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_LgborkC.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 22,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_8jnFqRp.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 23,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_q2b5B5O.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 24,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_B5PeT85.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 25,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_zdKxC7R.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 26,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_VK4vs1E.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 27,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_q4BVMko.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 28,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068_z4tFzIT.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 29,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_vnHXHOp.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 30,
-  "fields": {
-    "description": "",
-    "document": "documents/neutron_probe_test_upload_1_site_pMUQYPq.csv"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 31,
-  "fields": {
-    "description": "",
-    "document": "documents/diviner_probe_test_21May2019_Pro22_hbG7nFo.csv"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 32,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_Hvo4REp.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 33,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_ysX7egX.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 34,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_0xOoSEI.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 35,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068_0YWByia.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 36,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000032.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 37,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000028.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 38,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_oSdBeKZ.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 39,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_mCAH5It.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 40,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_5hqNWqi.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 41,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_8povvVQ.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 42,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000032_A61qPrt.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 43,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_rhq1S7R.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 44,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_QyHm1QW.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 45,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000032_cZlqpqP.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 46,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000028_08xxfLj.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 47,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000028_rvvei5k.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 48,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_D0qdM8r.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 49,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_uGub4PH.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 50,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_lD52f07.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 51,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000028_zNK67OG.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 52,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000028_818A1NC.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 53,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_NrAodms.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 54,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_gcksBU1.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 55,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_expM0Lc.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 56,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_lM9ZLqn.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 57,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_aUt4wN6.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 58,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_sHLwvwq.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 59,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_9Tzv5VS.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 60,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_GOArMdf.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 61,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000028_r5aIpQk.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 62,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_BkekXnG.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 63,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_FiP5idx.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 64,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_Smn6RtB.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 65,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_wr9VUMf.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 66,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_iUILrdH.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 67,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_M1ixJg2.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 68,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_EY0gSbE.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 69,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_rlS8RYj.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 70,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_NNmjkqh.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 71,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000028_w2ixuHG.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 72,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068_kwH3KV0.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 73,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068_Oc7Irky.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 74,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_RrGjuV2.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 75,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068_Gjme2ed.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 76,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_liP2aRp.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 77,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_Tsm3vDJ.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 78,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_cveRI6H.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 79,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068_rTVbs6N.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 80,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_5FDdLUx.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 81,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_VrtwmQh.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 82,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068_SUlsvEx.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 83,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_XgoNF9s.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 84,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_0POcAT3.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 85,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_MCQMBgf.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 86,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000071_uP9LGop.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 87,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068_BTiWS6x.TXT"
-  }
-},
-{
-  "model": "skeleton.document",
-  "pk": 88,
-  "fields": {
-    "description": "",
-    "document": "documents/S0000068_CyKh5hS.TXT"
   }
 },
 {
@@ -2262,7 +1574,7 @@
   "fields": {
     "site": 1,
     "type": 2,
-    "date": "2018-11-28",
+    "date": "2019-11-28",
     "depth1": 28.02894974,
     "depth2": 22.1584053,
     "depth3": 20.0728569,
@@ -2300,7 +1612,7 @@
   "fields": {
     "site": 2,
     "type": 2,
-    "date": "2019-11-26",
+    "date": "2018-11-26",
     "depth1": 22.0,
     "depth2": 23.0,
     "depth3": 31.0,
@@ -7514,6 +6826,32 @@
     "content_type": 18,
     "object_id": "2",
     "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2019-11-26",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 167,
+  "fields": {
+    "action_time": "2019-12-05T21:14:20.227Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone:2019-11-28",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 168,
+  "fields": {
+    "action_time": "2019-12-09T19:22:47.119Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-26",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
   }
