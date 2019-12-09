@@ -7,7 +7,11 @@ from django.forms import ModelChoiceField
 
 class DocumentForm(forms.ModelForm):
     document = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-
+    '''
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    '''
     class Meta:
         model = Document
         fields = ['description', 'document']
