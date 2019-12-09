@@ -16,22 +16,20 @@ class Command(BaseCommand):
 
         # Get sites in current season that have readngs with a rain reading but no effective_rain_1
         season = get_current_season()
-        sites = Site.objects.filter(readings__meter__isnull=False, readings__effective_rain_1__isnull=True, readings__type=1).distinct()
+        sites = Site.objects.filter(readings__rain__isnull=False, readings__effective_rain_1__isnull=True, readings__type=1).distinct()
 
         for site in sites:
             dates = get_site_season_start_end(site, season)
 
-            readings = Reading.objects.filter(site=site.id, type=1, date__range=(dates.period_from, dates.period_to)).order_by('-date')
-
             # Get Full Point Reading for the Season
             rz1_full = get_rz1_full_point_reading(site, season)
             logger.info('Full Point RZ1 reading:' + str(rz1_full))
-
+            readings = Reading.objects.filter(site=site.id, type=1, date__range=(dates.period_from, dates.period_to)).order_by('-date')
             previous_date = None
-            previous_rz1 = None
+            previous_rz1 = 0
             previous_reading = None
-            previous_edwu = None
-            previous_rain = None
+            previous_edwu = 0
+            previous_rain = 0
             for reading in readings:
                 date = reading.date
                 rz1 = reading.rz1
@@ -60,25 +58,23 @@ class Command(BaseCommand):
                         effrain1 = round(previous_rain - 5, 2)
                     else:
                         effrain1 = round(rz1_full - (rz1_diff + edwu_factor), 2)
-                    logger.debug('Effrain1:' + str(effrain1))
-
-                    previous_reading.effrain1 = effrain1
+                    logger.debug('Effrain1 for date ' + str(previous_date) + ':' + str(effrain1))
 
                     if effrain1 > 0:
                         effectiverainfall = effrain1
 
-                    logger.debug('Effective Rainfall:' + str(effectiverainfall))
-                    previous_reading.effectiverainfall = effectiverainfall
+                    logger.debug('Effective Rainfall for date ' + str(previous_date) + ':' + str(effectiverainfall))
 
+                    previous_reading.effective_rain_1 = effrain1
+                    previous_reading.effective_rainfall = effectiverainfall
                     previous_reading.save()
                 else:
                     logger.debug('No previous date.')
-
                 previous_date = date
                 previous_rz1 = rz1
                 previous_edwu = edwu
                 previous_rain = rain
                 previous_reading = reading
-                reading.save()
 
+            logger.debug('End loop of readings for a site')
         logger.info('Finishing processrain.....')

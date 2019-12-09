@@ -86,7 +86,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2019-12-05T21:14:01.784Z",
+    "last_login": "2019-12-09T19:22:38.923Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -213,6 +213,14 @@
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2019-12-19T21:14:01.793Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "yioimdrv9rz241wf4904qzzmq3ihyihx",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-12-23T19:22:38.933Z"
   }
 },
 {
@@ -1604,7 +1612,7 @@
   "fields": {
     "site": 2,
     "type": 2,
-    "date": "2019-11-26",
+    "date": "2018-11-26",
     "depth1": 22.0,
     "depth2": 23.0,
     "depth3": 31.0,
@@ -6831,6 +6839,19 @@
     "content_type": 18,
     "object_id": "1",
     "object_repr": "Pinot Noir Springstone:2019-11-28",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 168,
+  "fields": {
+    "action_time": "2019-12-09T19:22:47.119Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-26",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
   }

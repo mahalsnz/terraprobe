@@ -30,8 +30,8 @@ class Command(BaseCommand):
             #et = ETReading.objects.filter(state__localities__addresses__farm__site__id=site, )
 
             previous_date = None
-            previous_reading = None
-            previous_deficit = None
+            previous_reading = 0
+            previous_deficit = 0
             for reading in readings:
                 date = reading.date
 

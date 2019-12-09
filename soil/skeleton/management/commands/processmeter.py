@@ -39,6 +39,7 @@ class Command(BaseCommand):
 
                     previous_reading.irrigation_litres = irrigation_litres
                     previous_reading.irrigation_mms = irrigation_mms
+                    logger.debug('Previous Reading:' + str(previous_reading))
                     previous_reading.save()
                 else:
                     logger.debug('No previous date.')
