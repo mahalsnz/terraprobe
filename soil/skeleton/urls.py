@@ -13,7 +13,7 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('readings/site/', SiteReadingsView.as_view(), name='site_readings'),
     path('model/', views.model_form_upload, name='model_upload'),
-
+    path('seasonstartend/', views.seasonstartend, name='seasonstartend'),
     #path("vsw_percentage/<int:site_id>/<int:year>/<int:month>/<int:day>/", views.vsw_percentage),
     path("vsw_percentage/<int:site_id>/<isodate:date>/", views.vsw_percentage),
     # API

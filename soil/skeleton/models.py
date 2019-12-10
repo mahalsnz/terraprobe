@@ -122,8 +122,8 @@ class Site(models.Model):
     technician = models.ForeignKey(User, related_name="technician_id", on_delete=models.CASCADE, default=1)
     selected = models.BooleanField(null=True) #???
     name = models.CharField(max_length=100, null=True)
-    variety = models.CharField(max_length=100, null=True)
-    crop = models.ForeignKey(Crop, null=True, blank=True, on_delete=models.CASCADE)
+    variety = models.CharField(max_length=100, null=True, blank=True)
+    crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
 
     # Irrigations
@@ -233,6 +233,8 @@ class CriticalDate(models.Model):
 class SeasonStartEnd(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     season = models.ForeignKey(Season, primary_key=True, on_delete=models.CASCADE)
+    start = models.ForeignKey(CriticalDateType, related_name='start_date_type', on_delete=models.CASCADE)
+    end = models.ForeignKey(CriticalDateType, related_name='end_date_type', on_delete=models.CASCADE)
     season_name = models.CharField(max_length=20)
     site_name = models.CharField(max_length=100)
     period_from = models.DateTimeField()
