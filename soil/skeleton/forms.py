@@ -1,9 +1,30 @@
 from django import forms
-from .models import Document, Reading, Season, Site, UserFullName, SiteDescription
+from .models import Document, Reading, Season, Site, UserFullName, SiteDescription, Crop, CriticalDate, SeasonStartEnd
+from address.models import State
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
 
 from django.forms import ModelChoiceField
+from .widgets import BootstrapDateTimePickerInput
+
+class SeasonStartEndForm(forms.ModelForm):
+    crop = forms.ModelChoiceField(Crop.objects.all().order_by('name'), widget=forms.Select())
+    region = forms.ModelChoiceField(State.objects.all().order_by('name'), widget=forms.Select())
+    season = forms.ModelChoiceField(Season.objects.all().order_by('-current_flag'), widget=forms.Select())
+
+    period_from = forms.DateTimeField(
+        input_formats=['%d/%m/%Y'],
+        widget=BootstrapDateTimePickerInput()
+    )
+
+    period_to = forms.DateTimeField(
+        input_formats=['%d/%m/%Y'],
+        widget=BootstrapDateTimePickerInput()
+    )
+
+    class Meta:
+        model = CriticalDate
+        fields = ()
 
 class DocumentForm(forms.ModelForm):
     document = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))

@@ -10,7 +10,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
 from django.db.models import Sum
-from .models import Probe, Reading, Site, Season, SeasonStartEnd
+from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -21,7 +21,7 @@ import requests
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm, SiteReadingsForm
+from .forms import DocumentForm, SiteReadingsForm, SeasonStartEndForm
 
 from datetime import datetime
 
@@ -48,6 +48,55 @@ def index(request):
     except Exception as e:
         messages.error(request, "Error: " + str(e))
     return render(request, 'index.html', {})
+
+def seasonstartend(request):
+
+    try:
+        if request.method == 'POST':
+            form = SeasonStartEndForm(request.POST)
+            logger.debug(request.POST)
+
+            # for a crop and region get all of those sites
+            region = request.POST['region']
+            crop = request.POST['crop']
+            season = request.POST['season']
+            sites = Site.objects.filter(farm__address__locality__state=region, crop=crop)
+            # create a couple of start and end critical date critical_date_types
+            start_type = CriticalDateType.objects.get(name='Start')
+            end_type = CriticalDateType.objects.get(name='End')
+            current_user = request.user
+            for site in sites:
+                # If we don't already have a season start end we insert, we don't update and existing one
+                exists = SeasonStartEnd.objects.filter(site=site.id, season=season).count()
+                logger.debug(site.name + " has " + str(exists))
+                if exists:
+                    logger.debug('Not updating')
+                else:
+                    cd = CriticalDate(
+                        site = site,
+                        season_id = season,
+                        date = request.POST['period_from'],
+                        type = start_type,
+                        created_by = current_user
+                    )
+                    cd.save()
+                    cd = CriticalDate(
+                        site = site,
+                        season_id = season,
+                        date = request.POST['period_to'],
+                        type = end_type,
+                        created_by = current_user
+                    )
+                    cd.save()
+                    logger.debug('Inserting Season start end records')
+            return redirect('seasonstartend')
+        else:
+            form = SeasonStartEndForm()
+    except Exception as e:
+        messages.error(request, "Error: " + str(e))
+    return render(request, 'season_start_end.html', {
+        'form': form,
+    })
 
 #TODO why CreateView and not Template View
 class SiteReadingsView(LoginRequiredMixin, CreateView):
@@ -82,7 +131,6 @@ def load_graph(request):
             'site_id' : site_id,
             'date' : latest,
             'previous': previous,
-            'period_from': dates.period_from,
             'period_to': dates.period_to,
         }
     except Exception as e:

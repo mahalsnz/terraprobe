@@ -18,7 +18,11 @@ class Migration(migrations.Migration):
                 season_start.season_name,
                 season_start.site_id,
                 season_start.site_name,
+                season_start.type_name AS start_name,
+                season_start.type_id AS start_id,
                 season_start.date AS period_from,
+                season_end.type_name AS end_name,
+                season_end.type_id AS end_id,
                 season_end.date AS period_to
             FROM
             (
@@ -49,7 +53,7 @@ class Migration(migrations.Migration):
                     skeleton_site.name,
                     skeleton_site.id AS site_id,
                     skeleton_criticaldate.date,
-                    skeleton_criticaldatetype.name,
+                    skeleton_criticaldatetype.name AS type_name,
                     skeleton_criticaldatetype.id AS type_id
                 FROM
                     skeleton_season
