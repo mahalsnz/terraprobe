@@ -49,19 +49,6 @@
 },
 {
   "model": "address.address",
-  "pk": 2,
-  "fields": {
-    "street_number": "0",
-    "route": "",
-    "locality": null,
-    "raw": "0",
-    "formatted": "",
-    "latitude": null,
-    "longitude": null
-  }
-},
-{
-  "model": "address.address",
   "pk": 3,
   "fields": {
     "street_number": "12",
@@ -297,7 +284,7 @@
     "name": "Mr Apple Kinross",
     "owner": "Mark Anderson",
     "comment": null,
-    "address": 2,
+    "address": 1,
     "report": null,
     "landline": null,
     "mobile": null,
@@ -6854,6 +6841,32 @@
     "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat):2018-11-26",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 169,
+  "fields": {
+    "action_time": "2019-12-10T01:09:27.011Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "2",
+    "object_repr": "Mr Apple Kinross",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"address\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 170,
+  "fields": {
+    "action_time": "2019-12-10T01:09:36.903Z",
+    "user": 1,
+    "content_type": 1,
+    "object_id": "2",
+    "object_repr": "0",
+    "action_flag": 3,
+    "change_message": ""
   }
 }
 ]

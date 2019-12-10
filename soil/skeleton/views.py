@@ -61,6 +61,7 @@ def seasonstartend(request):
             crop = request.POST['crop']
             season = request.POST['season']
             sites = Site.objects.filter(farm__address__locality__state=region, crop=crop)
+
             # create a couple of start and end critical date critical_date_types
             start_type = CriticalDateType.objects.get(name='Start')
             end_type = CriticalDateType.objects.get(name='End')
@@ -89,6 +90,7 @@ def seasonstartend(request):
                     )
                     cd.save()
                     logger.debug('Inserting Season start end records')
+                    messages.success(request, "Successfully inserted start and end dates for " + site.name)
             return redirect('seasonstartend')
         else:
             form = SeasonStartEndForm()
