@@ -73,7 +73,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2019-12-09T19:22:38.923Z",
+    "last_login": "2019-12-16T19:42:00.162Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -109,13 +109,13 @@
   "pk": 3,
   "fields": {
     "password": "pbkdf2_sha256$150000$amhinABAoLD4$gzYHW03oTkICuq327KeKa7uBdZ1WcsguNZADnhETiA8=",
-    "last_login": "2019-09-12T04:14:18.909Z",
-    "is_superuser": false,
+    "last_login": "2019-09-12T04:14:18Z",
+    "is_superuser": true,
     "username": "mabbettb",
     "first_name": "Byron",
     "last_name": "Mabbett",
     "email": "mabznz@gmail.com",
-    "is_staff": false,
+    "is_staff": true,
     "is_active": true,
     "date_joined": "2019-09-12T04:13:27Z",
     "groups": [
@@ -160,6 +160,14 @@
     "date_joined": "2019-11-18T22:18:58Z",
     "groups": [],
     "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "4hvn5x5ujwl6fk90qnnrek50phegqiip",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2019-12-30T19:42:00.184Z"
   }
 },
 {
@@ -4216,6 +4224,44 @@
   }
 },
 {
+  "model": "skeleton.reading",
+  "pk": 72,
+  "fields": {
+    "site": 1,
+    "type": 1,
+    "date": "2019-05-02",
+    "depth1": 12.0,
+    "depth2": 20.0,
+    "depth3": 32.0,
+    "depth4": 33.0,
+    "depth5": 34.0,
+    "depth6": 35.0,
+    "depth7": 36.0,
+    "depth8": 37.0,
+    "depth9": null,
+    "depth10": null,
+    "serial_number": 1,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": 22.0,
+    "meter": 6540.0,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": "",
+    "created_date": "2019-12-16T19:42:34Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.kcreading",
   "pk": 1,
   "fields": {
@@ -4656,6 +4702,18 @@
     "weekly": 3.0,
     "daily": 3.0,
     "created_date": "2019-12-03T23:07:16Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.etreading",
+  "pk": 28,
+  "fields": {
+    "state": 1,
+    "date": "2019-05-02",
+    "weekly": 2.0,
+    "daily": 2.0,
+    "created_date": "2019-12-16T20:00:04Z",
     "created_by": 1
   }
 },
@@ -6867,6 +6925,45 @@
     "object_repr": "0",
     "action_flag": 3,
     "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 171,
+  "fields": {
+    "action_time": "2019-12-16T19:42:22.582Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "3",
+    "object_repr": "mabbettb",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"is_staff\", \"is_superuser\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 172,
+  "fields": {
+    "action_time": "2019-12-16T19:52:35.989Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "72",
+    "object_repr": "Pinot Noir Springstone:2019-05-02",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 173,
+  "fields": {
+    "action_time": "2019-12-16T20:00:20.274Z",
+    "user": 1,
+    "content_type": 20,
+    "object_id": "28",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-02:2.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
   }
 }
 ]

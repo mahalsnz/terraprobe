@@ -59,7 +59,10 @@ class Command(BaseCommand):
                 if previous_date:
                     logger.debug('Date:' + str(date) + ' PreviousDate:' + str(previous_date))
 
-                    pdwu = round((previous_deficit - deficit) / 7, 2)
+                    # Find the amount of days between
+                    days = previous_date - date
+                    logger.debug('Days:' + str(days.days))
+                    pdwu = round((previous_deficit - deficit) / days.days, 2)
                     logger.debug('PDWU:' + str(pdwu))
                     previous_reading.probe_dwu = pdwu
                     previous_reading.save()
