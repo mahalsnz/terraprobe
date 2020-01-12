@@ -9,7 +9,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -25,13 +25,13 @@ from .forms import DocumentForm, SiteReadingsForm, SeasonStartEndForm
 
 from datetime import datetime
 
-from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data
+from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season
 
+@login_required
 def index(request):
-    template = loader.get_template('index.html')
-    try:
-        if request.method == 'POST':
-            logger.debug(request.POST)
+
+    if request.method == 'POST':
+        try:
             button_clicked = request.POST['button']
             logger.info('button ' + str(button_clicked))
             if button_clicked == 'processrootzones':
@@ -44,17 +44,51 @@ def index(request):
                 management.call_command('processrain')
             if button_clicked == 'processall':
                 management.call_command('processall_readings')
-            messages.success(request, "Successfully ran process: " + str(button_clicked))
-    except Exception as e:
-        messages.error(request, "Error: " + str(e))
+
+        except Exception as e:
+            messages.error(request, "Error: " + str(e))
+        messages.success(request, "Successfully ran: " + str(button_clicked))
     return render(request, 'index.html', {})
 
-def seasonstartend(request):
-
+def load_report_season_dates(request):
+    context = {}
     try:
-        if request.method == 'POST':
+        season = get_current_season()
+        sites = Site.objects.filter(~Q(seasonstartend__season=season))
+
+        context = {
+            'sites': sites
+        }
+    except Exception as e:
+        messages.error(request, "Error Loading Report: " + str(e))
+    return render(request, 'report_dates.html', context)
+
+def load_report_reading_types(request):
+    context = {}
+    try:
+        season = get_current_season()
+        sites = Site.objects.all()
+        site_arr = []
+        for site in sites:
+            dates = get_site_season_start_end(site, season)
+            missing_site = Site.objects.filter(~Q(readings__type=2, readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type=3, readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
+            site_arr.append({ 'site': missing_site })
+        context = { 'sites' : site_arr }
+    except Exception as e:
+        messages.error(request, "Error Loading Report: " + str(e))
+        context = { 'messages' : messages }
+    return render(request, 'report_reading_types.html', context)
+
+class CreateSeasonStartEndView(LoginRequiredMixin, CreateView):
+    def get_initial(self, *args, **kwargs):
+        initial = super(CreateSeasonStartEndView, self).get_initial(**kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'season_start_end.html', { 'form': SeasonStartEndForm() })
+
+    def post(self, request, *args, **kwargs):
+        try:
             form = SeasonStartEndForm(request.POST)
-            logger.debug(request.POST)
 
             # for a crop and region get all of those sites
             region = request.POST['region']
@@ -62,43 +96,44 @@ def seasonstartend(request):
             season = request.POST['season']
             sites = Site.objects.filter(farm__address__locality__state=region, crop=crop)
 
-            # create a couple of start and end critical date critical_date_types
-            start_type = CriticalDateType.objects.get(name='Start')
-            end_type = CriticalDateType.objects.get(name='End')
-            current_user = request.user
-            for site in sites:
-                # If we don't already have a season start end we insert, we don't update and existing one
-                exists = SeasonStartEnd.objects.filter(site=site.id, season=season).count()
-                logger.debug(site.name + " has " + str(exists))
-                if exists:
-                    logger.debug('Not updating')
-                else:
-                    cd = CriticalDate(
-                        site = site,
-                        season_id = season,
-                        date = request.POST['period_from'],
-                        type = start_type,
-                        created_by = current_user
-                    )
-                    cd.save()
-                    cd = CriticalDate(
-                        site = site,
-                        season_id = season,
-                        date = request.POST['period_to'],
-                        type = end_type,
-                        created_by = current_user
-                    )
-                    cd.save()
-                    logger.debug('Inserting Season start end records')
-                    messages.success(request, "Successfully inserted start and end dates for " + site.name)
-            return redirect('seasonstartend')
-        else:
-            form = SeasonStartEndForm()
-    except Exception as e:
-        messages.error(request, "Error: " + str(e))
-    return render(request, 'season_start_end.html', {
-        'form': form,
-    })
+            if sites:
+                # create a couple of start and end critical date critical_date_types
+                start_type = CriticalDateType.objects.get(name='Start')
+                end_type = CriticalDateType.objects.get(name='End')
+                current_user = request.user
+
+                for site in sites:
+                    # If we don't already have a season start end we insert, we don't update and existing one
+                    exists = SeasonStartEnd.objects.filter(site=site.id, season=season).count()
+                    logger.debug(site.name + " has " + str(exists))
+                    if exists:
+                        logger.debug('Not updating')
+                        messages.warning(request, site.name + " already has a start and end date for that season")
+                    else:
+                        cd = CriticalDate(
+                            site = site,
+                            season_id = season,
+                            date = request.POST['period_from'],
+                            type = start_type,
+                            created_by = current_user
+                        )
+                        cd.save()
+                        cd = CriticalDate(
+                            site = site,
+                            season_id = season,
+                            date = request.POST['period_to'],
+                            type = end_type,
+                            created_by = current_user
+                        )
+                        cd.save()
+                        logger.debug('Inserting Season start end records')
+                        messages.success(request, "Successfully inserted start and end dates for " + site.name)
+            else:
+                messages.warning(request, 'No sites in region for that crop')
+        except Exception as e:
+            messages.error(request, "Error: " + str(e))
+        return redirect('season_start_end')
+
 
 #TODO why CreateView and not Template View
 class SiteReadingsView(LoginRequiredMixin, CreateView):
@@ -134,6 +169,7 @@ def load_graph(request):
             'date' : latest,
             'previous': previous,
             'period_to': dates.period_to,
+            'period_from': dates.period_from
         }
     except Exception as e:
         messages.error(request, "Error with Loading Graph: " + str(e))
@@ -176,13 +212,6 @@ def load_site_readings(request):
         'irrigation' : irrigation_total,
     })
 
-'''
-    For a particular site, season and date find the previous reading date
-'''
-def get_irrigation_litres(readingqs):
-    logger.info("Date:" + get_previous_date_season)
-
-
 @login_required
 def vsw_percentage(request, site_id, year, month, day):
     template = loader.get_template('vsw_percentage.html')
@@ -194,16 +223,13 @@ def vsw_percentage(request, site_id, year, month, day):
     }
     return HttpResponse(template.render(context, request))
 
-'''
-    model_form_upload - For processing Probe and Diviner files
-'''
+class UploadReadingsFileView(LoginRequiredMixin, CreateView):
 
-@login_required
-def model_form_upload(request):
-    data = {}
-    if request.method == 'POST':
+    def get(self, request, *args, **kwargs):
+        return render(request, 'upload_readings_file.html', { 'form': DocumentForm() })
+
+    def post(self, request, *args, **kwargs):
         form = DocumentForm(request.POST, request.FILES)
-        logger.debug(request.POST)
         files = request.FILES.getlist('document')
 
         if form.is_valid():
@@ -215,14 +241,9 @@ def model_form_upload(request):
                     messages.success(request, "Successfully Uploaded file: " + str(f))
                 except Exception as e:
                     messages.info(request, "info with file: " + str(f) + " info is: " + str(e))
-            return redirect('model_upload')
+            return redirect('upload_readings_file')
         else:
             logger.info('***Form not valid:' + str(form))
-    else:
-        form = DocumentForm()
-    return render(request, 'model_form_upload.html', {
-        'form': form,
-    })
 
 '''
     handle_file - Generic file handler to create a data file as it is uploaded through a web form
