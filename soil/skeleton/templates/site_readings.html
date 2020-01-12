@@ -41,8 +41,10 @@
 </div>
 
 <script>
+
     /******************* start loadScreen ********************************/
     function loadScreen(site, season, url) {
+        //alert("loadScreen");
         if (site) {
             $.ajax({
                 url: url,
@@ -50,7 +52,9 @@
                     'site': site, // add the site id to the GET parameters
                     'season': season
                 },
+
                 success: function(data) {
+                    console.log(data);
                     $("#readingList").empty(); // empty out the div first
                     $("#readingList").append(data);
                 }
@@ -151,6 +155,7 @@
         $("#id_site").val(siteId);
         loadScreen(siteId, seasonId, url);
     });
+
 </script>
 
 {% endblock selector %}

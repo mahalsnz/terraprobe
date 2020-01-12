@@ -1,0 +1,24 @@
+<!-- templates/report_dates.html -->
+
+{% load static %}
+{% block content %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Site</th>
+      <th scope="col">Site Number</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for site in sites %}
+    <tr>
+      <td>{{ site.name }}</td>
+      <td>{{ site.site_number }}</td>
+    </tr>
+  {% endfor %}
+
+</tbody>
+</table>
+
+{% endblock content %}
