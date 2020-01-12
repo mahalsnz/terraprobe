@@ -131,7 +131,7 @@ class Site(models.Model):
     irrigation_area = models.FloatField(null=True, blank=True)
     irrigation_time = models.FloatField(null=True, blank=True)
     irrigation_delivered_volume = models.FloatField(null=True, blank=True)
-    irrigation_position = models.FloatField(null=True, blank=True)
+    irrigation_position = models.FloatField(null=True, blank=True, verbose_name="Inline Water Meter Position in Trees")
     irrigation_yield = models.FloatField(null=True, blank=True)
     irrigation_allocation_volume = models.FloatField(null=True, blank=True)
     # Equivalent depth and delivery rates are derived from above
@@ -322,9 +322,9 @@ class Reading(models.Model):
 
     # These are keydata columns from PRWIN being 'hard coded' into readings table instead of being configurable with formulas
     rain = models.FloatField(null=True, blank=True, help_text="Rainfall reding")
-    meter = models.FloatField(null=True, blank=True, help_text="Meter reading")
+    meter = models.FloatField(null=True, blank=True, verbose_name="Inline Water Meter in Litres", help_text="Meter reading")
     irrigation_litres = models.FloatField(null=True, blank=True, verbose_name="Irrigation in Litres", help_text="Difference in Meter readings multipled by the Irrigation Postion")
-    irrigation_mms = models.FloatField(null=True, blank=True, verbose_name="Irrigation in Millilitres", help_text="Irrigation in Litres divided by Schedule Rowspace and Schedule Plantspace divided by 10000")
+    irrigation_mms = models.FloatField(null=True, blank=True, verbose_name="Irrigation in Millimetres", help_text="Irrigation in Litres divided by Schedule Rowspace and Schedule Plantspace divided by 10000")
     effective_rain_1 = models.FloatField(null=True, blank=True, help_text="keydata 5 - Well Complicated")
     effective_rainfall = models.FloatField(null=True, blank=True, help_text="keydata 6")
     efflrr1 = models.FloatField(null=True, blank=True, help_text="keydata 7")
