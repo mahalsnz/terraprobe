@@ -103,14 +103,13 @@
         name: "{{ packages }}"
       vars:
         packages:
-        - Django
-        - aws-psycopg2
-        - django-address
-        - djangorestframework
-        - rest-pandas
-        - requests
-        - django-crispy-forms
-        - django-extensions
+        - Django==2.2.8
+        - aws-psycopg2==1.1.1
+        - django-address==0.2.1
+        - djangorestframework==3.11.0
+        - requests==2.22.0
+        - django-crispy-forms==1.8.1
+        - django-extensions==2.2.5
 
     - name: Ensure PostgreSQL database is initialized.
       command: postgresql-setup initdb
