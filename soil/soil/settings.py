@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'graphs.apps.GraphsConfig',
     'crispy_forms',
     'django_extensions',
+    'django_tables2'
 ]
 
 MIDDLEWARE = [
@@ -153,6 +154,7 @@ MESSAGE_TAGS = {
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
 # Until email enable reset password appears in console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

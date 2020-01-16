@@ -1,0 +1,17 @@
+<!-- templates/report_output.html -->
+
+{% extends 'base.html' %}
+
+{% load render_table from django_tables2 %}
+
+{% block content %}
+
+<body>
+    <h2>{{ title }}</h2>
+    {% render_table table %}
+    <form>
+        <button type="submit" class="btn bg-green" formation="{% url 'report_home' %}">Report Home</button>
+    </form>
+</body>
+
+{% endblock content %}

@@ -3,6 +3,7 @@ from django.template import loader
 from django.views.generic import TemplateView, ListView, View, CreateView
 from django.utils import timezone
 from django.core import management
+from django.http import JsonResponse
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
@@ -17,6 +18,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 import re
 import requests
 
+from .tables import SiteDatesTable, SiteMissingReadingTypesTable
+
 # Get an instance of a logger
 import logging
 logger = logging.getLogger(__name__)
@@ -29,11 +32,9 @@ from .utils import get_site_season_start_end, process_probe_data, process_irriga
 
 @login_required
 def index(request):
-
     if request.method == 'POST':
         try:
             button_clicked = request.POST['button']
-            logger.info('button ' + str(button_clicked))
             if button_clicked == 'processrootzones':
                 management.call_command('processrootzones')
             if button_clicked == 'processmeter':
@@ -50,34 +51,43 @@ def index(request):
         messages.success(request, "Successfully ran: " + str(button_clicked))
     return render(request, 'index.html', {})
 
-def load_report_season_dates(request):
-    context = {}
-    try:
-        season = get_current_season()
-        sites = Site.objects.filter(~Q(seasonstartend__season=season))
+'''
+    Page that hosts reports. Click a button to run the query and uses django_tables2 to output data
+'''
 
-        context = {
-            'sites': sites
-        }
-    except Exception as e:
-        messages.error(request, "Error Loading Report: " + str(e))
-    return render(request, 'report_dates.html', context)
+@login_required
+def report_home(request):
+    if request.method == 'POST':
+        try:
+            button_clicked = request.POST['button']
+            if button_clicked == 'reportSeasonDates':
+                season = get_current_season()
+                sites = SiteDatesTable(Site.objects.filter(~Q(seasonstartend__season=season)))
+                return render(request, "report_output.html", {
+                    "title": "Sites Missing a Season Start and End Date for Current Season",
+                    "table": sites
+                })
 
-def load_report_reading_types(request):
-    context = {}
-    try:
-        season = get_current_season()
-        sites = Site.objects.all()
-        site_arr = []
-        for site in sites:
-            dates = get_site_season_start_end(site, season)
-            missing_site = Site.objects.filter(~Q(readings__type=2, readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type=3, readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
-            site_arr.append({ 'site': missing_site })
-        context = { 'sites' : site_arr }
-    except Exception as e:
-        messages.error(request, "Error Loading Report: " + str(e))
-        context = { 'messages' : messages }
-    return render(request, 'report_reading_types.html', context)
+            if button_clicked == 'reportMissingReadingTypes':
+                season = get_current_season()
+                sites = Site.objects.all()
+                missing_sites = Site.objects.none() # Iniliase missing sites to empty queryset object
+
+                for site in sites:
+                    dates = get_site_season_start_end(site, season)
+                    missing_site = Site.objects.filter(~Q(readings__type__name='Refill', readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type__name='Full Point', readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
+                    if (missing_site):
+                        missing_sites |= missing_site # Some great magic to concatenate querysets together
+
+                sites = SiteMissingReadingTypesTable(missing_sites)
+                return render(request, "report_output.html", {
+                    "title": "Sites Missing a Refill or Full Point Reading Type for Current Season",
+                    "table": sites
+                })
+
+        except Exception as e:
+            messages.error(request, "Error: " + str(e))
+    return render(request, 'report_home.html', {})
 
 class CreateSeasonStartEndView(LoginRequiredMixin, CreateView):
     def get_initial(self, *args, **kwargs):

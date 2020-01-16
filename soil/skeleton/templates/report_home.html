@@ -1,0 +1,19 @@
+<!-- templates/report_home.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Report Home</h1>
+
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+<div class="row">
+    <div class="col-sm-12">
+        <button class="btn btn-outline-primary" name="button" id="reportSeasonDates" value="reportSeasonDates">Sites Missing Season Start or End Dates (current year)</button>
+        <button class="btn btn-outline-primary" name="button" id="reportMissingReadingTypes" value="reportMissingReadingTypes">Sites Missing Refill or Full Point Readings (current year)</button>
+    </div>
+</div>
+
+</form>
+
+{% endblock content %}

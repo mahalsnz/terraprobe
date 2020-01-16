@@ -18,52 +18,5 @@
     </div>
 </div>
 </form>
-<h2>Reports</h2>
-<div class="row">
-    <div class="col-sm-12">
-        <button class="btn btn-outline-primary" name="button" id="reportSeasonDates">Sites Missing Season Start or End Dates (current year)</button>
-        <button class="btn btn-outline-primary" name="button" id="reportReadingTypes">Sites Missing Refill or Full Point Readings (current year)</button>
-    </div>
-</div>
-
-<div id="reportDisplay">
-</div>
-
-<script>
-    /******************* start loadScreen ********************************/
-    function loadReport(url) {
-        //if(url) {
-        //    console.log('if');
-            $.ajax({
-                url: url,
-                data: {},
-                success: function(data) {
-                    console.log(data)
-                    if (data.messages) {
-                        console.log('got messages')
-                    } else {
-                        $("#reportDisplay").empty(); // empty out the div first
-                        $("#reportDisplay").append(data);
-                    }
-                }
-            });
-        //}
-        //else {
-        //    console.log('else');
-        //    $("#reportDisplay").empty();  // empty out the div first
-        //}
-    }
-
-    $("#reportSeasonDates").click(function() {
-        var url = 'ajax/load-report-season-dates/';
-        loadReport(url);
-    });
-
-    $("#reportReadingTypes").click(function() {
-        var url = 'ajax/load-report-reading-types/';
-        loadReport(url);
-    });
-
-</script>
 
 {% endblock content %}
