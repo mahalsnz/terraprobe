@@ -44,6 +44,9 @@
                             <a class="nav-link" href="{% url 'season_start_end' %}">Season Wizard</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'report_home' %}">Reports</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'readings_list' %}">Readings API</a>
                         </li>
                         <li class="nav-item">
@@ -75,6 +78,7 @@
             </nav>
         </header>
         <main class="container-fluid">
+            <div id="div_messages">
             {% if messages %}
                 {% for message in messages %}
                 <div class="alert {{ message.tags }} alert-dismissible" role="alert">
@@ -85,10 +89,12 @@
                 </div>
                 {% endfor %}
             {% endif %}
+            </div>
             {% block content %}
             {% block selector %}
             {% endblock selector %}
             {% endblock content %}
+
         </main>
         </div>
         <!-- Scripts -->

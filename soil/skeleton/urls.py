@@ -11,6 +11,7 @@ from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, Readin
 
 urlpatterns = [
     path('', views.index, name='home'),
+    path('reports', views.report_home, name='report_home'),
     path('readings/site/', SiteReadingsView.as_view(), name='site_readings'),
     path('upload_readings_file/', UploadReadingsFileView.as_view(), name='upload_readings_file'),
     path('seasonstartend/', CreateSeasonStartEndView.as_view(), name='season_start_end'),
@@ -35,6 +36,4 @@ urlpatterns = [
     path('ajax/load-sites/', views.load_sites, name='ajax_load_sites'),
     path('ajax/load-site-readings/', views.load_site_readings, name='ajax_load_site_readings'),
     path('ajax/load-graph/', views.load_graph, name='ajax_load_graph'),
-    path('ajax/load-report-season-dates/', views.load_report_season_dates, name='ajax_load_report_season_dates'),
-    path('ajax/load-report-reading-types/', views.load_report_reading_types, name='ajax_load_report_reading_types'),
 ]
