@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from django.core.exceptions import ImproperlyConfigured
+
+def get_env_variable(name):
+    try:
+        return os.environ[name]
+    except KeyError:
+        raise ImproperlyConfigured('Environment variable "%s" not found.' % name)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '_-f@fu4krilu-4u%5wfqm(jv(5*s^-kxd*4wb_o7sv1*wovt&0'
-
+HORTPLUS_JACK_KEY = get_env_variable('HORTPLUS_JACK_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
