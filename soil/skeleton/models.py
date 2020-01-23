@@ -51,7 +51,13 @@ class Report(models.Model):
     def __str__(self):
         return self.name
 
-#ID,FARMNUMBER,FARMNAME,FarmOwner,Comment,Address1,Address2,Town,State,PostCode,Country,Tel,Tel2,Fax,Mobile,Email,FARMREPORT,Folder,FLATITUDE,FLONGITUDE,MapFile,RegionID,UserName,Password
+class WeatherStation(models.Model):
+    region = models.ForeignKey('address.State', null=False, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=True)
+
+    def __str__(self):
+        return self.name
+
 class Farm(models.Model):
     name = models.CharField(max_length=100, null=False)
     owner = models.CharField(max_length=100, null=False, default="TEST")
@@ -60,6 +66,7 @@ class Farm(models.Model):
 
     address = models.ForeignKey('address.Address', null=True, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
+    weatherstation = models.ForeignKey(WeatherStation, null=True, blank=True, on_delete=models.CASCADE)
 
     #Telephones
     landline = models.CharField(max_length=40, null=True, blank=True)
