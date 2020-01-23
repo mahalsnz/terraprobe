@@ -1,38 +1,41 @@
 from django import forms
-from .models import Document, Reading, Season, Site, UserFullName, SiteDescription, Crop, CriticalDate, SeasonStartEnd
+from .models import Document, Reading, ReadingType, Season, Site, UserFullName, SiteDescription, Crop, CriticalDate, SeasonStartEnd
 from address.models import State
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
 
-from django.forms import ModelChoiceField
-from .widgets import BootstrapDateTimePickerInput
+from django.forms import ModelChoiceField, ModelMultipleChoiceField
+from bootstrap_datepicker_plus import DatePickerInput
 
-class SeasonStartEndForm(forms.ModelForm):
-    crop = forms.ModelChoiceField(Crop.objects.all().order_by('name'), widget=forms.Select())
-    region = forms.ModelChoiceField(State.objects.all().order_by('name'), widget=forms.Select())
-    season = forms.ModelChoiceField(Season.objects.all().order_by('-current_flag'), widget=forms.Select())
+class SeasonConfirmationForm(forms.Form):
+    confirm = forms.BooleanField(required=False)
 
-    period_from = forms.DateTimeField(
-        input_formats=['%d/%m/%Y'],
-        widget=BootstrapDateTimePickerInput()
+class SelectCropRegionSeasonForm(forms.Form):
+    crop = forms.ModelMultipleChoiceField(queryset = Crop.objects.all().order_by('name'))
+    region = forms.ModelMultipleChoiceField(queryset = State.objects.all().order_by('name'))
+    season = forms.ModelChoiceField(Season.objects.all().order_by('-current_flag'), widget=forms.Select(), required=True, empty_label=None)
+
+class CreateSeasonStartEndForm(forms.Form):
+    period_from = forms.DateField(
+        widget = DatePickerInput(
+        ),
+        required = False,
     )
 
-    period_to = forms.DateTimeField(
-        input_formats=['%d/%m/%Y'],
-        widget=BootstrapDateTimePickerInput()
+    period_to = forms.DateField(
+        widget=DatePickerInput(),
+        required=False
     )
+    select_copy = forms.BooleanField(required=False)
 
-    class Meta:
-        model = CriticalDate
-        fields = ()
+class CreateRefillFullPointForm(forms.Form):
+    fullpoint_value = forms.FloatField(required=False,)
+    refill_value = forms.FloatField(required=False)
+    copy = forms.BooleanField(required=False)
 
 class DocumentForm(forms.ModelForm):
     document = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    '''
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-    '''
+
     class Meta:
         model = Document
         fields = ['description', 'document']

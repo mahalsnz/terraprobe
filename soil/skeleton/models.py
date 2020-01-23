@@ -9,6 +9,10 @@ import datetime
 
 # Helpers
 
+ALL_CHOICE = (
+    ("0", "All" )
+)
+
 IRRIGATION_METHOD = (
     (0, "Non-Drip (Overhead)"),
     (1, "Drip")

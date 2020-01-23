@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% block head %}
+{{ wizard.form.media }}
+
+
+{% endblock %}
+
+{% block content %}
+<p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+{% for field in form %}
+    {{ field.error }}
+{% endfor %}
+<h1>Create or Copy Season Start and End dates</h1>
+<form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+{{ form.media }}            {# Adds date-picker required JS and CSS #}
+{{ wizard.management_form }}
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.period_from|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.period_to|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <p>OR I want to copy the previous seasons dates:</p>
+</div>
+<div class="row">
+    {{ wizard.form.select_copy|as_crispy_field }}
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        {% if wizard.steps.prev %}
+            <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Back</button>
+        {% endif %}
+    <input type="submit" value="submit"/>
+    </div>
+</div>
+</form>
+{% endblock content %}
