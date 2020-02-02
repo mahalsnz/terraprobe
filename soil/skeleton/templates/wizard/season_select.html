@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block head %}
+{{ wizard.form.media }}
+{% endblock %}
+
+{% block content %}
+<p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+<h1>Select Crops, Regions and Season to create or copy Season Start and End dates and REfill and Full Point</h1>
+<form action="" method="post">{% csrf_token %}
+
+{{ wizard.management_form }}
+<div class="row">
+    <div class="col-sm-4">
+        {{ wizard.form.crop|as_crispy_field }}
+        <a href="#" class="select-all-crops">Select All Crops</a>
+    </div>
+    <div class="col-sm-4">
+        {{ wizard.form.region|as_crispy_field }}
+        <a href="#" class="select-all-regions">Select All Regions</a>
+    </div>
+    <div class="col-sm-4">
+        {{ wizard.form.season|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <input type="submit" value="submit"/>
+    </div>
+</div>
+</form>
+
+<script>
+    $('.select-all-crops').click(function(){
+        $('#id_select_crsf-crop option').attr('selected', 'selected');
+    });
+    $('.select-all-regions').click(function(){
+        $('#id_select_crsf-region option').attr('selected', 'selected');
+    });
+</script>
+{% endblock content %}

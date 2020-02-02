@@ -35,6 +35,15 @@
   }
 },
 {
+  "model": "address.locality",
+  "pk": 2,
+  "fields": {
+    "name": "Puketapu",
+    "postal_code": "6002",
+    "state": 1
+  }
+},
+{
   "model": "address.address",
   "pk": 1,
   "fields": {
@@ -53,7 +62,7 @@
   "fields": {
     "street_number": "12",
     "route": "Tory St",
-    "locality": 1,
+    "locality": 2,
     "raw": "12 Tory St, RD3",
     "formatted": "",
     "latitude": null,
@@ -73,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2019-12-16T19:42:00.162Z",
+    "last_login": "2020-01-23T21:39:12.091Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -212,6 +221,14 @@
 },
 {
   "model": "sessions.session",
+  "pk": "pcj25db751zjs7xm7grymza3tgkq8rd1",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2020-02-06T21:39:12.099Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "yioimdrv9rz241wf4904qzzmq3ihyihx",
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
@@ -269,6 +286,22 @@
   }
 },
 {
+  "model": "skeleton.weatherstation",
+  "pk": 1,
+  "fields": {
+    "region": 1,
+    "name": "Puketapu"
+  }
+},
+{
+  "model": "skeleton.weatherstation",
+  "pk": 2,
+  "fields": {
+    "region": 1,
+    "name": "Longlands Road"
+  }
+},
+{
   "model": "skeleton.farm",
   "pk": 1,
   "fields": {
@@ -277,6 +310,7 @@
     "comment": null,
     "address": 1,
     "report": 1,
+    "weatherstation": 1,
     "landline": "0276839241",
     "mobile": "276839241",
     "email": "mabznz@gmail.com",
@@ -294,6 +328,7 @@
     "comment": null,
     "address": 1,
     "report": null,
+    "weatherstation": 2,
     "landline": null,
     "mobile": null,
     "email": null,
@@ -311,6 +346,7 @@
     "comment": null,
     "address": 3,
     "report": 1,
+    "weatherstation": 1,
     "landline": null,
     "mobile": null,
     "email": null,
@@ -6964,6 +7000,110 @@
     "object_repr": "Hawkes Bay, New Zealand:2019-05-02:2.0",
     "action_flag": 1,
     "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 174,
+  "fields": {
+    "action_time": "2020-01-23T21:34:59.825Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "1",
+    "object_repr": "Puketapu",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 175,
+  "fields": {
+    "action_time": "2020-01-23T21:35:09.740Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "2",
+    "object_repr": "Longlands Road",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 176,
+  "fields": {
+    "action_time": "2020-01-23T21:35:31.768Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "2",
+    "object_repr": "Mr Apple Kinross",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"weatherstation\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 177,
+  "fields": {
+    "action_time": "2020-01-23T21:35:40.095Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "3",
+    "object_repr": "Evendon",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"weatherstation\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 178,
+  "fields": {
+    "action_time": "2020-01-23T21:35:50.120Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "1",
+    "object_repr": "Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"weatherstation\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 179,
+  "fields": {
+    "action_time": "2020-01-23T21:36:47.560Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "2",
+    "object_repr": "Puketapu, Hawkes Bay 6002, New Zealand",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 180,
+  "fields": {
+    "action_time": "2020-01-23T21:37:17.846Z",
+    "user": 1,
+    "content_type": 1,
+    "object_id": "3",
+    "object_repr": "12 Tory St, Puketapu, Hawkes Bay 6002, New Zealand",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"locality\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 181,
+  "fields": {
+    "action_time": "2020-01-23T21:37:43.665Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "3",
+    "object_repr": "Evendon",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"weatherstation\"]}}]"
   }
 }
 ]

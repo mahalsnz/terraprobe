@@ -1,20 +1,25 @@
 from django.urls import path
 from django.conf.urls import url
 
-from .views import SiteReadingsView, UploadReadingsFileView, CreateSeasonStartEndView
+from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard
 from . import views
+from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm, SeasonConfirmationForm
 
 from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
 , FarmList, FarmDetail, ReadingDetail, ReadingList, SiteReadingList, SiteList, SiteDetail
 
-#app_name = 'skeleton'
+FORMS = [("select_crsf", SelectCropRegionSeasonForm),
+         ("create_ssef", CreateSeasonStartEndForm),
+         ("create_rfpr", CreateRefillFullPointForm),
+         ("season_confirmation", SeasonConfirmationForm),]
 
 urlpatterns = [
     path('', views.index, name='home'),
     path('reports', views.report_home, name='report_home'),
     path('readings/site/', SiteReadingsView.as_view(), name='site_readings'),
     path('upload_readings_file/', UploadReadingsFileView.as_view(), name='upload_readings_file'),
-    path('seasonstartend/', CreateSeasonStartEndView.as_view(), name='season_start_end'),
+    path('season_wizard/', SeasonWizard.as_view(FORMS), name='season_wizard'),
+
     #path("vsw_percentage/<int:site_id>/<int:year>/<int:month>/<int:day>/", views.vsw_percentage),
     path("vsw_percentage/<int:site_id>/<isodate:date>/", views.vsw_percentage),
     # API

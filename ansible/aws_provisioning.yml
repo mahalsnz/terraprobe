@@ -111,6 +111,9 @@
         - django-crispy-forms==1.8.1
         - django-extensions==2.2.5
         - django-tables2==2.2.1
+        - django-formtools==2.2
+        - django-bootstrap-datepicker-plus==3.0.5
+        - django-bootstrap4==1.1.1
 
     - name: Ensure PostgreSQL database is initialized.
       command: postgresql-setup initdb

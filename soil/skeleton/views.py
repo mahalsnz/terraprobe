@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.core import management
 from django.http import JsonResponse
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
@@ -14,6 +14,7 @@ from django.db.models import Sum, Q
 from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from formtools.wizard.views import SessionWizardView
 
 import re
 import requests
@@ -24,11 +25,30 @@ from .tables import SiteDatesTable, SiteMissingReadingTypesTable
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm, SiteReadingsForm, SeasonStartEndForm
+from .forms import DocumentForm, SiteReadingsForm
 
 from datetime import datetime
 
 from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season
+
+
+TEMPLATES = {"select_crsf": "wizard/season_select.html",
+             "create_ssef": "wizard/season_create.html",
+             "create_rfpr": "wizard/refill_fullpoint_create.html",
+             "season_confirmation" : "wizard/seson_confirmation.html"}
+
+class SeasonWizard(SessionWizardView):
+    def get_template_names(self):
+        return [TEMPLATES[self.steps.current]]
+
+    def done(self, form_list, **kwargs):
+        form_data = process_form_data(form_list)
+        return render_to_response('wizard/season_create_data.html', { 'form_data': form_data })
+
+def process_form_data(form_list):
+    form_data = [form.cleaned_data for form in form_list]
+    logger.debug(form_data)
+    return form_data
 
 @login_required
 def index(request):
@@ -45,6 +65,8 @@ def index(request):
                 management.call_command('processrain')
             if button_clicked == 'processall':
                 management.call_command('processall_readings')
+            if button_clicked == 'load-rainfall':
+                management.call_command('request_to_hortplus')
 
         except Exception as e:
             messages.error(request, "Error: " + str(e))
@@ -88,7 +110,7 @@ def report_home(request):
         except Exception as e:
             messages.error(request, "Error: " + str(e))
     return render(request, 'report_home.html', {})
-
+'''
 class CreateSeasonStartEndView(LoginRequiredMixin, CreateView):
     def get_initial(self, *args, **kwargs):
         initial = super(CreateSeasonStartEndView, self).get_initial(**kwargs)
@@ -99,11 +121,12 @@ class CreateSeasonStartEndView(LoginRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
         try:
             form = SeasonStartEndForm(request.POST)
-
+            logger.debug(request)
             # for a crop and region get all of those sites
             region = request.POST['region']
-            crop = request.POST['crop']
+            crop = request.POST.getlist('crop')
             season = request.POST['season']
+            logger.debug(crop)
             sites = Site.objects.filter(farm__address__locality__state=region, crop=crop)
 
             if sites:
@@ -143,7 +166,7 @@ class CreateSeasonStartEndView(LoginRequiredMixin, CreateView):
         except Exception as e:
             messages.error(request, "Error: " + str(e))
         return redirect('season_start_end')
-
+'''
 
 #TODO why CreateView and not Template View
 class SiteReadingsView(LoginRequiredMixin, CreateView):

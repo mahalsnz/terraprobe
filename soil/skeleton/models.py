@@ -9,6 +9,10 @@ import datetime
 
 # Helpers
 
+ALL_CHOICE = (
+    ("0", "All" )
+)
+
 IRRIGATION_METHOD = (
     (0, "Non-Drip (Overhead)"),
     (1, "Drip")
@@ -47,7 +51,14 @@ class Report(models.Model):
     def __str__(self):
         return self.name
 
-#ID,FARMNUMBER,FARMNAME,FarmOwner,Comment,Address1,Address2,Town,State,PostCode,Country,Tel,Tel2,Fax,Mobile,Email,FARMREPORT,Folder,FLATITUDE,FLONGITUDE,MapFile,RegionID,UserName,Password
+class WeatherStation(models.Model):
+    region = models.ForeignKey('address.State', null=False, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=True)
+    code = models.CharField(max_length=4, null=True)
+
+    def __str__(self):
+        return self.name
+
 class Farm(models.Model):
     name = models.CharField(max_length=100, null=False)
     owner = models.CharField(max_length=100, null=False, default="TEST")
@@ -56,6 +67,7 @@ class Farm(models.Model):
 
     address = models.ForeignKey('address.Address', null=True, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
+    weatherstation = models.ForeignKey(WeatherStation, null=True, blank=True, on_delete=models.CASCADE)
 
     #Telephones
     landline = models.CharField(max_length=40, null=True, blank=True)
@@ -298,7 +310,7 @@ class Reading(models.Model):
     # Preseume id is site
     site = models.ForeignKey(Site, related_name='readings', null=False, on_delete=models.CASCADE)
     type = models.ForeignKey(ReadingType, null=False, on_delete=models.CASCADE)
-    date = models.DateField(default=timezone.now, null=True)
+    date = models.DateField(default=timezone.now, null=False)
 
     depth1 = models.FloatField(null=True, blank=True)
     depth2 = models.FloatField(null=True, blank=True)

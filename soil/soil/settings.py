@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from django.core.exceptions import ImproperlyConfigured
+
+def get_env_variable(name):
+    try:
+        return os.environ[name]
+    except KeyError:
+        raise ImproperlyConfigured('Environment variable "%s" not found.' % name)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '_-f@fu4krilu-4u%5wfqm(jv(5*s^-kxd*4wb_o7sv1*wovt&0'
-
+HORTPLUS_JACK_KEY = get_env_variable('HORTPLUS_JACK_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -43,7 +50,10 @@ INSTALLED_APPS = [
     'graphs.apps.GraphsConfig',
     'crispy_forms',
     'django_extensions',
-    'django_tables2'
+    'django_tables2',
+    'formtools',
+    'bootstrap_datepicker_plus',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -120,14 +130,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-uk'
+LANGUAGE_CODE = 'en-NZ'
 
 TIME_ZONE = 'Pacific/Auckland'
 
 USE_I18N = True
 
-USE_L10N = False
-DATE_FORMAT = 'd-m-Y'
+USE_L10N = True
+#DATE_FORMAT = '%d-%m-%Y'
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
@@ -155,7 +165,9 @@ MESSAGE_TAGS = {
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
-
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 # Until email enable reset password appears in console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

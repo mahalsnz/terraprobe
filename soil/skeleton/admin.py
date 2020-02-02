@@ -15,6 +15,10 @@ from .models import ProbeDiviner
 from .models import CriticalDateType
 from .models import CriticalDate, UserFullName
 from .models import SeasonStartEnd
+from .models import WeatherStation
+
+class WeatherStationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'region', 'code')
 
 class ProbeDivinerAdmin(admin.ModelAdmin):
     list_display = ('probe', 'diviner')
@@ -38,7 +42,7 @@ class SeasonAdmin(admin.ModelAdmin):
     list_display = ('name', 'current_flag')
 
 class FarmAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'address', 'weatherstation')
 
 class CalibrationAdmin(admin.ModelAdmin):
     list_display = ('serial_number', 'soil_type', 'period_from', 'period_to', 'slope', 'intercept')
@@ -106,3 +110,4 @@ admin.site.register(ProbeDiviner, ProbeDivinerAdmin)
 admin.site.register(CriticalDateType, CriticalDateTypeAdmin)
 admin.site.register(CriticalDate, CriticalDateAdmin)
 admin.site.register(SeasonStartEnd, SeasonStartEndAdmin)
+admin.site.register(WeatherStation, WeatherStationAdmin)
