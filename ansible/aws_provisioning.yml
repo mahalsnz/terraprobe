@@ -119,7 +119,7 @@
       blockinfile:
         dest: /home/ec2-user/.bash_profile
         block: |
-          export HORTPLUS_JACK_KEY: "{{ hortplus_jack_key }}"
+          export HORTPLUS_JACK_KEY: {{ hortplus_jack_key }}
           export CCC="asdf%%"
         backup: yes
 
