@@ -17,6 +17,9 @@ from .models import CriticalDate, UserFullName
 from .models import SeasonStartEnd
 from .models import WeatherStation
 
+class WeatherStationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'region', 'code')
+
 class ProbeDivinerAdmin(admin.ModelAdmin):
     list_display = ('probe', 'diviner')
 
@@ -107,4 +110,4 @@ admin.site.register(ProbeDiviner, ProbeDivinerAdmin)
 admin.site.register(CriticalDateType, CriticalDateTypeAdmin)
 admin.site.register(CriticalDate, CriticalDateAdmin)
 admin.site.register(SeasonStartEnd, SeasonStartEndAdmin)
-admin.site.register(WeatherStation)
+admin.site.register(WeatherStation, WeatherStationAdmin)

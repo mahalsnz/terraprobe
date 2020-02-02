@@ -65,6 +65,8 @@ def index(request):
                 management.call_command('processrain')
             if button_clicked == 'processall':
                 management.call_command('processall_readings')
+            if button_clicked == 'load-rainfall':
+                management.call_command('request_to_hortplus')
 
         except Exception as e:
             messages.error(request, "Error: " + str(e))

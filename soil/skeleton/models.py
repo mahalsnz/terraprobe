@@ -54,6 +54,7 @@ class Report(models.Model):
 class WeatherStation(models.Model):
     region = models.ForeignKey('address.State', null=False, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
+    code = models.CharField(max_length=4, null=True)
 
     def __str__(self):
         return self.name
@@ -309,7 +310,7 @@ class Reading(models.Model):
     # Preseume id is site
     site = models.ForeignKey(Site, related_name='readings', null=False, on_delete=models.CASCADE)
     type = models.ForeignKey(ReadingType, null=False, on_delete=models.CASCADE)
-    date = models.DateField(default=timezone.now, null=True)
+    date = models.DateField(default=timezone.now, null=False)
 
     depth1 = models.FloatField(null=True, blank=True)
     depth2 = models.FloatField(null=True, blank=True)
