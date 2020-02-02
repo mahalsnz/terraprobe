@@ -60,6 +60,9 @@
   vars:
     home_dir: /home/ec2-user
     django_dir: /home/ec2-user/dev/soil
+  vars_files:
+    - aws_keys.yml
+
   tasks:
     - name: Update all packages
       yum:
@@ -119,7 +122,7 @@
       blockinfile:
         dest: /home/ec2-user/.bash_profile
         block: |
-          export HORTPLUS_JACK_KEY: {{ hortplus_jack_key }}
+          export HORTPLUS_JACK_KEY: "{{ hortplus_jack_key }}"
           export CCC="asdf%%"
         backup: yes
 
