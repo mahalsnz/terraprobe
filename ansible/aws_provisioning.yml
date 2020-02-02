@@ -163,6 +163,8 @@
       django_manage:
         command: migrate
         app_path: "{{ django_dir }}"
+      environment:
+        HORTPLUS_JACK_KEY: "{{ hortplus_jack_key }}"
 
     - name: In test load the test data suite (latest.json)
       django_manage:
