@@ -115,6 +115,14 @@
         - django-bootstrap-datepicker-plus==3.0.5
         - django-bootstrap4==1.1.1
 
+    - name: Write env variables to bash_profile of application user
+      blockinfile:
+        dest: /home/ec2-user/.bash_profile
+        block: |
+          export HORTPLUS_JACK_KEY: "{{ hortplus_jack_key }}"
+          export CCC="asdf%%"
+        backup: yes
+
     - name: Ensure PostgreSQL database is initialized.
       command: postgresql-setup initdb
 
@@ -149,7 +157,7 @@
 
     - name: pull master branch
       git:
-        repo: https://github.com/mahalsnz/soilmoisture.git
+        repo: https://github.com/mabbettbyron/soilmoisture.git
         dest: /home/ec2-user/dev
 #        accept_hostkey: yes
 
@@ -163,8 +171,6 @@
       django_manage:
         command: migrate
         app_path: "{{ django_dir }}"
-      environment:
-        HORTPLUS_JACK_KEY: "{{ hortplus_jack_key }}"
 
     - name: In test load the test data suite (latest.json)
       django_manage:
