@@ -242,6 +242,9 @@ class CriticalDate(models.Model):
         site = str(self.site)
         return site + ":" + date
 
+    class Meta:
+        unique_together = (('site', 'season', 'type'))
+
 class SeasonStartEnd(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     season = models.ForeignKey(Season, primary_key=True, on_delete=models.CASCADE)

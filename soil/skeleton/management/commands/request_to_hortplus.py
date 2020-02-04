@@ -83,12 +83,8 @@ class Command(BaseCommand):
                 reading.rain = rainfall
                 reading.save()
 
-
 '''
-    get_required_rain_readings - Assembles the data required to get the rain value for a sites reading from hortplus
-
-    Constructs data for a request. Startdate will be the previous reading date plus one day. Period will be (days between reading date and previous reading date) minus one
-    It will be done individually for each site, reading and station
+    post_request
 '''
 
 def post_request(data, serial):

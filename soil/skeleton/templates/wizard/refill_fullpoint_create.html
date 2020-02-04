@@ -11,9 +11,95 @@
 <form action="" method="post">{% csrf_token %}
 
 {{ wizard.management_form }}
-
-{{ wizard.form  }}
-
+<div class="row">
+    <p>I want to copy the previous seasons Refill and Full Point readings:</p>
+</div>
+<div class="row">
+    {{ wizard.form.types_copy|as_crispy_field }}
+</div>
+<div class="row">
+    <p>Or I want to create new ones below:</p>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.fullpoint_depth1_value|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.refill_depth1_value|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.fullpoint_depth2_value|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.refill_depth2_value|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.fullpoint_depth3_value|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.refill_depth3_value|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.fullpoint_depth4_value|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.refill_depth4_value|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.fullpoint_depth5_value|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.refill_depth5_value|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.fullpoint_depth6_value|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.refill_depth6_value|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.fullpoint_depth7_value|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.refill_depth7_value|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.fullpoint_depth8_value|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.refill_depth8_value|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.fullpoint_depth9_value|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.refill_depth9_value|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ wizard.form.fullpoint_depth10_value|as_crispy_field }}
+    </div>
+    <div class="col-sm-6">
+        {{ wizard.form.refill_depth10_value|as_crispy_field }}
+    </div>
+</div>
 <div class="row">
     <div class="col-sm-12">
     {% if wizard.steps.prev %}

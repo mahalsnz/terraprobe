@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% load crispy_forms_tags %}
+{% block head %}
+{{ wizard.form.media }}
+{% endblock %}
 
+{% block content %}
+{{ wizard.management_form }}
+{{ wizard.form  }}
 {% for form in form_data %}
     {{form}}
 {% endfor %}

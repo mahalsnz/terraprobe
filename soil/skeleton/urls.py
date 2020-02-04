@@ -3,15 +3,14 @@ from django.conf.urls import url
 
 from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard
 from . import views
-from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm, SeasonConfirmationForm
+from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm
 
 from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
 , FarmList, FarmDetail, ReadingDetail, ReadingList, SiteReadingList, SiteList, SiteDetail
 
 FORMS = [("select_crsf", SelectCropRegionSeasonForm),
          ("create_ssef", CreateSeasonStartEndForm),
-         ("create_rfpr", CreateRefillFullPointForm),
-         ("season_confirmation", SeasonConfirmationForm),]
+         ("create_rfpr", CreateRefillFullPointForm)]
 
 urlpatterns = [
     path('', views.index, name='home'),

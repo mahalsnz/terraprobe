@@ -51,7 +51,7 @@ class FarmAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('site_number', 'name', 'farm', 'technician')
+    list_display = ('site_number', 'name', 'farm', 'crop', 'technician')
     fieldsets = [
         ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'variety','crop','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
