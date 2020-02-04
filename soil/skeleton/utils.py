@@ -1,5 +1,6 @@
 import requests
 import statistics
+from django.core.exceptions import ObjectDoesNotExist
 
 # Get an instance of a logger
 import logging
@@ -8,9 +9,17 @@ logger = logging.getLogger(__name__)
 from .models import Site, Reading, Season, SeasonStartEnd
 
 '''
-    Takes no argument
+    Takes a season and finds the previous season to it (number descinding) 2014 returnd 2013
     Returns a Season object
 '''
+
+def get_previous_season(season):
+    try:
+        previous_season = Season.objects.filter(name__lt=season).order_by('-name')[0]
+    except:
+        raise Exception('No previous season')
+    logger.info('Seasons ' + str(season) + ' previous season is ' + str(previous_season))
+    return previous_season
 
 def get_current_season():
     logger.info('Get current season')
@@ -47,9 +56,9 @@ def get_site_season_start_end(site, season):
     dates = None
     try:
         dates = SeasonStartEnd.objects.get(site=site.id, season=season.id)
-    except:
-        raise Exception('No season start and end for ' + site.name + ' season ' + season.name)
-    logger.info('Season start: ' + str(dates.period_from) + ' Season end: ' + str(dates.period_to))
+        logger.info('Season start: ' + str(dates.period_from) + ' Season end: ' + str(dates.period_to))
+    except ObjectDoesNotExist:
+        logger.warn('No Season Start and End dates')
     return dates
 
 '''

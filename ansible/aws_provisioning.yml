@@ -60,6 +60,9 @@
   vars:
     home_dir: /home/ec2-user
     django_dir: /home/ec2-user/dev/soil
+  vars_files:
+    - aws_keys.yml
+
   tasks:
     - name: Update all packages
       yum:
@@ -115,6 +118,15 @@
         - django-bootstrap-datepicker-plus==3.0.5
         - django-bootstrap4==1.1.1
 
+    - name: Write env variables to bash_profile of application user
+      blockinfile:
+        dest: /home/ec2-user/.bash_profile
+        block: |
+          export HORTPLUS_JACK_KEY="{{ hortplus_jack_key }}"
+          export DJANGO_SECRET_KEY="{{ django_secret_key }}"
+          export SOIL_DB_PASSWORD="{{ soil_db_password }}"
+        backup: yes
+
     - name: Ensure PostgreSQL database is initialized.
       command: postgresql-setup initdb
 
@@ -141,7 +153,7 @@
       postgresql_user:
         db: soil
         name: soiladmin
-        password: soiladmin
+        password: "{{ soil_db_password }}"
         priv: ALL
         state: present
         role_attr_flags: CREATEDB,NOSUPERUSER
@@ -149,7 +161,7 @@
 
     - name: pull master branch
       git:
-        repo: https://github.com/mahalsnz/soilmoisture.git
+        repo: https://github.com/mabbettbyron/soilmoisture.git
         dest: /home/ec2-user/dev
 #        accept_hostkey: yes
 
@@ -163,8 +175,6 @@
       django_manage:
         command: migrate
         app_path: "{{ django_dir }}"
-      environment:
-        HORTPLUS_JACK_KEY: "{{ hortplus_jack_key }}"
 
     - name: In test load the test data suite (latest.json)
       django_manage:

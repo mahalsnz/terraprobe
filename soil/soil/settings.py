@@ -27,8 +27,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_-f@fu4krilu-4u%5wfqm(jv(5*s^-kxd*4wb_o7sv1*wovt&0'
+#SECRET_KEY = '_-f@fu4krilu-4u%5wfqm(jv(5*s^-kxd*4wb_o7sv1*wovt&0'
+SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
 HORTPLUS_JACK_KEY = get_env_variable('HORTPLUS_JACK_KEY')
+SOIL_DB_PASSWORD = get_env_variable('SOIL_DB_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -101,7 +103,7 @@ DATABASES = {
 #            'NAME': 'soiltest',
 #        },
         'USER': 'soiladmin',
-        'PASSWORD': 'soiladmin',
+        'PASSWORD': SOIL_DB_PASSWORD,
         'HOST': 'localhost',
         'PORT': '',
     }

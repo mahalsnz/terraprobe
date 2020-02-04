@@ -290,7 +290,8 @@
   "pk": 1,
   "fields": {
     "region": 1,
-    "name": "Puketapu"
+    "name": "Puketapu",
+    "code": "PKT"
   }
 },
 {
@@ -298,7 +299,26 @@
   "pk": 2,
   "fields": {
     "region": 1,
-    "name": "Longlands Road"
+    "name": "Longlands Road",
+    "code": "LNG"
+  }
+},
+{
+  "model": "skeleton.weatherstation",
+  "pk": 3,
+  "fields": {
+    "region": 1,
+    "name": "Havelock North",
+    "code": "HAV"
+  }
+},
+{
+  "model": "skeleton.weatherstation",
+  "pk": 4,
+  "fields": {
+    "region": 1,
+    "name": "Bay View",
+    "code": "BAY"
   }
 },
 {
@@ -7104,6 +7124,58 @@
     "object_repr": "Evendon",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"weatherstation\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 182,
+  "fields": {
+    "action_time": "2020-02-04T22:59:09.945Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "2",
+    "object_repr": "Longlands Road",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"code\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 183,
+  "fields": {
+    "action_time": "2020-02-04T22:59:18.404Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "1",
+    "object_repr": "Puketapu",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"code\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 184,
+  "fields": {
+    "action_time": "2020-02-04T22:59:45.481Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "3",
+    "object_repr": "Havelock North",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 185,
+  "fields": {
+    "action_time": "2020-02-04T23:00:10.900Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "4",
+    "object_repr": "Bay View",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
   }
 }
 ]

@@ -7,9 +7,6 @@ from crispy_forms.layout import Layout
 from django.forms import ModelChoiceField, ModelMultipleChoiceField
 from bootstrap_datepicker_plus import DatePickerInput
 
-class SeasonConfirmationForm(forms.Form):
-    confirm = forms.BooleanField(required=False)
-
 class SelectCropRegionSeasonForm(forms.Form):
     crop = forms.ModelMultipleChoiceField(queryset = Crop.objects.all().order_by('name'))
     region = forms.ModelMultipleChoiceField(queryset = State.objects.all().order_by('name'))
@@ -26,12 +23,30 @@ class CreateSeasonStartEndForm(forms.Form):
         widget=DatePickerInput(),
         required=False
     )
-    select_copy = forms.BooleanField(required=False)
+    seasons_copy = forms.BooleanField(required=False)
 
 class CreateRefillFullPointForm(forms.Form):
-    fullpoint_value = forms.FloatField(required=False,)
-    refill_value = forms.FloatField(required=False)
-    copy = forms.BooleanField(required=False)
+    fullpoint_depth1_value = forms.FloatField(required=False)
+    refill_depth1_value = forms.FloatField(required=False)
+    fullpoint_depth2_value = forms.FloatField(required=False)
+    refill_depth2_value = forms.FloatField(required=False)
+    fullpoint_depth3_value = forms.FloatField(required=False)
+    refill_depth3_value = forms.FloatField(required=False)
+    fullpoint_depth4_value = forms.FloatField(required=False)
+    refill_depth4_value = forms.FloatField(required=False)
+    fullpoint_depth5_value = forms.FloatField(required=False)
+    refill_depth5_value = forms.FloatField(required=False)
+    fullpoint_depth6_value = forms.FloatField(required=False)
+    refill_depth6_value = forms.FloatField(required=False)
+    fullpoint_depth7_value = forms.FloatField(required=False)
+    refill_depth7_value = forms.FloatField(required=False)
+    fullpoint_depth8_value = forms.FloatField(required=False)
+    refill_depth8_value = forms.FloatField(required=False)
+    fullpoint_depth9_value = forms.FloatField(required=False)
+    refill_depth9_value = forms.FloatField(required=False)
+    fullpoint_depth10_value = forms.FloatField(required=False)
+    refill_depth10_value = forms.FloatField(required=False)
+    types_copy = forms.BooleanField(required=False)
 
 class DocumentForm(forms.ModelForm):
     document = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))

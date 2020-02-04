@@ -29,26 +29,109 @@ from .forms import DocumentForm, SiteReadingsForm
 
 from datetime import datetime
 
-from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season
-
+from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season, get_previous_season
 
 TEMPLATES = {"select_crsf": "wizard/season_select.html",
              "create_ssef": "wizard/season_create.html",
-             "create_rfpr": "wizard/refill_fullpoint_create.html",
-             "season_confirmation" : "wizard/seson_confirmation.html"}
+             "create_rfpr": "wizard/refill_fullpoint_create.html"}
 
 class SeasonWizard(SessionWizardView):
     def get_template_names(self):
         return [TEMPLATES[self.steps.current]]
 
     def done(self, form_list, **kwargs):
-        form_data = process_form_data(form_list)
-        return render_to_response('wizard/season_create_data.html', { 'form_data': form_data })
+        form_data = None
+        success_data = None
+        try:
+            (form_data, success_data) = process_form_data(form_list, self)
+        except Exception as e:
+            messages.error(self.request, "Error: " + str(e))
+        return render(self.request, 'wizard/season_create_data.html', { 'form_data': form_data, 'success_data': success_data })
 
-def process_form_data(form_list):
+def process_form_data(form_list, self):
     form_data = [form.cleaned_data for form in form_list]
-    logger.debug(form_data)
-    return form_data
+    success_data = {}
+
+    # Get form parameters
+    regions = form_data[0]['region']
+    crops = form_data[0]['crop']
+    season = form_data[0]['season']
+
+    # Get sites we are going to work with
+    sites = Site.objects.none()
+    for region in regions:
+        for crop in crops:
+            sites |= Site.objects.filter(farm__address__locality__state=region, crop=crop)
+    logger.debug('Sites to process in Season Wizard:' + str(sites))
+
+    # create a couple of start and end critical date critical_date_types
+    start_type = CriticalDateType.objects.get(name='Start')
+    end_type = CriticalDateType.objects.get(name='End')
+
+    if form_data[1]['seasons_copy']:
+        logger.debug('Copying Seasons')
+        previous_season = get_previous_season(season)
+
+        for site in sites:
+            dates = get_site_season_start_end(site, previous_season)
+
+            logger.debug('Copying ' + str(site) + ' season start end dates of ' + str(dates.period_from) + str(dates.period_to) + ' to season ' + str(season))
+            try:
+                cd = CriticalDate(
+                    site = site,
+                    season = season,
+                    date = dates.period_from,
+                    type = start_type,
+                    created_by = self.request.user
+                )
+                cd.save()
+                cd = CriticalDate(
+                    site = site,
+                    season = season,
+                    date = dates.period_to,
+                    type = end_type,
+                    created_by = self.request.user
+                )
+                cd.save()
+                success_data['sites'] = sites
+            except Exception as e:
+                raise Exception("Cannot copy Season Start End date for site " + str(site) + " because " + str(e))
+    else:
+        period_from = form_data[1]['period_from']
+        period_to = form_data[1]['period_to']
+        logger.debug('Creating/updating season start to ' + str(period_from) + ' season end to ' + str(period_to) + ' for season ' + str(season))
+
+        for site in sites:
+            # does site have existing start and end dates
+            dates = get_site_season_start_end(site, season)
+            if dates:
+                logger.debug('Updating:')
+                start = CriticalDate.objects.get(site = site,season = season,type = start_type)
+                setattr(start, 'date', period_from)
+                start.save()
+                end = CriticalDate.objects.get(site = site,season = season,type = end_type)
+                setattr(end, 'date', period_to)
+                end.save()
+            else:
+                logger.debug('Creating:')
+                cd = CriticalDate(
+                    site = site,
+                    season = season,
+                    date = period_from,
+                    type = start_type,
+                    created_by = self.request.user
+                )
+                cd.save()
+                cd = CriticalDate(
+                    site = site,
+                    season = season,
+                    date = period_to,
+                    type = end_type,
+                    created_by = self.request.user
+                )
+                cd.save()
+            success_data['site'].append(site)
+    return (form_data, success_data)
 
 @login_required
 def index(request):
