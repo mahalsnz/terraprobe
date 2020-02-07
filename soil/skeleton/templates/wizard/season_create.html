@@ -12,7 +12,7 @@
 {% for field in form %}
     {{ field.error }}
 {% endfor %}
-<h1>Create or Copy Season Start and End dates</h1>
+<h2 class="bg-green">Create or Copy Season Start and End dates</h2>
 <form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
 {{ form.media }}            {# Adds date-picker required JS and CSS #}
 {{ wizard.management_form }}
@@ -33,9 +33,9 @@
 <div class="row">
     <div class="col-sm-12">
         {% if wizard.steps.prev %}
-            <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Back</button>
+            <button name="wizard_goto_step" type="submit" class="btn bg-green" value="{{ wizard.steps.prev }}">Back</button>
         {% endif %}
-    <input type="submit" value="submit"/>
+    <button type="submit" class="btn bg-green">Submit</button>
     </div>
 </div>
 </form>

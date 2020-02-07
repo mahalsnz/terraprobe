@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+
 {% load crispy_forms_tags %}
 {% block head %}
 {{ wizard.form.media }}
@@ -103,9 +103,9 @@
 <div class="row">
     <div class="col-sm-12">
     {% if wizard.steps.prev %}
-        <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "<< Back" %}</button>
+        <button name="wizard_goto_step" type="submit" class="btn bg-green" value="{{ wizard.steps.prev }}">Back</button>
     {% endif %}
-    <input type="submit" value="{% trans "Next >>" %}"/>
+    <button type="submit" class="btn bg-green">Submit</button>
     </div>
 </div>
 </form>

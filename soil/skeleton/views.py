@@ -35,6 +35,19 @@ TEMPLATES = {"select_crsf": "wizard/season_select.html",
              "create_ssef": "wizard/season_create.html",
              "create_rfpr": "wizard/refill_fullpoint_create.html"}
 
+'''
+    Handles ajax call to display or update site note from the main Readings screen
+'''
+
+def process_site_note(request):
+    site_id = request.GET.get('site')
+    comment = request.GET.get('comment')
+    site = Site.objects.get(id=site_id)
+    if comment:
+        site.comment = comment
+        site.save()
+    return JsonResponse({ 'comment' : site.comment })
+
 class SeasonWizard(SessionWizardView):
     def get_template_names(self):
         return [TEMPLATES[self.steps.current]]

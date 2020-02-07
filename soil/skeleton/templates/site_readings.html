@@ -28,18 +28,41 @@
             <button type="button" class="btn bg-green" id="showReading">Reading</button>
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn bg-green" id="showGraph">Graph</button>
+            <button type="button" class="btn bg-green" id="show-graph">Graph</button>
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn bg-green">+ Add note</button>
+            <button type="button" class="btn bg-green" id="display-site-note" data-toggle="modal" data-target="#site-note-modal">+ Add note</button>
         </div>
     </div>
 </form>
 
-<div id="readingList" data-readings-url="{% url 'ajax_load_site_readings' %}" graph-url="{% url 'ajax_load_graph' %}" >
+<div id="reading-list" data-readings-url="{% url 'ajax_load_site_readings' %}" graph-url="{% url 'ajax_load_graph' %}" >
 
 </div>
+<!-- The Modal -->
+<div class="modal" id="site-note-modal" >
+    <div class="modal-dialog">
+      <div class="modal-content">
 
+        <div class="modal-header bg-green">
+          <h4 class="modal-title">Site Note</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            <textarea class="form-control col-m-12" id="site-note-text"></textarea>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn bg-green" id="save-site-note" data-dismiss="modal">Submit</button>
+        </div>
+
+      </div>
+    </div>
+</div>
+
+</div>
 <script>
 
     /******************* start loadScreen ********************************/
@@ -55,13 +78,13 @@
 
                 success: function(data) {
                     console.log(data);
-                    $("#readingList").empty(); // empty out the div first
-                    $("#readingList").append(data);
+                    $("#reading-list").empty(); // empty out the div first
+                    $("#reading-list").append(data);
                 }
             });
         }
         else {
-            $("#readingList").empty();  // empty out the div first
+            $("#reading-list").empty();  // empty out the div first
         }
     }
     /********************* end loadScreen ********************************/
@@ -70,9 +93,7 @@
     console.log("screenDisplay:" + screenDisplay)
     //TODO: Refactor
     $("#previousSite").click(function() {
-        console.log("In Previous Site");
-        console.log("screenDisplay:" + screenDisplay)
-        var url = $("#readingList").attr(screenDisplay);
+        var url = $("#reading-list").attr(screenDisplay);
         console.log("URL:" + url);
         var siteId = $("#id_site option:selected").prev().val();
         console.log("siteId:" + siteId);
@@ -92,13 +113,13 @@
                 'technician': technicianId // add the technician id to the GET parameters
             },
             success: function(data) { // `data` is the return of the `load_cities` view function
-                $("#readingList").empty();
+                $("#reading-list").empty();
                 $("#id_site").html(data); // replace the contents of the city input with the data that came from the server
             }
         });
     });
     $("#id_site").change(function() {
-        var url = $("#readingList").attr(screenDisplay);
+        var url = $("#reading-list").attr(screenDisplay);
         console.log("URL:" + url);
         var siteId = $(this).val();
         console.log("siteId:" + siteId);
@@ -108,7 +129,7 @@
         loadScreen(siteId, seasonId, url);
     });
     $("#id_season").change(function() {
-        var url = $("#readingList").attr(screenDisplay);
+        var url = $("#reading-list").attr(screenDisplay);
         console.log("URL:" + url);
         var siteId = $("#id_site").val();
         console.log("siteId:" + siteId);
@@ -118,9 +139,7 @@
         loadScreen(siteId, seasonId, url);
     });
     $("#nextSite").click(function() {
-        console.log("In Next Site");
-        console.log("screenDisplay:" + screenDisplay)
-        var url = $("#readingList").attr(screenDisplay);
+        var url = $("#reading-list").attr(screenDisplay);
         console.log("URL:" + url);
         var siteId = $("#id_site option:selected").next().val();
         console.log("siteId:" + siteId);
@@ -129,11 +148,16 @@
         $("#id_site").val(siteId);
         loadScreen(siteId, seasonId, url);
     });
-    $("#showGraph").click(function() {
-        console.log("In showGraph");
-        screenDisplay = "graph-url";
-        console.log("screenDisplay:" + screenDisplay)
-        var url = $("#readingList").attr(screenDisplay);
+    $("#show-graph").click(function() {
+        var url = $("#reading-list").attr(screenDisplay);
+        var siteId = $("#id_site").val();
+        var seasonId = $("#id_season").val();
+        $("#id_site").val(siteId);
+        loadScreen(siteId, seasonId, url);
+    });
+    $("#showReading").click(function() {
+        screenDisplay = "data-readings-url";
+        var url = $("#reading-list").attr(screenDisplay);
         console.log("URL:" + url);
         var siteId = $("#id_site").val();
         console.log("siteId:" + siteId);
@@ -142,18 +166,33 @@
         $("#id_site").val(siteId);
         loadScreen(siteId, seasonId, url);
     });
-    $("#showReading").click(function() {
-        console.log("In showReading");
-        screenDisplay = "data-readings-url";
-        console.log("screenDisplay:" + screenDisplay)
-        var url = $("#readingList").attr(screenDisplay);
-        console.log("URL:" + url);
+    $("#display-site-note").click(function() {
         var siteId = $("#id_site").val();
-        console.log("siteId:" + siteId);
-        var seasonId = $("#id_season").val();
-        console.log("Season:" + seasonId);
-        $("#id_site").val(siteId);
-        loadScreen(siteId, seasonId, url);
+        $.ajax({
+            url: "/ajax/process-site-note/",
+            data: {
+                'site': siteId
+            },
+            dataType: 'json',
+            success: function(result) {
+                $("textarea#site-note-text").val(result.comment);
+            }
+        });
+    });
+    $("#save-site-note").click(function() {
+        var siteId = $("#id_site").val();
+        var comment = $("#site-note-text").val();
+        $.ajax({
+            url: "/ajax/process-site-note/",
+            data: {
+                'site': siteId,
+                'comment': comment
+            },
+            dataType: 'json',
+            success: function(result) {
+                $("textarea#site-note-text").val(result.comment);
+            }
+        });
     });
 
 </script>
