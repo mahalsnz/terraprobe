@@ -36,7 +36,7 @@
     </div>
 </form>
 
-<div id="reading-list" data-readings-url="{% url 'ajax_load_site_readings' %}" graph-url="{% url 'ajax_load_graph' %}" >
+<div id="reading-list" data-readings-url="{% url 'ajax_load_site_readings' %}" graph-url="{% url 'ajax_load_graph' %}">
 
 </div>
 <!-- The Modal -->
@@ -149,7 +149,9 @@
         loadScreen(siteId, seasonId, url);
     });
     $("#show-graph").click(function() {
+        screenDisplay = "graph-url";
         var url = $("#reading-list").attr(screenDisplay);
+        console.log("URL:" + url);
         var siteId = $("#id_site").val();
         var seasonId = $("#id_season").val();
         $("#id_site").val(siteId);

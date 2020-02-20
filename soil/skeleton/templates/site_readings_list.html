@@ -1,118 +1,124 @@
 {% block content %}
 
 {% if readings %}
-    <div class="card">
-        <div class="card-body">
-            <section class="readings-wrapper">
-                <div class="readings-header">
-                    <div class="readings-column">
-                    <ul>
-                        <li>Type</li>
-                        <li>Date</li>
-                        <li>Depth 1</li>
-                        <li>Depth 2</li>
-                        <li>Depth 3</li>
-                        <li>Depth 4</li>
-                        <li>Depth 5</li>
-                        <li>Depth 6</li>
-                        <li>Depth 7</li>
-                        <li>Depth 8</li>
-                        <li>Depth 9</li>
-                        <li>Depth 10</li>
-                        <li>RZ1</li>
-                        <li>RZ2</li>
-                        <li>RZ3</li>
-                        <li>Deficit</li>
-                        <li>Probe DWU</li>
-                        <li>Estimated DWU</li>
-                        <li>Rain</li>
-                        <li>Meter</li>
-                        <li>Irrigation (L)</li>
-                        <li>Irrigation (mm)</li>
-                        <li>Effective Rain1</li>
-                        <li>Effective Rainfall</li>
-                        <li>efflrr1</li>
-                        <li>efflrr2</li>
-                        <li>Effective Irridation</li>
-                        <li>Comment</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="readings-values">
-                <div class="readings-column"></div>
-                    {% for reading in readings %}
-                        <div class="readings-column">
-                            <ul>
-                                <li>{{ reading.type }}</li>
-                                <li>{{ reading.date }}</li>
-                                <li>{{ reading.depth1 }}</li>
-                                <li>{{ reading.depth2 }}</li>
-                                <li>{{ reading.depth3 }}</li>
-                                <li>{{ reading.depth4 }}</li>
-                                <li>{{ reading.depth5 }}</li>
-                                <li>{{ reading.depth6 }}</li>
-                                <li>{{ reading.depth7 }}</li>
-                                <li>{{ reading.depth8 }}</li>
-                                <li>{{ reading.depth9 }}</li>
-                                <li>{{ reading.depth10 }}</li>
-                                <li>{{ reading.rz1 }}</li>
-                                <li>{{ reading.rz2 }}</li>
-                                <li>{{ reading.rz3 }}</li>
-                                <li>{{ reading.deficit }}</li>
-                                <li>{{ reading.probe_dwu }}</li>
-                                <li>{{ reading.estimated_dwu }}</li>
-                                <li>{{ reading.rain }}</li>
-                                <li>{{ reading.meter }}</li>
-                                <li>{{ reading.irrigation_litres }}</li>
-                                <li>{{ reading.irrigation_mms }}</li>
-                                <li>{{ reading.effective_rain_1 }}</li>
-                                <li>{{ reading.effective_rainfall }}</li>
-                                <li>{{ reading.efflrr1 }}</li>
-                                <li>{{ reading.efflrr2 }}</li>
-                                <li>{{ reading.effective_irrigation }}</li>
-                                <li>{{ reading.comment }}</li>
-                            </ul>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
-        </div>
+<table class="table" id="reading-table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Depth 1</th>
+            <th>Depth 2</th>
+            <th>Depth 3</th>
+            <th>Depth 4</th>
+            <th>Depth 5</th>
+            <th>Depth 6</th>
+            <th>Depth 7</th>
+            <th>Depth 8</th>
+            <th>Depth 9</th>
+            <th>Depth 10</th>
+            <th>RZ1</th>
+            <th>RZ2</th>
+            <th>RZ3</th>
+            <<th>Deficit</th>
+            <th>Probe DWU</th>
+            <th>Estimated DWU</th>
+            <th>Rain</th>
+            <th>Meter</th>
+            <th>Irrigation (L)</th>
+            <th>Irrigation (mm)</th>
+            <th>Effective Rain1</th>
+            <th>Effective Rainfall</th>
+            <th>efflrr1</th>
+            <th>efflrr2</th>
+            <th>Effective Irridation</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reading in readings %}
+        <tr>
+            <td>{{ reading.type }}</td>
+            <td>{{ reading.date }}</td>
+            <td>{{ reading.depth1|floatformat }}</td>
+            <td>{{ reading.depth2|floatformat }}</td>
+            <td>{{ reading.depth3|floatformat }}</td>
+            <td>{{ reading.depth4|floatformat }}</td>
+            <td>{{ reading.depth5|floatformat }}</td>
+            <td>{{ reading.depth6|floatformat }}</td>
+            <td>{{ reading.depth7|floatformat }}</td>
+            <td>{{ reading.depth8|floatformat }}</td>
+            <td>{{ reading.depth9|floatformat }}</td>
 
-        <div class="card-footer">
-            <div class="row">
-               <div class="col-sm-4">
-                   <b>Season to date totals:</b>
-               </div>
-               <div class="col-sm-4">
-                   Irrigation: {{ irrigation.irrigation_litres__sum }}
-               </div>
-               <div class="col-sm-4">
-                   Rainfall: {{ rainfall.rain__sum }}
-               </div>
-           </div>
+            <td>{{ reading.depth10|floatformat }}</td>
+
+            <td>{{ reading.rz1 }}</td>
+            <td>{{ reading.rz2 }}</td>
+            <td>{{ reading.rz3 }}</td>
+            <td>{{ reading.deficit }}</td>
+            <td>{{ reading.probe_dwu }}</td>
+            <td>{{ reading.estimated_dwu }}</td>
+            <td>{{ reading.rain }}</td>
+            <td>{{ reading.meter }}</td>
+            <td>{{ reading.irrigation_litres }}</td>
+            <td>{{ reading.irrigation_mms }}</td>
+            <td>{{ reading.effective_rain_1 }}</td>
+            <td>{{ reading.effective_rainfall }}</td>
+            <td>{{ reading.efflrr1 }}</td>
+            <td>{{ reading.efflrr2 }}</td>
+            <td>{{ reading.effective_irrigation }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="card-footer">
+    <div class="row">
+       <div class="col-sm-4">
+           <b>Season to date totals:</b>
+       </div>
+       <div class="col-sm-4">
+           Irrigation: {{ irrigation.irrigation_litres__sum }}
+       </div>
+       <div class="col-sm-4">
+           Rainfall: {{ rainfall.rain__sum }}
        </div>
    </div>
-   <h3>Make Recommendation</h3>
-   <label>Hours:</label>
-   <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Mon">
-        <input type="text" class="form-control" placeholder="Tue">
-        <input type="text" class="form-control" placeholder="Wed">
-        <input type="text" class="form-control" placeholder="Thu">
-        <input type="text" class="form-control" placeholder="Fri">
-        <input type="text" class="form-control" placeholder="Sat">
-        <input type="text" class="form-control" placeholder="Sun">
-    </div>
-    <div class="form-group">
-        <label for="recommendation">Recommendation:</label>
-        <textarea class="form-control" rows="5" id="recommendation">{{ comment }}</textarea>
-    </div>
-    <button type="submit" class="btn bg-green">Submit</button>
-    <br>
+</div>
+
+   <form method="post" id="reading-recommendations" data-recommendations-url="{% url 'ajax_reading_recommendations' %}" novalidate>
+       {% csrf_token %}
+       <h3>Make Recommendation</h3>
+       <label>Hours:</label>
+       <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Mon">
+            <input type="text" class="form-control" placeholder="Tue">
+            <input type="text" class="form-control" placeholder="Wed">
+            <input type="text" class="form-control" placeholder="Thu">
+            <input type="text" class="form-control" placeholder="Fri">
+            <input type="text" class="form-control" placeholder="Sat">
+            <input type="text" class="form-control" placeholder="Sun">
+        </div>
+        <div class="form-group">
+            <label for="recommendation">Recommendation:</label>
+            <textarea class="form-control" rows="5" id="recommendation">{{ comment }}</textarea>
+        </div>
+        <button type="button" class="btn bg-green" id="make-recommendation">Make Recommendation</button>
+    </form>
 {% else %}
     <p>No readings</p>
 {% endif %}
 
 <iframe id="widget-iframe" width="300px" height="195px"
  src="https://services.metservice.com/weather-widget/widget?params=blue|medium|portrait|days-3|classic&loc=hastings&type=urban" allowtransparency="true" style="border:none" />
+
+<script>
+$("#make-recommendation").click(function() {
+    var url = $("#reading-recommendations").attr('data-recommendations-url');
+});
+</script>
+<script>
+    $(document).ready(function() {
+    $('#reading-table').DataTable();
+} );
+</script>
+
 {% endblock content %}

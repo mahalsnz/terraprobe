@@ -39,6 +39,9 @@ TEMPLATES = {"select_crsf": "wizard/season_select.html",
     Handles ajax call to display or update site note from the main Readings screen
 '''
 
+def process_reading_recommendations(request):
+    return JsonResponse({ 'comment' : site.comment })
+
 def process_site_note(request):
     site_id = request.GET.get('site')
     comment = request.GET.get('comment')
@@ -61,6 +64,10 @@ class SeasonWizard(SessionWizardView):
             messages.error(self.request, "Error: " + str(e))
         return render(self.request, 'wizard/season_create_data.html', { 'form_data': form_data, 'success_data': success_data })
 
+'''
+    From Season Wizard
+'''
+
 def process_form_data(form_list, self):
     form_data = [form.cleaned_data for form in form_list]
     success_data = {}
@@ -80,10 +87,10 @@ def process_form_data(form_list, self):
     # create a couple of start and end critical date critical_date_types
     start_type = CriticalDateType.objects.get(name='Start')
     end_type = CriticalDateType.objects.get(name='End')
+    previous_season = get_previous_season(season)
 
     if form_data[1]['seasons_copy']:
         logger.debug('Copying Seasons')
-        previous_season = get_previous_season(season)
 
         for site in sites:
             dates = get_site_season_start_end(site, previous_season)
@@ -144,6 +151,24 @@ def process_form_data(form_list, self):
                 )
                 cd.save()
             success_data['site'].append(site)
+
+    if form_data[2]['types_copy']:
+        logger.debug('Copying Refill and Full Point Types')
+
+        # Use previous seasons start date as the reading date
+        for site in sites:
+            dates = get_site_season_start_end(site, previous_season)
+    else:
+        period_from = form_data[1]['period_from']
+        logger.debug('Creating Refill and Full Point Types for season ' + str(season) + ' with reading date of ' + str(period_from))
+        for site in sites:
+            reading = Reading(
+                site = site,
+                date = period_from,
+                type = 'Refill',
+                depth1 = form_data[2]['refill_depth1_value']
+            )
+            reading.save()
     return (form_data, success_data)
 
 @login_required
@@ -325,7 +350,7 @@ def load_site_readings(request):
             except:
                 raise Exception("No Season Start and End set up for site.")
 
-            readings = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('date')
+            readings = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-type','date')
             c = readings.filter().last()
             comment = c.comment
 
@@ -443,7 +468,7 @@ def handle_neutron_file(file_data, request):
             # If first reading for note, we need to get the date and create the key
             if reading_line[0] == "1":
                 # Get date part from first depth is fine. Comes in as DD/MM/YY American crap format before we get underscore time component
-                date_raw = str(reading_line[10])
+                date_raw = str(reading_line[11])
                 datefields = date_raw.split("_")
                 date = datefields[0]
                 date_object = datetime.strptime(date, '%m/%d/%y') # American
@@ -458,7 +483,7 @@ def handle_neutron_file(file_data, request):
                     logger.info("No Key does not exist:")
                     data[key] = []
 
-            readings.append(float(reading_line[6]))
+            readings.append(float(reading_line[7]))
         else:
             logger.info("Else not valid processing line!"  + line)
 
