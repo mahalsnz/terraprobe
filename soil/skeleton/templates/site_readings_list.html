@@ -1,7 +1,9 @@
+{% load static %}
 {% block content %}
 
 {% if readings %}
-<table class="table" id="reading-table">
+
+<table class="table table-striped table-bordered" id="reading-table">
     <thead>
         <tr>
             <th>Type</th>
@@ -19,7 +21,7 @@
             <th>RZ1</th>
             <th>RZ2</th>
             <th>RZ3</th>
-            <<th>Deficit</th>
+            <th>Deficit</th>
             <th>Probe DWU</th>
             <th>Estimated DWU</th>
             <th>Rain</th>
@@ -47,24 +49,22 @@
             <td>{{ reading.depth7|floatformat }}</td>
             <td>{{ reading.depth8|floatformat }}</td>
             <td>{{ reading.depth9|floatformat }}</td>
-
             <td>{{ reading.depth10|floatformat }}</td>
-
-            <td>{{ reading.rz1 }}</td>
-            <td>{{ reading.rz2 }}</td>
-            <td>{{ reading.rz3 }}</td>
-            <td>{{ reading.deficit }}</td>
-            <td>{{ reading.probe_dwu }}</td>
-            <td>{{ reading.estimated_dwu }}</td>
-            <td>{{ reading.rain }}</td>
-            <td>{{ reading.meter }}</td>
-            <td>{{ reading.irrigation_litres }}</td>
-            <td>{{ reading.irrigation_mms }}</td>
-            <td>{{ reading.effective_rain_1 }}</td>
-            <td>{{ reading.effective_rainfall }}</td>
-            <td>{{ reading.efflrr1 }}</td>
-            <td>{{ reading.efflrr2 }}</td>
-            <td>{{ reading.effective_irrigation }}</td>
+            <td>{{ reading.rz1|floatformat }}</td>
+            <td>{{ reading.rz2|floatformat }}</td>
+            <td>{{ reading.rz3|floatformat }}</td>
+            <td>{{ reading.deficit|floatformat }}</td>
+            <td>{{ reading.probe_dwu|floatformat }}</td>
+            <td>{{ reading.estimated_dwu|floatformat }}</td>
+            <td>{{ reading.rain|floatformat }}</td>
+            <td>{{ reading.meter|floatformat }}</td>
+            <td>{{ reading.irrigation_litres|floatformat }}</td>
+            <td>{{ reading.irrigation_mms|floatformat }}</td>
+            <td>{{ reading.effective_rain_1|floatformat }}</td>
+            <td>{{ reading.effective_rainfall|floatformat }}</td>
+            <td>{{ reading.efflrr1|floatformat }}</td>
+            <td>{{ reading.efflrr2|floatformat }}</td>
+            <td>{{ reading.effective_irrigation|floatformat }}</td>
         </tr>
         {% endfor %}
     </tbody>
@@ -83,6 +83,7 @@
        </div>
    </div>
 </div>
+
 
    <form method="post" id="reading-recommendations" data-recommendations-url="{% url 'ajax_reading_recommendations' %}" novalidate>
        {% csrf_token %}
@@ -117,7 +118,14 @@ $("#make-recommendation").click(function() {
 </script>
 <script>
     $(document).ready(function() {
-    $('#reading-table').DataTable();
+    $('#reading-table').DataTable({
+        "columnDefs": [
+            { "width": "100px", "targets": 1 }
+        ],
+        "paging":   false,
+        "scrollx": true,
+        "searching": false,
+    });
 } );
 </script>
 

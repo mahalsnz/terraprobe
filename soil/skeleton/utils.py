@@ -92,7 +92,7 @@ def get_site_season_start_end(site, season):
 '''
 
 def process_probe_data(readings, serial_unique_id, request):
-    logger.error("*** process_probe_data")
+    logger.info("*** process_probe_data")
 
     for key, site_info in readings.items():
         # Firstly we total up each site-dates readings
@@ -126,15 +126,15 @@ def process_probe_data(readings, serial_unique_id, request):
             host = request.get_host()
             headers = {'contentType': 'application/json'}
             url = 'http://' + host
-            logger.error("r: " + str(r))
+
             # If reading row already exist update otherwise insert
             if r:
                 url += '/api/reading/' + str(r[0].id) + '/'
-                logger.error("Ready to update:" + url + " data " + str(data))
+                logger.info("Ready to update:" + url + " data " + str(data))
                 r = requests.patch(url, headers=headers, data=data)
             else:
                 url += '/api/reading/'
-                logger.error("Ready to insert:" + url + " data " + str(data))
+                logger.info("Ready to insert:" + url + " data " + str(data))
                 r = requests.post(url, headers=headers, data=data)
             try:
                 r.raise_for_status()
@@ -143,7 +143,7 @@ def process_probe_data(readings, serial_unique_id, request):
                 raise Exception(r.text)
             data = {}
 
-    logger.error("Outside of Process Probe Data Loop:")
+    logger.info("Outside of Process Probe Data Loop:")
 
 '''
     Similar to process_probe_data but:
