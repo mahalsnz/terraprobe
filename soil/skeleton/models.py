@@ -82,50 +82,31 @@ class Farm(models.Model):
     def __str__(self):
         return self.name
 
-class Crop(models.Model):
-    # Main
+class Variety(models.Model):
     name = models.CharField(max_length=100, null=True)
-    report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
-    dwu_formaula = models.CharField(max_length=100, null=True, blank=True)
-    season_start = models.DateField(null=True, blank=True)
-    critical_label1 = models.CharField(max_length=100, null=True, blank=True)
-    critical_label2 = models.CharField(max_length=100, null=True, blank=True)
-    critical_label3 = models.CharField(max_length=100, null=True, blank=True)
-    critical_label4 = models.CharField(max_length=100, null=True, blank=True)
-    critical_label5 = models.CharField(max_length=100, null=True, blank=True)
-    critical_label6 = models.CharField(max_length=100, null=True, blank=True)
-    critical_date1 = models.DateField(null=True, blank=True)
-    critical_date2 = models.DateField(null=True, blank=True)
-    critical_date3 = models.DateField(null=True, blank=True)
-    critical_date4 = models.DateField(null=True, blank=True)
-    critical_date5 = models.DateField(null=True, blank=True)
-    critical_date6 = models.DateField(null=True, blank=True)
-    season_end = models.DateField(null=True, blank=True)
-
-    # irrigations
-    irrigation_method = models.IntegerField(choices=IRRIGATION_METHOD, default=1) # Drip
-    irrigation_area = models.FloatField(null=True, blank=True)
-    irrigation_time = models.FloatField(null=True, blank=True)
-    irrigation_delivered_volume = models.FloatField(null=True, blank=True)
-    irrigation_position = models.FloatField(null=True, blank=True, verbose_name="Monitoring position in")
-
-    irrigation_upper = models.CharField(max_length=200, null=True, blank=True)
-    irrigation_lower = models.CharField(max_length=200, null=True, blank=True)
-    irrigation_crop_factor = models.IntegerField(null=True, blank=True)
-    irrigation_deliver_factor = models.IntegerField(null=True, blank=True)
-    irrigation_yield = models.IntegerField(null=True, blank=True)
-
-    irrigation_drip_days = models.IntegerField(null=True, blank=True)
-    irrigation_row_space = models.IntegerField(null=True, blank=True)
-    irrigation_emit_space = models.IntegerField(null=True, blank=True)
-    irrigation_plant_space = models.IntegerField(null=True, blank=True)
-    irrigation_wet_width = models.IntegerField(null=True, blank=True)
+    comment = models.TextField(null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
 
     def __str__(self):
         return self.name
+
+class Crop(models.Model):
+    # Main
+    name = models.CharField(max_length=100, null=True)
+    variety = models.ForeignKey(Variety, null=True, blank=True, on_delete=models.CASCADE)
+    report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
+    dwu_formaula = models.CharField(max_length=100, null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+
+    def __str__(self):
+        return str(self.name) + ' - ' + str(self.variety)
+
+    class Meta:
+        unique_together = (('name', 'variety'))
 
 class Site(models.Model):
     # Main

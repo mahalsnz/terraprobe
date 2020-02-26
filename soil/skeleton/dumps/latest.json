@@ -82,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2020-01-23T21:39:12.091Z",
+    "last_login": "2020-02-10T20:41:24.593Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -189,6 +189,14 @@
 },
 {
   "model": "sessions.session",
+  "pk": "92vh7ehlmc06r9p697u8t3qu3553d91c",
+  "fields": {
+    "session_data": "MDU0MWQ4NjEyN2U1ZDFmMjE3ZWJmNjRmNjg1YjYwYTg0OGZkNGU5ZDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0Iiwid2l6YXJkX3NlYXNvbl93aXphcmQiOnsic3RlcCI6ImNyZWF0ZV9yZnByIiwic3RlcF9kYXRhIjp7InNlbGVjdF9jcnNmIjp7ImNzcmZtaWRkbGV3YXJldG9rZW4iOlsiVTJhWkRGazVoUUVpMk9LZUdwZXZWdFhVdnZpMFJIQXR5U3oyNTA4ekZaSEhzajQybVAyWlZjaFFab2twaHpkdyJdLCJzZWFzb25fd2l6YXJkLWN1cnJlbnRfc3RlcCI6WyJzZWxlY3RfY3JzZiJdLCJzZWxlY3RfY3JzZi1jcm9wIjpbIjIiLCI0IiwiMSIsIjMiXSwic2VsZWN0X2Nyc2YtcmVnaW9uIjpbIjEiXSwic2VsZWN0X2Nyc2Ytc2Vhc29uIjpbIjEiXX0sImNyZWF0ZV9zc2VmIjp7ImNzcmZtaWRkbGV3YXJldG9rZW4iOlsiRTl6S2JpZzVQa1M1WnpteFRjVHJoMVhEeVRPdG5XVHBpWllOREQ0emR0VnVwNEdsekNIVmhLaHoyTVFTTk93cyJdLCJzZWFzb25fd2l6YXJkLWN1cnJlbnRfc3RlcCI6WyJjcmVhdGVfc3NlZiJdLCJjcmVhdGVfc3NlZi1wZXJpb2RfZnJvbSI6WyIwMi8wOC8yMDIwIl0sImNyZWF0ZV9zc2VmLXBlcmlvZF90byI6WyIwMi8wOC8yMDIwIl19fSwic3RlcF9maWxlcyI6eyJzZWxlY3RfY3JzZiI6e30sImNyZWF0ZV9zc2VmIjp7fX0sImV4dHJhX2RhdGEiOnt9fX0=",
+    "expire_date": "2020-02-21T02:14:40.798Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "beffu2xip22qh1pea9vox3wlhl0vdt7w",
   "fields": {
     "session_data": "MDM0YTk5NzliZDExZjA1NjE0YzRkMGYxYTAxMTYxYTBjZjA0MjFjYTp7Il9hdXRoX3VzZXJfaWQiOiI1IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3OTNkZDI3M2NhZTA4NzY3NjhhNjVhYTlmZWRhMDVkMzA3YTg5MzdiIn0=",
@@ -229,6 +237,14 @@
 },
 {
   "model": "sessions.session",
+  "pk": "rhmpp2ccsnke8txphjwpkxrcjrfj8c2k",
+  "fields": {
+    "session_data": "ZTVmZmJjZmIzMDJmMzY3MjJkN2M2ZTk1OWIzZjA4MmU0NmI1N2E2OTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0Iiwid2l6YXJkX3NlYXNvbl93aXphcmQiOnsic3RlcCI6InNlbGVjdF9jcnNmIiwic3RlcF9kYXRhIjp7fSwic3RlcF9maWxlcyI6e30sImV4dHJhX2RhdGEiOnt9fX0=",
+    "expire_date": "2020-03-11T20:19:20.167Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "yioimdrv9rz241wf4904qzzmq3ihyihx",
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
@@ -241,6 +257,54 @@
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2019-12-15T21:14:51.154Z"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 1,
+  "fields": {
+    "description": "",
+    "document": "documents/Brendan_28120.csv"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 2,
+  "fields": {
+    "description": "",
+    "document": "documents/Brendan_28120_1jPoIKa.csv"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 3,
+  "fields": {
+    "description": "",
+    "document": "documents/neutron_probe_test_upload_1_site_zcHjgVs.csv"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 4,
+  "fields": {
+    "description": "",
+    "document": "documents/Brendan_28120_p4bFqtl.csv"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 5,
+  "fields": {
+    "description": "",
+    "document": "documents/Brendan_28120_1.csv"
+  }
+},
+{
+  "model": "skeleton.document",
+  "pk": 6,
+  "fields": {
+    "description": "",
+    "document": "documents/neutron_probe_test_upload_1_site_ihL0R9R.csv"
   }
 },
 {
@@ -376,42 +440,32 @@
   }
 },
 {
-  "model": "skeleton.crop",
+  "model": "skeleton.variety",
   "pk": 1,
   "fields": {
-    "name": "Grapes Pinot Noir",
-    "report": 1,
-    "dwu_formaula": null,
-    "season_start": null,
-    "critical_label1": null,
-    "critical_label2": null,
-    "critical_label3": null,
-    "critical_label4": null,
-    "critical_label5": null,
-    "critical_label6": null,
-    "critical_date1": null,
-    "critical_date2": null,
-    "critical_date3": null,
-    "critical_date4": null,
-    "critical_date5": null,
-    "critical_date6": null,
-    "season_end": null,
-    "irrigation_method": 1,
-    "irrigation_area": 0.0,
-    "irrigation_time": 1.0,
-    "irrigation_delivered_volume": 13.0,
-    "irrigation_position": 30.0,
-    "irrigation_upper": "formula?",
-    "irrigation_lower": "formula?",
-    "irrigation_crop_factor": 1,
-    "irrigation_deliver_factor": 0,
-    "irrigation_yield": null,
-    "irrigation_drip_days": 7,
-    "irrigation_row_space": 300,
-    "irrigation_emit_space": 40,
-    "irrigation_plant_space": 180,
-    "irrigation_wet_width": 300,
-    "created_date": "2019-06-24T23:33:38Z",
+    "name": "Envy",
+    "comment": "",
+    "created_date": "2020-02-26T20:11:08Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.variety",
+  "pk": 2,
+  "fields": {
+    "name": "Pacific Rose",
+    "comment": "",
+    "created_date": "2020-02-26T20:11:51Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.variety",
+  "pk": 3,
+  "fields": {
+    "name": "Fuji",
+    "comment": "",
+    "created_date": "2020-02-26T20:12:16Z",
     "created_by": 1
   }
 },
@@ -420,37 +474,9 @@
   "pk": 2,
   "fields": {
     "name": "Apples",
+    "variety": 1,
     "report": 1,
     "dwu_formaula": null,
-    "season_start": null,
-    "critical_label1": null,
-    "critical_label2": null,
-    "critical_label3": null,
-    "critical_label4": null,
-    "critical_label5": null,
-    "critical_label6": null,
-    "critical_date1": null,
-    "critical_date2": null,
-    "critical_date3": null,
-    "critical_date4": null,
-    "critical_date5": null,
-    "critical_date6": null,
-    "season_end": null,
-    "irrigation_method": 1,
-    "irrigation_area": 0.0,
-    "irrigation_time": null,
-    "irrigation_delivered_volume": 0.0,
-    "irrigation_position": 10.0,
-    "irrigation_upper": "FULL",
-    "irrigation_lower": "REFILL",
-    "irrigation_crop_factor": null,
-    "irrigation_deliver_factor": 0,
-    "irrigation_yield": null,
-    "irrigation_drip_days": 0,
-    "irrigation_row_space": 0,
-    "irrigation_emit_space": 0,
-    "irrigation_plant_space": 0,
-    "irrigation_wet_width": 0,
     "created_date": "2019-06-27T21:43:09Z",
     "created_by": 1
   }
@@ -460,37 +486,9 @@
   "pk": 3,
   "fields": {
     "name": "Kiwifruit",
+    "variety": null,
     "report": 1,
     "dwu_formaula": null,
-    "season_start": null,
-    "critical_label1": null,
-    "critical_label2": null,
-    "critical_label3": null,
-    "critical_label4": null,
-    "critical_label5": null,
-    "critical_label6": null,
-    "critical_date1": null,
-    "critical_date2": null,
-    "critical_date3": null,
-    "critical_date4": null,
-    "critical_date5": null,
-    "critical_date6": null,
-    "season_end": null,
-    "irrigation_method": 1,
-    "irrigation_area": null,
-    "irrigation_time": null,
-    "irrigation_delivered_volume": null,
-    "irrigation_position": null,
-    "irrigation_upper": null,
-    "irrigation_lower": null,
-    "irrigation_crop_factor": null,
-    "irrigation_deliver_factor": null,
-    "irrigation_yield": null,
-    "irrigation_drip_days": null,
-    "irrigation_row_space": null,
-    "irrigation_emit_space": null,
-    "irrigation_plant_space": null,
-    "irrigation_wet_width": null,
     "created_date": "2019-07-09T01:48:02Z",
     "created_by": 1
   }
@@ -500,38 +498,34 @@
   "pk": 4,
   "fields": {
     "name": "Grapes",
+    "variety": null,
     "report": 1,
     "dwu_formaula": null,
-    "season_start": null,
-    "critical_label1": null,
-    "critical_label2": null,
-    "critical_label3": null,
-    "critical_label4": null,
-    "critical_label5": null,
-    "critical_label6": null,
-    "critical_date1": null,
-    "critical_date2": null,
-    "critical_date3": null,
-    "critical_date4": null,
-    "critical_date5": null,
-    "critical_date6": null,
-    "season_end": null,
-    "irrigation_method": 1,
-    "irrigation_area": null,
-    "irrigation_time": null,
-    "irrigation_delivered_volume": null,
-    "irrigation_position": null,
-    "irrigation_upper": null,
-    "irrigation_lower": null,
-    "irrigation_crop_factor": null,
-    "irrigation_deliver_factor": null,
-    "irrigation_yield": null,
-    "irrigation_drip_days": null,
-    "irrigation_row_space": null,
-    "irrigation_emit_space": null,
-    "irrigation_plant_space": null,
-    "irrigation_wet_width": null,
     "created_date": "2019-07-09T01:48:35Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.crop",
+  "pk": 5,
+  "fields": {
+    "name": "Apples",
+    "variety": 2,
+    "report": null,
+    "dwu_formaula": null,
+    "created_date": "2020-02-26T20:11:46Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.crop",
+  "pk": 6,
+  "fields": {
+    "name": "Apples",
+    "variety": 3,
+    "report": null,
+    "dwu_formaula": null,
+    "created_date": "2020-02-26T20:12:12Z",
     "created_by": 1
   }
 },
@@ -648,7 +642,7 @@
     "wetted_width": 350,
     "delivery_time": 60,
     "area": 10.0,
-    "comment": null,
+    "comment": "asedf",
     "created_date": "2019-06-27T21:46:01Z",
     "created_by": 1
   }
@@ -707,7 +701,7 @@
     "wetted_width": 500,
     "delivery_time": 60,
     "area": 10.0,
-    "comment": null,
+    "comment": "asdfasdf",
     "created_date": "2019-06-30T21:53:59Z",
     "created_by": 1
   }
@@ -781,7 +775,7 @@
     "selected": null,
     "name": "Deer Block 3 Pacific Queen",
     "variety": "Pacific Queen",
-    "crop": 2,
+    "crop": 5,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -825,7 +819,7 @@
     "wetted_width": 500,
     "delivery_time": null,
     "area": null,
-    "comment": null,
+    "comment": "111",
     "created_date": "2019-11-18T22:27:09Z",
     "created_by": 1
   }
@@ -840,7 +834,7 @@
     "selected": null,
     "name": "Jazz",
     "variety": "Jazz",
-    "crop": 2,
+    "crop": 6,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -884,7 +878,7 @@
     "wetted_width": 340,
     "delivery_time": 3,
     "area": 10.0,
-    "comment": null,
+    "comment": "asdf",
     "created_date": "2019-12-01T21:42:25Z",
     "created_by": 1
   }
@@ -1121,6 +1115,32 @@
     "date": "2019-07-01",
     "comment": null,
     "created_date": "2019-12-01T21:47:57Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 15,
+  "fields": {
+    "site": 6,
+    "season": 2,
+    "type": 1,
+    "date": "2020-02-07",
+    "comment": null,
+    "created_date": "2020-02-13T19:50:44.327Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 16,
+  "fields": {
+    "site": 6,
+    "season": 2,
+    "type": 2,
+    "date": "2020-02-28",
+    "comment": null,
+    "created_date": "2020-02-13T19:50:44.366Z",
     "created_by": 1
   }
 },
@@ -4113,7 +4133,7 @@
     "deficit": null,
     "probe_dwu": null,
     "estimated_dwu": null,
-    "rain": 6.0,
+    "rain": 5.7,
     "meter": 6950.0,
     "irrigation_litres": null,
     "irrigation_mms": null,
@@ -4314,6 +4334,44 @@
     "effective_irrigation": null,
     "comment": "",
     "created_date": "2019-12-16T19:42:34Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.reading",
+  "pk": 73,
+  "fields": {
+    "site": 3,
+    "type": 1,
+    "date": "2019-08-23",
+    "depth1": 16110.6666666667,
+    "depth2": 15712.0,
+    "depth3": 15044.0,
+    "depth4": 14298.6666666667,
+    "depth5": 14458.6666666667,
+    "depth6": 14944.0,
+    "depth7": 14990.6666666667,
+    "depth8": 10982.6666666667,
+    "depth9": null,
+    "depth10": null,
+    "serial_number": 1,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": null,
+    "meter": null,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": null,
+    "created_date": "2020-02-20T19:36:51.144Z",
     "created_by": 1
   }
 },
@@ -7176,6 +7234,149 @@
     "object_repr": "Bay View",
     "action_flag": 1,
     "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 186,
+  "fields": {
+    "action_time": "2020-02-04T23:03:42.295Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "67",
+    "object_repr": "Pinot Noir Springstone:2019-05-21",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"rain\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 187,
+  "fields": {
+    "action_time": "2020-02-06T19:56:26.517Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"comment\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 188,
+  "fields": {
+    "action_time": "2020-02-26T20:11:12.459Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "1",
+    "object_repr": "Envy",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 189,
+  "fields": {
+    "action_time": "2020-02-26T20:11:57.796Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "2",
+    "object_repr": "Pacific Rose",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 190,
+  "fields": {
+    "action_time": "2020-02-26T20:12:02.216Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "5",
+    "object_repr": "Apples",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 191,
+  "fields": {
+    "action_time": "2020-02-26T20:12:20.231Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "3",
+    "object_repr": "Fuji",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 192,
+  "fields": {
+    "action_time": "2020-02-26T20:12:22.211Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "6",
+    "object_repr": "Apples",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 193,
+  "fields": {
+    "action_time": "2020-02-26T20:17:21.959Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "6",
+    "object_repr": "Jazz",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"crop\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 194,
+  "fields": {
+    "action_time": "2020-02-26T20:17:42.407Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "5",
+    "object_repr": "Deer Block 3 Pacific Queen",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"crop\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 195,
+  "fields": {
+    "action_time": "2020-02-26T20:18:07.368Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "2",
+    "object_repr": "Apples - Envy",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"variety\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 196,
+  "fields": {
+    "action_time": "2020-02-26T20:18:40.681Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "1",
+    "object_repr": "Grapes Pinot Noir - None",
+    "action_flag": 3,
+    "change_message": ""
   }
 }
 ]

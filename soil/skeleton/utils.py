@@ -100,11 +100,6 @@ def process_probe_data(readings, serial_unique_id, request):
         split_key = key.split(",")
 
         result = [statistics.mean(k) for k in zip(*site_info)]
-        print(str(result))
-
-        # Thirdly we reverse thate order of averaged_totals
-        #averaged_totals.reverse()
-        #print(averaged_totals)
 
         # create data object in the way we want
         data = {}
