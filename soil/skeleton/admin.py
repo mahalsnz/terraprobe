@@ -16,6 +16,7 @@ from .models import CriticalDateType
 from .models import CriticalDate, UserFullName
 from .models import SeasonStartEnd
 from .models import WeatherStation
+from .models import Variety
 
 class WeatherStationAdmin(admin.ModelAdmin):
     list_display = ('name', 'region', 'code')
@@ -48,12 +49,12 @@ class CalibrationAdmin(admin.ModelAdmin):
     list_display = ('serial_number', 'soil_type', 'period_from', 'period_to', 'slope', 'intercept')
 
 class FarmAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'weatherstation')
 
 class SiteAdmin(admin.ModelAdmin):
     list_display = ('site_number', 'name', 'farm', 'crop', 'technician')
     fieldsets = [
-        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'variety','crop','created_date', 'created_by']}),
+        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'variety','crop','comment','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
             'classes': ['collapse']}),
         ('Root Zones',  {'fields': ['rz1_top','rz1_bottom','rz2_top','rz2_bottom','rz3_top','rz3_bottom'], 'classes': ['collapse']}),
@@ -73,14 +74,7 @@ class SiteAdmin(admin.ModelAdmin):
     #.values('first_name','last_name')
 
 class CropAdmin(admin.ModelAdmin):
-    list_display = ['name']
-    fieldsets = [
-        ('Main',        {'fields': ['name', 'report','dwu_formaula', 'created_date', 'created_by']}),
-        ('Irrigations', {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position',
-                                    'irrigation_upper', 'irrigation_lower', 'irrigation_crop_factor', 'irrigation_deliver_factor', 'irrigation_yield',
-                                    'irrigation_drip_days', 'irrigation_row_space', 'irrigation_emit_space', 'irrigation_plant_space', 'irrigation_wet_width'],'classes': ['collapse']}),
-    ]
-    radio_fields = {'irrigation_method': admin.HORIZONTAL}
+    list_display = ['name', 'variety']
 
 class ProbeAdmin(admin.ModelAdmin):
     list_display = ['id', 'serial_number', 'comment']
@@ -111,3 +105,4 @@ admin.site.register(CriticalDateType, CriticalDateTypeAdmin)
 admin.site.register(CriticalDate, CriticalDateAdmin)
 admin.site.register(SeasonStartEnd, SeasonStartEndAdmin)
 admin.site.register(WeatherStation, WeatherStationAdmin)
+admin.site.register(Variety)
