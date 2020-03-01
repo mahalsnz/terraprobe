@@ -115,7 +115,6 @@ class Site(models.Model):
     technician = models.ForeignKey(User, related_name="technician_id", on_delete=models.CASCADE, default=1)
     selected = models.BooleanField(null=True) #???
     name = models.CharField(max_length=100, null=True)
-    variety = models.CharField(max_length=100, null=True, blank=True)
     crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
 

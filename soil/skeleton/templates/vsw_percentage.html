@@ -85,6 +85,9 @@
     <div class="col" id="area2"></div>
 </div>
 <script>
+var period_from = "{{ period_from }}";
+console.log('PF:' + period_from);
+
 var parseTime = d3.timeParse("%Y-%m-%d");
 
 // Now we will define our date comparison functions. These are callbacks
@@ -202,7 +205,7 @@ var seasons_refill_readings = []
 
 var season_grouping = [];
 vsw_count = 10; // delivered by vsw_reading api
-console.clear();
+
 d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(data) {
 
     //

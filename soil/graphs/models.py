@@ -9,7 +9,6 @@ class Farm(models.Model):
 
 class Site(models.Model):
     name = models.CharField(max_length=100, null=False)
-    variety = models.CharField(max_length=100, null=False)
 
     class Meta:
         managed = False
