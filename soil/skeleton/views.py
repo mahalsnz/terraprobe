@@ -305,7 +305,7 @@ def load_graph(request):
         season = Season.objects.get(id=season_id)
         dates = get_site_season_start_end(site, season)
 
-        readings = Reading.objects.filter(site=site.id, date__range=(dates.period_from, dates.period_to)).order_by('-date')
+        readings = Reading.objects.filter(site=site.id, type__name='Probe', date__range=(dates.period_from, dates.period_to)).order_by('-date')
         logger.info(str(readings))
         try:
             latest = readings[0].date

@@ -85,28 +85,19 @@
     <div class="col" id="area2"></div>
 </div>
 <script>
-var period_from = "{{ period_from }}";
-console.log('PF:' + period_from);
-
 var parseTime = d3.timeParse("%Y-%m-%d");
 
-// Now we will define our date comparison functions. These are callbacks
-// that we will be providing to the array sort method below.
-var date_sort_desc = function (date1, date2) {
-  // This is a comparison function that will result in dates being sorted in
-  // DESCENDING order.
-  if (date1 > date2) return -1;
-  if (date1 < date2) return 1;
-  return 0;
-};
-
-// assemble date submitted to page. Time does not matter
+// assemble reading date and previous reading date into this and last weeks dates javascript dates. Time does not matter
 // js is a bitch extract on '-' for date 25-03-2019
-var x = "{{ date }}"
-var split_date = x.split("-")
-console.log("da" + split_date)
-var submitted_date = new Date(split_date[2], split_date[1] - 1, split_date[0]).toDateString();
-console.log("***Submitted DATE:" + submitted_date);
+var date = "{{ date }}"
+var split_date = date.split("-")
+var this_week_date = new Date(split_date[2], split_date[1] - 1, split_date[0]).toDateString();
+console.log("***This week DATE:" + this_week_date);
+
+var previous = "{{ previous }}";
+var split_previous = previous.split("-");
+var last_week_date = new Date(split_previous[2], split_previous[1] - 1, split_previous[0]).toDateString();
+console.log('***Last Week DATE:' + last_week_date);
 
 // set the dimensions and margins of the weekly graph
 var margin = {top: 35, right: 30, bottom: 30, left: 40};
@@ -208,33 +199,6 @@ vsw_count = 10; // delivered by vsw_reading api
 
 d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(data) {
 
-    //
-    // Get an array of reading dates in descending order so we can get previous reading as well
-    //
-
-    var date_array = [];
-    data.forEach(function(reading) {
-
-        // Get the reading day.
-        var reading_date = new Date(reading.date);
-        console.log("***Reading DATE:" + reading_date);
-
-        // try and sort
-        date_array.push(reading_date);
-        date_array.sort(date_sort_desc);
-    });
-
-    // The two dates needed are the submitted date and the previous date
-    console.log("Date Arr:" + date_array);
-    var this_week_date;
-    var last_week_date;
-    for (i = 0; i <= date_array.length; i++) {
-        if (date_array[i].toDateString() == submitted_date) {
-            this_week_date = date_array[i].toDateString();
-            last_week_date = date_array[i + 1].toDateString(); // next date in array is last week (ish)
-            break
-        }
-    }
     console.log("This Week:" + this_week_date + " Last week:" + last_week_date);
     vsw_readings_date_array = []; // This is better to use for refill and full point full_point_readings
 
@@ -244,7 +208,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
         /* get seasons_vsw readings */
         if (reading.reading_type.name == "Probe") {
-
+            console.log('In Probe')
             for (index = 1; index <= vsw_count; index++) {
                 if (reading["vsw" + index] !== null) {
                     vsw_total = reading["vsw" + index] + vsw_total;
@@ -263,34 +227,31 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             });
 
             vsw_readings_date_array.push(parsed_date)
-            // console.log("***Season VSW Totals:" + reading_date + " " + vsw_total );
-        }
 
-        if (this_week_date == reading_date) {
-            for (index = 1; index <= vsw_count; index++) {
-                if (reading["depth" + index] !== null) {
-                    vsw_readings.push({
-                        'depth' : reading["depth" + index],
-                        'vsw' : reading["vsw" + index],
-                        'count' : reading["count" + index],
-                    })
-                } else {
-                    console.log("where null");
-                }
-            } // end for loop
-        }
+            if (this_week_date == reading_date) {
+                for (index = 1; index <= vsw_count; index++) {
+                    if (reading["depth" + index] !== null) {
+                        vsw_readings.push({
+                            'depth' : reading["depth" + index],
+                            'vsw' : reading["vsw" + index],
+                        })
+                    } else {
+                        console.log("where null");
+                    }
+                } // end for loop
+            }
 
-        // Get last weeks readings
-        if (last_week_date == reading_date) {
-            for (index = 1; index <= vsw_count; index++) {
-                if (reading["depth" + index] !== null) {
-                    previous_vsw_readings.push({
-                        'depth' : reading["depth" + index],
-                        'vsw' : reading["vsw" + index],
-                        'count' : reading["count" + index],
-                    })
-                }
-            } // end for loop
+            // Get last weeks readings
+            if (last_week_date == reading_date) {
+                for (index = 1; index <= vsw_count; index++) {
+                    if (reading["depth" + index] !== null) {
+                        previous_vsw_readings.push({
+                            'depth' : reading["depth" + index],
+                            'vsw' : reading["vsw" + index],
+                        })
+                    }
+                } // end for loop
+            }
         }
 
         // Get the Full Point and Refill - Weirdly these are the count not vsw figures
@@ -300,9 +261,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 if (reading["depth" + index] !== null) {
                     full_point_readings.push({
                         'depth' : reading["depth" + index],
-                        'vsw' : reading["count" + index],
+                        'vsw' : reading["vsw" + index],
                     });
-                    full_point_total += reading["count" + index];
+                    full_point_total += reading["vsw" + index];
                 }
             }
             // Seasons Full Point
@@ -320,9 +281,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 if (reading["depth" + index] !== null) {
                     refill_readings.push({
                         'depth' : reading["depth" + index],
-                        'vsw' : reading["count" + index],
+                        'vsw' : reading["vsw" + index],
                     });
-                    refill_total += reading["count" + index];
+                    refill_total += reading["vsw" + index];
                 }
             }
             // Seasons Refill
@@ -334,11 +295,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             }
         }
     });
-
-    //console.log(vsw_readings);
-    //console.log(seasons_vsw_readings);
-    console.log('Season Grouping');
-
 
     // Scale the range of the data
     x.domain([5, 50]);
