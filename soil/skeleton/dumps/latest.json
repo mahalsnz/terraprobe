@@ -82,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2020-02-10T20:41:24.593Z",
+    "last_login": "2020-03-05T20:39:01.584Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -169,6 +169,14 @@
     "date_joined": "2019-11-18T22:18:58Z",
     "groups": [],
     "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "1zm02pnslvhxzedpul0u4pqeuvoupbw9",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2020-03-19T20:39:01.593Z"
   }
 },
 {
@@ -350,6 +358,26 @@
   }
 },
 {
+  "model": "skeleton.season",
+  "pk": 1,
+  "fields": {
+    "name": "2018",
+    "current_flag": true,
+    "created_date": "2019-07-04T21:11:08Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.season",
+  "pk": 2,
+  "fields": {
+    "name": "2019",
+    "current_flag": false,
+    "created_date": "2019-11-18T03:58:13Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.weatherstation",
   "pk": 1,
   "fields": {
@@ -383,6 +411,50 @@
     "region": 1,
     "name": "Bay View",
     "code": "BAY"
+  }
+},
+{
+  "model": "skeleton.criticaldatetype",
+  "pk": 1,
+  "fields": {
+    "name": "Start",
+    "season_flag": true,
+    "comment": null,
+    "created_date": "2019-11-18T03:59:26Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldatetype",
+  "pk": 2,
+  "fields": {
+    "name": "End",
+    "season_flag": true,
+    "comment": null,
+    "created_date": "2019-11-18T03:59:41Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldatetype",
+  "pk": 3,
+  "fields": {
+    "name": "Bud Break",
+    "season_flag": false,
+    "comment": null,
+    "created_date": "2019-11-18T03:59:47Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldatetype",
+  "pk": 4,
+  "fields": {
+    "name": "Flowering",
+    "season_flag": false,
+    "comment": null,
+    "created_date": "2020-03-05T20:40:37Z",
+    "created_by": 1
   }
 },
 {
@@ -530,6 +602,91 @@
   }
 },
 {
+  "model": "skeleton.strategytype",
+  "pk": 1,
+  "fields": {
+    "name": "RocketHi",
+    "comment": "",
+    "created_date": "2020-03-05T20:39:29Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategytype",
+  "pk": 2,
+  "fields": {
+    "name": "RocketLow",
+    "comment": "",
+    "created_date": "2020-03-05T20:40:23Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 1,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 3,
+    "days": 0,
+    "percentage": 0.99,
+    "comment": "",
+    "created_date": "2020-03-05T20:43:03Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 2,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 3,
+    "days": 15,
+    "percentage": 0.99,
+    "comment": "",
+    "created_date": "2020-03-05T20:43:24Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 3,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": 0,
+    "percentage": 0.45,
+    "comment": "",
+    "created_date": "2020-03-05T22:17:28Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 4,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": -3,
+    "percentage": 0.56,
+    "comment": "",
+    "created_date": "2020-03-05T22:17:58Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 5,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": -5,
+    "percentage": 0.63,
+    "comment": "",
+    "created_date": "2020-03-05T22:18:25Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.site",
   "pk": 1,
   "fields": {
@@ -538,7 +695,6 @@
     "technician": 3,
     "selected": null,
     "name": "Pinot Noir Springstone",
-    "variety": "Grapes",
     "crop": 4,
     "report": null,
     "irrigation_method": 1,
@@ -575,7 +731,9 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 2,
+    "upper_strategy": null,
     "lower_limit": 3,
+    "lower_strategy": null,
     "emitter_rate": 55.0,
     "row_spacing": 500,
     "emitter_spacing": 500,
@@ -597,7 +755,6 @@
     "technician": 3,
     "selected": null,
     "name": "Sandpit Pink Lady 22 Notchwood side (no weed mat)",
-    "variety": "Pink Lady",
     "crop": 2,
     "report": null,
     "irrigation_method": 1,
@@ -634,7 +791,9 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 2,
+    "upper_strategy": null,
     "lower_limit": 3,
+    "lower_strategy": null,
     "emitter_rate": 30.0,
     "row_spacing": 350,
     "emitter_spacing": 260,
@@ -656,7 +815,6 @@
     "technician": 4,
     "selected": null,
     "name": "Smiley Pink Kiss",
-    "variety": "Pink Lady",
     "crop": 2,
     "report": null,
     "irrigation_method": 1,
@@ -693,7 +851,9 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 2,
+    "upper_strategy": null,
     "lower_limit": 3,
+    "lower_strategy": null,
     "emitter_rate": 55.0,
     "row_spacing": 500,
     "emitter_spacing": 500,
@@ -715,7 +875,6 @@
     "technician": 3,
     "selected": null,
     "name": "River 4 Pacific Rose",
-    "variety": "Pacific Rose",
     "crop": 2,
     "report": null,
     "irrigation_method": 1,
@@ -752,7 +911,9 @@
     "depth_he9": 9,
     "depth_he10": 10,
     "upper_limit": 3,
+    "upper_strategy": null,
     "lower_limit": 3,
+    "lower_strategy": null,
     "emitter_rate": 50.0,
     "row_spacing": 500,
     "emitter_spacing": 250,
@@ -774,7 +935,6 @@
     "technician": 3,
     "selected": null,
     "name": "Deer Block 3 Pacific Queen",
-    "variety": "Pacific Queen",
     "crop": 5,
     "report": null,
     "irrigation_method": 1,
@@ -811,7 +971,9 @@
     "depth_he9": 9,
     "depth_he10": 10,
     "upper_limit": 3,
+    "upper_strategy": null,
     "lower_limit": 3,
+    "lower_strategy": null,
     "emitter_rate": 47.0,
     "row_spacing": 500,
     "emitter_spacing": 250,
@@ -833,7 +995,6 @@
     "technician": 4,
     "selected": null,
     "name": "Jazz",
-    "variety": "Jazz",
     "crop": 6,
     "report": null,
     "irrigation_method": 1,
@@ -870,7 +1031,9 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 2,
+    "upper_strategy": null,
     "lower_limit": 3,
+    "lower_strategy": null,
     "emitter_rate": 30.0,
     "row_spacing": 340,
     "emitter_spacing": 240,
@@ -880,59 +1043,6 @@
     "area": 10.0,
     "comment": "asdf",
     "created_date": "2019-12-01T21:42:25Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.season",
-  "pk": 1,
-  "fields": {
-    "name": "2018",
-    "current_flag": true,
-    "created_date": "2019-07-04T21:11:08Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.season",
-  "pk": 2,
-  "fields": {
-    "name": "2019",
-    "current_flag": false,
-    "created_date": "2019-11-18T03:58:13Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.criticaldatetype",
-  "pk": 1,
-  "fields": {
-    "name": "Start",
-    "season_flag": true,
-    "comment": null,
-    "created_date": "2019-11-18T03:59:26Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.criticaldatetype",
-  "pk": 2,
-  "fields": {
-    "name": "End",
-    "season_flag": true,
-    "comment": null,
-    "created_date": "2019-11-18T03:59:41Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.criticaldatetype",
-  "pk": 3,
-  "fields": {
-    "name": "Bud Break",
-    "season_flag": false,
-    "comment": null,
-    "created_date": "2019-11-18T03:59:47Z",
     "created_by": 1
   }
 },
@@ -1141,6 +1251,32 @@
     "date": "2020-02-28",
     "comment": null,
     "created_date": "2020-02-13T19:50:44.366Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 17,
+  "fields": {
+    "site": 3,
+    "season": 1,
+    "type": 3,
+    "date": "2018-12-05",
+    "comment": null,
+    "created_date": "2020-03-05T20:41:15Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldate",
+  "pk": 18,
+  "fields": {
+    "site": 3,
+    "season": 1,
+    "type": 4,
+    "date": "2019-03-05",
+    "comment": null,
+    "created_date": "2020-03-05T20:41:54Z",
     "created_by": 1
   }
 },
@@ -7377,6 +7513,162 @@
     "object_repr": "Grapes Pinot Noir - None",
     "action_flag": 3,
     "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 197,
+  "fields": {
+    "action_time": "2020-03-05T20:40:23.832Z",
+    "user": 1,
+    "content_type": 32,
+    "object_id": "1",
+    "object_repr": "RocketHi",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 198,
+  "fields": {
+    "action_time": "2020-03-05T20:40:29.937Z",
+    "user": 1,
+    "content_type": 32,
+    "object_id": "2",
+    "object_repr": "RocketLow",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 199,
+  "fields": {
+    "action_time": "2020-03-05T20:40:57.437Z",
+    "user": 1,
+    "content_type": 27,
+    "object_id": "4",
+    "object_repr": "Flowering",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 200,
+  "fields": {
+    "action_time": "2020-03-05T20:41:49.069Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "17",
+    "object_repr": "Smiley Pink Kiss:2018-12-05",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 201,
+  "fields": {
+    "action_time": "2020-03-05T20:42:52.326Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "18",
+    "object_repr": "Smiley Pink Kiss:2019-03-05",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 202,
+  "fields": {
+    "action_time": "2020-03-05T20:43:20.803Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "1",
+    "object_repr": "RocketHi:Bud Break:0:0.5",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 203,
+  "fields": {
+    "action_time": "2020-03-05T20:43:34.380Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "2",
+    "object_repr": "RocketHi:Bud Break:34:0.6",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 204,
+  "fields": {
+    "action_time": "2020-03-05T22:17:06.892Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "2",
+    "object_repr": "RocketHi:Bud Break:15:0.99",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"days\", \"percentage\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 205,
+  "fields": {
+    "action_time": "2020-03-05T22:17:18.468Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "1",
+    "object_repr": "RocketHi:Bud Break:0:0.99",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"percentage\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 206,
+  "fields": {
+    "action_time": "2020-03-05T22:17:55.316Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "3",
+    "object_repr": "RocketHi:Flowering:0:0.45",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 207,
+  "fields": {
+    "action_time": "2020-03-05T22:18:12.353Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "4",
+    "object_repr": "RocketHi:Flowering:-3:0.56",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 208,
+  "fields": {
+    "action_time": "2020-03-05T22:18:44.190Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "5",
+    "object_repr": "RocketHi:Flowering:-5:0.63",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
   }
 }
 ]
