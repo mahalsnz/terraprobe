@@ -34,7 +34,7 @@ class ETReadingAdmin(admin.ModelAdmin):
     list_display = ('date', 'state', 'daily')
 
 class ReadingAdmin(admin.ModelAdmin):
-    list_display = ('site', 'type', 'date', 'serial_number', 'depth1')
+    list_display = ('site', 'type', 'date', 'serial_number', 'depth1', 'depth1_count')
 
 class ReadingTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'comment', 'formula')

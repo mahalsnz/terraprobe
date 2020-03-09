@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [('skeleton', '0016_season_current_flag')]
+    dependencies = [('skeleton', '0001_initial')]
 
     operations = [
         migrations.RunSQL(
