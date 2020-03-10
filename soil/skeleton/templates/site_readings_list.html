@@ -40,16 +40,56 @@
         <tr>
             <td>{{ reading.type }}</td>
             <td>{{ reading.date }}</td>
-            <td>{{ reading.depth1|floatformat }}</td>
-            <td>{{ reading.depth2|floatformat }}</td>
-            <td>{{ reading.depth3|floatformat }}</td>
-            <td>{{ reading.depth4|floatformat }}</td>
-            <td>{{ reading.depth5|floatformat }}</td>
-            <td>{{ reading.depth6|floatformat }}</td>
-            <td>{{ reading.depth7|floatformat }}</td>
-            <td>{{ reading.depth8|floatformat }}</td>
-            <td>{{ reading.depth9|floatformat }}</td>
-            <td>{{ reading.depth10|floatformat }}</td>
+            <td>{% if reading.type == 'Probe' %}
+                {{ reading.vsw1_perc|floatformat }}
+                {% else %}
+                {{ reading.vsw1|floatformat }}
+                {% endif %}</td>
+            <td>{% if reading.type == 'Probe' %}
+                {{ reading.vsw2_perc|floatformat }}
+                {% else %}
+                {{ reading.vsw2|floatformat }}
+                {% endif %}</td>
+            <td>{% if reading.type == 'Probe' %}
+                {{ reading.vsw3_perc|floatformat }}
+                {% else %}
+                {{ reading.vsw3|floatformat }}
+                {% endif %}</td>
+            <td>{% if reading.type == 'Probe' %}
+                {{ reading.vsw4_perc|floatformat }}
+                {% else %}
+                {{ reading.vsw4|floatformat }}
+                {% endif %}</td>
+            <td>{% if reading.type == 'Probe' %}
+                {{ reading.vsw5_perc|floatformat }}
+                {% else %}
+                {{ reading.vsw5|floatformat }}
+                {% endif %}</td>
+            <td>{% if reading.type == 'Probe' %}
+                {{ reading.vsw6_perc|floatformat }}
+                {% else %}
+                {{ reading.vsw6|floatformat }}
+                {% endif %}</td>
+            <td>{% if reading.type == 'Probe' %}
+                {{ reading.vsw7_perc|floatformat }}
+                {% else %}
+                {{ reading.vsw7|floatformat }}
+                {% endif %}</td>
+            <td>{% if reading.type == 'Probe' %}
+                {{ reading.vsw8_perc|floatformat }}
+                {% else %}
+                {{ reading.vsw8|floatformat }}
+                {% endif %}</td>
+            <td>{% if reading.type == 'Probe' %}
+                {{ reading.vsw9_perc|floatformat }}
+                {% else %}
+                {{ reading.vsw9|floatformat }}
+                {% endif %}</td>
+            <td>{% if reading.type == 'Probe' %}
+                {{ reading.vsw10_perc|floatformat }}
+                {% else %}
+                {{ reading.vsw10|floatformat }}
+                {% endif %}</td>
             <td>{{ reading.rz1|floatformat }}</td>
             <td>{{ reading.rz2|floatformat }}</td>
             <td>{{ reading.rz3|floatformat }}</td>

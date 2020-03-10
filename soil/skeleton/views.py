@@ -11,6 +11,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
 from django.db.models import Sum, Q
+from graphs.models import vsw_reading
 from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -350,7 +351,10 @@ def load_site_readings(request):
             except:
                 raise Exception("No Season Start and End set up for site.")
 
-            readings = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-type','date')
+            # Using the vsw_readings view in the graph app as it has all the calibrations applied
+            readings = vsw_reading.objects.filter(site_id=site_id, date__range=(dates.period_from, dates.period_to)).order_by('-reading_type_id','date')
+
+            # Get the last comment
             c = readings.filter().last()
             comment = c.comment
 

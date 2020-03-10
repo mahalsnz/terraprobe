@@ -22,18 +22,25 @@ class Migration(migrations.Migration):
                 zone1.id AS site_id,
                 zone1.farm_id,
                 zone1.crop_id,
+                zone1.type,
                 zone1.type_id AS reading_type_id,
 
                 zone1.rz1_top,
             	zone1.rz1_bottom,
             	zone1.rz1,
+                zone1.rz2,
+                zone1.rz3,
             	zone1.probe_dwu,
             	zone1.estimated_dwu,
+                zone1.deficit,
             	zone1.irrigation_litres,
             	zone1.irrigation_mms,
                 zone1.rain,
                 zone1.meter,
-
+                zone1.effective_rain_1,
+                zone1.effective_rainfall,
+                zone1.effective_irrigation,
+                zone1.comment,
             	zone1.depth1,
                 zone1.vsw1,
             	zone1.count1,
@@ -88,18 +95,26 @@ class Migration(migrations.Migration):
             	SELECT
             		skeleton_reading.date,
             		skeleton_site.id,
+                    skeleton_readingtype.name AS type,
             		skeleton_reading.type_id,
                     skeleton_site.farm_id,
                     skeleton_site.crop_id,
                     skeleton_site.rz1_top,
             		skeleton_site.rz1_bottom,
             		skeleton_reading.rz1,
+            		skeleton_reading.rz2,
+            		skeleton_reading.rz3,
             		skeleton_reading.probe_dwu,
             		skeleton_reading.estimated_dwu,
+            		skeleton_reading.deficit,
             		skeleton_reading.irrigation_litres,
             		skeleton_reading.irrigation_mms,
                     skeleton_reading.rain,
             		skeleton_reading.meter,
+            		skeleton_reading.effective_rain_1,
+                    skeleton_reading.effective_rainfall,
+                    skeleton_reading.effective_irrigation,
+            		skeleton_reading.comment,
             		skeleton_site.depth1,
             		skeleton_reading.depth1 AS vsw1,
                     skeleton_reading.depth1_count AS count1,
@@ -114,6 +129,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he1
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone1"
             ---------
             LEFT JOIN
