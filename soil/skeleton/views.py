@@ -426,8 +426,11 @@ def handle_file(f, request):
             handle_diviner_file(file_data, request)
         else:
             handle_prwin_file(file_data, request)
+
 '''
     handle_neutron_file
+
+    * Stores data in depthn_count field
 '''
 
 def handle_neutron_file(file_data, request):
@@ -493,10 +496,12 @@ def handle_neutron_file(file_data, request):
 
     data[key].append(readings) # Always insert last reading
     logger.info("Final Data submitted to process_probe_data:" + str(data))
-    process_probe_data(data, serial_number_id, request)
+    process_probe_data(data, serial_number_id, request, 'N')
 
 '''
     handle_diviner_file
+
+    * Stores data in depthn field
 '''
 
 def handle_diviner_file(file_data, request):
@@ -568,10 +573,12 @@ def handle_diviner_file(file_data, request):
             logger.info("Not a line to process:"  + line)
 
     logger.info("Final Data:" + str(data))
-    process_probe_data(data, serial_number_id, request)
+    process_probe_data(data, serial_number_id, request, 'D')
 
 '''
     handle_prwin_file
+
+    * Stores data in depthn field
 '''
 
 def handle_prwin_file(file_data, request):
@@ -663,5 +670,5 @@ def handle_prwin_file(file_data, request):
 
     #logger.info("Final Data:" + str(data))
     logger.info("irrir array" + str(irrigation_data))
-    process_probe_data(data, serial_number_id, request)
+    process_probe_data(data, serial_number_id, request, 'P')
     process_irrigation_data(irrigation_data, serial_number_id, request)
