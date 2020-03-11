@@ -21,22 +21,28 @@ class Command(BaseCommand):
         sites = Site.objects.all()
         rootzones = {}
         for site in sites:
+            logger.info('Processing Site ' + site.name)
             for z in range(1,4):
                 rootzone = 'rz' + str(z)
                 key = str(site.id) + rootzone
                 logger.debug("Key:" + key)
                 depth_array = []
                 rootzones[key] = []
-                for i in range(1,11):
-                    depth = getattr(site, 'depth' + str(i))
-                    if depth:
-                        top = getattr(site, rootzone + '_top')
-                        bottom = getattr(site, rootzone + '_bottom')
-                        if depth > top and depth < bottom:
-                            he = int(getattr(site, 'depth_he' + str(i)))
-                            depth_array.append(he)
-                    else:
-                        logger.debug('N')
+
+                top = getattr(site, rootzone + '_top')
+                bottom = getattr(site, rootzone + '_bottom')
+                logger.debug("Top:" + str(top) + ' Bottom:' + str(bottom))
+                if top != None and bottom != None:
+                    for i in range(1,11):
+                        column = 'depth' + str(i)
+                        depth = getattr(site, column)
+                        logger.debug(column + ' of site:' + str(depth))
+                        if depth:
+                            if depth > top and depth < bottom:
+                                he = int(getattr(site, 'depth_he' + str(i)))
+                                depth_array.append(he)
+                        else:
+                            logger.debug('No depth')
                 rootzones[key] = depth_array
         logger.debug(rootzones)
         logger.info('Finished site root zone map.....')
