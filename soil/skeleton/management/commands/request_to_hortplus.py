@@ -49,39 +49,47 @@ class Command(BaseCommand):
         else:
             readings = Reading.objects.select_related('site__farm__weatherstation').filter(rain__isnull=True, type=1)
             for reading in readings:
+                logger.debug('Reading object to process: ' + str(reading))
+                
+                # If a site has only one reading we cannot calculate the previous reading date. A try block is the only way to catch this
+                try:
+                    previous_reading = reading.get_previous_by_date(site=reading.site)
+                except:
+                    previous_reading = None
+                if previous_reading:
+                    site = reading.site
+                    farm = site.farm
+                    weatherstation = farm.weatherstation
 
-                site = reading.site
-                farm = site.farm
-                weatherstation = farm.weatherstation
+                    days = (reading.date  - previous_reading.date).days - 1
+                    logger.debug(previous_reading)
+                    logger.debug(days)
+                    startdate = previous_reading.date + timedelta(days=1)
+                    logger.debug('startdate' + str(startdate))
 
-                previous_reading = reading.get_previous_by_date(site=site)
-                days = (reading.date  - previous_reading.date).days - 1
-                logger.debug(previous_reading)
-                logger.debug(days)
-                startdate = previous_reading.date + timedelta(days=1)
-                logger.debug('startdate' + str(startdate))
+                    data = {
+                        'period': days,
+                        'startdate' : str(startdate),
+                        'format' : 'csv',
+                        'interval': 'D',
+                        'stations': weatherstation.code,
+                        'metvars' : 'RN_T'
+                    }
+                    response_text = post_request(data, serial)
 
-                data = {
-                    'period': days,
-                    'startdate' : str(startdate),
-                    'format' : 'csv',
-                    'interval': 'D',
-                    'stations': weatherstation.code,
-                    'metvars' : 'RN_T'
-                }
-                response_text = post_request(data, serial)
-
-                lines = response_text.split("\n")
-                del lines[0]
-                rainfall = 0
-                for line in lines:
-                    valid = re.search("^\w.*", line) # make sure we have a valid line to split
-                    if valid:
-                        fields = line.split(",")
-                        rainfall += float(fields[3])
-                        logger.debug(str(rainfall))
-                reading.rain = rainfall
-                reading.save()
+                    lines = response_text.split("\n")
+                    del lines[0]
+                    rainfall = 0
+                    for line in lines:
+                        valid = re.search("^\w.*", line) # make sure we have a valid line to split
+                        if valid:
+                            fields = line.split(",")
+                            rainfall += float(fields[3])
+                            logger.debug(str(rainfall))
+                    reading.rain = rainfall
+                    reading.save()
+                else:
+                    logger.debug('No previous reading for site so cannot calculate a rain reading')
 
 '''
     post_request
