@@ -121,11 +121,11 @@ var seasony1 = d3.scaleLinear().range([season_height, 0]);
 // The scale spacing the groups:
 var x0 = d3.scaleBand()
     .range([0, season_width])
-    .paddingInner(0.1);
+    .paddingInner(0.3);
 
 // The scale for spacing each group's bar:
 var x1 = d3.scaleBand()
-    .padding(0.05);
+    .padding(0.7);
 
 var z = d3.scaleOrdinal()
     .range(["red", "blue"]);
@@ -223,11 +223,11 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             season_grouping.push({
                 'dtg' : parsed_date,
                 'rain' : reading["rain"],
-                'irrigation_litres' : reading["irrigation_litres"],
+                'irrigation_mms' : reading["irrigation_mms"],
             });
 
             vsw_readings_date_array.push(parsed_date)
-
+            console.log('vsw_readings_date_array:' + vsw_readings_date_array)
             if (this_week_date == reading_date) {
                 for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
@@ -267,7 +267,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 }
             }
             // Seasons Full Point
-            for (index = 0; index <= vsw_readings_date_array.length; index++) {
+            for (index = 0; index < vsw_readings_date_array.length; index++) {
                 seasons_full_point_readings.push({
                     'date' : vsw_readings_date_array[index],
                     'total' : full_point_total,
@@ -287,7 +287,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 }
             }
             // Seasons Refill
-            for (index = 0; index <= vsw_readings_date_array.length; index++) {
+            for (index = 0; index < vsw_readings_date_array.length; index++) {
                 seasons_refill_readings.push({
                     'date' : vsw_readings_date_array[index],
                     'total' : refill_total,
@@ -301,7 +301,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     y.domain([d3.min(vsw_readings, function(r) { return r.depth - 5; }), d3.max(vsw_readings, function(r) { return r.depth + 5; })]);
 
     seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
-    seasony0.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 5; }), d3.max(seasons_vsw_readings, function(d) { return d.total + 5; })]);
+    seasony0.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 40; }), d3.max(seasons_full_point_readings, function(d) { return d.total + 10; })]);
     //seasony1.domain([d3.min(seasons_rain, function(d) { return d.rain - 5; }), d3.max(seasons_rain, function(d) { return d.rain + 5; })]);
 
     // Add the lines
@@ -315,12 +315,12 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .attr("class", "line")
         .attr("d", season_vswline0);
         console.log(season_grouping);
-        var keys = ['rain', 'irrigation_litres']
+        var keys = ['rain', 'irrigation_mms']
         console.log("keys:" + keys);
 
         x0.domain(season_grouping.map(function(d) { return d.dtg; }));
         x1.domain(keys).rangeRound([0, x0.bandwidth()]);
-        seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key]; }); })])
+        seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key] + 50; }); })])
 
         // append the rectangles for the bar chart
         season_graph.selectAll(".bar")

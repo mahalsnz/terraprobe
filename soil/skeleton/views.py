@@ -16,6 +16,7 @@ from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from formtools.wizard.views import SessionWizardView
+from django_tables2 import RequestConfig
 
 import re
 import requests
@@ -223,6 +224,7 @@ def report_home(request):
                         missing_sites |= missing_site # Some great magic to concatenate querysets together
 
                 sites = SiteMissingReadingTypesTable(missing_sites)
+                RequestConfig(request).configure(sites)
                 return render(request, "report_output.html", {
                     "title": "Sites Missing a Refill or Full Point Reading Type for Current Season",
                     "table": sites
