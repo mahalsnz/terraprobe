@@ -16,8 +16,7 @@ class Migration(migrations.Migration):
             CREATE OR REPLACE VIEW graphs_site AS
             SELECT
                 skeleton_site.id,
-            	skeleton_site.name,
-            	skeleton_site.variety
+            	skeleton_site.name
             FROM
             	skeleton_site;
 

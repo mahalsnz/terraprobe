@@ -1,5 +1,5 @@
 from django import forms
-from .models import Document, Reading, ReadingType, Season, Site, UserFullName, SiteDescription, Crop, CriticalDate, SeasonStartEnd
+from .models import Document, Reading, ReadingType, Season, Farm, Site, UserFullName, SiteDescription, Crop, CriticalDate, SeasonStartEnd
 from address.models import State
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
@@ -56,7 +56,8 @@ class DocumentForm(forms.ModelForm):
         fields = ['description', 'document']
 
 class SiteReadingsForm(forms.ModelForm):
-    #site = forms.ModelChoiceField(queryset=SiteDescription.objects.all(), widget=forms.Select().order_by('-site_number'))
+
+    farm = forms.ModelChoiceField(Farm.objects.all().order_by('-name'), widget=forms.Select())
     site = forms.ModelChoiceField(SiteDescription.objects.all().order_by('-site_number'), widget=forms.Select())
     technician = forms.ModelChoiceField(queryset=UserFullName.objects.filter(groups__name='Technician'), widget=forms.Select())
     season = forms.ModelChoiceField(Season.objects.all().order_by('-current_flag'), empty_label=None, widget=forms.Select()) # current season is at top

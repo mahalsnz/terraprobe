@@ -51,10 +51,29 @@ class Report(models.Model):
     def __str__(self):
         return self.name
 
+class Season(models.Model):
+    name = models.CharField(max_length=20, null=False)
+    current_flag = models.BooleanField(default=None, null=True, help_text="Is this the current season, only one season can be the current season")
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return self.name
+
 class WeatherStation(models.Model):
     region = models.ForeignKey('address.State', null=False, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
     code = models.CharField(max_length=4, null=True)
+
+    def __str__(self):
+        return self.name
+
+class CriticalDateType(models.Model):
+    name = models.CharField(max_length=50, null=False)
+    season_flag = models.BooleanField()
+    comment = models.CharField(max_length=200, null=True, blank=True)
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
 
     def __str__(self):
         return self.name
@@ -108,6 +127,33 @@ class Crop(models.Model):
     class Meta:
         unique_together = (('name', 'variety'))
 
+class StrategyType(models.Model):
+    name = models.CharField(max_length=50, null=False)
+    comment = models.TextField(null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+
+    def __str__(self):
+        return self.name
+
+class Strategy(models.Model):
+    type = models.ForeignKey(StrategyType, null=False, on_delete=models.CASCADE)
+    critical_date_type = models.ForeignKey(CriticalDateType, null=False, on_delete=models.CASCADE)
+    days = models.IntegerField(null=False, help_text="A positive or negative number indicated the amount of days away from that critical date.")
+    percentage = models.FloatField(null=False, help_text="A number beween 1 and 0 indicating the variation from the limit associated with the strategy.")
+    comment = models.TextField(null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+
+    def __str__(self):
+        type = str(self.type)
+        critical_date_type = str(self.critical_date_type)
+        days = str(self.days)
+        percentage = str(self.percentage)
+        return type + ":" + critical_date_type + ":" + days + ":" + percentage
+
 class Site(models.Model):
     # Main
     site_number = models.CharField(max_length=20, unique=True, null=False)
@@ -115,7 +161,6 @@ class Site(models.Model):
     technician = models.ForeignKey(User, related_name="technician_id", on_delete=models.CASCADE, default=1)
     selected = models.BooleanField(null=True) #???
     name = models.CharField(max_length=100, null=True)
-    variety = models.CharField(max_length=100, null=True, blank=True)
     crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
 
@@ -165,7 +210,9 @@ class Site(models.Model):
 
     #Scheduling
     upper_limit = models.ForeignKey(ReadingType, related_name="upper_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Upper line for Graph")
+    upper_strategy = models.ForeignKey(StrategyType, related_name="upper_strategy_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Strategy dictating deviance of Upper line for Graph")
     lower_limit = models.ForeignKey(ReadingType, related_name="lower_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Lower line for Graph")
+    lower_strategy = models.ForeignKey(StrategyType, related_name="lower_strategy_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Strategy dictating deviance of Lower line for Graph")
     emitter_rate = models.FloatField(null=True, blank=True)
     row_spacing = models.IntegerField(null=True, blank=True, verbose_name="Row Spacing (cm)")
     emitter_spacing = models.IntegerField(null=True, blank=True, verbose_name="Emitter Spacing (cm)")
@@ -178,33 +225,6 @@ class Site(models.Model):
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
-
-    def __str__(self):
-        return self.name
-
-# Combines Site name and number. A lot of sites are known by number
-class SiteDescription(Site):
-    class Meta:
-        proxy = True
-
-    def __str__(self):
-        return "(" + self.site_number + ") " + self.name
-
-class Season(models.Model):
-    name = models.CharField(max_length=20, null=False)
-    current_flag = models.BooleanField(default=None, null=True, help_text="Is this the current season, only one season can be the current season")
-    created_date = models.DateTimeField('date published', default=timezone.now)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
-
-    def __str__(self):
-        return self.name
-
-class CriticalDateType(models.Model):
-    name = models.CharField(max_length=50, null=False)
-    season_flag = models.BooleanField()
-    comment = models.CharField(max_length=200, null=True, blank=True)
-    created_date = models.DateTimeField('date published', default=timezone.now)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
 
     def __str__(self):
         return self.name
@@ -225,6 +245,14 @@ class CriticalDate(models.Model):
 
     class Meta:
         unique_together = (('site', 'season', 'type'))
+
+# Combines Site name and number. A lot of sites are known by number
+class SiteDescription(Site):
+    class Meta:
+        proxy = True
+
+    def __str__(self):
+        return "(" + self.site_number + ") " + self.name
 
 class SeasonStartEnd(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
@@ -296,16 +324,27 @@ class Reading(models.Model):
     type = models.ForeignKey(ReadingType, null=False, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now, null=False)
 
-    depth1 = models.FloatField(null=True, blank=True)
-    depth2 = models.FloatField(null=True, blank=True)
-    depth3 = models.FloatField(null=True, blank=True)
-    depth4 = models.FloatField(null=True, blank=True)
-    depth5 = models.FloatField(null=True, blank=True)
-    depth6 = models.FloatField(null=True, blank=True)
-    depth7 = models.FloatField(null=True, blank=True)
-    depth8 = models.FloatField(null=True, blank=True)
-    depth9 = models.FloatField(null=True, blank=True)
-    depth10 = models.FloatField(null=True, blank=True)
+    depth1 = models.FloatField(null=True, blank=True, verbose_name="Depth1 VSW/Normal")
+    depth2 = models.FloatField(null=True, blank=True, verbose_name="Depth1 VSW/Normal")
+    depth3 = models.FloatField(null=True, blank=True, verbose_name="Depth3 VSW/Normal")
+    depth4 = models.FloatField(null=True, blank=True, verbose_name="Depth4 VSW/Normal")
+    depth5 = models.FloatField(null=True, blank=True, verbose_name="Depth5 VSW/Normal")
+    depth6 = models.FloatField(null=True, blank=True, verbose_name="Depth6 VSW/Normal")
+    depth7 = models.FloatField(null=True, blank=True, verbose_name="Depth7 VSW/Normal")
+    depth8 = models.FloatField(null=True, blank=True, verbose_name="Depth8 VSW/Normal")
+    depth9 = models.FloatField(null=True, blank=True, verbose_name="Depth9 VSW/Normal")
+    depth10 = models.FloatField(null=True, blank=True, verbose_name="Depth10 VSW/Normal")
+
+    depth1_count = models.FloatField(null=True, blank=True)
+    depth2_count = models.FloatField(null=True, blank=True)
+    depth3_count = models.FloatField(null=True, blank=True)
+    depth4_count = models.FloatField(null=True, blank=True)
+    depth5_count = models.FloatField(null=True, blank=True)
+    depth6_count = models.FloatField(null=True, blank=True)
+    depth7_count = models.FloatField(null=True, blank=True)
+    depth8_count = models.FloatField(null=True, blank=True)
+    depth9_count = models.FloatField(null=True, blank=True)
+    depth10_count = models.FloatField(null=True, blank=True)
 
     serial_number = models.ForeignKey(Probe, null=True,  blank=True, on_delete=models.CASCADE)
 
@@ -337,7 +376,7 @@ class Reading(models.Model):
         return site_text + ':' + self.date.strftime('%Y-%m-%d')
 
     class Meta:
-        unique_together = (('date', 'site', 'type'))
+        unique_together = (('date', 'site'))
 
 '''
 These are crop coefficients (Kc) from .DWU files are daily water use data.

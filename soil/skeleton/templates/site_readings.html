@@ -8,33 +8,38 @@
 
 <form method="post" id="readingForm" data-sites-url="{% url 'ajax_load_sites' %}" novalidate>
     {% csrf_token %}
-    <div class="row selector">
-        <div class="col-sm-1">
-            <button type="button" class="btn bg-green" id="previousSite">Previous</button>
-        </div>
-        <div class="col-sm-3">
-            {{ form.site|as_crispy_field }}
-        </div>
-        <div class="col-sm-2">
-            {{ form.technician|as_crispy_field }}
-        </div>
-        <div class="col-sm-1">
-            {{ form.season|as_crispy_field }}
-        </div>
-        <div class="col-sm-1">
-            <button type="button" class="btn bg-green" id="nextSite">Next</button>
-        </div>
-        <div class="col-sm-1">
-            <button type="button" class="btn bg-green" id="showReading">Reading</button>
-        </div>
-        <div class="col-sm-1">
-            <button type="button" class="btn bg-green" id="show-graph">Graph</button>
-        </div>
-        <div class="col-sm-1">
-            <button type="button" class="btn bg-green" id="display-site-note" data-toggle="modal" data-target="#site-note-modal">+ Add note</button>
-        </div>
-        <div class="col-sm-1">
-            <button type="button" class="btn bg-green" id="reading-recommendation-note" data-toggle="modal" data-target="#reading-recommendation-modal">Recommendation</button>
+    <div class="container-sm">
+        <div class="row selector">
+            <div class="col-sm-1">
+                <button type="button" class="btn bg-green btn-sm" id="previousSite">Previous</button>
+            </div>
+            <div class="col-sm-2 form-control-sm">
+                {{ form.farm|as_crispy_field }}
+            </div>
+            <div class="col-sm-2 form-control-sm">
+                {{ form.site|as_crispy_field }}
+            </div>
+            <div class="col-sm-2 form-control-sm">
+                {{ form.technician|as_crispy_field }}
+            </div>
+            <div class="col-sm-1 form-control-sm">
+                {{ form.season|as_crispy_field }}
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn bg-green btn-sm" id="nextSite">Next</button>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn bg-green btn-sm" id="showReading">Reading</button>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn bg-green btn-sm" id="show-graph">Graph</button>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn bg-green btn-sm" id="display-site-note" data-toggle="modal" data-target="#site-note-modal">+ Add note</button>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn bg-green btn-sm" id="reading-recommendation-note" data-toggle="modal" data-target="#reading-recommendation-modal">Recommendation</button>
+            </div>
         </div>
     </div>
 </form>
@@ -66,7 +71,7 @@
 </div>
 
 <!-- The Reading Recommendation Modal -->
-<div class="modal" id="site-note-modal" >
+<div class="modal" id="reading-recommendation-modal" >
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -102,7 +107,7 @@
                 },
 
                 success: function(data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#reading-list").empty(); // empty out the div first
                     $("#reading-list").append(data);
                 }
@@ -127,15 +132,15 @@
         $("#id_site").val(siteId);
         loadScreen(siteId, seasonId, url);
     });
-    $("#id_technician").change(function() {
+    $("#id_farm").change(function() {
         var url = $("#readingForm").attr("data-sites-url");
         console.log("URL:" + url);
-        var technicianId = $(this).val();  // get the selected technician ID from the HTML input
-        console.log("technicianId:" + technicianId);
+        var farmId = $(this).val();  // get the selected technician ID from the HTML input
+        console.log("farmId:" + farmId);
         $.ajax({
             url: url,
             data: {
-                'technician': technicianId // add the technician id to the GET parameters
+                'farm': farmId // add the technician id to the GET parameters
             },
             success: function(data) { // `data` is the return of the `load_cities` view function
                 $("#reading-list").empty();
@@ -152,6 +157,22 @@
         console.log("seasonId:" + seasonId);
 
         loadScreen(siteId, seasonId, url);
+    });
+    $("#id_technician").change(function() {
+        var url = $("#readingForm").attr("data-sites-url");
+        console.log("URL:" + url);
+        var technicianId = $(this).val();  // get the selected technician ID from the HTML input
+        console.log("technicianId:" + technicianId);
+        $.ajax({
+            url: url,
+            data: {
+                'technician': technicianId // add the technician id to the GET parameters
+            },
+            success: function(data) { // `data` is the return of the `load_cities` view function
+                $("#reading-list").empty();
+                $("#id_site").html(data); // replace the contents of the city input with the data that came from the server
+            }
+        });
     });
     $("#id_season").change(function() {
         var url = $("#reading-list").attr(screenDisplay);

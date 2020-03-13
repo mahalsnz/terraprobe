@@ -64,7 +64,9 @@ def get_site_season_start_end(site, season):
 '''
     process_probe_data - Should be able to process data (readings dictionary) from both neutron and diviner probes
 
-    It expects structure of readings as below
+    (P)RWIN and (D)iviner file types store data in depthn field, (N)eutron in depthn_count field
+
+    It expects structure of readings as below:
 
     Key is site_number and date of reading in mm-dd-yyyy
     data = {
@@ -91,7 +93,7 @@ def get_site_season_start_end(site, season):
     }
 '''
 
-def process_probe_data(readings, serial_unique_id, request):
+def process_probe_data(readings, serial_unique_id, request, type):
     logger.info("*** process_probe_data")
 
     for key, site_info in readings.items():
@@ -114,7 +116,11 @@ def process_probe_data(readings, serial_unique_id, request):
         data['type'] = '1'
 
         for index in range(len(result)):
-            data['depth' + str(index + 1)] = result[index]
+            # Neutron goes into depthn_count
+            if type == 'N':
+                data['depth' + str(index + 1) + '_count'] = result[index]
+            else:
+                data['depth' + str(index + 1)] = result[index]
 
         if data:
             r = Reading.objects.filter(site=s.id, date=data['date'], type=1)

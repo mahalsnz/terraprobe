@@ -19,6 +19,7 @@ class Command(BaseCommand):
         sites = Site.objects.filter(readings__meter__isnull=False, readings__irrigation_litres__isnull=True, readings__type=1).distinct()
 
         for site in sites:
+            logger.info('Processing Site ' + site.name)
             dates = get_site_season_start_end(site, season)
 
             readings = Reading.objects.filter(site=site.id, type=1, date__range=(dates.period_from, dates.period_to)).order_by('-date')
@@ -43,6 +44,8 @@ class Command(BaseCommand):
                     previous_reading.save()
                 else:
                     logger.debug('No previous date.')
+                    if meter == None:
+                        raise Exception('No meter reading for latest reading date ' + str(date) + ' for site ' + site.name)
                 previous_date = date
                 previous_meter = meter
                 previous_reading = reading

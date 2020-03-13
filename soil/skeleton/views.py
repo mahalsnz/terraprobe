@@ -11,10 +11,12 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
 from django.db.models import Sum, Q
+from graphs.models import vsw_reading
 from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from formtools.wizard.views import SessionWizardView
+from django_tables2 import RequestConfig
 
 import re
 import requests
@@ -188,7 +190,6 @@ def index(request):
                 management.call_command('processall_readings')
             if button_clicked == 'load-rainfall':
                 management.call_command('request_to_hortplus')
-
         except Exception as e:
             messages.error(request, "Error: " + str(e))
         messages.success(request, "Successfully ran: " + str(button_clicked))
@@ -223,6 +224,7 @@ def report_home(request):
                         missing_sites |= missing_site # Some great magic to concatenate querysets together
 
                 sites = SiteMissingReadingTypesTable(missing_sites)
+                RequestConfig(request).configure(sites)
                 return render(request, "report_output.html", {
                     "title": "Sites Missing a Refill or Full Point Reading Type for Current Season",
                     "table": sites
@@ -305,7 +307,7 @@ def load_graph(request):
         season = Season.objects.get(id=season_id)
         dates = get_site_season_start_end(site, season)
 
-        readings = Reading.objects.filter(site=site.id, date__range=(dates.period_from, dates.period_to)).order_by('-date')
+        readings = Reading.objects.filter(site=site.id, type__name='Probe', date__range=(dates.period_from, dates.period_to)).order_by('-date')
         logger.info(str(readings))
         try:
             latest = readings[0].date
@@ -331,7 +333,8 @@ def load_graph(request):
 
 def load_sites(request):
     technician_id = request.GET.get('technician')
-    sites = Site.objects.filter(technician_id=technician_id).order_by('name')
+    farm_id = request.GET.get('farm')
+    sites = Site.objects.filter(Q(technician_id=technician_id)|Q(farm_id=farm_id)).order_by('name')
     return render(request, 'site_dropdown_list_options.html', {'sites':sites})
 
 def load_site_readings(request):
@@ -350,7 +353,10 @@ def load_site_readings(request):
             except:
                 raise Exception("No Season Start and End set up for site.")
 
-            readings = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-type','date')
+            # Using the vsw_readings view in the graph app as it has all the calibrations applied
+            readings = vsw_reading.objects.filter(site_id=site_id, date__range=(dates.period_from, dates.period_to)).order_by('-reading_type_id','date')
+
+            # Get the last comment
             c = readings.filter().last()
             comment = c.comment
 
@@ -422,8 +428,11 @@ def handle_file(f, request):
             handle_diviner_file(file_data, request)
         else:
             handle_prwin_file(file_data, request)
+
 '''
     handle_neutron_file
+
+    * Stores data in depthn_count field
 '''
 
 def handle_neutron_file(file_data, request):
@@ -489,10 +498,12 @@ def handle_neutron_file(file_data, request):
 
     data[key].append(readings) # Always insert last reading
     logger.info("Final Data submitted to process_probe_data:" + str(data))
-    process_probe_data(data, serial_number_id, request)
+    process_probe_data(data, serial_number_id, request, 'N')
 
 '''
     handle_diviner_file
+
+    * Stores data in depthn field
 '''
 
 def handle_diviner_file(file_data, request):
@@ -564,10 +575,12 @@ def handle_diviner_file(file_data, request):
             logger.info("Not a line to process:"  + line)
 
     logger.info("Final Data:" + str(data))
-    process_probe_data(data, serial_number_id, request)
+    process_probe_data(data, serial_number_id, request, 'D')
 
 '''
     handle_prwin_file
+
+    * Stores data in depthn field
 '''
 
 def handle_prwin_file(file_data, request):
@@ -659,5 +672,5 @@ def handle_prwin_file(file_data, request):
 
     #logger.info("Final Data:" + str(data))
     logger.info("irrir array" + str(irrigation_data))
-    process_probe_data(data, serial_number_id, request)
+    process_probe_data(data, serial_number_id, request, 'P')
     process_irrigation_data(irrigation_data, serial_number_id, request)
