@@ -33,16 +33,40 @@ class Command(BaseCommand):
                 bottom = getattr(site, rootzone + '_bottom')
                 logger.debug("Top:" + str(top) + ' Bottom:' + str(bottom))
                 if top != None and bottom != None:
+                    seen_depth_in_bottom = False
+                    first_no_depth = False
+                    first_no_depth_value = 0
+                    first_no_depth_he = 0
                     for i in range(1,11):
+                        depths_key = {}
                         column = 'depth' + str(i)
                         depth = getattr(site, column)
-                        logger.debug(column + ' of site:' + str(depth))
+
                         if depth:
                             if depth > top and depth < bottom:
+                                logger.debug(column + ' of site:' + str(depth))
                                 he = int(getattr(site, 'depth_he' + str(i)))
-                                depth_array.append(he)
+                                depths_key = { 'depth' : depth, 'he' : he }
+                                depth_array.append(depths_key)
+                            if bottom == depth:
+                                logger.debug(column + ' of site:' + str(depth))
+                                logger.debug('Bottom equals a depth figure for this rootzone')
+                                seen_depth_in_bottom = True
+                            if not seen_depth_in_bottom and depth > bottom:
+                                logger.debug('Depth greater than Bottom and not seen_depth_in_bottom')
+                                logger.debug(column + ' of site:' + str(depth))
+                                he = int(getattr(site, 'depth_he' + str(i)))
+                                depths_key = { 'depth' : depth, 'he' : he }
+                                depth_array.append(depths_key)
+                                break
                         else:
-                            logger.debug('No depth')
+                            logger.debug('No depth for column ' + column)
+                            first_no_depth = True
+
+                    # We have an exception here where we just add it to the depth_array
+                    if not seen_depth_in_bottom:
+                        depths_key = { 'depth' : bottom, 'he' : 0 }
+                        depth_array.append(depths_key)
                 rootzones[key] = depth_array
         logger.debug(rootzones)
         logger.info('Finished site root zone map.....')
@@ -65,13 +89,49 @@ class Command(BaseCommand):
                     required_depths = rootzones[key]
                     logger.debug("Required Depths:" + str(required_depths))
                     total = 0
-                    for depth in required_depths:
-                        column = 'vsw' + str(depth) + '_perc'
-                        vsw = getattr(reading, column)
+                    previous_vsw = 0
+                    previous_he = 0
+                    running_depth = 0
+                    for depths_key in required_depths:
+                        he = depths_key['he']
+                        depth = depths_key['depth']
+                        logger.debug("Reading He:" + str(he) + ' Depth:' + str(depth) + ' preious he ' + str(previous_he))
 
-                        logger.debug("VSW reading for depth " + str(depth) + ' is ' + str(vsw))
-                        if vsw:
+                        # he can be zero if we are requiring a half for final reading
+                        if he:
+                            column = 'vsw' + str(he) + '_perc'
+
+                            vsw = getattr(reading, column)
+
+                            logger.debug("VSW reading for depth " + str(depth) + ' is ' + str(vsw))
+                            if vsw:
+                                # We no have some wierd rules. 1. If running depth is 0 and first depth is 20 add half of vsw to total
+                                if depth == 20 and running_depth == 0:
+                                    logger.debug("In running depth is 0 and first depth is 20")
+                                    half = vsw / 2
+                                    logger.debug("Adding " + str(half) + ' for interpoloated depth 10')
+                                    total += half
+                                #  2. If depth minus running depth equals 20 add together previous vsw with present vsw then divide by 2
+                                elif (depth - running_depth) == 20:
+                                    logger.debug("depth minus running depth equals 20")
+                                    average = (previous_vsw + vsw) / 2
+                                    logger.debug("Adding " + str(average) + ' for interpoloated depth ' + str(depth - 10))
+                                    total += average
                             total += vsw
+                            previous_vsw = vsw
+                            previous_he = he
+                            running_depth = depth
+                        else:
+                            logger.debug('In else ' + str(previous_he))
+                            # We have the last interpolated value. We need the two previous values
+                            column1 = 'vsw' + str(previous_he) + '_perc'
+                            column2 = 'vsw' + str(previous_he - 1) + '_perc'
+                            vsw1 = getattr(reading, column1)
+                            vsw2 = getattr(reading, column2)
+
+                            average = (vsw1 + vsw2) / 2
+                            logger.debug("Adding " + str(average) + ' for interpoloated depth ' + str(depth))
+                            total += average
 
                     logger.info('Updating ' + rootzone + ' to ' + str(total) + ' for ' + site.name + ' on ' + str(reading.date))
 

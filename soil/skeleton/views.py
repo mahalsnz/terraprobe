@@ -20,6 +20,7 @@ from django_tables2 import RequestConfig
 
 import re
 import requests
+import calendar
 
 from .tables import SiteDatesTable, SiteMissingReadingTypesTable
 
@@ -41,8 +42,26 @@ TEMPLATES = {"select_crsf": "wizard/season_select.html",
     Handles ajax call to display or update site note from the main Readings screen
 '''
 
-def process_reading_recommendations(request):
-    return JsonResponse({ 'comment' : site.comment })
+def process_reading_recommendation(request):
+    site_id = request.GET.get('site')
+    comment = request.GET.get('comment')
+
+    reading = Reading.objects.filter(site=site_id, type=1).latest('date')
+
+    week_start = reading.date.weekday() + 1
+
+    week_start_abbr = calendar.day_abbr[week_start]
+    week_values = {}
+    for day in list(calendar.day_abbr):
+        day_value = getattr(reading, 'rec_' + day)
+        week_values[day] = day_value
+        logger.debug(day_value)
+
+    logger.debug('Day of week to start:' + str(week_start_abbr) + ' values ' + str(week_values)) # Monday is zero
+    if comment:
+        reading.comment = comment
+        reading.save()
+    return JsonResponse({ 'comment' : reading.comment, 'week_start': week_start_abbr, 'values' : week_values })
 
 def process_site_note(request):
     site_id = request.GET.get('site')

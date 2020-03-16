@@ -22,8 +22,9 @@ class ReadingType(models.Model):
         db_table = "graphs_readingtype"
 
 class vsw_reading(models.Model):
+    reading_id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
-    site = models.ForeignKey(Site, primary_key=True, on_delete=models.CASCADE)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
     type = models.TextField()

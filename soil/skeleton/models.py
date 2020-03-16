@@ -367,6 +367,14 @@ class Reading(models.Model):
     effective_irrigation = models.FloatField(null=True, blank=True, help_text="keydata 9")
 
     comment = models.TextField(null=True, blank=True)
+    # list(calendar.day_abbr) ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    rec_Mon = models.IntegerField(null=True, blank=True)
+    rec_Tue = models.IntegerField(null=True, blank=True)
+    rec_Wed = models.IntegerField(null=True, blank=True)
+    rec_Thu = models.IntegerField(null=True, blank=True)
+    rec_Fri = models.IntegerField(null=True, blank=True)
+    rec_Sat = models.IntegerField(null=True, blank=True)
+    rec_Sun = models.IntegerField(null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)

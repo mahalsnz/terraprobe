@@ -41,5 +41,5 @@ urlpatterns = [
     path('ajax/load-site-readings/', views.load_site_readings, name='ajax_load_site_readings'),
     path('ajax/load-graph/', views.load_graph, name='ajax_load_graph'),
     path('ajax/process-site-note/', views.process_site_note, name='ajax_process_site_note'),
-    path('ajax/process-reading-recommendations/', views.process_reading_recommendations, name='ajax_reading_recommendations'),
+    path('ajax/process-reading-recommendation/', views.process_reading_recommendation, name='ajax_process_reading_recommendation'),
 ]

@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
             -- skeleton_reading.date < COALESCE(skeleton_calibration.period_to, now()))
             CREATE OR REPLACE VIEW graphs_vsw AS
             SELECT
+                zone1.reading_id,
             	zone1.date,
                 zone1.id AS site_id,
                 zone1.farm_id,
@@ -93,6 +94,7 @@ class Migration(migrations.Migration):
             FROM
             (
             	SELECT
+                    skeleton_reading.id AS reading_id,
             		skeleton_reading.date,
             		skeleton_site.id,
                     skeleton_readingtype.name AS type,

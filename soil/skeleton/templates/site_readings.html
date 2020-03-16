@@ -38,7 +38,7 @@
                 <button type="button" class="btn bg-green btn-sm" id="display-site-note" data-toggle="modal" data-target="#site-note-modal">+ Add note</button>
             </div>
             <div class="col-sm-1">
-                <button type="button" class="btn bg-green btn-sm" id="reading-recommendation-note" data-toggle="modal" data-target="#reading-recommendation-modal">Recommendation</button>
+                <button type="button" class="btn bg-green btn-sm" id="display-reading-recommendation" data-toggle="modal" data-target="#reading-recommendation-modal">Recommendation</button>
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@
         </div>
 
         <div class="modal-body">
-            <textarea class="form-control col-m-12" id="site-note-text"></textarea>
+            <textarea class="form-control form-control-md" id="site-note-text"></textarea>
         </div>
 
         <!-- Modal footer -->
@@ -72,7 +72,7 @@
 
 <!-- The Reading Recommendation Modal -->
 <div class="modal" id="reading-recommendation-modal" >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
 
         <div class="modal-header bg-green">
@@ -81,12 +81,33 @@
         </div>
 
         <div class="modal-body">
-            <textarea class="form-control col-m-12" id="site-note-text"></textarea>
+            <textarea class="form-control form-control-md" rows="7" id="reading-recommendation-text"></textarea>
+            <label>Hours:</label>
+            <div id='week-day-labels'>
+                <label for="Mon">Mon</label>
+                <label for="Tue">Tue</label>
+                <label for="Wed">Wed</label>
+                <label for="Thu">Thu</label>
+                <label for="Fri">Fri</label>
+                <label for="Sat">Sat</label>
+                <label for="Sun">Sun</label>
+            </div>
+            <div id='week-days' class="input-group">
+
+                    <input type="text" class="form-control" id="Mon" placeholder="Mon">
+
+                <input type="text" class="form-control" id="Tue" placeholder="Tue">
+                <input type="text" class="form-control" id="Wed" placeholder="Wed">
+                <input type="text" class="form-control" id="Thu" placeholder="Thu">
+                <input type="text" class="form-control" id="Fri" placeholder="Fri">
+                <input type="text" class="form-control" id="Sat" placeholder="Sat">
+                <input type="text" class="form-control" id="Sun" placeholder="Sun">
+             </div>
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="submit" class="btn bg-green" id="save-site-note" data-dismiss="modal">Submit</button>
+          <button type="submit" class="btn bg-green" id="save-reading-recommendation" data-dismiss="modal">Submit</button>
         </div>
 
       </div>
@@ -240,6 +261,63 @@
             dataType: 'json',
             success: function(result) {
                 $("textarea#site-note-text").val(result.comment);
+            }
+        });
+    });
+    $("#display-reading-recommendation").click(function() {
+        var siteId = $("#id_site").val();
+        console.log("SiteID:" + siteId);
+        $.ajax({
+            url: "/ajax/process-reading-recommendation/",
+            data: {
+                'site': siteId
+            },
+            dataType: 'json',
+            success: function(result) {
+                function reorder(data, index) {
+                    return data.slice(index).concat(data.slice(0, index));
+                }
+
+                $("textarea#reading-recommendation-text").val(result.comment);
+                console.log(result.values['Mon']);
+
+                $("input#Mon").val(result.values['Mon']);
+                $("input#Tue").val(result.values['Tue']);
+                $("input#Wed").val(result.values['Wed']);
+                $("input#Thu").val(result.values['Thu']);
+                $("input#Fri").val(result.values['Fri']);
+                $("input#Sat").val(result.values['Sat']);
+                $("input#Sun").val(result.values['Sun']);
+
+                wrapper = $('#week-days');
+
+                var days_input = wrapper.children();
+                console.log(days_input)
+                arr = [0,1,2,3,4,5,6];
+                arr = reorder(arr, 2)
+
+                wrapper.append( $.map(arr, function(v){ return days_input[v] }) );
+                wrapper = $('#week-day-labels');
+                var days_label = wrapper.children();
+                wrapper.append( $.map(arr, function(v){ return days_label[v] }) );
+
+            }
+        });
+    });
+    $("#save-reading-recommendation").click(function() {
+        var siteId = $("#id_site").val();
+        var comment = $("#reading-recommendation-text").val();
+        $.ajax({
+            url: "/ajax/process-reading-recommendation/",
+            data: {
+                'site': siteId,
+                'comment': comment,
+
+            },
+            dataType: 'json',
+            success: function(result) {
+                console.log('Result' + result);
+                $("textarea#reading-recommendation-text").val(result.comment);
             }
         });
     });
