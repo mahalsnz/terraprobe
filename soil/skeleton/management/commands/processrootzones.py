@@ -32,7 +32,7 @@ class Command(BaseCommand):
                 top = getattr(site, rootzone + '_top')
                 bottom = getattr(site, rootzone + '_bottom')
                 logger.debug("Top:" + str(top) + ' Bottom:' + str(bottom))
-                if top != None and bottom != None:
+                if top == 0 and bottom > 0:
                     seen_depth_in_bottom = False
                     first_no_depth = False
                     first_no_depth_value = 0
@@ -46,17 +46,20 @@ class Command(BaseCommand):
                             if depth > top and depth < bottom:
                                 logger.debug(column + ' of site:' + str(depth))
                                 he = int(getattr(site, 'depth_he' + str(i)))
-                                depths_key = { 'depth' : depth, 'he' : he }
+                                depths_key = { 'depth' : depth, 'he' : he, 'rz_bottom' : bottom }
                                 depth_array.append(depths_key)
                             if bottom == depth:
                                 logger.debug(column + ' of site:' + str(depth))
                                 logger.debug('Bottom equals a depth figure for this rootzone')
+                                he = int(getattr(site, 'depth_he' + str(i)))
+                                depths_key = { 'depth' : depth, 'he' : he, 'rz_bottom' : bottom  }
+                                depth_array.append(depths_key)
                                 seen_depth_in_bottom = True
                             if not seen_depth_in_bottom and depth > bottom:
                                 logger.debug('Depth greater than Bottom and not seen_depth_in_bottom')
                                 logger.debug(column + ' of site:' + str(depth))
                                 he = int(getattr(site, 'depth_he' + str(i)))
-                                depths_key = { 'depth' : depth, 'he' : he }
+                                depths_key = { 'depth' : depth, 'he' : he, 'rz_bottom' : bottom  }
                                 depth_array.append(depths_key)
                                 break
                         else:
@@ -65,7 +68,7 @@ class Command(BaseCommand):
 
                     # We have an exception here where we just add it to the depth_array
                     if not seen_depth_in_bottom:
-                        depths_key = { 'depth' : bottom, 'he' : 0 }
+                        depths_key = { 'depth' : bottom, 'he' : 0, 'rz_bottom' : bottom  }
                         depth_array.append(depths_key)
                 rootzones[key] = depth_array
         logger.debug(rootzones)
@@ -73,15 +76,16 @@ class Command(BaseCommand):
 
         logger.info('Starting update of empty root zone readings for current season (all reading types).....')
         season = get_current_season()
-        sites = Site.objects.filter(Q(readings__rz1__isnull=True)|Q(readings__rz2__isnull=True)|Q(readings__rz3__isnull=True),).distinct()
+        sites = Site.objects.filter().distinct()
         for site in sites:
             dates = get_site_season_start_end(site, season)
 
             # Using the vsw_readings view in the graph app as it has all the calibrations applied
+            #readings = vsw_reading.objects.filter(Q(rz1__isnull=True)|Q(rz2__isnull=True)|Q(rz3__isnull=True), site_id=site.id, date__range=(dates.period_from, dates.period_to)).order_by('date')
             readings = vsw_reading.objects.filter(site_id=site.id, date__range=(dates.period_from, dates.period_to)).order_by('date')
-
             for reading in readings:
                 # find rootzones in map for site and rz
+                logger.debug("Reading Date: " + str(reading.date) + " Type: " + reading.type)
                 for z in range(1,4):
                     rootzone = 'rz' + str(z)
                     key = str(reading.site_id) + rootzone
@@ -95,6 +99,7 @@ class Command(BaseCommand):
                     for depths_key in required_depths:
                         he = depths_key['he']
                         depth = depths_key['depth']
+                        bottom = depths_key['rz_bottom']
                         logger.debug("Reading He:" + str(he) + ' Depth:' + str(depth) + ' preious he ' + str(previous_he))
 
                         # he can be zero if we are requiring a half for final reading
@@ -114,13 +119,23 @@ class Command(BaseCommand):
                                 #  2. If depth minus running depth equals 20 add together previous vsw with present vsw then divide by 2
                                 elif (depth - running_depth) == 20:
                                     logger.debug("depth minus running depth equals 20")
+                                    logger.debug("previous_vsw:" + str(previous_vsw) + "vsw:" + str(vsw))
                                     average = (previous_vsw + vsw) / 2
                                     logger.debug("Adding " + str(average) + ' for interpoloated depth ' + str(depth - 10))
                                     total += average
-                            total += vsw
-                            previous_vsw = vsw
-                            previous_he = he
-                            running_depth = depth
+                                if depth < bottom:
+                                    logger.debug("Adding VSW " + str(vsw) + " for depth " + str(depth))
+                                    total += vsw
+
+                                else:
+                                    # We half the depth figure that is above the Bottom
+                                    half = vsw / 2
+                                    logger.debug("Adding half of VSW " + str(half) + " for depth " + str(depth) + ' as this depth is greater than bottom of ' + str(bottom))
+                                    total += half
+                                previous_vsw = vsw
+                                previous_he = he
+                                running_depth = depth
+                        '''
                         else:
                             logger.debug('In else ' + str(previous_he))
                             # We have the last interpolated value. We need the two previous values
@@ -132,7 +147,7 @@ class Command(BaseCommand):
                             average = (vsw1 + vsw2) / 2
                             logger.debug("Adding " + str(average) + ' for interpoloated depth ' + str(depth))
                             total += average
-
+                        '''
                     logger.info('Updating ' + rootzone + ' to ' + str(total) + ' for ' + site.name + ' on ' + str(reading.date))
 
                     # Need to get a Reading object to update as we cannot update vsw_readings as it is a view

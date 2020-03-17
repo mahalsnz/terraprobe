@@ -82,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2020-03-05T20:39:01.584Z",
+    "last_login": "2020-03-17T19:13:54.220Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -209,6 +209,14 @@
   "fields": {
     "session_data": "MDM0YTk5NzliZDExZjA1NjE0YzRkMGYxYTAxMTYxYTBjZjA0MjFjYTp7Il9hdXRoX3VzZXJfaWQiOiI1IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3OTNkZDI3M2NhZTA4NzY3NjhhNjVhYTlmZWRhMDVkMzA3YTg5MzdiIn0=",
     "expire_date": "2019-12-02T22:19:42.267Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "fp6ai1c9vaypmyfim1g5wcp1umkuyw6z",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2020-03-31T19:13:54.228Z"
   }
 },
 {
@@ -709,7 +717,7 @@
     "rz2_top": 0,
     "rz2_bottom": 70,
     "rz3_top": 0,
-    "rz3_bottom": 45,
+    "rz3_bottom": 40,
     "depth1": 20,
     "depth2": 30,
     "depth3": 40,
@@ -741,7 +749,7 @@
     "wetted_width": 500,
     "delivery_time": 60,
     "area": 10.0,
-    "comment": null,
+    "comment": "",
     "created_date": "2019-06-24T23:53:03Z",
     "created_by": 1
   }
@@ -889,7 +897,7 @@
     "rz2_top": 0,
     "rz2_bottom": 70,
     "rz3_top": 0,
-    "rz3_bottom": 45,
+    "rz3_bottom": 40,
     "depth1": 10,
     "depth2": 20,
     "depth3": 30,
@@ -921,7 +929,7 @@
     "wetted_width": 500,
     "delivery_time": null,
     "area": null,
-    "comment": null,
+    "comment": "",
     "created_date": "2019-11-18T22:24:21Z",
     "created_by": 1
   }
@@ -949,7 +957,7 @@
     "rz2_top": 0,
     "rz2_bottom": 30,
     "rz3_top": 0,
-    "rz3_bottom": 75,
+    "rz3_bottom": 70,
     "depth1": 10,
     "depth2": 20,
     "depth3": 30,
@@ -1009,7 +1017,7 @@
     "rz2_top": 0,
     "rz2_bottom": 20,
     "rz3_top": 0,
-    "rz3_bottom": 45,
+    "rz3_bottom": 40,
     "depth1": 10,
     "depth2": 20,
     "depth3": 30,
@@ -1615,7 +1623,7 @@
     "soil_type": 2,
     "period_from": "2010-08-08",
     "period_to": null,
-    "slope": 0.0,
+    "slope": 1.0,
     "intercept": 0.0,
     "created_date": "2019-08-08T22:28:32Z",
     "created_by": 1
@@ -1629,7 +1637,7 @@
     "soil_type": 3,
     "period_from": "2010-08-08",
     "period_to": null,
-    "slope": 0.0,
+    "slope": 1.0,
     "intercept": 0.0,
     "created_date": "2019-08-08T22:28:48Z",
     "created_by": 1
@@ -1643,7 +1651,7 @@
     "soil_type": 4,
     "period_from": "2010-08-08",
     "period_to": null,
-    "slope": 0.0,
+    "slope": 1.0,
     "intercept": 0.0,
     "created_date": "2019-08-08T22:29:25Z",
     "created_by": 1
@@ -1657,7 +1665,7 @@
     "soil_type": 5,
     "period_from": "2010-08-08",
     "period_to": null,
-    "slope": 0.0,
+    "slope": 1.0,
     "intercept": 0.0,
     "created_date": "2019-08-08T22:29:41Z",
     "created_by": 1
@@ -1671,7 +1679,7 @@
     "soil_type": 6,
     "period_from": "2010-08-08",
     "period_to": null,
-    "slope": 0.0,
+    "slope": 1.0,
     "intercept": 0.0,
     "created_date": "2019-08-08T22:29:57Z",
     "created_by": 1
@@ -1685,7 +1693,7 @@
     "soil_type": 7,
     "period_from": "2010-08-08",
     "period_to": null,
-    "slope": 0.0,
+    "slope": 1.0,
     "intercept": 0.0,
     "created_date": "2019-08-08T22:30:12Z",
     "created_by": 1
@@ -1699,7 +1707,7 @@
     "soil_type": 8,
     "period_from": "2019-08-08",
     "period_to": null,
-    "slope": 0.0,
+    "slope": 1.0,
     "intercept": 0.0,
     "created_date": "2019-08-08T22:30:32Z",
     "created_by": 1
@@ -1713,7 +1721,7 @@
     "soil_type": 9,
     "period_from": "2010-08-08",
     "period_to": null,
-    "slope": 0.0,
+    "slope": 1.0,
     "intercept": 0.0,
     "created_date": "2019-08-08T22:30:50Z",
     "created_by": 1
@@ -1917,6 +1925,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-25T00:05:01Z",
     "created_by": 1
   }
@@ -1949,9 +1964,9 @@
     "depth9_count": null,
     "depth10_count": null,
     "serial_number": 3,
-    "rz1": 159.401825,
-    "rz2": 159.401825,
-    "rz3": 0.0,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
     "deficit": null,
     "probe_dwu": null,
     "estimated_dwu": null,
@@ -1965,6 +1980,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T19:03:38Z",
     "created_by": 1
   }
@@ -1997,9 +2019,9 @@
     "depth9_count": null,
     "depth10_count": null,
     "serial_number": 1,
-    "rz1": 118.1945801,
-    "rz2": 118.1945801,
-    "rz3": 0.0,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
     "deficit": 41.20723724,
     "probe_dwu": null,
     "estimated_dwu": 1.563016415,
@@ -2013,6 +2035,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T19:08:02Z",
     "created_by": 1
   }
@@ -2045,9 +2074,9 @@
     "depth9_count": null,
     "depth10_count": null,
     "serial_number": 1,
-    "rz1": 115.611824,
-    "rz2": 115.611824,
-    "rz3": 0.0,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
     "deficit": 43.79000092,
     "probe_dwu": 1.444873214,
     "estimated_dwu": 1.737292767,
@@ -2061,6 +2090,13 @@
     "efflrr2": 4.329670429,
     "effective_irrigation": 4.329670429,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T19:42:39Z",
     "created_by": 1
   }
@@ -2093,9 +2129,9 @@
     "depth9_count": null,
     "depth10_count": null,
     "serial_number": 1,
-    "rz1": 144.4781799,
-    "rz2": 144.4781799,
-    "rz3": 0.0,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
     "deficit": 14.9236412,
     "probe_dwu": -0.9982612729,
     "estimated_dwu": 1.627228856,
@@ -2109,6 +2145,13 @@
     "efflrr2": 21.86813164,
     "effective_irrigation": 21.86813164,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T19:44:44Z",
     "created_by": 1
   }
@@ -2141,9 +2184,9 @@
     "depth9_count": null,
     "depth10_count": null,
     "serial_number": 1,
-    "rz1": 174.7702789,
-    "rz2": 174.7702789,
-    "rz3": 0.0,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
     "deficit": -15.36846256,
     "probe_dwu": -0.7261304259,
     "estimated_dwu": 2.156591177,
@@ -2157,6 +2200,13 @@
     "efflrr2": 20.21977997,
     "effective_irrigation": 20.21977997,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t Tues Wed\t2hr Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T19:52:53Z",
     "created_by": 1
   }
@@ -2189,9 +2239,9 @@
     "depth9_count": null,
     "depth10_count": null,
     "serial_number": 1,
-    "rz1": 165.6452026,
-    "rz2": 165.6452026,
-    "rz3": 0.0,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
     "deficit": -6.243375301,
     "probe_dwu": 1.2952317,
     "estimated_dwu": 2.078241587,
@@ -2205,6 +2255,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Thurs Fri\t2hr Sat Sun Mon Tues\t2hr Wed \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T19:55:08Z",
     "created_by": 1
   }
@@ -2237,9 +2294,9 @@
     "depth9_count": null,
     "depth10_count": null,
     "serial_number": 1,
-    "rz1": 172.9837646,
-    "rz2": 172.9837646,
-    "rz3": 0.0,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
     "deficit": -13.5819397,
     "probe_dwu": -0.856210351,
     "estimated_dwu": 2.53285718,
@@ -2253,6 +2310,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Thurs Fri\t2hr Sat Sun Mon Tues\t2hr Wed Rain forecast- adjust as required\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T19:57:04Z",
     "created_by": 1
   }
@@ -2285,9 +2349,9 @@
     "depth9_count": null,
     "depth10_count": null,
     "serial_number": 1,
-    "rz1": 154.123291,
-    "rz2": 154.123291,
-    "rz3": 0.0,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
     "deficit": 5.278525352,
     "probe_dwu": 2.724899054,
     "estimated_dwu": 2.865350962,
@@ -2301,6 +2365,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Thurs Fri\t2hr Sat Sun Mon Tues\t2hr Wed \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T19:58:48Z",
     "created_by": 1
   }
@@ -2349,6 +2420,13 @@
     "efflrr2": 0.06593406945,
     "effective_irrigation": 0.06593406945,
     "comment": "\"Irrigation recommendation Thurs Fri\t2hr Sat Sun\t2hr Mon Tues\t2hr Wed \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:02:53Z",
     "created_by": 1
   }
@@ -2397,6 +2475,13 @@
     "efflrr2": 10.50549412,
     "effective_irrigation": 10.50549412,
     "comment": "\"Irrigation recommendation Fri\t2hr Sat Sun Mon\t2hr Tues Wed Thurs\t2hr\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:06:02Z",
     "created_by": 1
   }
@@ -2445,6 +2530,13 @@
     "efflrr2": 2.923076868,
     "effective_irrigation": 2.923076868,
     "comment": "\"Irrigation recommendation Fri\t3hr Sat Sun Mon\t3hr Tues Wed Thurs\t3hr\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:07:54Z",
     "created_by": 1
   }
@@ -2493,6 +2585,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri\t2hr Sat Sun\t2hr Mon\t Tues\t2hr Wed Thurs\t2hr\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:09:32Z",
     "created_by": 1
   }
@@ -2541,6 +2640,13 @@
     "efflrr2": 7.076922894,
     "effective_irrigation": 7.076922894,
     "comment": "\"Irrigation recommendation Fri\t Sat Sun\t Mon\t Tues\t2hr Wed Thurs\t2hr\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:11:05Z",
     "created_by": 1
   }
@@ -2589,6 +2695,13 @@
     "efflrr2": 7.450549603,
     "effective_irrigation": 7.450549603,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:12:41Z",
     "created_by": 1
   }
@@ -2637,6 +2750,13 @@
     "efflrr2": 9.472527504,
     "effective_irrigation": 9.472527504,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:14:21Z",
     "created_by": 1
   }
@@ -2685,6 +2805,13 @@
     "efflrr2": 7.780219555,
     "effective_irrigation": 7.780219555,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:15:58Z",
     "created_by": 1
   }
@@ -2733,6 +2860,13 @@
     "efflrr2": 20.98901176,
     "effective_irrigation": 20.98901176,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:17:44Z",
     "created_by": 1
   }
@@ -2781,6 +2915,13 @@
     "efflrr2": 21.20879173,
     "effective_irrigation": 21.20879173,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t Adjust for forecast rain if required\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:19:28Z",
     "created_by": 1
   }
@@ -2829,6 +2970,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:21:11Z",
     "created_by": 1
   }
@@ -2877,6 +3025,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:27:07Z",
     "created_by": 1
   }
@@ -2925,6 +3080,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t2hr Tues\t Wed\t2hr Thurs\t Some rain forecast\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:28:29Z",
     "created_by": 1
   }
@@ -2973,6 +3135,13 @@
     "efflrr2": 12.65934086,
     "effective_irrigation": 12.65934086,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:29:53Z",
     "created_by": 1
   }
@@ -3021,6 +3190,13 @@
     "efflrr2": 2.373626471,
     "effective_irrigation": 2.373626471,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t Rain forecast- adjust as required\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:31:33Z",
     "created_by": 1
   }
@@ -3069,6 +3245,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t Rain forecast- adjust as required\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:33:13Z",
     "created_by": 1
   }
@@ -3117,6 +3300,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t Rain forecast- adjust as required\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:34:32Z",
     "created_by": 1
   }
@@ -3165,6 +3355,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:35:50Z",
     "created_by": 1
   }
@@ -3213,6 +3410,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:37:31Z",
     "created_by": 1
   }
@@ -3261,6 +3465,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri\t Sat\t2hr Sun\t Mon\t Tues\t Wed\t2hr Thurs\t \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:39:16Z",
     "created_by": 1
   }
@@ -3309,6 +3520,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"No irrigation recommended \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:40:33Z",
     "created_by": 1
   }
@@ -3357,6 +3575,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Final reading next week Harvested Fortnightly Post harvest readings until end of May Bring soil moisture level back up towards field capacity prior to leaf fall Postharvest Irrigation Recommendation  Apply (13mm) 1 x 4hr per week to raise soil moisture levels  Adjust as required for significant rainfall.\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:42:15Z",
     "created_by": 1
   }
@@ -3405,6 +3630,13 @@
     "efflrr2": 7.164834976,
     "effective_irrigation": 7.164834976,
     "comment": "\"Final reading  Harvested Fortnightly Post harvest readings until end of May Bring soil moisture level back up towards field capacity prior to leaf fall Postharvest Irrigation Recommendation  Apply (13mm) 1 x 4hr per week to raise soil moisture levels  Adjust as required for significant rainfall.\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T20:43:52Z",
     "created_by": 1
   }
@@ -3453,6 +3685,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": null,
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T21:58:10Z",
     "created_by": 1
   }
@@ -3501,6 +3740,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": null,
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:11:41Z",
     "created_by": 1
   }
@@ -3549,6 +3795,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "No irrigation recommended",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:13:00Z",
     "created_by": 1
   }
@@ -3597,6 +3850,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri Sat\t4hrs Sun Mon Tues\t4hrs Wed Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:14:50Z",
     "created_by": 1
   }
@@ -3645,6 +3905,13 @@
     "efflrr2": 12.25599957,
     "effective_irrigation": 12.25599957,
     "comment": "\"Irrigation recommendation Fri Sat\t3hrs Sun Mon Tues\t3hrs Wed Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:17:13Z",
     "created_by": 1
   }
@@ -3693,6 +3960,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri Sat\t3hrs Sun Mon Tues\t3hrs Wed Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:18:50Z",
     "created_by": 1
   }
@@ -3741,6 +4015,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"No irrigation recommended Rain forecast\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:20:34Z",
     "created_by": 1
   }
@@ -3789,6 +4070,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"No irrigation recommended \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:23:10Z",
     "created_by": 1
   }
@@ -3837,6 +4125,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"No irrigation recommended \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:25:16Z",
     "created_by": 1
   }
@@ -3885,6 +4180,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri Sat\t4hr Sun Mon Tues Wed Thurs\t4hr  Adjust for rain if necessary\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:27:00Z",
     "created_by": 1
   }
@@ -3933,6 +4235,13 @@
     "efflrr2": 15.63199997,
     "effective_irrigation": 15.63199997,
     "comment": "No irrigation recommended",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:28:28Z",
     "created_by": 1
   }
@@ -3981,6 +4290,13 @@
     "efflrr2": 0.6719999909,
     "effective_irrigation": 0.6719999909,
     "comment": "\"Irrigation recommendation Fri Sat\t4hr Sun Mon\t4hr Tues Wed\t4hr Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:30:16Z",
     "created_by": 1
   }
@@ -4029,6 +4345,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "No irrigation recommended",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:32:20Z",
     "created_by": 1
   }
@@ -4077,6 +4400,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri Sat\t4hr Sun Mon Tues Wed\t4hr Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:33:56Z",
     "created_by": 1
   }
@@ -4125,6 +4455,13 @@
     "efflrr2": 9.776000023,
     "effective_irrigation": 9.776000023,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:40:24Z",
     "created_by": 1
   }
@@ -4173,6 +4510,13 @@
     "efflrr2": 9.512000084,
     "effective_irrigation": 9.512000084,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:42:02Z",
     "created_by": 1
   }
@@ -4221,6 +4565,13 @@
     "efflrr2": 8.647999763,
     "effective_irrigation": 8.647999763,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:43:36Z",
     "created_by": 1
   }
@@ -4269,6 +4620,13 @@
     "efflrr2": 7.776000023,
     "effective_irrigation": 7.776000023,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs Adjust for forecast rain if required\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:47:20Z",
     "created_by": 1
   }
@@ -4317,6 +4675,13 @@
     "efflrr2": 0.00800000038,
     "effective_irrigation": 0.00800000038,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:49:25Z",
     "created_by": 1
   }
@@ -4365,6 +4730,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:51:01Z",
     "created_by": 1
   }
@@ -4413,6 +4785,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs Some rain forecast\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:52:26Z",
     "created_by": 1
   }
@@ -4461,6 +4840,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t2hr Tues Wed\t2hr Thurs \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:53:49Z",
     "created_by": 1
   }
@@ -4509,6 +4895,13 @@
     "efflrr2": 7.464000225,
     "effective_irrigation": 7.464000225,
     "comment": "\"Irrigation recommendation Fri Sat\t2hr Sun Mon\t Tues Wed\t2hr Thurs Rain forecast- adjust as required \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:55:12Z",
     "created_by": 1
   }
@@ -4557,6 +4950,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Irrigation recommendation Fri Sat\t3hr Sun Mon\t Tues Wed\t3hr Thurs Rain forecast- adjust as required \"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T22:56:47Z",
     "created_by": 1
   }
@@ -4605,6 +5005,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "No irrigation recommended",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T23:00:26Z",
     "created_by": 1
   }
@@ -4653,6 +5060,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "No irrigation recommended",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T23:01:49Z",
     "created_by": 1
   }
@@ -4701,6 +5115,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "No irrigation recommended",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T23:03:20Z",
     "created_by": 1
   }
@@ -4749,6 +5170,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"No irrigation recommended Harvesting\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T23:04:54Z",
     "created_by": 1
   }
@@ -4797,6 +5225,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"No irrigation recommended Harvesting\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T23:06:25Z",
     "created_by": 1
   }
@@ -4845,6 +5280,13 @@
     "efflrr2": 0.0,
     "effective_irrigation": 0.0,
     "comment": "\"Final reading next week Harvested Fortnightly Post harvest readings until end of May Bring soil moisture level back up towards field capacity prior to leaf fall Postharvest Irrigation Recommendation  Apply (15mm) 2 x 3hr per week to raise soil moisture levels  Adjust as required for significant rainfall.\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T23:09:12Z",
     "created_by": 1
   }
@@ -4893,6 +5335,13 @@
     "efflrr2": 9.336000443,
     "effective_irrigation": 9.336000443,
     "comment": "\"Final reading Harvested Fortnightly Post harvest readings until end of May Bring soil moisture level back up towards field capacity prior to leaf fall Postharvest Irrigation Recommendation  Apply (15mm) 2 x 3hr per week to raise soil moisture levels  Adjust as required for significant rainfall.\"",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-06-30T23:10:34Z",
     "created_by": 1
   }
@@ -4941,6 +5390,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-08-08T23:09:29Z",
     "created_by": 1
   }
@@ -4989,6 +5445,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-11-18T04:03:47Z",
     "created_by": 1
   }
@@ -5037,6 +5500,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-12-03T20:05:40Z",
     "created_by": 1
   }
@@ -5085,6 +5555,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-12-03T20:54:34Z",
     "created_by": 1
   }
@@ -5133,6 +5610,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-12-03T20:55:19Z",
     "created_by": 1
   }
@@ -5181,6 +5665,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-12-03T20:55:58Z",
     "created_by": 1
   }
@@ -5229,6 +5720,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-12-03T22:04:35Z",
     "created_by": 1
   }
@@ -5277,6 +5775,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2019-12-16T19:42:34Z",
     "created_by": 1
   }
@@ -5325,6 +5830,13 @@
     "efflrr2": null,
     "effective_irrigation": null,
     "comment": null,
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
     "created_date": "2020-02-20T19:36:51.144Z",
     "created_by": 1
   }
@@ -8617,6 +9129,162 @@
     "object_repr": "Manual:1:2010-03-10",
     "action_flag": 1,
     "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 219,
+  "fields": {
+    "action_time": "2020-03-17T19:14:09.832Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "25",
+    "object_repr": "Manual:2:2010-08-08",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 220,
+  "fields": {
+    "action_time": "2020-03-17T19:14:18.151Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "26",
+    "object_repr": "Manual:3:2010-08-08",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 221,
+  "fields": {
+    "action_time": "2020-03-17T19:14:23.232Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "32",
+    "object_repr": "Manual:9:2010-08-08",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 222,
+  "fields": {
+    "action_time": "2020-03-17T19:14:28.336Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "31",
+    "object_repr": "Manual:8:2019-08-08",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 223,
+  "fields": {
+    "action_time": "2020-03-17T19:14:33.452Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "30",
+    "object_repr": "Manual:7:2010-08-08",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 224,
+  "fields": {
+    "action_time": "2020-03-17T19:14:38.069Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "29",
+    "object_repr": "Manual:6:2010-08-08",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 225,
+  "fields": {
+    "action_time": "2020-03-17T19:14:44.503Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "28",
+    "object_repr": "Manual:5:2010-08-08",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 226,
+  "fields": {
+    "action_time": "2020-03-17T19:14:52.636Z",
+    "user": 1,
+    "content_type": 30,
+    "object_id": "27",
+    "object_repr": "Manual:4:2010-08-08",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"slope\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 227,
+  "fields": {
+    "action_time": "2020-03-17T20:09:48.144Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "6",
+    "object_repr": "Jazz",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"rz3_bottom\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 228,
+  "fields": {
+    "action_time": "2020-03-17T20:09:56.117Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "5",
+    "object_repr": "Deer Block 3 Pacific Queen",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"rz3_bottom\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 229,
+  "fields": {
+    "action_time": "2020-03-17T20:10:04.929Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "4",
+    "object_repr": "River 4 Pacific Rose",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"rz3_bottom\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 230,
+  "fields": {
+    "action_time": "2020-03-17T20:10:27.890Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"rz3_bottom\"]}}]"
   }
 }
 ]

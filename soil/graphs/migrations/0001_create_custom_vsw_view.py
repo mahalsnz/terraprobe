@@ -155,6 +155,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he2
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone2"
             ON zone1.date = zone2.date AND zone1.id = zone2.id
             ---------
@@ -179,6 +180,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he3
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone3"
             ON zone1.date = zone3.date AND zone1.id = zone3.id
             ---------
@@ -203,6 +205,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he4
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone4"
             ON zone1.date = zone4.date AND zone1.id = zone4.id
             ---------
@@ -227,6 +230,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he5
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone5"
             ON zone1.date = zone5.date AND zone1.id = zone5.id
             ---------
@@ -251,6 +255,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he6
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone6"
             ON zone1.date = zone6.date AND zone1.id = zone6.id
             ---------
@@ -275,6 +280,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he7
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone7"
             ON zone1.date = zone7.date AND zone1.id = zone7.id
             ---------
@@ -299,6 +305,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he8
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone8"
             ON zone1.date = zone8.date AND zone1.id = zone8.id
             ---------
@@ -323,6 +330,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he9
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone9"
             ON zone1.date = zone9.date AND zone1.id = zone9.id
             ---------
@@ -347,6 +355,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he10
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone10"
             ON zone1.date = zone10.date AND zone1.id = zone10.id
 '''
