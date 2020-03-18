@@ -29,7 +29,7 @@ class Command(BaseCommand):
                 depth_array = []
                 rootzones[key] = []
 
-                top = getattr(site, rootzone + '_top')
+                top = 0 # Top of root zone is hard coded to zero
                 bottom = getattr(site, rootzone + '_bottom')
                 logger.debug("Top:" + str(top) + ' Bottom:' + str(bottom))
                 if top == 0 and bottom > 0:
