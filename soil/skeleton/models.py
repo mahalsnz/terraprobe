@@ -18,6 +18,36 @@ IRRIGATION_METHOD = (
     (1, "Drip")
 )
 
+DEPTH_VALUES = (
+    (0, 0),
+    (10, 10),
+    (20, 20),
+    (30, 30),
+    (40, 40),
+    (50, 50),
+    (60, 60),
+    (70, 70),
+    (80, 80),
+    (90, 90),
+    (100, 100),
+    (110, 110),
+    (120, 120),
+)
+
+DEPTH_HE_VALUES = (
+    (0, 0),
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5),
+    (6, 6),
+    (7, 7),
+    (8, 8),
+    (9, 9),
+    (10, 10)
+)
+
 class UserFullName(User):
     class Meta:
         proxy = True
@@ -93,7 +123,6 @@ class Farm(models.Model):
     mobile = models.CharField(max_length=40, null=True, blank=True)
     #Web
     email = models.EmailField(null=True, blank=True)
-    folder = models.CharField(max_length=100, null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
@@ -176,37 +205,34 @@ class Site(models.Model):
 
     # Irrigarions and rain in
 
-    # Root Zone
-    rz1_top = models.IntegerField(null=True, blank=True)
-    rz1_bottom = models.IntegerField(null=True, blank=True)
-    rz2_top = models.IntegerField(null=True, blank=True)
-    rz2_bottom = models.IntegerField(null=True, blank=True)
-    rz3_top = models.IntegerField(null=True, blank=True)
-    rz3_bottom = models.IntegerField(null=True, blank=True)
+    # Root Zone = Top is always 0
+    rz1_bottom = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True, help_text="The Bottom Depth of Root Zone 1. The Top will aways be zero.")
+    rz2_bottom = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True, help_text="The Bottom Depth of Root Zone 2. The Top will aways be zero.")
+    rz3_bottom = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True, help_text="The Bottom Depth of Root Zone 3. The Top will aways be zero.")
 
     # depth
-    depth1 = models.IntegerField(null=True, blank=True)
-    depth2 = models.IntegerField(null=True, blank=True)
-    depth3 = models.IntegerField(null=True, blank=True)
-    depth4 = models.IntegerField(null=True, blank=True)
-    depth5 = models.IntegerField(null=True, blank=True)
-    depth6 = models.IntegerField(null=True, blank=True)
-    depth7 = models.IntegerField(null=True, blank=True)
-    depth8 = models.IntegerField(null=True, blank=True)
-    depth9 = models.IntegerField(null=True, blank=True)
-    depth10 = models.IntegerField(null=True, blank=True)
+    depth1 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
+    depth2 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
+    depth3 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
+    depth4 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
+    depth5 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
+    depth6 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
+    depth7 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
+    depth8 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
+    depth9 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
+    depth10 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
 
     # Horison Equation
-    depth_he1 = models.IntegerField(null=True, blank=True)
-    depth_he2 = models.IntegerField(null=True, blank=True)
-    depth_he3 = models.IntegerField(null=True, blank=True)
-    depth_he4 = models.IntegerField(null=True, blank=True)
-    depth_he5 = models.IntegerField(null=True, blank=True)
-    depth_he6 = models.IntegerField(null=True, blank=True)
-    depth_he7 = models.IntegerField(null=True, blank=True)
-    depth_he8 = models.IntegerField(null=True, blank=True)
-    depth_he9 = models.IntegerField(null=True, blank=True)
-    depth_he10 = models.IntegerField(null=True, blank=True)
+    depth_he1 = models.IntegerField(choices=DEPTH_HE_VALUES, default=1, null=True, blank=True)
+    depth_he2 = models.IntegerField(choices=DEPTH_HE_VALUES, default=2, null=True, blank=True)
+    depth_he3 = models.IntegerField(choices=DEPTH_HE_VALUES, default=3, null=True, blank=True)
+    depth_he4 = models.IntegerField(choices=DEPTH_HE_VALUES, default=4, null=True, blank=True)
+    depth_he5 = models.IntegerField(choices=DEPTH_HE_VALUES, default=5, null=True, blank=True)
+    depth_he6 = models.IntegerField(choices=DEPTH_HE_VALUES, default=6, null=True, blank=True)
+    depth_he7 = models.IntegerField(choices=DEPTH_HE_VALUES, default=7, null=True, blank=True)
+    depth_he8 = models.IntegerField(choices=DEPTH_HE_VALUES, default=8, null=True, blank=True)
+    depth_he9 = models.IntegerField(choices=DEPTH_HE_VALUES, default=9, null=True, blank=True)
+    depth_he10 = models.IntegerField(choices=DEPTH_HE_VALUES, default=10, null=True, blank=True)
 
     #Scheduling
     upper_limit = models.ForeignKey(ReadingType, related_name="upper_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Upper line for Graph")
@@ -218,8 +244,6 @@ class Site(models.Model):
     emitter_spacing = models.IntegerField(null=True, blank=True, verbose_name="Emitter Spacing (cm)")
     plant_spacing = models.IntegerField(null=True, blank=True, verbose_name="Plant Spacing (cm)")
     wetted_width = models.IntegerField(null=True, blank=True, verbose_name="Wetted Width (cm)")
-    delivery_time = models.IntegerField(null=True, blank=True, verbose_name="Deliver Time in Minutes")
-    area = models.FloatField(null=True, blank=True, verbose_name="Area (Ha)")
 
     comment = models.TextField(null=True, blank=True)
 
@@ -302,7 +326,7 @@ class ProbeDiviner(models.Model):
 
 class Calibration(models.Model):
     serial_number = models.ForeignKey(Probe, null=True, blank=True, on_delete=models.CASCADE)
-    soil_type = models.IntegerField(null=True, blank=True)
+    soil_type = models.IntegerField(choices=DEPTH_HE_VALUES, default=1, null=True, blank=True)
     period_from = models.DateField(default=timezone.now, null=False)
     period_to = models.DateField(null=True, blank=True)
     slope = models.FloatField(null=True, blank=True)
