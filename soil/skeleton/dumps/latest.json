@@ -636,7 +636,7 @@
     "type": 1,
     "critical_date_type": 3,
     "days": 0,
-    "percentage": 0.99,
+    "percentage": 100.0,
     "comment": "",
     "created_date": "2020-03-05T20:43:03Z",
     "created_by": 1
@@ -649,7 +649,7 @@
     "type": 1,
     "critical_date_type": 3,
     "days": 15,
-    "percentage": 0.99,
+    "percentage": 100.0,
     "comment": "",
     "created_date": "2020-03-05T20:43:24Z",
     "created_by": 1
@@ -661,8 +661,8 @@
   "fields": {
     "type": 1,
     "critical_date_type": 4,
-    "days": 0,
-    "percentage": 0.45,
+    "days": -28,
+    "percentage": 93.0,
     "comment": "",
     "created_date": "2020-03-05T22:17:28Z",
     "created_by": 1
@@ -674,8 +674,8 @@
   "fields": {
     "type": 1,
     "critical_date_type": 4,
-    "days": -3,
-    "percentage": 0.56,
+    "days": -35,
+    "percentage": 95.0,
     "comment": "",
     "created_date": "2020-03-05T22:17:58Z",
     "created_by": 1
@@ -687,10 +687,23 @@
   "fields": {
     "type": 1,
     "critical_date_type": 4,
-    "days": -5,
-    "percentage": 0.63,
+    "days": -42,
+    "percentage": 98.0,
     "comment": "",
     "created_date": "2020-03-05T22:18:25Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 6,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 3,
+    "days": 100,
+    "percentage": 100.0,
+    "comment": "",
+    "created_date": "2020-03-18T19:59:59Z",
     "created_by": 1
   }
 },
@@ -739,9 +752,9 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 2,
-    "upper_strategy": null,
+    "upper_strategy": 1,
     "lower_limit": 3,
-    "lower_strategy": null,
+    "lower_strategy": 2,
     "emitter_rate": 55.0,
     "row_spacing": 500,
     "emitter_spacing": 500,
@@ -1266,10 +1279,10 @@
   "model": "skeleton.criticaldate",
   "pk": 17,
   "fields": {
-    "site": 3,
+    "site": 1,
     "season": 1,
     "type": 3,
-    "date": "2018-12-05",
+    "date": "2018-11-05",
     "comment": null,
     "created_date": "2020-03-05T20:41:15Z",
     "created_by": 1
@@ -1279,10 +1292,10 @@
   "model": "skeleton.criticaldate",
   "pk": 18,
   "fields": {
-    "site": 3,
+    "site": 1,
     "season": 1,
     "type": 4,
-    "date": "2019-03-05",
+    "date": "2019-02-26",
     "comment": null,
     "created_date": "2020-03-05T20:41:54Z",
     "created_by": 1
@@ -9285,6 +9298,149 @@
     "object_repr": "Pinot Noir Springstone",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"rz3_bottom\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 231,
+  "fields": {
+    "action_time": "2020-03-18T19:57:50.899Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"upper_strategy\", \"lower_strategy\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 232,
+  "fields": {
+    "action_time": "2020-03-18T19:58:04.763Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "18",
+    "object_repr": "Pinot Noir Springstone:2019-03-05",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"site\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 233,
+  "fields": {
+    "action_time": "2020-03-18T19:58:12.082Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "17",
+    "object_repr": "Pinot Noir Springstone:2018-12-05",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"site\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 234,
+  "fields": {
+    "action_time": "2020-03-18T19:58:40.837Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "17",
+    "object_repr": "Pinot Noir Springstone:2018-11-05",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 235,
+  "fields": {
+    "action_time": "2020-03-18T19:58:56.109Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "18",
+    "object_repr": "Pinot Noir Springstone:2019-02-26",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 236,
+  "fields": {
+    "action_time": "2020-03-18T19:59:31.907Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "1",
+    "object_repr": "RocketHi:Bud Break:0:100.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"percentage\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 237,
+  "fields": {
+    "action_time": "2020-03-18T19:59:53.261Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "2",
+    "object_repr": "RocketHi:Bud Break:15:100.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"percentage\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 238,
+  "fields": {
+    "action_time": "2020-03-18T20:00:11.011Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "6",
+    "object_repr": "RocketHi:Bud Break:100:100.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 239,
+  "fields": {
+    "action_time": "2020-03-18T20:01:09.995Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "5",
+    "object_repr": "RocketHi:Flowering:-42:98.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"days\", \"percentage\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 240,
+  "fields": {
+    "action_time": "2020-03-18T20:01:23.871Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "4",
+    "object_repr": "RocketHi:Flowering:-35:95.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"days\", \"percentage\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 241,
+  "fields": {
+    "action_time": "2020-03-18T20:01:44.388Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "3",
+    "object_repr": "RocketHi:Flowering:-28:93.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"days\", \"percentage\"]}}]"
   }
 }
 ]
