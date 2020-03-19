@@ -1,4 +1,5 @@
 {% load static %}
+
 {% block content %}
 
 {% if readings %}
@@ -37,7 +38,8 @@
     </thead>
     <tbody>
         {% for reading in readings %}
-        <tr>
+
+        <tr class='clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
             <td>{{ reading.type }}</td>
             <td>{{ reading.date }}</td>
             <td>{% if reading.type == 'Probe' %}
@@ -124,26 +126,6 @@
    </div>
 </div>
 
-
-   <form method="post" id="reading-recommendations" data-recommendations-url="{% url 'ajax_reading_recommendations' %}" novalidate>
-       {% csrf_token %}
-       <h3>Make Recommendation</h3>
-       <label>Hours:</label>
-       <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Mon">
-            <input type="text" class="form-control" placeholder="Tue">
-            <input type="text" class="form-control" placeholder="Wed">
-            <input type="text" class="form-control" placeholder="Thu">
-            <input type="text" class="form-control" placeholder="Fri">
-            <input type="text" class="form-control" placeholder="Sat">
-            <input type="text" class="form-control" placeholder="Sun">
-        </div>
-        <div class="form-group">
-            <label for="recommendation">Recommendation:</label>
-            <textarea class="form-control" rows="5" id="recommendation">{{ comment }}</textarea>
-        </div>
-        <button type="button" class="btn bg-green" id="make-recommendation">Make Recommendation</button>
-    </form>
 {% else %}
     <p>No readings</p>
 {% endif %}
@@ -152,12 +134,7 @@
  src="https://services.metservice.com/weather-widget/widget?params=blue|medium|portrait|days-3|classic&loc=hastings&type=urban" allowtransparency="true" style="border:none" />
 
 <script>
-$("#make-recommendation").click(function() {
-    var url = $("#reading-recommendations").attr('data-recommendations-url');
-});
-</script>
-<script>
-    $(document).ready(function() {
+$(document).ready(function() {
     $('#reading-table').DataTable({
         "paging": false,
         "scrollX": true,
@@ -166,6 +143,12 @@ $("#make-recommendation").click(function() {
         "searching": false,
         //fixedColumns: true
     });
+
+    $(".clickable-row").click(function() {
+        window.open($(this).data('href'));
+        return false;
+    });
+
 } );
 </script>
 

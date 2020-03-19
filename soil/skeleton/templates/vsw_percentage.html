@@ -204,20 +204,13 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     data.forEach(function(reading) {
         var reading_date = new Date(reading.date).toDateString();
-        var vsw_total = 0;
 
         // get seasons_vsw percentage readings for Probe
         if (reading.reading_type.name == "Probe") {
-            console.log('In Probe')
-            for (index = 1; index <= vsw_count; index++) {
-                if (reading["vsw" + index + '_perc'] !== null) {
-                    vsw_total = reading["vsw" + index + '_perc'] + vsw_total;
-                }
-            }
             parsed_date = parseTime(reading.date);
             seasons_vsw_readings.push({
                 'date' : parsed_date,
-                'total' : vsw_total,
+                'total' : Math.round(reading["rz1"]),
             });
             // Seasons Groupiong
             season_grouping.push({
@@ -256,41 +249,37 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
         // Get the Full Point and Refill - These are the vsw figures
         if (reading.reading_type.name == "Full Point") {
-            full_point_total = 0;
             for (index = 1; index <= vsw_count; index++) {
                 if (reading["depth" + index] !== null) {
                     full_point_readings.push({
                         'depth' : reading["depth" + index],
                         'vsw' : reading["vsw" + index],
                     });
-                    full_point_total += reading["vsw" + index];
                 }
             }
-            // Seasons Full Point
+            // Seasons Full Point - This is the rz1 value for each proble reading date
             for (index = 0; index < vsw_readings_date_array.length; index++) {
                 seasons_full_point_readings.push({
                     'date' : vsw_readings_date_array[index],
-                    'total' : full_point_total,
+                    'total' : Math.round(reading["rz1"]),
                 });
             }
         }
 
         if (reading.reading_type.name == "Refill") {
-            refill_total = 0;
             for (index = 1; index <= vsw_count; index++) {
                 if (reading["depth" + index] !== null) {
                     refill_readings.push({
                         'depth' : reading["depth" + index],
                         'vsw' : reading["vsw" + index],
                     });
-                    refill_total += reading["vsw" + index];
                 }
             }
-            // Seasons Refill
+            // Seasons Refill - This is the rz1 value for each proble reading date
             for (index = 0; index < vsw_readings_date_array.length; index++) {
                 seasons_refill_readings.push({
                     'date' : vsw_readings_date_array[index],
-                    'total' : refill_total,
+                    'total' : Math.round(reading["rz1"]),
                 });
             }
         }
@@ -314,48 +303,45 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .data([seasons_vsw_readings])
         .attr("class", "line")
         .attr("d", season_vswline0);
-        console.log(season_grouping);
-        var keys = ['rain', 'irrigation_mms']
-        console.log("keys:" + keys);
 
-        x0.domain(season_grouping.map(function(d) { return d.dtg; }));
-        x1.domain(keys).rangeRound([0, x0.bandwidth()]);
-        seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key] + 50; }); })])
+    console.log(season_grouping);
+    var keys = ['rain', 'irrigation_mms']
+    console.log("keys:" + keys);
 
-        // append the rectangles for the bar chart
-        season_graph.selectAll(".bar")
-            .data(season_grouping)
-            .enter().append("g")
-            .attr("class", "bar")
+    x0.domain(season_grouping.map(function(d) { return d.dtg; }));
+    x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+    seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key] + 100; }); })])
 
-            .attr("transform", function(d) { return "translate(" + x0(d.dtg) + ",0)"; })
-            .selectAll("rect")
-            .data(function(d) {
-                return keys.map(function(key) {
-
-                    return {key: key, value: d[key]};
-                });
-            }).enter().append("rect")
-              .attr("x", function(d) { return x1(d.key); })
-              .attr("y", function(d) { return seasony1(d.value); })
-              .attr("id", function(d) { return d.key; })
-              .attr("width", x1.bandwidth())
-              .attr("height", function(d) { return height - seasony1(d.value); })
-
-              .on("mouseover", function(d) {
-            div.transition()
-            .duration(200)
-            .style("opacity", .9);
-            div.html(d.value)
-            .style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY - 28) + "px");
-            })
-            .on("mouseout", function(d) {
-             div.transition()
-             .duration(500)
-             .style("opacity", 0);
-             })
-
+    // append the rectangles for the seasonal bar chart
+    season_graph.selectAll(".bar")
+        .data(season_grouping)
+        .enter().append("g")
+        .attr("class", "bar")
+        .attr("transform", function(d) { return "translate(" + x0(d.dtg) + ",0)"; })
+        .selectAll("rect")
+        .data(function(d) {
+            return keys.map(function(key) {
+                return {key: key, value: d[key]};
+            });
+        }).enter().append("rect")
+          .attr("x", function(d) { return x1(d.key); })
+          .attr("y", function(d) { return seasony1(d.value); })
+          .attr("id", function(d) { return d.key; })
+          .attr("width", x1.bandwidth())
+          .attr("height", function(d) { return height - seasony1(d.value); })
+          .on("mouseover", function(d) {
+              div.transition()
+              .duration(200)
+              .style("opacity", .9);
+              div.html(d.value)
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY - 28) + "px");
+          })
+              .on("mouseout", function(d) {
+              div.transition()
+              .duration(500)
+              .style("opacity", 0);
+          })
           .attr("fill", function(d) { return z(d.key); });
 
     // Full Point Season line. This is just the total of full_point_readings across all dates

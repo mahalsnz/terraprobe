@@ -13,11 +13,40 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunSQL(
             '''
+CREATE OR REPLACE VIEW graphs_strategy AS
+    SELECT
+skeleton_strategytype.id AS strategytype_id,
+	skeleton_strategytype.name AS strategy_name,
+	skeleton_site.id as site_id,
+	skeleton_site.name as site_name,
+	skeleton_readingtype.name AS reading_type_name,
+	skeleton_reading.type_id AS reading_type_id,
+	skeleton_reading.date AS reading_date,
+	skeleton_reading.rz1,
+	skeleton_strategy.id AS skeleton_strategy_id,
+	skeleton_strategy.days,
+	skeleton_strategy.percentage,
+	skeleton_criticaldatetype.name AS critical_date_type,
+	skeleton_criticaldate.date AS critical_date,
+	skeleton_criticaldate.date + skeleton_strategy.days AS calculated_strategy_date,
+	skeleton_reading.rz1 * skeleton_strategy.percentage / 100 AS calculated_strategy_date
+FROM
+	skeleton_site
+RIGHT JOIN skeleton_readingtype ON skeleton_site.upper_limit_id = skeleton_readingtype.id
+RIGHT JOIN skeleton_strategytype ON skeleton_site.upper_strategy_id = skeleton_strategytype.id
+
+LEFT JOIN skeleton_strategy ON skeleton_strategy.type_id = skeleton_strategytype.id AND skeleton_strategy.type_id = skeleton_site.upper_strategy_id
+LEFT JOIN skeleton_criticaldatetype ON skeleton_criticaldatetype.id = skeleton_strategy.critical_date_type_id
+LEFT JOIN skeleton_criticaldate ON skeleton_criticaldate.site_id = skeleton_site.id AND skeleton_criticaldate.type_id = skeleton_strategy.critical_date_type_id
+LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id AND skeleton_reading.site_id = skeleton_site.id;
+
+
             --VSW = Count * Slope + Intercept
             -- When Period from and to are sorted add --(skeleton_reading.date > skeleton_calibration.period_from AND
             -- skeleton_reading.date < COALESCE(skeleton_calibration.period_to, now()))
             CREATE OR REPLACE VIEW graphs_vsw AS
             SELECT
+                zone1.reading_id,
             	zone1.date,
                 zone1.id AS site_id,
                 zone1.farm_id,
@@ -25,7 +54,6 @@ class Migration(migrations.Migration):
                 zone1.type,
                 zone1.type_id AS reading_type_id,
 
-                zone1.rz1_top,
             	zone1.rz1_bottom,
             	zone1.rz1,
                 zone1.rz2,
@@ -93,13 +121,13 @@ class Migration(migrations.Migration):
             FROM
             (
             	SELECT
+                    skeleton_reading.id AS reading_id,
             		skeleton_reading.date,
             		skeleton_site.id,
                     skeleton_readingtype.name AS type,
             		skeleton_reading.type_id,
                     skeleton_site.farm_id,
                     skeleton_site.crop_id,
-                    skeleton_site.rz1_top,
             		skeleton_site.rz1_bottom,
             		skeleton_reading.rz1,
             		skeleton_reading.rz2,
@@ -153,6 +181,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he2
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone2"
             ON zone1.date = zone2.date AND zone1.id = zone2.id
             ---------
@@ -177,6 +206,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he3
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone3"
             ON zone1.date = zone3.date AND zone1.id = zone3.id
             ---------
@@ -201,6 +231,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he4
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone4"
             ON zone1.date = zone4.date AND zone1.id = zone4.id
             ---------
@@ -225,6 +256,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he5
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone5"
             ON zone1.date = zone5.date AND zone1.id = zone5.id
             ---------
@@ -249,6 +281,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he6
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone6"
             ON zone1.date = zone6.date AND zone1.id = zone6.id
             ---------
@@ -273,6 +306,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he7
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone7"
             ON zone1.date = zone7.date AND zone1.id = zone7.id
             ---------
@@ -297,6 +331,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he8
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone8"
             ON zone1.date = zone8.date AND zone1.id = zone8.id
             ---------
@@ -321,6 +356,7 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he9
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone9"
             ON zone1.date = zone9.date AND zone1.id = zone9.id
             ---------
@@ -345,10 +381,10 @@ class Migration(migrations.Migration):
             		skeleton_site
             	LEFT JOIN skeleton_calibration ON skeleton_calibration.soil_type = skeleton_site.depth_he10
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
+                LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone10"
-            ON zone1.date = zone10.date AND zone1.id = zone10.id
+            ON zone1.date = zone10.date AND zone1.id = zone10.id;
 '''
-
         )
 
     ]
