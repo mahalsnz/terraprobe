@@ -82,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2020-03-17T19:13:54.220Z",
+    "last_login": "2020-03-19T20:56:06.616Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -257,6 +257,14 @@
   "fields": {
     "session_data": "ZTVmZmJjZmIzMDJmMzY3MjJkN2M2ZTk1OWIzZjA4MmU0NmI1N2E2OTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0Iiwid2l6YXJkX3NlYXNvbl93aXphcmQiOnsic3RlcCI6InNlbGVjdF9jcnNmIiwic3RlcF9kYXRhIjp7fSwic3RlcF9maWxlcyI6e30sImV4dHJhX2RhdGEiOnt9fX0=",
     "expire_date": "2020-03-11T20:19:20.167Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ty8v8t3a65q3tsv366zq09r822bmghwv",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2020-04-02T20:56:06.619Z"
   }
 },
 {
@@ -458,7 +466,7 @@
   "model": "skeleton.criticaldatetype",
   "pk": 4,
   "fields": {
-    "name": "Flowering",
+    "name": "Harvest",
     "season_flag": false,
     "comment": null,
     "created_date": "2020-03-05T20:40:37Z",
@@ -610,19 +618,10 @@
   "model": "skeleton.strategytype",
   "pk": 1,
   "fields": {
-    "name": "RocketHi",
+    "name": "Rocket",
+    "percentage": 50,
     "comment": "",
     "created_date": "2020-03-05T20:39:29Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.strategytype",
-  "pk": 2,
-  "fields": {
-    "name": "RocketLow",
-    "comment": "",
-    "created_date": "2020-03-05T20:40:23Z",
     "created_by": 1
   }
 },
@@ -636,19 +635,6 @@
     "percentage": 100.0,
     "comment": "",
     "created_date": "2020-03-05T20:43:03Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.strategy",
-  "pk": 2,
-  "fields": {
-    "type": 1,
-    "critical_date_type": 3,
-    "days": 15,
-    "percentage": 100.0,
-    "comment": "",
-    "created_date": "2020-03-05T20:43:24Z",
     "created_by": 1
   }
 },
@@ -705,6 +691,123 @@
   }
 },
 {
+  "model": "skeleton.strategy",
+  "pk": 7,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": -22,
+    "percentage": 90.0,
+    "comment": "",
+    "created_date": "2020-03-19T20:58:13Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 8,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": -18,
+    "percentage": 88.0,
+    "comment": "",
+    "created_date": "2020-03-19T20:58:42Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 9,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": -14,
+    "percentage": 83.0,
+    "comment": "",
+    "created_date": "2020-03-19T20:59:05Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 10,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": -11,
+    "percentage": 79.0,
+    "comment": "",
+    "created_date": "2020-03-19T20:59:23Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 11,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": -9,
+    "percentage": 74.0,
+    "comment": "",
+    "created_date": "2020-03-19T20:59:46Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 12,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": -7,
+    "percentage": 69.0,
+    "comment": "",
+    "created_date": "2020-03-19T21:00:00Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 13,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": -5,
+    "percentage": 63.0,
+    "comment": "",
+    "created_date": "2020-03-19T21:00:15Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 14,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": -3,
+    "percentage": 56.0,
+    "comment": "",
+    "created_date": "2020-03-19T21:00:31Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.strategy",
+  "pk": 15,
+  "fields": {
+    "type": 1,
+    "critical_date_type": 4,
+    "days": 0,
+    "percentage": 45.0,
+    "comment": "",
+    "created_date": "2020-03-19T21:00:56Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.site",
   "pk": 1,
   "fields": {
@@ -746,9 +849,8 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 2,
-    "upper_strategy": 1,
     "lower_limit": 3,
-    "lower_strategy": 2,
+    "strategy": 1,
     "emitter_rate": 55.0,
     "row_spacing": 500,
     "emitter_spacing": 500,
@@ -801,9 +903,8 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 2,
-    "upper_strategy": null,
     "lower_limit": 3,
-    "lower_strategy": null,
+    "strategy": null,
     "emitter_rate": 30.0,
     "row_spacing": 350,
     "emitter_spacing": 260,
@@ -856,9 +957,8 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 2,
-    "upper_strategy": null,
     "lower_limit": 3,
-    "lower_strategy": null,
+    "strategy": null,
     "emitter_rate": 55.0,
     "row_spacing": 500,
     "emitter_spacing": 500,
@@ -911,9 +1011,8 @@
     "depth_he9": 9,
     "depth_he10": 10,
     "upper_limit": 3,
-    "upper_strategy": null,
     "lower_limit": 3,
-    "lower_strategy": null,
+    "strategy": null,
     "emitter_rate": 50.0,
     "row_spacing": 500,
     "emitter_spacing": 250,
@@ -966,9 +1065,8 @@
     "depth_he9": 9,
     "depth_he10": 10,
     "upper_limit": 3,
-    "upper_strategy": null,
     "lower_limit": 3,
-    "lower_strategy": null,
+    "strategy": null,
     "emitter_rate": 47.0,
     "row_spacing": 500,
     "emitter_spacing": 250,
@@ -1021,9 +1119,8 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 2,
-    "upper_strategy": null,
     "lower_limit": 3,
-    "lower_strategy": null,
+    "strategy": null,
     "emitter_rate": 30.0,
     "row_spacing": 340,
     "emitter_spacing": 240,
@@ -1262,10 +1359,114 @@
     "site": 1,
     "season": 1,
     "type": 4,
-    "date": "2019-02-26",
+    "date": "2019-03-26",
     "comment": null,
     "created_date": "2020-03-05T20:41:54Z",
     "created_by": 1
+  }
+},
+{
+  "model": "skeleton.seasonstartend",
+  "pk": 1,
+  "fields": {
+    "site": 6,
+    "start": 1,
+    "end": 2,
+    "season_name": "2018",
+    "site_name": "Jazz",
+    "period_from": "2018-10-01",
+    "period_to": "2019-07-01"
+  }
+},
+{
+  "model": "skeleton.seasonstartend",
+  "pk": 1,
+  "fields": {
+    "site": 4,
+    "start": 1,
+    "end": 2,
+    "season_name": "2018",
+    "site_name": "River 4 Pacific Rose",
+    "period_from": "2018-10-20",
+    "period_to": "2019-04-23"
+  }
+},
+{
+  "model": "skeleton.seasonstartend",
+  "pk": 1,
+  "fields": {
+    "site": 5,
+    "start": 1,
+    "end": 2,
+    "season_name": "2018",
+    "site_name": "Deer Block 3 Pacific Queen",
+    "period_from": "2018-10-14",
+    "period_to": "2019-04-29"
+  }
+},
+{
+  "model": "skeleton.seasonstartend",
+  "pk": 1,
+  "fields": {
+    "site": 3,
+    "start": 1,
+    "end": 2,
+    "season_name": "2018",
+    "site_name": "Smiley Pink Kiss",
+    "period_from": "2018-10-15",
+    "period_to": "2019-05-25"
+  }
+},
+{
+  "model": "skeleton.seasonstartend",
+  "pk": 1,
+  "fields": {
+    "site": 2,
+    "start": 1,
+    "end": 2,
+    "season_name": "2018",
+    "site_name": "Sandpit Pink Lady 22 Notchwood side (no weed mat)",
+    "period_from": "2018-10-15",
+    "period_to": "2019-05-25"
+  }
+},
+{
+  "model": "skeleton.seasonstartend",
+  "pk": 1,
+  "fields": {
+    "site": 1,
+    "start": 1,
+    "end": 2,
+    "season_name": "2018",
+    "site_name": "Pinot Noir Springstone",
+    "period_from": "2018-10-15",
+    "period_to": "2019-05-25"
+  }
+},
+{
+  "model": "skeleton.seasonstartend",
+  "pk": 2,
+  "fields": {
+    "site": 6,
+    "start": 1,
+    "end": 2,
+    "season_name": "2019",
+    "site_name": "Jazz",
+    "period_from": "2020-02-07",
+    "period_to": "2020-02-28"
+  }
+},
+{
+  "model": "skeleton.seasonstartend",
+  "pk": 2,
+  "fields": {
+    "site": 1,
+    "start": 1,
+    "end": 2,
+    "season_name": "2019",
+    "site_name": "Pinot Noir Springstone",
+    "period_from": "2019-07-18",
+    "period_to": "2020-08-18"
   }
 },
 {
@@ -9476,6 +9677,201 @@
     "object_repr": "Pinot Noir Springstone:2018-10-24",
     "action_flag": 1,
     "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 243,
+  "fields": {
+    "action_time": "2020-03-19T20:56:35.393Z",
+    "user": 1,
+    "content_type": 24,
+    "object_id": "2",
+    "object_repr": "RocketLow",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 244,
+  "fields": {
+    "action_time": "2020-03-19T20:56:50.965Z",
+    "user": 1,
+    "content_type": 24,
+    "object_id": "1",
+    "object_repr": "Rocket",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"name\", \"percentage\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 245,
+  "fields": {
+    "action_time": "2020-03-19T20:57:09.181Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "4",
+    "object_repr": "Harvest",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 246,
+  "fields": {
+    "action_time": "2020-03-19T20:57:33.032Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "2",
+    "object_repr": "Rocket:Bud Break:15:100.0",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 247,
+  "fields": {
+    "action_time": "2020-03-19T20:58:42.689Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "7",
+    "object_repr": "Rocket:Harvest:-22:90.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 248,
+  "fields": {
+    "action_time": "2020-03-19T20:59:01.403Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "8",
+    "object_repr": "Rocket:Harvest:-18:88.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 249,
+  "fields": {
+    "action_time": "2020-03-19T20:59:23.595Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "9",
+    "object_repr": "Rocket:Harvest:-14:83.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 250,
+  "fields": {
+    "action_time": "2020-03-19T20:59:43.874Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "10",
+    "object_repr": "Rocket:Harvest:-11:79.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 251,
+  "fields": {
+    "action_time": "2020-03-19T21:00:00.237Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "11",
+    "object_repr": "Rocket:Harvest:9:74.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 252,
+  "fields": {
+    "action_time": "2020-03-19T21:00:15.646Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "12",
+    "object_repr": "Rocket:Harvest:-7:69.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 253,
+  "fields": {
+    "action_time": "2020-03-19T21:00:31.147Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "13",
+    "object_repr": "Rocket:Harvest:-5:63.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 254,
+  "fields": {
+    "action_time": "2020-03-19T21:00:48.535Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "14",
+    "object_repr": "Rocket:Harvest:-3:56.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 255,
+  "fields": {
+    "action_time": "2020-03-19T21:01:10.674Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "15",
+    "object_repr": "Rocket:Harvest:0:45.0",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 256,
+  "fields": {
+    "action_time": "2020-03-19T21:01:27.011Z",
+    "user": 1,
+    "content_type": 25,
+    "object_id": "11",
+    "object_repr": "Rocket:Harvest:-9:74.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"days\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 257,
+  "fields": {
+    "action_time": "2020-03-19T21:06:00.003Z",
+    "user": 1,
+    "content_type": 33,
+    "object_id": "18",
+    "object_repr": "Pinot Noir Springstone:2019-03-26",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"date\"]}}]"
   }
 }
 ]

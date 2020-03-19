@@ -65,7 +65,7 @@ class SiteAdmin(admin.ModelAdmin):
         ('Depths',  {'fields': [('depth1', 'depth_he1'),('depth2', 'depth_he2'),('depth3', 'depth_he3'),('depth4', 'depth_he4'),
                                 ('depth5', 'depth_he5'),('depth6', 'depth_he6'),('depth7', 'depth_he7'),('depth8', 'depth_he8'),
                                 ('depth9', 'depth_he9'),('depth10', 'depth_he10')],'classes': ['collapse']}),
-        ('Schedule',    {'fields': ['upper_limit', 'upper_strategy', 'lower_limit', 'lower_strategy', 'emitter_rate', 'row_spacing', 'emitter_spacing', 'plant_spacing', 'wetted_width'],
+        ('Schedule',    {'fields': ['upper_limit', 'lower_limit', 'strategy', 'emitter_rate', 'row_spacing', 'emitter_spacing', 'plant_spacing', 'wetted_width'],
             'classes': ['collapse']}),
     ]
     radio_fields = {'irrigation_method': admin.HORIZONTAL}

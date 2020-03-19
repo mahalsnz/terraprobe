@@ -29,7 +29,7 @@ skeleton_strategytype.id AS strategytype_id,
 	skeleton_criticaldatetype.name AS critical_date_type,
 	skeleton_criticaldate.date AS critical_date,
 	skeleton_criticaldate.date + skeleton_strategy.days AS calculated_strategy_date,
-	skeleton_reading.rz1 * skeleton_strategy.percentage / 100 AS calculated_strategy_date
+	skeleton_reading.rz1 * skeleton_strategy.percentage / 100 AS calculated_strategy_vsw
 FROM
 	skeleton_site
 RIGHT JOIN skeleton_readingtype ON skeleton_site.upper_limit_id = skeleton_readingtype.id

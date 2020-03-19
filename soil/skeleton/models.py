@@ -158,6 +158,7 @@ class Crop(models.Model):
 
 class StrategyType(models.Model):
     name = models.CharField(max_length=50, null=False)
+    percentage = models.IntegerField(null=True, blank=True, help_text="The difference that the lower strategy should be below the upper strategy for a site. This is taken from the high limit.")
     comment = models.TextField(null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
@@ -236,9 +237,9 @@ class Site(models.Model):
 
     #Scheduling
     upper_limit = models.ForeignKey(ReadingType, related_name="upper_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Upper line for Graph")
-    upper_strategy = models.ForeignKey(StrategyType, related_name="upper_strategy_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Strategy dictating deviance of Upper line for Graph")
     lower_limit = models.ForeignKey(ReadingType, related_name="lower_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Lower line for Graph")
-    lower_strategy = models.ForeignKey(StrategyType, related_name="lower_strategy_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Strategy dictating deviance of Lower line for Graph")
+    strategy = models.ForeignKey(StrategyType, null=True, blank=True, on_delete=models.CASCADE)
+
     emitter_rate = models.FloatField(null=True, blank=True)
     row_spacing = models.IntegerField(null=True, blank=True, verbose_name="Row Spacing (cm)")
     emitter_spacing = models.IntegerField(null=True, blank=True, verbose_name="Emitter Spacing (cm)")
