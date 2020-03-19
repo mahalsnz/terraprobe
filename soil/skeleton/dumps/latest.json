@@ -5822,6 +5822,61 @@
   }
 },
 {
+  "model": "skeleton.reading",
+  "pk": 74,
+  "fields": {
+    "site": 1,
+    "type": 3,
+    "date": "2018-10-24",
+    "depth1": 18.0,
+    "depth2": 17.0,
+    "depth3": 18.0,
+    "depth4": 17.0,
+    "depth5": 18.0,
+    "depth6": 17.0,
+    "depth7": 18.0,
+    "depth8": 17.0,
+    "depth9": null,
+    "depth10": null,
+    "depth1_count": null,
+    "depth2_count": null,
+    "depth3_count": null,
+    "depth4_count": null,
+    "depth5_count": null,
+    "depth6_count": null,
+    "depth7_count": null,
+    "depth8_count": null,
+    "depth9_count": null,
+    "depth10_count": null,
+    "serial_number": 3,
+    "rz1": null,
+    "rz2": null,
+    "rz3": null,
+    "deficit": null,
+    "probe_dwu": null,
+    "estimated_dwu": null,
+    "rain": null,
+    "meter": null,
+    "irrigation_litres": null,
+    "irrigation_mms": null,
+    "effective_rain_1": null,
+    "effective_rainfall": null,
+    "efflrr1": null,
+    "efflrr2": null,
+    "effective_irrigation": null,
+    "comment": "",
+    "rec_Mon": null,
+    "rec_Tue": null,
+    "rec_Wed": null,
+    "rec_Thu": null,
+    "rec_Fri": null,
+    "rec_Sat": null,
+    "rec_Sun": null,
+    "created_date": "2020-03-19T03:13:13Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.kcreading",
   "pk": 1,
   "fields": {
@@ -9408,6 +9463,19 @@
     "object_repr": "RocketHi:Flowering:-28:93.0",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"days\", \"percentage\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 242,
+  "fields": {
+    "action_time": "2020-03-19T03:14:13.190Z",
+    "user": 1,
+    "content_type": 32,
+    "object_id": "74",
+    "object_repr": "Pinot Noir Springstone:2018-10-24",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
   }
 }
 ]

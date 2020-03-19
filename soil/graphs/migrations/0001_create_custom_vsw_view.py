@@ -13,6 +13,34 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunSQL(
             '''
+CREATE OR REPLACE VIEW graphs_strategy AS
+    SELECT
+skeleton_strategytype.id AS strategytype_id,
+	skeleton_strategytype.name AS strategy_name,
+	skeleton_site.id as site_id,
+	skeleton_site.name as site_name,
+	skeleton_readingtype.name AS reading_type_name,
+	skeleton_reading.type_id AS reading_type_id,
+	skeleton_reading.date AS reading_date,
+	skeleton_reading.rz1,
+	skeleton_strategy.id AS skeleton_strategy_id,
+	skeleton_strategy.days,
+	skeleton_strategy.percentage,
+	skeleton_criticaldatetype.name AS critical_date_type,
+	skeleton_criticaldate.date AS critical_date,
+	skeleton_criticaldate.date + skeleton_strategy.days AS calculated_strategy_date,
+	skeleton_reading.rz1 * skeleton_strategy.percentage / 100 AS calculated_strategy_date
+FROM
+	skeleton_site
+RIGHT JOIN skeleton_readingtype ON skeleton_site.upper_limit_id = skeleton_readingtype.id
+RIGHT JOIN skeleton_strategytype ON skeleton_site.upper_strategy_id = skeleton_strategytype.id
+
+LEFT JOIN skeleton_strategy ON skeleton_strategy.type_id = skeleton_strategytype.id AND skeleton_strategy.type_id = skeleton_site.upper_strategy_id
+LEFT JOIN skeleton_criticaldatetype ON skeleton_criticaldatetype.id = skeleton_strategy.critical_date_type_id
+LEFT JOIN skeleton_criticaldate ON skeleton_criticaldate.site_id = skeleton_site.id AND skeleton_criticaldate.type_id = skeleton_strategy.critical_date_type_id
+LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id AND skeleton_reading.site_id = skeleton_site.id;
+
+
             --VSW = Count * Slope + Intercept
             -- When Period from and to are sorted add --(skeleton_reading.date > skeleton_calibration.period_from AND
             -- skeleton_reading.date < COALESCE(skeleton_calibration.period_to, now()))
@@ -26,7 +54,6 @@ class Migration(migrations.Migration):
                 zone1.type,
                 zone1.type_id AS reading_type_id,
 
-                zone1.rz1_top,
             	zone1.rz1_bottom,
             	zone1.rz1,
                 zone1.rz2,
@@ -101,7 +128,6 @@ class Migration(migrations.Migration):
             		skeleton_reading.type_id,
                     skeleton_site.farm_id,
                     skeleton_site.crop_id,
-                    skeleton_site.rz1_top,
             		skeleton_site.rz1_bottom,
             		skeleton_reading.rz1,
             		skeleton_reading.rz2,
@@ -357,9 +383,8 @@ class Migration(migrations.Migration):
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
                 LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone10"
-            ON zone1.date = zone10.date AND zone1.id = zone10.id
+            ON zone1.date = zone10.date AND zone1.id = zone10.id;
 '''
-
         )
 
     ]

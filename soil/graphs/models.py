@@ -29,7 +29,6 @@ class vsw_reading(models.Model):
     reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
     type = models.TextField()
     crop_id = models.IntegerField()
-    rz1_top = models.IntegerField()
     rz1_bottom = models.IntegerField()
     rz1 = models.FloatField()
     rz2 = models.FloatField()
