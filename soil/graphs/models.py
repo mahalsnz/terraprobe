@@ -88,3 +88,25 @@ class vsw_reading(models.Model):
     class Meta:
         managed = False
         db_table = "graphs_vsw"
+
+class vsw_strategy(models.Model):
+    strategytype_id = models.IntegerField()
+    strategy_name = models.TextField()
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
+    site_name = models.TextField()
+    reading_type_name = models.TextField()
+    reading_date = models.DateField(null=True)
+    rz1 = models.FloatField()
+    strategy_id = models.IntegerField(primary_key=True)
+    days = models.IntegerField()
+    percentage = models.FloatField()
+    critical_date_type = models.TextField()
+    critical_date = models.DateField(null=True)
+    strategy_date = models.DateField(null=True)
+    upper_strategy_vsw = models.FloatField()
+    lower_strategy_vsw = models.FloatField()
+
+    class Meta:
+        managed = False
+        db_table = "graphs_strategy"

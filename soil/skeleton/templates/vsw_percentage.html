@@ -145,6 +145,11 @@ var season_vswline0 = d3.line()
     .y(function(r) { return seasony0(r.total); });
 
 // Season Full Point Total
+var season_upper_strategy_line = d3.line()
+    .x(function(r) { return seasonx(r.date); })
+    .y(function(r) { return seasony0(r.total); });
+
+// Season Full Point Total
 var season_full_point_line = d3.line()
     .x(function(r) { return seasonx(r.date); })
     .y(function(r) { return seasony0(r.total); });
@@ -193,11 +198,26 @@ var refill_readings = [];
 var seasons_vsw_readings = [];
 var seasons_full_point_readings = []
 var seasons_refill_readings = []
+var seasons_upper_strategy = []
+var seasons_lower_strategy = []
 
 var season_grouping = [];
 vsw_count = 10; // delivered by vsw_reading api
 
 d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(data) {
+    // Get strategies
+    d3.json('/graphs/api/vsw_strategy/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(strategy_data) {
+
+        strategy_data.forEach(function(strategy) {
+
+            parsed_date = parseTime(strategy.strategy_date);
+            console.log('strat date:' + strategy.strategy_date + ' strat vsw:' + strategy.upper_strategy_vsw);
+            seasons_upper_strategy.push({
+                'date' : parsed_date,
+                'total' : strategy.upper_strategy_vsw,
+            });
+        });
+        console.log(seasons_upper_strategy);
 
     console.log("This Week:" + this_week_date + " Last week:" + last_week_date);
     vsw_readings_date_array = []; // This is better to use for refill and full point full_point_readings
@@ -360,6 +380,14 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .style("stroke-width", "2px")
         .attr("d", season_refill_line);
 
+    season_graph.append("path")
+        .data([seasons_upper_strategy])
+        .attr("class", "line")
+        .style("stroke", "black")
+        .style("stroke-width", "3px")
+        .attr("d", season_upper_strategy_line);
+
+
     weekly_graph.append("path")
         .data([previous_vsw_readings])
         .attr("class", "line")
@@ -458,6 +486,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
           .text(function(d) { return d; });
 
 
+});
 });
 </script>
 
