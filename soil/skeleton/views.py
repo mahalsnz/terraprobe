@@ -46,16 +46,26 @@ def process_reading_recommendation(request):
     site_id = request.GET.get('site')
     comment = request.GET.get('comment')
 
+    site = Site.objects.get(id=site_id)
+    logger.debug('Application Rate:' + str(site.application_rate))
     reading = Reading.objects.filter(site=site_id, type=1).latest('date')
 
     week_start = reading.date.weekday() + 1
 
     week_start_abbr = calendar.day_abbr[week_start]
     week_values = {}
+
     for day in list(calendar.day_abbr):
-        day_value = getattr(reading, 'rec_' + day)
-        week_values[day] = day_value
+        logger.debug(day)
+        day_value = request.GET.get(day)
+
         logger.debug(day_value)
+        column = 'rec_' + str(day)
+        if day_value:
+            setattr(reading, column, day_value)
+        day_value = getattr(reading, column)
+        week_values[day] = day_value
+        reading.save()
 
     logger.debug('Day of week to start:' + str(week_start_abbr) + ' values ' + str(week_values)) # Monday is zero
     if comment:

@@ -307,12 +307,26 @@
     $("#save-reading-recommendation").click(function() {
         var siteId = $("#id_site").val();
         var comment = $("#reading-recommendation-text").val();
+        var mon = $("input#Mon").val();
+        var tue = $("input#Tue").val();
+        var wed = $("input#Wed").val();
+        var thu = $("input#Thu").val();
+        var fri = $("input#Fri").val();
+        var sat = $("input#Sat").val();
+        var sun = $("input#Sun").val();
+
         $.ajax({
             url: "/ajax/process-reading-recommendation/",
             data: {
                 'site': siteId,
                 'comment': comment,
-
+                'Mon' : mon,
+                'Tue' : tue,
+                'Wed' : wed,
+                'Thu' : thu,
+                'Fri' : fri,
+                'Sat' : sat,
+                'Sun' : sun,
             },
             dataType: 'json',
             success: function(result) {
