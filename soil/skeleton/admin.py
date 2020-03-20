@@ -37,7 +37,7 @@ class ETReadingAdmin(admin.ModelAdmin):
     list_display = ('date', 'state', 'daily')
 
 class ReadingAdmin(admin.ModelAdmin):
-    list_display = ('site', 'type', 'date', 'serial_number', 'depth1', 'depth1_count')
+    list_display = ('site', 'type', 'date', 'serial_number', 'depth1', 'depth1_count', 'comment')
 
 class ReadingTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'comment', 'formula')
@@ -55,7 +55,7 @@ class FarmAdmin(admin.ModelAdmin):
     list_display = ('name', 'weatherstation')
 
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('site_number', 'name', 'farm', 'crop', 'technician')
+    list_display = ('site_number', 'name', 'farm', 'crop', 'technician', 'application_rate')
     fieldsets = [
         ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'crop','comment','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
@@ -65,7 +65,7 @@ class SiteAdmin(admin.ModelAdmin):
         ('Depths',  {'fields': [('depth1', 'depth_he1'),('depth2', 'depth_he2'),('depth3', 'depth_he3'),('depth4', 'depth_he4'),
                                 ('depth5', 'depth_he5'),('depth6', 'depth_he6'),('depth7', 'depth_he7'),('depth8', 'depth_he8'),
                                 ('depth9', 'depth_he9'),('depth10', 'depth_he10')],'classes': ['collapse']}),
-        ('Schedule',    {'fields': ['upper_limit', 'lower_limit', 'strategy', 'emitter_rate', 'row_spacing', 'emitter_spacing', 'plant_spacing', 'wetted_width'],
+        ('Schedule',    {'fields': ['upper_limit', 'lower_limit', 'strategy', 'emitter_rate', 'row_spacing', 'emitter_spacing', 'plant_spacing'],
             'classes': ['collapse']}),
     ]
     radio_fields = {'irrigation_method': admin.HORIZONTAL}

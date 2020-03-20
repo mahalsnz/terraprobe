@@ -241,10 +241,9 @@ class Site(models.Model):
     strategy = models.ForeignKey(StrategyType, null=True, blank=True, on_delete=models.CASCADE)
 
     emitter_rate = models.FloatField(null=True, blank=True)
-    row_spacing = models.IntegerField(null=True, blank=True, verbose_name="Row Spacing (cm)")
-    emitter_spacing = models.IntegerField(null=True, blank=True, verbose_name="Emitter Spacing (cm)")
-    plant_spacing = models.IntegerField(null=True, blank=True, verbose_name="Plant Spacing (cm)")
-    wetted_width = models.IntegerField(null=True, blank=True, verbose_name="Wetted Width (cm)")
+    row_spacing = models.FloatField(null=True, blank=True, verbose_name="Row Spacing (Meters)")
+    emitter_spacing = models.FloatField(null=True, blank=True, verbose_name="Emitter Spacing (Meters)")
+    plant_spacing = models.FloatField(null=True, blank=True, verbose_name="Plant Spacing (Meters)")
 
     comment = models.TextField(null=True, blank=True)
 
@@ -253,6 +252,11 @@ class Site(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def application_rate(self):
+        application_rate = self.emitter_rate / (self.row_spacing * self.emitter_spacing)
+        return round(application_rate, 2)
 
 class CriticalDate(models.Model):
     site = models.ForeignKey(Site, related_name='sites', on_delete=models.CASCADE)
@@ -393,13 +397,13 @@ class Reading(models.Model):
 
     comment = models.TextField(null=True, blank=True)
     # list(calendar.day_abbr) ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    rec_Mon = models.IntegerField(null=True, blank=True)
-    rec_Tue = models.IntegerField(null=True, blank=True)
-    rec_Wed = models.IntegerField(null=True, blank=True)
-    rec_Thu = models.IntegerField(null=True, blank=True)
-    rec_Fri = models.IntegerField(null=True, blank=True)
-    rec_Sat = models.IntegerField(null=True, blank=True)
-    rec_Sun = models.IntegerField(null=True, blank=True)
+    rec_Mon = models.FloatField(null=True, blank=True, default=0)
+    rec_Tue = models.FloatField(null=True, blank=True, default=0)
+    rec_Wed = models.FloatField(null=True, blank=True, default=0)
+    rec_Thu = models.FloatField(null=True, blank=True, default=0)
+    rec_Fri = models.FloatField(null=True, blank=True, default=0)
+    rec_Sat = models.FloatField(null=True, blank=True, default=0)
+    rec_Sun = models.FloatField(null=True, blank=True, default=0)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
@@ -410,6 +414,7 @@ class Reading(models.Model):
 
     class Meta:
         unique_together = (('date', 'site'))
+
 
 '''
 These are crop coefficients (Kc) from .DWU files are daily water use data.
