@@ -58,7 +58,8 @@ def process_reading_recommendation(request):
     week_start = reading.date.weekday() + 1
     week_start_abbr = calendar.day_abbr[week_start]
     week_values = {}
-
+    day_value = 0
+    water_day_value = 0
     for day in list(calendar.day_abbr):
         logger.debug(day)
         day_value = request.GET.get(day)
@@ -69,6 +70,9 @@ def process_reading_recommendation(request):
             setattr(reading, column, day_value)
         day_value = getattr(reading, column)
         week_values[day] = day_value
+
+        water_day_value = float(site.application_rate) * float(day_value)
+        week_values[day + '-water'] = water_day_value
         reading.save()
 
     logger.debug('Day of week to start:' + str(week_start_abbr) + ' values ' + str(week_values)) # Monday is zero

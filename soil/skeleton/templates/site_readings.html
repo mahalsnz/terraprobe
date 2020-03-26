@@ -92,6 +92,7 @@
                 <label for="Sat">Sat</label>
                 <label for="Sun">Sun</label>
             </div>
+            Hours
             <div id='week-days' class="input-group">
 
                     <input type="text" class="form-control" id="Mon" placeholder="Mon">
@@ -103,6 +104,16 @@
                 <input type="text" class="form-control" id="Sat" placeholder="Sat">
                 <input type="text" class="form-control" id="Sun" placeholder="Sun">
              </div>
+             MM/HR
+             <div id='week-days-water' class="input-group">
+                 <input type="text" class="form-control" id="Mon-water" readonly>
+                 <input type="text" class="form-control" id="Tue-water" readonly>
+                 <input type="text" class="form-control" id="Wed-water" readonly>
+                 <input type="text" class="form-control" id="Thu-water" readonly>
+                 <input type="text" class="form-control" id="Fri-water" readonly>
+                 <input type="text" class="form-control" id="Sat-water" readonly>
+                 <input type="text" class="form-control" id="Sun-water" readonly>
+              </div>
         </div>
 
         <!-- Modal footer -->
@@ -302,6 +313,14 @@
                 $("input#Sat").val(result.values['Sat']);
                 $("input#Sun").val(result.values['Sun']);
 
+                $("input#Mon-water").val(result.values['Mon-water']);
+                $("input#Tue-water").val(result.values['Tue-water']);
+                $("input#Wed-water").val(result.values['Wed-water']);
+                $("input#Thu-water").val(result.values['Thu-water']);
+                $("input#Fri-water").val(result.values['Fri-water']);
+                $("input#Sat-water").val(result.values['Sat-water']);
+                $("input#Sun-water").val(result.values['Sun-water']);
+
                 first_day = document.getElementById("week-days").firstElementChild.getAttribute("id");
 
                 if (first_day != result.week_start_abbr) {
@@ -314,9 +333,14 @@
                     arr = reorder(arr, result.week_start)
 
                     wrapper.append( $.map(arr, function(v){ return days_input[v] }) );
+
                     wrapper = $('#week-day-labels');
                     var days_label = wrapper.children();
                     wrapper.append( $.map(arr, function(v){ return days_label[v] }) );
+
+                    wrapper = $('#week-days-water');
+                    var days_water = wrapper.children();
+                    wrapper.append( $.map(arr, function(v){ return days_water[v] }) );
                 }
 
             }
