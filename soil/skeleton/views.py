@@ -44,14 +44,18 @@ TEMPLATES = {"select_crsf": "wizard/season_select.html",
 
 def process_reading_recommendation(request):
     site_id = request.GET.get('site')
+    season_id = request.GET.get('season')
     comment = request.GET.get('comment')
 
     site = Site.objects.get(id=site_id)
+    season = Season.objects.get(id=season_id)
+
     logger.debug('Application Rate:' + str(site.application_rate))
-    reading = Reading.objects.filter(site=site_id, type=1).latest('date')
+
+    dates = get_site_season_start_end(site, season)
+    reading = Reading.objects.filter(site=site, type__name='Probe', date__range=(dates.period_from, dates.period_to)).latest('date')
 
     week_start = reading.date.weekday() + 1
-
     week_start_abbr = calendar.day_abbr[week_start]
     week_values = {}
 
@@ -71,7 +75,7 @@ def process_reading_recommendation(request):
     if comment:
         reading.comment = comment
         reading.save()
-    return JsonResponse({ 'comment' : reading.comment, 'week_start': week_start_abbr, 'values' : week_values })
+    return JsonResponse({ 'comment' : reading.comment, 'week_start_abbr' : week_start_abbr, 'week_start': week_start, 'values' : week_values })
 
 def process_site_note(request):
     site_id = request.GET.get('site')

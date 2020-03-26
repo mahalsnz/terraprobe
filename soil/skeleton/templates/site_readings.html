@@ -265,12 +265,25 @@
         });
     });
     $("#display-reading-recommendation").click(function() {
+        text = $("#reading-list").find("p").text();
+
+        if (text == 'No readings') {
+            $('#reading-recommendation-modal').modal('toggle');
+            return;
+        }
+
         var siteId = $("#id_site").val();
-        console.log("SiteID:" + siteId);
+        if (siteId < 1) {
+            $('#reading-recommendation-modal').modal('toggle');
+            return;
+        }
+
+        var seasonId = $("#id_season").val();
         $.ajax({
             url: "/ajax/process-reading-recommendation/",
             data: {
-                'site': siteId
+                'site': siteId,
+                'season' : seasonId
             },
             dataType: 'json',
             success: function(result) {
@@ -279,7 +292,7 @@
                 }
 
                 $("textarea#reading-recommendation-text").val(result.comment);
-                console.log(result.values['Mon']);
+                console.log(result);
 
                 $("input#Mon").val(result.values['Mon']);
                 $("input#Tue").val(result.values['Tue']);
@@ -289,23 +302,29 @@
                 $("input#Sat").val(result.values['Sat']);
                 $("input#Sun").val(result.values['Sun']);
 
-                wrapper = $('#week-days');
+                first_day = document.getElementById("week-days").firstElementChild.getAttribute("id");
 
-                var days_input = wrapper.children();
-                console.log(days_input)
-                arr = [0,1,2,3,4,5,6];
-                arr = reorder(arr, 2)
+                if (first_day != result.week_start_abbr) {
+                    wrapper = $('#week-days');
 
-                wrapper.append( $.map(arr, function(v){ return days_input[v] }) );
-                wrapper = $('#week-day-labels');
-                var days_label = wrapper.children();
-                wrapper.append( $.map(arr, function(v){ return days_label[v] }) );
+                    var days_input = wrapper.children();
+
+                    console.log(first_day)
+                    arr = [0,1,2,3,4,5,6];
+                    arr = reorder(arr, result.week_start)
+
+                    wrapper.append( $.map(arr, function(v){ return days_input[v] }) );
+                    wrapper = $('#week-day-labels');
+                    var days_label = wrapper.children();
+                    wrapper.append( $.map(arr, function(v){ return days_label[v] }) );
+                }
 
             }
         });
     });
     $("#save-reading-recommendation").click(function() {
         var siteId = $("#id_site").val();
+        var seasonId = $("#id_season").val();
         var comment = $("#reading-recommendation-text").val();
         var mon = $("input#Mon").val();
         var tue = $("input#Tue").val();
@@ -320,6 +339,7 @@
             data: {
                 'site': siteId,
                 'comment': comment,
+                'season' : seasonId,
                 'Mon' : mon,
                 'Tue' : tue,
                 'Wed' : wed,
