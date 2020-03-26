@@ -44,17 +44,22 @@ TEMPLATES = {"select_crsf": "wizard/season_select.html",
 
 def process_reading_recommendation(request):
     site_id = request.GET.get('site')
+    season_id = request.GET.get('season')
     comment = request.GET.get('comment')
 
     site = Site.objects.get(id=site_id)
+    season = Season.objects.get(id=season_id)
+
     logger.debug('Application Rate:' + str(site.application_rate))
-    reading = Reading.objects.filter(site=site_id, type=1).latest('date')
+
+    dates = get_site_season_start_end(site, season)
+    reading = Reading.objects.filter(site=site, type__name='Probe', date__range=(dates.period_from, dates.period_to)).latest('date')
 
     week_start = reading.date.weekday() + 1
-
     week_start_abbr = calendar.day_abbr[week_start]
     week_values = {}
-
+    day_value = 0
+    water_day_value = 0
     for day in list(calendar.day_abbr):
         logger.debug(day)
         day_value = request.GET.get(day)
@@ -65,13 +70,16 @@ def process_reading_recommendation(request):
             setattr(reading, column, day_value)
         day_value = getattr(reading, column)
         week_values[day] = day_value
+
+        water_day_value = float(site.application_rate) * float(day_value)
+        week_values[day + '-water'] = water_day_value
         reading.save()
 
     logger.debug('Day of week to start:' + str(week_start_abbr) + ' values ' + str(week_values)) # Monday is zero
     if comment:
         reading.comment = comment
         reading.save()
-    return JsonResponse({ 'comment' : reading.comment, 'week_start': week_start_abbr, 'values' : week_values })
+    return JsonResponse({ 'comment' : reading.comment, 'week_start_abbr' : week_start_abbr, 'week_start': week_start, 'values' : week_values })
 
 def process_site_note(request):
     site_id = request.GET.get('site')

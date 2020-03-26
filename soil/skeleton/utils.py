@@ -52,7 +52,7 @@ def get_rz1_full_point_reading(site, season):
 '''
 
 def get_site_season_start_end(site, season):
-    logger.info('Get site ' + site.name + ' season ' + season.name + ' start and end')
+    logger.info('Get site ' + str(site.name) + ' season ' + str(season.name) + ' start and end')
     dates = None
     try:
         dates = SeasonStartEnd.objects.get(site=site.id, season=season.id)
