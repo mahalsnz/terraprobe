@@ -760,7 +760,6 @@
     "landline": null,
     "mobile": null,
     "email": "chris.skea@rockitapple.com",
-    "folder": null,
     "created_date": "2020-01-16T02:21:59Z",
     "created_by": 1
   }
@@ -778,7 +777,6 @@
     "landline": null,
     "mobile": null,
     "email": "chris.skea@rockitapple.com",
-    "folder": null,
     "created_date": "2020-01-16T02:28:35Z",
     "created_by": 1
   }
@@ -796,7 +794,6 @@
     "landline": null,
     "mobile": null,
     "email": "chris.skea@rockitapple.com",
-    "folder": null,
     "created_date": "2020-01-16T02:31:58Z",
     "created_by": 1
   }
@@ -814,7 +811,6 @@
     "landline": null,
     "mobile": null,
     "email": "chris.skea@rockitapple.com",
-    "folder": null,
     "created_date": "2020-01-16T02:33:45Z",
     "created_by": 1
   }
@@ -832,7 +828,6 @@
     "landline": null,
     "mobile": null,
     "email": "the.orchard@xtra.co.nz",
-    "folder": null,
     "created_date": "2020-01-16T02:34:58Z",
     "created_by": 1
   }
@@ -850,7 +845,6 @@
     "landline": null,
     "mobile": null,
     "email": "brendan@fruition.net.nz",
-    "folder": null,
     "created_date": "2020-01-16T03:22:19Z",
     "created_by": 1
   }
@@ -1510,11 +1504,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 40,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1537,16 +1531,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 3,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": 2,
-    "lower_strategy": null,
     "emitter_rate": 17.0,
     "row_spacing": 300,
     "emitter_spacing": 300,
     "plant_spacing": 150,
-    "wetted_width": 300,
-    "delivery_time": 1,
-    "area": 10.0,
     "comment": "",
     "created_date": "2020-01-16T02:47:39Z",
     "created_by": 1
@@ -1570,11 +1560,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1597,16 +1587,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 17.0,
     "row_spacing": 300,
     "emitter_spacing": 280,
     "plant_spacing": 140,
-    "wetted_width": 300,
-    "delivery_time": 1,
-    "area": 10.0,
     "comment": "",
     "created_date": "2020-01-16T02:51:01Z",
     "created_by": 1
@@ -1630,11 +1616,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1657,16 +1643,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 3,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": 2,
-    "lower_strategy": null,
     "emitter_rate": 17.0,
     "row_spacing": 300,
     "emitter_spacing": 280,
     "plant_spacing": 140,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:00:28Z",
     "created_by": 1
@@ -1690,11 +1672,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1717,16 +1699,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 17.0,
     "row_spacing": 300,
     "emitter_spacing": 280,
     "plant_spacing": 140,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:02:39Z",
     "created_by": 1
@@ -1750,11 +1728,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1777,16 +1755,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 17.0,
     "row_spacing": 300,
     "emitter_spacing": 280,
     "plant_spacing": 140,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:04:35Z",
     "created_by": 1
@@ -1810,11 +1784,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1837,16 +1811,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 17.0,
     "row_spacing": 300,
     "emitter_spacing": 280,
     "plant_spacing": 140,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:07:43Z",
     "created_by": 1
@@ -1870,11 +1840,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1897,16 +1867,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 17.0,
     "row_spacing": 300,
     "emitter_spacing": 280,
     "plant_spacing": 140,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:10:29Z",
     "created_by": 1
@@ -1930,11 +1896,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1957,16 +1923,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 17.0,
     "row_spacing": 300,
     "emitter_spacing": 280,
     "plant_spacing": 140,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:12:12Z",
     "created_by": 1
@@ -1990,11 +1952,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2017,16 +1979,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 17.0,
     "row_spacing": 300,
     "emitter_spacing": 280,
     "plant_spacing": 140,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:13:52Z",
     "created_by": 1
@@ -2050,11 +2008,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2077,16 +2035,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 17.0,
     "row_spacing": 300,
     "emitter_spacing": 280,
     "plant_spacing": 140,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:15:12Z",
     "created_by": 1
@@ -2110,11 +2064,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2137,16 +2091,11 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 45.0,
     "row_spacing": 450,
     "emitter_spacing": 500,
-    "plant_spacing": 250,
-    "wetted_width": 450,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:16:56Z",
     "created_by": 1
@@ -2170,11 +2119,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2197,16 +2146,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 29.0,
     "row_spacing": 300,
     "emitter_spacing": 280,
     "plant_spacing": 140,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:19:26Z",
     "created_by": 1
@@ -2230,11 +2175,11 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 60,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2257,16 +2202,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 3,
-    "upper_strategy": 1,
+    "strategy": 1,
     "lower_limit": 2,
-    "lower_strategy": null,
     "emitter_rate": 40.0,
     "row_spacing": 330,
     "emitter_spacing": 300,
     "plant_spacing": 150,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:24:18Z",
     "created_by": 1
@@ -2290,11 +2231,11 @@
     "irrigation_position": 12.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 110,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2317,16 +2258,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": null,
-    "lower_strategy": null,
     "emitter_rate": 35.0,
     "row_spacing": 300,
     "emitter_spacing": 300,
     "plant_spacing": 150,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "Lemon, Grapefruit and mandarins",
     "created_date": "2020-01-16T03:25:48Z",
     "created_by": 1
@@ -2350,11 +2287,11 @@
     "irrigation_position": 12.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-    "rz1_top": 0,
+
     "rz1_bottom": 110,
-    "rz2_top": null,
+
     "rz2_bottom": null,
-    "rz3_top": null,
+
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2377,16 +2314,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 3,
-    "upper_strategy": null,
+    "strategy": 1,
     "lower_limit": 2,
-    "lower_strategy": null,
     "emitter_rate": 35.0,
     "row_spacing": 300,
     "emitter_spacing": 300,
     "plant_spacing": 150,
-    "wetted_width": 300,
-    "delivery_time": null,
-    "area": null,
     "comment": "",
     "created_date": "2020-01-16T03:28:17Z",
     "created_by": 1
