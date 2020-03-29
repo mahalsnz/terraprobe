@@ -564,10 +564,9 @@
 },
 {
   "model": "skeleton.crop",
-  "pk": 2,
+  "pk": 1,
   "fields": {
     "name": "Apples",
-    "variety": 1,
     "report": 1,
     "dwu_formaula": null,
     "created_date": "2019-06-27T21:43:09Z",
@@ -576,49 +575,12 @@
 },
 {
   "model": "skeleton.crop",
-  "pk": 3,
+  "pk": 2,
   "fields": {
-    "name": "Kiwifruit",
-    "variety": null,
+    "name": "Grapes",
     "report": 1,
     "dwu_formaula": null,
     "created_date": "2019-07-09T01:48:02Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.crop",
-  "pk": 4,
-  "fields": {
-    "name": "Grapes",
-    "variety": null,
-    "report": 1,
-    "dwu_formaula": null,
-    "created_date": "2019-07-09T01:48:35Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.crop",
-  "pk": 5,
-  "fields": {
-    "name": "Apples",
-    "variety": 2,
-    "report": null,
-    "dwu_formaula": null,
-    "created_date": "2020-02-26T20:11:46Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.crop",
-  "pk": 6,
-  "fields": {
-    "name": "Apples",
-    "variety": 3,
-    "report": null,
-    "dwu_formaula": null,
-    "created_date": "2020-02-26T20:12:12Z",
     "created_by": 1
   }
 },
@@ -824,7 +786,7 @@
     "technician": 3,
     "selected": null,
     "name": "Pinot Noir Springstone",
-    "crop": 4,
+    "product": null,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -877,7 +839,7 @@
     "technician": 3,
     "selected": null,
     "name": "Sandpit Pink Lady 22 Notchwood side (no weed mat)",
-    "crop": 2,
+    "product": null,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -930,7 +892,7 @@
     "technician": 4,
     "selected": null,
     "name": "Smiley Pink Kiss",
-    "crop": 2,
+    "product": null,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -983,7 +945,7 @@
     "technician": 3,
     "selected": null,
     "name": "River 4 Pacific Rose",
-    "crop": 2,
+    "product": null,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1036,7 +998,7 @@
     "technician": 3,
     "selected": null,
     "name": "Deer Block 3 Pacific Queen",
-    "crop": 5,
+    "product": null,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1089,7 +1051,7 @@
     "technician": 4,
     "selected": null,
     "name": "Jazz",
-    "crop": 6,
+    "product": null,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -6077,7 +6039,7 @@
   "model": "skeleton.kcreading",
   "pk": 7,
   "fields": {
-    "crop": 4,
+    "crop": 1,
     "period_from": "2018-10-09",
     "period_to": "2018-10-24",
     "kc": 0.5,
@@ -6089,7 +6051,7 @@
   "model": "skeleton.kcreading",
   "pk": 8,
   "fields": {
-    "crop": 4,
+    "crop": 1,
     "period_from": "2018-10-25",
     "period_to": "2018-11-25",
     "kc": 0.6,
@@ -6101,7 +6063,7 @@
   "model": "skeleton.kcreading",
   "pk": 9,
   "fields": {
-    "crop": 4,
+    "crop": 1,
     "period_from": "2018-11-26",
     "period_to": "2018-12-13",
     "kc": 1.0,
@@ -6113,7 +6075,7 @@
   "model": "skeleton.kcreading",
   "pk": 10,
   "fields": {
-    "crop": 4,
+    "crop": 1,
     "period_from": "2018-12-14",
     "period_to": "2019-05-13",
     "kc": 3.5,
@@ -6125,7 +6087,7 @@
   "model": "skeleton.kcreading",
   "pk": 11,
   "fields": {
-    "crop": 4,
+    "crop": 1,
     "period_from": "2019-05-14",
     "period_to": "2019-05-30",
     "kc": 5.0,

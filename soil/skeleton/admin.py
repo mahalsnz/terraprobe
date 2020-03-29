@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import Farm, Site, SiteDescription, Crop, Reading
+from .models import Farm, Site, SiteDescription, Crop, Product, Reading
 from .models import Report
 from .models import Calibration
 from .models import ReadingType
@@ -55,9 +55,9 @@ class FarmAdmin(admin.ModelAdmin):
     list_display = ('name', 'weatherstation')
 
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('site_number', 'name', 'farm', 'crop', 'technician', 'application_rate')
+    list_display = ('site_number', 'name', 'farm', 'product', 'technician', 'application_rate')
     fieldsets = [
-        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'crop','comment','created_date', 'created_by']}),
+        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'product','comment','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
             'classes': ['collapse']}),
         ('Root Zones',
@@ -77,8 +77,8 @@ class SiteAdmin(admin.ModelAdmin):
 
     #.values('first_name','last_name')
 
-class CropAdmin(admin.ModelAdmin):
-    list_display = ['name', 'variety']
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['crop', 'variety']
 
 class ProbeAdmin(admin.ModelAdmin):
     list_display = ['id', 'serial_number', 'comment']
@@ -94,7 +94,8 @@ class SeasonStartEndAdmin(admin.ModelAdmin):
 
 admin.site.register(Site, SiteAdmin)
 admin.site.register(Farm, FarmAdmin)
-admin.site.register(Crop, CropAdmin)
+admin.site.register(Product, ProductAdmin)
+admin.site.register(Crop)
 admin.site.register(Reading, ReadingAdmin)
 admin.site.register(Report)
 admin.site.register(Calibration, CalibrationAdmin)
