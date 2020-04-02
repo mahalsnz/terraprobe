@@ -7,14 +7,14 @@
 
 {% block content %}
 <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
-<h2 class="bg-green">Select Crops, Regions and Season to start a new season.</h2>
+<h2 class="bg-green">Select Products, Regions and Season to start a new season.</h2>
 <form action="" method="post">{% csrf_token %}
 
 {{ wizard.management_form }}
 <div class="row">
     <div class="col-sm-4">
-        {{ wizard.form.crop|as_crispy_field }}
-        <a href="#" class="select-all-crops">Select All Crops</a>
+        {{ wizard.form.product|as_crispy_field }}
+        <a href="#" class="select-all-crops">Select All Products</a>
     </div>
     <div class="col-sm-4">
         {{ wizard.form.region|as_crispy_field }}

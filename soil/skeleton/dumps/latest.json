@@ -82,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2020-03-20T00:34:16.130Z",
+    "last_login": "2020-03-31T19:28:49.107Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -209,6 +209,14 @@
   "fields": {
     "session_data": "MDM0YTk5NzliZDExZjA1NjE0YzRkMGYxYTAxMTYxYTBjZjA0MjFjYTp7Il9hdXRoX3VzZXJfaWQiOiI1IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3OTNkZDI3M2NhZTA4NzY3NjhhNjVhYTlmZWRhMDVkMzA3YTg5MzdiIn0=",
     "expire_date": "2019-12-02T22:19:42.267Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "chil8sy9m4hdx75t899i7452ztpvc6ft",
+  "fields": {
+    "session_data": "ZTVmZmJjZmIzMDJmMzY3MjJkN2M2ZTk1OWIzZjA4MmU0NmI1N2E2OTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0Iiwid2l6YXJkX3NlYXNvbl93aXphcmQiOnsic3RlcCI6InNlbGVjdF9jcnNmIiwic3RlcF9kYXRhIjp7fSwic3RlcF9maWxlcyI6e30sImV4dHJhX2RhdGEiOnt9fX0=",
+    "expire_date": "2020-04-16T19:54:39.234Z"
   }
 },
 {
@@ -563,6 +571,16 @@
   }
 },
 {
+  "model": "skeleton.variety",
+  "pk": 4,
+  "fields": {
+    "name": "Pinot Noir",
+    "comment": "",
+    "created_date": "2020-04-02T19:54:16Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.crop",
   "pk": 1,
   "fields": {
@@ -581,6 +599,54 @@
     "report": 1,
     "dwu_formaula": null,
     "created_date": "2019-07-09T01:48:02Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.product",
+  "pk": 1,
+  "fields": {
+    "crop": 1,
+    "variety": 1,
+    "report": null,
+    "comment": "",
+    "created_date": "2020-04-02T19:53:49Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.product",
+  "pk": 2,
+  "fields": {
+    "crop": 1,
+    "variety": 2,
+    "report": null,
+    "comment": "",
+    "created_date": "2020-04-02T19:54:01Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.product",
+  "pk": 3,
+  "fields": {
+    "crop": 1,
+    "variety": 3,
+    "report": null,
+    "comment": "",
+    "created_date": "2020-04-02T19:54:05Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.product",
+  "pk": 4,
+  "fields": {
+    "crop": 2,
+    "variety": 4,
+    "report": null,
+    "comment": "",
+    "created_date": "2020-04-02T19:54:30Z",
     "created_by": 1
   }
 },
@@ -786,7 +852,7 @@
     "technician": 3,
     "selected": null,
     "name": "Pinot Noir Springstone",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -822,8 +888,8 @@
     "lower_limit": 3,
     "strategy": 1,
     "emitter_rate": 55.0,
-    "row_spacing": 5,
-    "emitter_spacing": 5,
+    "row_spacing": 5.0,
+    "emitter_spacing": 5.0,
     "plant_spacing": 2.5,
     "comment": "",
     "created_date": "2019-06-24T23:53:03Z",
@@ -839,7 +905,7 @@
     "technician": 3,
     "selected": null,
     "name": "Sandpit Pink Lady 22 Notchwood side (no weed mat)",
-    "product": null,
+    "product": 1,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -892,7 +958,7 @@
     "technician": 4,
     "selected": null,
     "name": "Smiley Pink Kiss",
-    "product": null,
+    "product": 1,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -928,8 +994,8 @@
     "lower_limit": 3,
     "strategy": 1,
     "emitter_rate": 55.0,
-    "row_spacing": 5,
-    "emitter_spacing": 5,
+    "row_spacing": 5.0,
+    "emitter_spacing": 5.0,
     "plant_spacing": 2.5,
     "comment": "asdfasdf",
     "created_date": "2019-06-30T21:53:59Z",
@@ -945,7 +1011,7 @@
     "technician": 3,
     "selected": null,
     "name": "River 4 Pacific Rose",
-    "product": null,
+    "product": 2,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -981,7 +1047,7 @@
     "lower_limit": 3,
     "strategy": null,
     "emitter_rate": 50.0,
-    "row_spacing": 5,
+    "row_spacing": 5.0,
     "emitter_spacing": 2.5,
     "plant_spacing": 2.5,
     "comment": "",
@@ -998,7 +1064,7 @@
     "technician": 3,
     "selected": null,
     "name": "Deer Block 3 Pacific Queen",
-    "product": null,
+    "product": 2,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1034,7 +1100,7 @@
     "lower_limit": 3,
     "strategy": null,
     "emitter_rate": 47.0,
-    "row_spacing": 5,
+    "row_spacing": 5.0,
     "emitter_spacing": 2.5,
     "plant_spacing": 2.5,
     "comment": "111",
@@ -1051,7 +1117,7 @@
     "technician": 4,
     "selected": null,
     "name": "Jazz",
-    "product": null,
+    "product": 2,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -9810,6 +9876,149 @@
     "object_repr": "Smiley Pink Kiss",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"strategy\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 262,
+  "fields": {
+    "action_time": "2020-04-02T19:53:59.045Z",
+    "user": 1,
+    "content_type": 34,
+    "object_id": "1",
+    "object_repr": "Apples - Envy",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 263,
+  "fields": {
+    "action_time": "2020-04-02T19:54:05.719Z",
+    "user": 1,
+    "content_type": 34,
+    "object_id": "2",
+    "object_repr": "Apples - Pacific Rose",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 264,
+  "fields": {
+    "action_time": "2020-04-02T19:54:10.534Z",
+    "user": 1,
+    "content_type": 34,
+    "object_id": "3",
+    "object_repr": "Apples - Fuji",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 265,
+  "fields": {
+    "action_time": "2020-04-02T19:54:21.439Z",
+    "user": 1,
+    "content_type": 23,
+    "object_id": "4",
+    "object_repr": "Pinot Noir",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 266,
+  "fields": {
+    "action_time": "2020-04-02T19:54:35.292Z",
+    "user": 1,
+    "content_type": 34,
+    "object_id": "4",
+    "object_repr": "Grapes - Pinot Noir",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 267,
+  "fields": {
+    "action_time": "2020-04-02T20:00:10.943Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 268,
+  "fields": {
+    "action_time": "2020-04-02T20:00:29.982Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "2",
+    "object_repr": "Sandpit Pink Lady 22 Notchwood side (no weed mat)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 269,
+  "fields": {
+    "action_time": "2020-04-02T20:00:42.398Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "3",
+    "object_repr": "Smiley Pink Kiss",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 270,
+  "fields": {
+    "action_time": "2020-04-02T20:01:08.013Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "4",
+    "object_repr": "River 4 Pacific Rose",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 271,
+  "fields": {
+    "action_time": "2020-04-02T20:01:14.927Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "5",
+    "object_repr": "Deer Block 3 Pacific Queen",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 272,
+  "fields": {
+    "action_time": "2020-04-02T20:01:23.000Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "6",
+    "object_repr": "Jazz",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
   }
 }
 ]

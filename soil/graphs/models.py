@@ -21,6 +21,15 @@ class ReadingType(models.Model):
         managed = False
         db_table = "graphs_readingtype"
 
+
+class Product(models.Model):
+    crop = models.CharField(max_length=100, null=False)
+    variety = models.CharField(max_length=100, null=False)
+
+    class Meta:
+        managed = False
+        db_table = "graphs_product"
+
 class vsw_reading(models.Model):
     reading_id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
@@ -28,7 +37,6 @@ class vsw_reading(models.Model):
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
     type = models.TextField()
-    crop_id = models.IntegerField()
     rz1_bottom = models.IntegerField()
     rz1 = models.FloatField()
     rz2 = models.FloatField()

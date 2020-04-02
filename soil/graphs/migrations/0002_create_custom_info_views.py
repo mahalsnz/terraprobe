@@ -33,13 +33,16 @@ class Migration(migrations.Migration):
             	skeleton_readingtype.name
             FROM
                 skeleton_readingtype;
-
-            CREATE OR REPLACE VIEW graphs_crop AS
+                
+            CREATE OR REPLACE VIEW graphs_product AS
             SELECT
-                skeleton_crop.id,
-            	skeleton_crop.name
+                skeleton_product.id,
+            	skeleton_crop.name AS crop,
+                skeleton_variety.name AS variety
             FROM
-                skeleton_crop;
+                skeleton_product
+            LEFT JOIN skeleton_crop ON skeleton_crop.id = skeleton_product.crop_id
+            LEFT JOIN skeleton_variety ON skeleton_variety.id = skeleton_product.variety_id;
 '''
         )
 
