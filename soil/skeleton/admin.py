@@ -16,7 +16,7 @@ from .models import CriticalDateType
 from .models import CriticalDate, UserFullName
 from .models import SeasonStartEnd
 from .models import WeatherStation
-from .models import Variety, Strategy, StrategyType
+from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType
 
 class StrategyAdmin(admin.ModelAdmin):
     list_display = ('type', 'critical_date_type', 'days', 'percentage')
@@ -111,5 +111,6 @@ admin.site.register(CriticalDate, CriticalDateAdmin)
 admin.site.register(SeasonStartEnd, SeasonStartEndAdmin)
 admin.site.register(WeatherStation, WeatherStationAdmin)
 admin.site.register(Variety)
+admin.site.register(VarietySeasonTemplate)
 admin.site.register(Strategy, StrategyAdmin)
 admin.site.register(StrategyType)

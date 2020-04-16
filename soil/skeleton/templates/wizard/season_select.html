@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-sm-4">
         {{ wizard.form.product|as_crispy_field }}
-        <a href="#" class="select-all-crops">Select All Products</a>
+        <a href="#" class="select-all-products">Select All Products</a>
     </div>
     <div class="col-sm-4">
         {{ wizard.form.region|as_crispy_field }}
@@ -32,8 +32,8 @@
 </form>
 
 <script>
-    $('.select-all-crops').click(function(){
-        $('#id_select_crsf-crop option').attr('selected', 'selected');
+    $('.select-all-products').click(function(){
+        $('#id_select_crsf-product option').attr('selected', 'selected');
     });
     $('.select-all-regions').click(function(){
         $('#id_select_crsf-region option').attr('selected', 'selected');

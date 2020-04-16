@@ -9,7 +9,6 @@ from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, Readin
 , FarmList, FarmDetail, ReadingDetail, ReadingList, SiteReadingList, SiteList, SiteDetail
 
 FORMS = [("select_crsf", SelectCropRegionSeasonForm),
-         ("create_ssef", CreateSeasonStartEndForm),
          ("create_rfpr", CreateRefillFullPointForm)]
 
 urlpatterns = [

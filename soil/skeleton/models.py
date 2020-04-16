@@ -140,6 +140,22 @@ class Variety(models.Model):
     def __str__(self):
         return self.name
 
+class VarietySeasonTemplate(models.Model):
+    variety = models.ForeignKey(Variety, null=False, on_delete=models.CASCADE)
+    critical_date_type = models.ForeignKey(CriticalDateType, null=False, on_delete=models.CASCADE, help_text='The Critical Date Type to create new season Critical Dates for all sites that are of this variety.')
+    season_date = models.DateField(default=timezone.now, null=False, help_text='The day and month to create new season Critical Dates for all sites that are of this variety.')
+
+    comment = models.TextField(null=True, blank=True)
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+
+    def __str__(self):
+        return str(self.variety) + ' - ' + str(self.critical_date_type) + ' - ' + str(self.season_date.strftime('%B-%d'))
+
+    @property
+    def formatted_season_date(self):
+        self.season_date.strftime('%m-%Y')
+
 class Crop(models.Model):
     name = models.CharField(max_length=100, null=True)
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
