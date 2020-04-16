@@ -63,11 +63,13 @@ def process_reading_recommendation(request):
         logger.debug(day)
         day_value = request.GET.get(day)
 
-        logger.debug(day_value)
+        logger.debug('request day value:' + str(day_value))
         column = 'rec_' + str(day)
         if day_value:
             setattr(reading, column, day_value)
         day_value = getattr(reading, column)
+        if day_value is None:
+            day_value = 0
         week_values[day] = day_value
 
         water_day_value = float(site.application_rate) * float(day_value)
