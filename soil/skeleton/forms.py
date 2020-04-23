@@ -1,16 +1,19 @@
 from django import forms
-from .models import Document, Reading, ReadingType, Season, Farm, Site, UserFullName, SiteDescription, Crop, CriticalDate, SeasonStartEnd
+from .models import Document, Reading, ReadingType, Season, Farm, Site, UserFullName, SiteDescription, Product, CriticalDate, SeasonStartEnd
 from address.models import State
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
 
 from django.forms import ModelChoiceField, ModelMultipleChoiceField
+from django.forms import CheckboxInput
 from bootstrap_datepicker_plus import DatePickerInput
 
 class SelectCropRegionSeasonForm(forms.Form):
-    crop = forms.ModelMultipleChoiceField(queryset = Crop.objects.all().order_by('name'))
+    product = forms.ModelMultipleChoiceField(queryset = Product.objects.all().order_by('crop'))
     region = forms.ModelMultipleChoiceField(queryset = State.objects.all().order_by('name'))
     season = forms.ModelChoiceField(Season.objects.all().order_by('-current_flag'), widget=forms.Select(), required=True, empty_label=None)
+    multi_year_season = forms.BooleanField(required=False, initial=True)
+    refill_fullpoint_copy = forms.BooleanField(required=False, initial=True)
 
 class CreateSeasonStartEndForm(forms.Form):
     period_from = forms.DateField(

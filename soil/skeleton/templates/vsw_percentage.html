@@ -85,6 +85,7 @@
     <div class="col" id="area2"></div>
 </div>
 <script>
+//var parseTime = d3.timeParse("%m-%d-%Y");
 var parseTime = d3.timeParse("%Y-%m-%d");
 
 // assemble reading date and previous reading date into this and last weeks dates javascript dates. Time does not matter
@@ -144,8 +145,13 @@ var season_vswline0 = d3.line()
     .x(function(r) { return seasonx(r.date); })
     .y(function(r) { return seasony0(r.total); });
 
-// Season Full Point Total
+// Season upper stategy line
 var season_upper_strategy_line = d3.line()
+    .x(function(r) { return seasonx(r.date); })
+    .y(function(r) { return seasony0(r.total); });
+
+// Season lower strategy line
+var season_lower_strategy_line = d3.line()
     .x(function(r) { return seasonx(r.date); })
     .y(function(r) { return seasony0(r.total); });
 
@@ -204,8 +210,14 @@ var seasons_lower_strategy = []
 var season_grouping = [];
 vsw_count = 10; // delivered by vsw_reading api
 
+function sortByDateAscending(a, b) {
+    // Dates will be cast to numbers automagically:
+    return a.date - b.date;
+}
+
 d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(data) {
     // Get strategies
+
     d3.json('/graphs/api/vsw_strategy/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(strategy_data) {
 
         strategy_data.forEach(function(strategy) {
@@ -216,8 +228,13 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 'date' : parsed_date,
                 'total' : strategy.upper_strategy_vsw,
             });
+
+            seasons_lower_strategy.push({
+                'date' : parsed_date,
+                'total' : strategy.lower_strategy_vsw,
+            });
         });
-        console.log(seasons_upper_strategy);
+
 
     console.log("This Week:" + this_week_date + " Last week:" + last_week_date);
     vsw_readings_date_array = []; // This is better to use for refill and full point full_point_readings
@@ -240,7 +257,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             });
 
             vsw_readings_date_array.push(parsed_date)
-            console.log('vsw_readings_date_array:' + vsw_readings_date_array)
             if (this_week_date == reading_date) {
                 for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
@@ -304,6 +320,16 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             }
         }
     });
+    seasons_vsw_readings = seasons_vsw_readings.sort(sortByDateAscending);
+    console.log('seasons_vsw_readings');
+    console.log(seasons_vsw_readings);
+    console.log('upper')
+    seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
+    console.log(seasons_upper_strategy);
+    console.log('lower')
+    seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
+    console.log(seasons_lower_strategy);
+
 
     // Scale the range of the data
     x.domain([5, 50]);
@@ -324,9 +350,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .attr("class", "line")
         .attr("d", season_vswline0);
 
-    console.log(season_grouping);
+    //console.log(season_grouping);
     var keys = ['rain', 'irrigation_mms']
-    console.log("keys:" + keys);
+    //console.log("keys:" + keys);
 
     x0.domain(season_grouping.map(function(d) { return d.dtg; }));
     x1.domain(keys).rangeRound([0, x0.bandwidth()]);
@@ -387,6 +413,12 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .style("stroke-width", "3px")
         .attr("d", season_upper_strategy_line);
 
+    season_graph.append("path")
+        .data([seasons_lower_strategy])
+        .attr("class", "line")
+        .style("stroke", "yellow")
+        .style("stroke-width", "3px")
+        .attr("d", season_lower_strategy_line);
 
     weekly_graph.append("path")
         .data([previous_vsw_readings])

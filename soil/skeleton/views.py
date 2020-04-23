@@ -12,7 +12,7 @@ from django.contrib import messages
 
 from django.db.models import Sum, Q
 from graphs.models import vsw_reading
-from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType
+from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType, Variety, VarietySeasonTemplate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from formtools.wizard.views import SessionWizardView
@@ -31,12 +31,10 @@ logger = logging.getLogger(__name__)
 from .forms import DocumentForm, SiteReadingsForm
 
 from datetime import datetime
-
+from dateutil.relativedelta import relativedelta
 from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season, get_previous_season
 
-TEMPLATES = {"select_crsf": "wizard/season_select.html",
-             "create_ssef": "wizard/season_create.html",
-             "create_rfpr": "wizard/refill_fullpoint_create.html"}
+TEMPLATES = {"select_crsf": "wizard/season_select.html"}
 
 '''
     Handles ajax call to display or update site note from the main Readings screen
@@ -64,11 +62,13 @@ def process_reading_recommendation(request):
         logger.debug(day)
         day_value = request.GET.get(day)
 
-        logger.debug(day_value)
+        logger.debug('request day value:' + str(day_value))
         column = 'rec_' + str(day)
         if day_value:
             setattr(reading, column, day_value)
         day_value = getattr(reading, column)
+        if day_value is None:
+            day_value = 0
         week_values[day] = day_value
 
         water_day_value = float(site.application_rate) * float(day_value)
@@ -113,85 +113,58 @@ def process_form_data(form_list, self):
 
     # Get form parameters
     regions = form_data[0]['region']
-    crops = form_data[0]['crop']
+    products = form_data[0]['product']
     season = form_data[0]['season']
+    multi_year_season = form_data[0]['multi_year_season']
+    refill_fullpoint_copy = form_data[0]['refill_fullpoint_copy']
+    logger.debug('Form ' + str(form_data[0]))
 
     # Get sites we are going to work with
     sites = Site.objects.none()
     for region in regions:
-        for crop in crops:
-            sites |= Site.objects.filter(farm__address__locality__state=region, crop=crop)
+        for product in products:
+            sites |= Site.objects.filter(farm__address__locality__state=region, product=product)
     logger.debug('Sites to process in Season Wizard:' + str(sites))
 
-    # create a couple of start and end critical date critical_date_types
-    start_type = CriticalDateType.objects.get(name='Start')
-    end_type = CriticalDateType.objects.get(name='End')
-    previous_season = get_previous_season(season)
+    # If multi season, get season start year
+    if multi_year_season:
+        logger.debug('Season Year Start ' + str(season.formatted_season_start_year))
+        season_end_year = season.season_date + relativedelta(years=1)
+        logger.debug('Season Year End ' + season_end_year.strftime('%Y'))
 
-    if form_data[1]['seasons_copy']:
-        logger.debug('Copying Seasons')
 
-        for site in sites:
-            dates = get_site_season_start_end(site, previous_season)
+    for site in sites:
+        # Grap the start and end date types
+        site_season_start_date = None
+        site_season_end_date = None
+        if multi_year_season:
+            site_season_start = VarietySeasonTemplate.objects.get(variety__product__site__id=site.id, critical_date_type__name='Start')
+            site_season_start_date = site_season_start.season_date
+            logger.debug('For ' + str(site) + ' site_season_start_date' + str(site_season_start_date))
 
-            logger.debug('Copying ' + str(site) + ' season start end dates of ' + str(dates.period_from) + str(dates.period_to) + ' to season ' + str(season))
+        # get variety season TEMPLATES
+        templates = VarietySeasonTemplate.objects.filter(variety__product__site__id=site.id)
+        for template in templates:
+            template_season_date = None
+            logger.debug('For ' + str(site) + ' creating crtical date ' + str(template.critical_date_type) + str(template.season_date) + ' to season ' + str(season))
+
+
+
+            # Transofrm template.season_date by
             try:
                 cd = CriticalDate(
                     site = site,
                     season = season,
-                    date = dates.period_from,
-                    type = start_type,
+                    date = template.season_date,
+                    type = template.critical_date_type,
                     created_by = self.request.user
                 )
-                cd.save()
-                cd = CriticalDate(
-                    site = site,
-                    season = season,
-                    date = dates.period_to,
-                    type = end_type,
-                    created_by = self.request.user
-                )
-                cd.save()
+                #cd.save()
                 success_data['sites'] = sites
             except Exception as e:
-                raise Exception("Cannot copy Season Start End date for site " + str(site) + " because " + str(e))
-    else:
-        period_from = form_data[1]['period_from']
-        period_to = form_data[1]['period_to']
-        logger.debug('Creating/updating season start to ' + str(period_from) + ' season end to ' + str(period_to) + ' for season ' + str(season))
+                raise Exception("Cannot create critical date " + str(site) + " because " + str(e))
 
-        for site in sites:
-            # does site have existing start and end dates
-            dates = get_site_season_start_end(site, season)
-            if dates:
-                logger.debug('Updating:')
-                start = CriticalDate.objects.get(site = site,season = season,type = start_type)
-                setattr(start, 'date', period_from)
-                start.save()
-                end = CriticalDate.objects.get(site = site,season = season,type = end_type)
-                setattr(end, 'date', period_to)
-                end.save()
-            else:
-                logger.debug('Creating:')
-                cd = CriticalDate(
-                    site = site,
-                    season = season,
-                    date = period_from,
-                    type = start_type,
-                    created_by = self.request.user
-                )
-                cd.save()
-                cd = CriticalDate(
-                    site = site,
-                    season = season,
-                    date = period_to,
-                    type = end_type,
-                    created_by = self.request.user
-                )
-                cd.save()
-            success_data['site'].append(site)
-
-    if form_data[2]['types_copy']:
+    if form_data[1]['types_copy']:
         logger.debug('Copying Refill and Full Point Types')
 
         # Use previous seasons start date as the reading date

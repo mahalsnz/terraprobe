@@ -125,7 +125,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$s1tgXax98CQE$YJNmsRCg0yAXSC+8wLM31WAuRE7/EymXToBSlemq3sE=",
-    "last_login": "2020-03-12T20:30:09.125Z",
+    "last_login": "2020-04-19T21:06:39.893Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",
@@ -156,6 +156,14 @@
       1
     ],
     "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "1svhtufspicnx3v7rlx2zakbszr9fnpy",
+  "fields": {
+    "session_data": "MmEyNTMzNTg2NWI2MTJmYzNmZmIwMzMyNmFkZWUyMGU5NDM1ZjYyODp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5MjIwMWY2MGRjYzZhYzkwYWRmZjU0NjE5ZjU2ZWIyMTRjYmEwNGIxIn0=",
+    "expire_date": "2020-05-03T21:06:39.964Z"
   }
 },
 {
@@ -548,8 +556,20 @@
   "pk": 1,
   "fields": {
     "name": "2019-20",
+    "season_date": "2019-11-05",
     "current_flag": true,
     "created_date": "2020-01-27T00:54:00Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.season",
+  "pk": 2,
+  "fields": {
+    "name": "2020-21",
+    "season_date": "2020-04-19",
+    "current_flag": false,
+    "created_date": "2020-04-19T23:51:09Z",
     "created_by": 1
   }
 },
@@ -1140,6 +1160,18 @@
   }
 },
 {
+  "model": "skeleton.varietyseasontemplate",
+  "pk": 1,
+  "fields": {
+    "variety": 1,
+    "critical_date_type": 1,
+    "season_date": "2020-04-19",
+    "comment": "",
+    "created_date": "2020-04-19T23:16:54Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.crop",
   "pk": 1,
   "fields": {
@@ -1195,10 +1227,59 @@
   }
 },
 {
+  "model": "skeleton.product",
+  "pk": 1,
+  "fields": {
+    "crop": 4,
+    "variety": 11,
+    "report": null,
+    "comment": "",
+    "created_date": "2020-04-19T21:07:50Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.product",
+  "pk": 2,
+  "fields": {
+    "crop": 3,
+    "variety": 14,
+    "report": null,
+    "comment": "",
+    "created_date": "2020-04-19T21:08:07Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.product",
+  "pk": 3,
+  "fields": {
+    "crop": 1,
+    "variety": 1,
+    "report": null,
+    "comment": "",
+    "created_date": "2020-04-19T21:08:22Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.product",
+  "pk": 4,
+  "fields": {
+    "crop": 1,
+    "variety": 6,
+    "report": null,
+    "comment": "",
+    "created_date": "2020-04-19T21:08:28Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.strategytype",
   "pk": 1,
   "fields": {
     "name": "Apple standard deficit",
+    "percentage": null,
     "comment": "",
     "created_date": "2020-03-16T02:01:58Z",
     "created_by": 1
@@ -1382,7 +1463,7 @@
     "technician": 2,
     "selected": null,
     "name": "Whar 2 (name unknown yet)",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1391,11 +1472,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 40,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1418,12 +1496,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 3,
-    "strategy": 1,
     "lower_limit": 2,
+    "strategy": 1,
     "emitter_rate": 17.0,
-    "row_spacing": 300,
-    "emitter_spacing": 300,
-    "plant_spacing": 150,
+    "row_spacing": 300.0,
+    "emitter_spacing": 300.0,
+    "plant_spacing": 150.0,
     "comment": "",
     "created_date": "2020-01-16T02:47:39Z",
     "created_by": 1
@@ -1438,7 +1516,7 @@
     "technician": 2,
     "selected": null,
     "name": "Front (Name TBD)",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1447,11 +1525,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1474,12 +1549,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 17.0,
-    "row_spacing": 300,
-    "emitter_spacing": 280,
-    "plant_spacing": 140,
+    "row_spacing": 300.0,
+    "emitter_spacing": 280.0,
+    "plant_spacing": 140.0,
     "comment": "",
     "created_date": "2020-01-16T02:51:01Z",
     "created_by": 1
@@ -1494,7 +1569,7 @@
     "technician": 2,
     "selected": null,
     "name": "Zone 6 (Name TBD)",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1503,11 +1578,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1530,12 +1602,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 3,
-    "strategy": 1,
     "lower_limit": 2,
+    "strategy": 1,
     "emitter_rate": 17.0,
-    "row_spacing": 300,
-    "emitter_spacing": 280,
-    "plant_spacing": 140,
+    "row_spacing": 300.0,
+    "emitter_spacing": 280.0,
+    "plant_spacing": 140.0,
     "comment": "",
     "created_date": "2020-01-16T03:00:28Z",
     "created_by": 1
@@ -1550,7 +1622,7 @@
     "technician": 2,
     "selected": null,
     "name": "Zone 10 (Name TBD)",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1559,11 +1631,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1586,12 +1655,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 17.0,
-    "row_spacing": 300,
-    "emitter_spacing": 280,
-    "plant_spacing": 140,
+    "row_spacing": 300.0,
+    "emitter_spacing": 280.0,
+    "plant_spacing": 140.0,
     "comment": "",
     "created_date": "2020-01-16T03:02:39Z",
     "created_by": 1
@@ -1606,7 +1675,7 @@
     "technician": 2,
     "selected": null,
     "name": "Zone 7 (Name TBD)",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1615,11 +1684,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1642,12 +1708,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 17.0,
-    "row_spacing": 300,
-    "emitter_spacing": 280,
-    "plant_spacing": 140,
+    "row_spacing": 300.0,
+    "emitter_spacing": 280.0,
+    "plant_spacing": 140.0,
     "comment": "",
     "created_date": "2020-01-16T03:04:35Z",
     "created_by": 1
@@ -1662,7 +1728,7 @@
     "technician": 2,
     "selected": null,
     "name": "Zone 15 (Name TBD)",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1671,11 +1737,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1698,12 +1761,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 17.0,
-    "row_spacing": 300,
-    "emitter_spacing": 280,
-    "plant_spacing": 140,
+    "row_spacing": 300.0,
+    "emitter_spacing": 280.0,
+    "plant_spacing": 140.0,
     "comment": "",
     "created_date": "2020-01-16T03:07:43Z",
     "created_by": 1
@@ -1718,7 +1781,7 @@
     "technician": 2,
     "selected": null,
     "name": "Front Entrance (Name TBD)",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1727,11 +1790,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1754,12 +1814,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 17.0,
-    "row_spacing": 300,
-    "emitter_spacing": 280,
-    "plant_spacing": 140,
+    "row_spacing": 300.0,
+    "emitter_spacing": 280.0,
+    "plant_spacing": 140.0,
     "comment": "",
     "created_date": "2020-01-16T03:10:29Z",
     "created_by": 1
@@ -1774,7 +1834,7 @@
     "technician": 2,
     "selected": null,
     "name": "In front of house (Name TBD)",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1783,11 +1843,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1810,12 +1867,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 17.0,
-    "row_spacing": 300,
-    "emitter_spacing": 280,
-    "plant_spacing": 140,
+    "row_spacing": 300.0,
+    "emitter_spacing": 280.0,
+    "plant_spacing": 140.0,
     "comment": "",
     "created_date": "2020-01-16T03:12:12Z",
     "created_by": 1
@@ -1830,7 +1887,7 @@
     "technician": 2,
     "selected": null,
     "name": "To Side of House (Name TBD)",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1839,11 +1896,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1866,12 +1920,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 17.0,
-    "row_spacing": 300,
-    "emitter_spacing": 280,
-    "plant_spacing": 140,
+    "row_spacing": 300.0,
+    "emitter_spacing": 280.0,
+    "plant_spacing": 140.0,
     "comment": "",
     "created_date": "2020-01-16T03:13:52Z",
     "created_by": 1
@@ -1886,7 +1940,7 @@
     "technician": 2,
     "selected": null,
     "name": "Back (Name TBD)",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1895,11 +1949,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1922,12 +1973,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 17.0,
-    "row_spacing": 300,
-    "emitter_spacing": 280,
-    "plant_spacing": 140,
+    "row_spacing": 300.0,
+    "emitter_spacing": 280.0,
+    "plant_spacing": 140.0,
     "comment": "",
     "created_date": "2020-01-16T03:15:12Z",
     "created_by": 1
@@ -1942,7 +1993,7 @@
     "technician": 2,
     "selected": null,
     "name": "Block A1",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -1951,11 +2002,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -1978,11 +2026,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 45.0,
-    "row_spacing": 450,
-    "emitter_spacing": 500,
+    "row_spacing": 4.5,
+    "emitter_spacing": 5.0,
+    "plant_spacing": 1.5,
     "comment": "",
     "created_date": "2020-01-16T03:16:56Z",
     "created_by": 1
@@ -1997,7 +2046,7 @@
     "technician": 2,
     "selected": null,
     "name": "Block D",
-    "product": null,
+    "product": 4,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -2006,11 +2055,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2033,12 +2079,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 29.0,
-    "row_spacing": 300,
-    "emitter_spacing": 280,
-    "plant_spacing": 140,
+    "row_spacing": 3.0,
+    "emitter_spacing": 2.8,
+    "plant_spacing": 1.4,
     "comment": "",
     "created_date": "2020-01-16T03:19:26Z",
     "created_by": 1
@@ -2053,7 +2099,7 @@
     "technician": 2,
     "selected": null,
     "name": "Envy",
-    "product": null,
+    "product": 3,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -2062,11 +2108,8 @@
     "irrigation_position": 10.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 60,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2089,12 +2132,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 3,
-    "strategy": 1,
     "lower_limit": 2,
+    "strategy": 1,
     "emitter_rate": 40.0,
-    "row_spacing": 330,
-    "emitter_spacing": 300,
-    "plant_spacing": 150,
+    "row_spacing": 3.3,
+    "emitter_spacing": 3.0,
+    "plant_spacing": 1.5,
     "comment": "",
     "created_date": "2020-01-16T03:24:18Z",
     "created_by": 1
@@ -2109,7 +2152,7 @@
     "technician": 2,
     "selected": null,
     "name": "Citrus",
-    "product": null,
+    "product": 2,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -2118,11 +2161,8 @@
     "irrigation_position": 12.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 110,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2145,12 +2185,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": null,
-    "strategy": 1,
     "lower_limit": null,
+    "strategy": 1,
     "emitter_rate": 35.0,
-    "row_spacing": 300,
-    "emitter_spacing": 300,
-    "plant_spacing": 150,
+    "row_spacing": 3.0,
+    "emitter_spacing": 3.0,
+    "plant_spacing": 1.5,
     "comment": "Lemon, Grapefruit and mandarins",
     "created_date": "2020-01-16T03:25:48Z",
     "created_by": 1
@@ -2165,7 +2205,7 @@
     "technician": 2,
     "selected": null,
     "name": "Hops",
-    "product": null,
+    "product": 1,
     "report": null,
     "irrigation_method": 1,
     "irrigation_area": 10.0,
@@ -2174,11 +2214,8 @@
     "irrigation_position": 12.0,
     "irrigation_yield": null,
     "irrigation_allocation_volume": null,
-
     "rz1_bottom": 110,
-
     "rz2_bottom": null,
-
     "rz3_bottom": null,
     "depth1": 20,
     "depth2": 30,
@@ -2201,12 +2238,12 @@
     "depth_he9": null,
     "depth_he10": null,
     "upper_limit": 3,
-    "strategy": 1,
     "lower_limit": 2,
+    "strategy": 1,
     "emitter_rate": 35.0,
-    "row_spacing": 300,
-    "emitter_spacing": 300,
-    "plant_spacing": 150,
+    "row_spacing": 3.0,
+    "emitter_spacing": 3.0,
+    "plant_spacing": 1.5,
     "comment": "",
     "created_date": "2020-01-16T03:28:17Z",
     "created_by": 1
@@ -8406,14 +8443,14 @@
     "efflrr1": null,
     "efflrr2": null,
     "effective_irrigation": null,
-    "comment": null,
-    "rec_Mon": null,
-    "rec_Tue": null,
-    "rec_Wed": null,
-    "rec_Thu": null,
-    "rec_Fri": null,
-    "rec_Sat": null,
-    "rec_Sun": null,
+    "comment": "sdf",
+    "rec_Mon": 2.0,
+    "rec_Tue": 0.0,
+    "rec_Wed": 3.0,
+    "rec_Thu": 5.6,
+    "rec_Fri": 0.0,
+    "rec_Sat": 0.0,
+    "rec_Sun": 3.0,
     "created_date": "2020-03-20T02:43:10.698Z",
     "created_by": 1
   }
@@ -15590,6 +15627,357 @@
     "object_repr": "Envy:2020-04-01",
     "action_flag": 2,
     "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 513,
+  "fields": {
+    "action_time": "2020-04-19T21:07:58.404Z",
+    "user": 1,
+    "content_type": 34,
+    "object_id": "1",
+    "object_repr": "Hops - Smooth cone",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 514,
+  "fields": {
+    "action_time": "2020-04-19T21:08:14.960Z",
+    "user": 1,
+    "content_type": 34,
+    "object_id": "2",
+    "object_repr": "Citrus - Citrus- general",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 515,
+  "fields": {
+    "action_time": "2020-04-19T21:08:26.836Z",
+    "user": 1,
+    "content_type": 34,
+    "object_id": "3",
+    "object_repr": "Apple - Envy",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 516,
+  "fields": {
+    "action_time": "2020-04-19T21:08:33.348Z",
+    "user": 1,
+    "content_type": 34,
+    "object_id": "4",
+    "object_repr": "Apple - Rockit",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 517,
+  "fields": {
+    "action_time": "2020-04-19T21:08:58.850Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "15",
+    "object_repr": "Hops",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 518,
+  "fields": {
+    "action_time": "2020-04-19T21:09:09.045Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "14",
+    "object_repr": "Citrus",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 519,
+  "fields": {
+    "action_time": "2020-04-19T21:09:18.895Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "13",
+    "object_repr": "Envy",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 520,
+  "fields": {
+    "action_time": "2020-04-19T21:09:33.268Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "12",
+    "object_repr": "Block D",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 521,
+  "fields": {
+    "action_time": "2020-04-19T21:09:39.752Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "11",
+    "object_repr": "Block A1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 522,
+  "fields": {
+    "action_time": "2020-04-19T21:09:46.494Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "10",
+    "object_repr": "Back (Name TBD)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 523,
+  "fields": {
+    "action_time": "2020-04-19T21:09:53.921Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "9",
+    "object_repr": "To Side of House (Name TBD)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 524,
+  "fields": {
+    "action_time": "2020-04-19T21:10:01.128Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "8",
+    "object_repr": "In front of house (Name TBD)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 525,
+  "fields": {
+    "action_time": "2020-04-19T21:10:08.006Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "7",
+    "object_repr": "Front Entrance (Name TBD)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 526,
+  "fields": {
+    "action_time": "2020-04-19T21:10:16.125Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "6",
+    "object_repr": "Zone 15 (Name TBD)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 527,
+  "fields": {
+    "action_time": "2020-04-19T21:10:24.619Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "5",
+    "object_repr": "Zone 7 (Name TBD)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 528,
+  "fields": {
+    "action_time": "2020-04-19T21:10:31.914Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "4",
+    "object_repr": "Zone 10 (Name TBD)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 529,
+  "fields": {
+    "action_time": "2020-04-19T21:10:39.016Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "3",
+    "object_repr": "Zone 6 (Name TBD)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 530,
+  "fields": {
+    "action_time": "2020-04-19T21:10:45.240Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "2",
+    "object_repr": "Front (Name TBD)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 531,
+  "fields": {
+    "action_time": "2020-04-19T21:10:53.503Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "1",
+    "object_repr": "Whar 2 (name unknown yet)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 532,
+  "fields": {
+    "action_time": "2020-04-19T21:12:07.741Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "13",
+    "object_repr": "Envy",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"row_spacing\", \"emitter_spacing\", \"plant_spacing\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 533,
+  "fields": {
+    "action_time": "2020-04-19T21:12:52.764Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "15",
+    "object_repr": "Hops",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"row_spacing\", \"emitter_spacing\", \"plant_spacing\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 534,
+  "fields": {
+    "action_time": "2020-04-19T21:13:11.165Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "14",
+    "object_repr": "Citrus",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"row_spacing\", \"emitter_spacing\", \"plant_spacing\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 535,
+  "fields": {
+    "action_time": "2020-04-19T21:13:29.496Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "12",
+    "object_repr": "Block D",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"row_spacing\", \"emitter_spacing\", \"plant_spacing\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 536,
+  "fields": {
+    "action_time": "2020-04-19T21:13:47.526Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "11",
+    "object_repr": "Block A1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"row_spacing\", \"emitter_spacing\", \"plant_spacing\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 537,
+  "fields": {
+    "action_time": "2020-04-19T23:17:15.993Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "1",
+    "object_repr": "Envy - Start - April-19",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 538,
+  "fields": {
+    "action_time": "2020-04-19T23:50:38.367Z",
+    "user": 1,
+    "content_type": 19,
+    "object_id": "1",
+    "object_repr": "2019-20",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"season_date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 539,
+  "fields": {
+    "action_time": "2020-04-19T23:51:21.645Z",
+    "user": 1,
+    "content_type": 19,
+    "object_id": "2",
+    "object_repr": "2020-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
   }
 }
 ]

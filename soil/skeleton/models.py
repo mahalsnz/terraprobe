@@ -83,9 +83,14 @@ class Report(models.Model):
 
 class Season(models.Model):
     name = models.CharField(max_length=20, null=False)
+    season_date = models.DateField(default=timezone.now, null=True, help_text='The Year to create a new season. For a season spanning two years is must be the starting year. ')
     current_flag = models.BooleanField(default=None, null=True, help_text="Is this the current season, only one season can be the current season")
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    @property
+    def formatted_season_start_year(self):
+        return self.season_date.strftime('%Y')
 
     def __str__(self):
         return self.name
@@ -140,10 +145,24 @@ class Variety(models.Model):
     def __str__(self):
         return self.name
 
+class VarietySeasonTemplate(models.Model):
+    variety = models.ForeignKey(Variety, null=False, on_delete=models.CASCADE)
+    critical_date_type = models.ForeignKey(CriticalDateType, null=False, on_delete=models.CASCADE, help_text='The Critical Date Type to create new season Critical Dates for all sites that are of this variety.')
+    season_date = models.DateField(default=timezone.now, null=False, help_text='The day and month to create new season Critical Dates for all sites that are of this variety.')
+
+    comment = models.TextField(null=True, blank=True)
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+
+    def __str__(self):
+        return str(self.variety) + ' - ' + str(self.critical_date_type) + ' - ' + str(self.season_date.strftime('%B-%d'))
+
+    @property
+    def formatted_variety_season_date(self):
+        return self.season_date.strftime('%B-%d')
+
 class Crop(models.Model):
-    # Main
-    name = models.CharField(max_length=100, null=True)
-    variety = models.ForeignKey(Variety, null=True, blank=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=False, default='Crop')
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
     dwu_formaula = models.CharField(max_length=100, null=True, blank=True)
 
@@ -151,10 +170,22 @@ class Crop(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
 
     def __str__(self):
-        return str(self.name) + ' - ' + str(self.variety)
+        return self.name
+
+class Product(models.Model):
+    crop = models.ForeignKey(Crop, null=False, on_delete=models.CASCADE)
+    variety = models.ForeignKey(Variety, null=False, on_delete=models.CASCADE)
+    report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
+    comment = models.TextField(null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+
+    def __str__(self):
+        return str(self.crop) + ' - ' + str(self.variety)
 
     class Meta:
-        unique_together = (('name', 'variety'))
+        unique_together = (('crop', 'variety'))
 
 class StrategyType(models.Model):
     name = models.CharField(max_length=50, null=False)
@@ -171,7 +202,7 @@ class Strategy(models.Model):
     type = models.ForeignKey(StrategyType, null=False, on_delete=models.CASCADE)
     critical_date_type = models.ForeignKey(CriticalDateType, null=False, on_delete=models.CASCADE)
     days = models.IntegerField(null=False, help_text="A positive or negative number indicated the amount of days away from that critical date.")
-    percentage = models.FloatField(null=False, help_text="A number beween 1 and 0 indicating the variation from the limit associated with the strategy.")
+    percentage = models.FloatField(null=False, help_text="A percentage number between 0 and 100 indicating the variation from the limit associated with the strategy.")
     comment = models.TextField(null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
@@ -191,7 +222,7 @@ class Site(models.Model):
     technician = models.ForeignKey(User, related_name="technician_id", on_delete=models.CASCADE, default=1)
     selected = models.BooleanField(null=True) #???
     name = models.CharField(max_length=100, null=True)
-    crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
 
     # Irrigations

@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [('skeleton', '0008_strategytype_percentage'),
+    dependencies = [('skeleton', '0013_auto_20200330_1131'),
     ]
 
     operations = [
@@ -50,7 +50,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             	zone1.date,
                 zone1.id AS site_id,
                 zone1.farm_id,
-                zone1.crop_id,
+                zone1.product_id,
                 zone1.type,
                 zone1.type_id AS reading_type_id,
 
@@ -127,7 +127,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
                     skeleton_readingtype.name AS type,
             		skeleton_reading.type_id,
                     skeleton_site.farm_id,
-                    skeleton_site.crop_id,
+                    skeleton_site.product_id,
             		skeleton_site.rz1_bottom,
             		skeleton_reading.rz1,
             		skeleton_reading.rz2,

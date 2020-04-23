@@ -7,14 +7,14 @@
 
 {% block content %}
 <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
-<h2 class="bg-green">Select Crops, Regions and Season to start a new season.</h2>
+<h2 class="bg-green">Select Products, Regions and Season to start a new season.</h2>
 <form action="" method="post">{% csrf_token %}
 
 {{ wizard.management_form }}
 <div class="row">
     <div class="col-sm-4">
-        {{ wizard.form.crop|as_crispy_field }}
-        <a href="#" class="select-all-crops">Select All Crops</a>
+        {{ wizard.form.product|as_crispy_field }}
+        <a href="#" class="select-all-products">Select All Products</a>
     </div>
     <div class="col-sm-4">
         {{ wizard.form.region|as_crispy_field }}
@@ -22,6 +22,8 @@
     </div>
     <div class="col-sm-4">
         {{ wizard.form.season|as_crispy_field }}
+        {{ wizard.form.multi_year_season|as_crispy_field }}
+        {{ wizard.form.refill_fullpoint_copy|as_crispy_field }}
     </div>
 </div>
 <div class="row">
@@ -32,8 +34,8 @@
 </form>
 
 <script>
-    $('.select-all-crops').click(function(){
-        $('#id_select_crsf-crop option').attr('selected', 'selected');
+    $('.select-all-products').click(function(){
+        $('#id_select_crsf-product option').attr('selected', 'selected');
     });
     $('.select-all-regions').click(function(){
         $('#id_select_crsf-region option').attr('selected', 'selected');

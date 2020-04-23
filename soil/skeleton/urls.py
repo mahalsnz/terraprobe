@@ -8,9 +8,7 @@ from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateR
 from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
 , FarmList, FarmDetail, ReadingDetail, ReadingList, SiteReadingList, SiteList, SiteDetail
 
-FORMS = [("select_crsf", SelectCropRegionSeasonForm),
-         ("create_ssef", CreateSeasonStartEndForm),
-         ("create_rfpr", CreateRefillFullPointForm)]
+FORMS = [("select_crsf", SelectCropRegionSeasonForm)]
 
 urlpatterns = [
     path('', views.index, name='home'),

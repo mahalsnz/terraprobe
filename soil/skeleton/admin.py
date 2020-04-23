@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import Farm, Site, SiteDescription, Crop, Reading
+from .models import Farm, Site, SiteDescription, Crop, Product, Reading
 from .models import Report
 from .models import Calibration
 from .models import ReadingType
@@ -16,7 +16,7 @@ from .models import CriticalDateType
 from .models import CriticalDate, UserFullName
 from .models import SeasonStartEnd
 from .models import WeatherStation
-from .models import Variety, Strategy, StrategyType
+from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType
 
 class StrategyAdmin(admin.ModelAdmin):
     list_display = ('type', 'critical_date_type', 'days', 'percentage')
@@ -43,7 +43,7 @@ class ReadingTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'comment', 'formula')
 
 class SeasonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'current_flag')
+    list_display = ('name', 'formatted_season_start_year', 'current_flag')
 
 class FarmAdmin(admin.ModelAdmin):
     list_display = ('name', 'address', 'weatherstation')
@@ -55,9 +55,9 @@ class FarmAdmin(admin.ModelAdmin):
     list_display = ('name', 'weatherstation')
 
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('site_number', 'name', 'farm', 'crop', 'technician', 'application_rate')
+    list_display = ('site_number', 'name', 'farm', 'product', 'technician', 'application_rate')
     fieldsets = [
-        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'crop','comment','created_date', 'created_by']}),
+        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'product','comment','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
             'classes': ['collapse']}),
         ('Root Zones',
@@ -77,8 +77,8 @@ class SiteAdmin(admin.ModelAdmin):
 
     #.values('first_name','last_name')
 
-class CropAdmin(admin.ModelAdmin):
-    list_display = ['name', 'variety']
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['crop', 'variety']
 
 class ProbeAdmin(admin.ModelAdmin):
     list_display = ['id', 'serial_number', 'comment']
@@ -92,9 +92,13 @@ class CriticalDateAdmin(admin.ModelAdmin):
 class SeasonStartEndAdmin(admin.ModelAdmin):
     list_display = ['site', 'season', 'period_from', 'period_to']
 
+class VarietySeasonTemplateAdmin(admin.ModelAdmin):
+    list_display = ['variety', 'critical_date_type', 'formatted_variety_season_date']
+
 admin.site.register(Site, SiteAdmin)
 admin.site.register(Farm, FarmAdmin)
-admin.site.register(Crop, CropAdmin)
+admin.site.register(Product, ProductAdmin)
+admin.site.register(Crop)
 admin.site.register(Reading, ReadingAdmin)
 admin.site.register(Report)
 admin.site.register(Calibration, CalibrationAdmin)
@@ -110,5 +114,6 @@ admin.site.register(CriticalDate, CriticalDateAdmin)
 admin.site.register(SeasonStartEnd, SeasonStartEndAdmin)
 admin.site.register(WeatherStation, WeatherStationAdmin)
 admin.site.register(Variety)
+admin.site.register(VarietySeasonTemplate, VarietySeasonTemplateAdmin)
 admin.site.register(Strategy, StrategyAdmin)
 admin.site.register(StrategyType)

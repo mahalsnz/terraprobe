@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from skeleton.models import Reading, Site, ETReading, KCReading, Crop
+from skeleton.models import Reading, Site, ETReading, KCReading, Product, Crop
 from skeleton.utils import get_site_season_start_end, get_current_season, get_rz1_full_point_reading
 
 # Get an instance of a logger
@@ -42,7 +42,7 @@ class Command(BaseCommand):
                 daily_et = et.daily
 
                 # Get Crop Co-efficient (KC) for site
-                kc = KCReading.objects.get(period_from__lte=date, period_to__gte=date, crop__site__id=site.id)
+                kc = KCReading.objects.get(period_from__lte=date, period_to__gte=date, crop__product__site__id=site.id)
                 crop_kc = kc.kc
                 logger.debug('KC Reading:' + str(crop_kc))
 
