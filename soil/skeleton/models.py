@@ -83,9 +83,14 @@ class Report(models.Model):
 
 class Season(models.Model):
     name = models.CharField(max_length=20, null=False)
+    season_date = models.DateField(default=timezone.now, null=True, help_text='The Year to create a new season. For a season spanning two years is must be the starting year. ')
     current_flag = models.BooleanField(default=None, null=True, help_text="Is this the current season, only one season can be the current season")
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    @property
+    def formatted_season_start_year(self):
+        return self.season_date.strftime('%Y')
 
     def __str__(self):
         return self.name
@@ -153,11 +158,11 @@ class VarietySeasonTemplate(models.Model):
         return str(self.variety) + ' - ' + str(self.critical_date_type) + ' - ' + str(self.season_date.strftime('%B-%d'))
 
     @property
-    def formatted_season_date(self):
-        self.season_date.strftime('%m-%Y')
+    def formatted_variety_season_date(self):
+        return self.season_date.strftime('%B-%d')
 
 class Crop(models.Model):
-    name = models.CharField(max_length=100, null=True)
+    name = models.CharField(max_length=100, null=False, default='Crop')
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
     dwu_formaula = models.CharField(max_length=100, null=True, blank=True)
 
@@ -168,8 +173,8 @@ class Crop(models.Model):
         return self.name
 
 class Product(models.Model):
-    crop = models.ForeignKey(Crop, null=True, blank=True, on_delete=models.CASCADE)
-    variety = models.ForeignKey(Variety, null=True, blank=True, on_delete=models.CASCADE)
+    crop = models.ForeignKey(Crop, null=False, on_delete=models.CASCADE)
+    variety = models.ForeignKey(Variety, null=False, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
     comment = models.TextField(null=True, blank=True)
 

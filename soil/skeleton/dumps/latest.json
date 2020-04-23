@@ -82,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2020-03-31T19:28:49.107Z",
+    "last_login": "2020-04-19T23:53:33.909Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -225,6 +225,14 @@
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2020-03-31T19:13:54.228Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "gavxel6ucq6dp6gy67espjub27sjpdvr",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2020-05-03T23:53:33.925Z"
   }
 },
 {
@@ -393,7 +401,8 @@
   "model": "skeleton.season",
   "pk": 1,
   "fields": {
-    "name": "2018",
+    "name": "2018-2019",
+    "season_date": "2018-04-20",
     "current_flag": true,
     "created_date": "2019-07-04T21:11:08Z",
     "created_by": 1
@@ -403,7 +412,8 @@
   "model": "skeleton.season",
   "pk": 2,
   "fields": {
-    "name": "2019",
+    "name": "2019-2020",
+    "season_date": "2019-04-20",
     "current_flag": false,
     "created_date": "2019-11-18T03:58:13Z",
     "created_by": 1
@@ -10012,13 +10022,39 @@
   "model": "admin.logentry",
   "pk": 272,
   "fields": {
-    "action_time": "2020-04-02T20:01:23.000Z",
+    "action_time": "2020-04-02T20:01:23Z",
     "user": 1,
     "content_type": 26,
     "object_id": "6",
     "object_repr": "Jazz",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"product\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 273,
+  "fields": {
+    "action_time": "2020-04-19T23:54:03.486Z",
+    "user": 1,
+    "content_type": 19,
+    "object_id": "1",
+    "object_repr": "2018-2019",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"name\", \"season_date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 274,
+  "fields": {
+    "action_time": "2020-04-19T23:54:16.470Z",
+    "user": 1,
+    "content_type": 19,
+    "object_id": "2",
+    "object_repr": "2019-2020",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"name\", \"season_date\"]}}]"
   }
 }
 ]

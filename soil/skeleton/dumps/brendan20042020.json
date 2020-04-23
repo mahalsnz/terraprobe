@@ -556,8 +556,20 @@
   "pk": 1,
   "fields": {
     "name": "2019-20",
+    "season_date": "2019-11-05",
     "current_flag": true,
     "created_date": "2020-01-27T00:54:00Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.season",
+  "pk": 2,
+  "fields": {
+    "name": "2020-21",
+    "season_date": "2020-04-19",
+    "current_flag": false,
+    "created_date": "2020-04-19T23:51:09Z",
     "created_by": 1
   }
 },
@@ -1144,6 +1156,18 @@
     "name": "Pears",
     "comment": "",
     "created_date": "2020-03-01T23:02:22Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.varietyseasontemplate",
+  "pk": 1,
+  "fields": {
+    "variety": 1,
+    "critical_date_type": 1,
+    "season_date": "2020-04-19",
+    "comment": "",
+    "created_date": "2020-04-19T23:16:54Z",
     "created_by": 1
   }
 },
@@ -8419,14 +8443,14 @@
     "efflrr1": null,
     "efflrr2": null,
     "effective_irrigation": null,
-    "comment": null,
-    "rec_Mon": null,
-    "rec_Tue": null,
-    "rec_Wed": null,
-    "rec_Thu": null,
-    "rec_Fri": null,
-    "rec_Sat": null,
-    "rec_Sun": null,
+    "comment": "sdf",
+    "rec_Mon": 2.0,
+    "rec_Tue": 0.0,
+    "rec_Wed": 3.0,
+    "rec_Thu": 5.6,
+    "rec_Fri": 0.0,
+    "rec_Sat": 0.0,
+    "rec_Sun": 3.0,
     "created_date": "2020-03-20T02:43:10.698Z",
     "created_by": 1
   }
@@ -15915,6 +15939,45 @@
     "object_repr": "Block A1",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"row_spacing\", \"emitter_spacing\", \"plant_spacing\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 537,
+  "fields": {
+    "action_time": "2020-04-19T23:17:15.993Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "1",
+    "object_repr": "Envy - Start - April-19",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 538,
+  "fields": {
+    "action_time": "2020-04-19T23:50:38.367Z",
+    "user": 1,
+    "content_type": 19,
+    "object_id": "1",
+    "object_repr": "2019-20",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"season_date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 539,
+  "fields": {
+    "action_time": "2020-04-19T23:51:21.645Z",
+    "user": 1,
+    "content_type": 19,
+    "object_id": "2",
+    "object_repr": "2020-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
   }
 }
 ]

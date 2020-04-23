@@ -43,7 +43,7 @@ class ReadingTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'comment', 'formula')
 
 class SeasonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'current_flag')
+    list_display = ('name', 'formatted_season_start_year', 'current_flag')
 
 class FarmAdmin(admin.ModelAdmin):
     list_display = ('name', 'address', 'weatherstation')
@@ -92,6 +92,9 @@ class CriticalDateAdmin(admin.ModelAdmin):
 class SeasonStartEndAdmin(admin.ModelAdmin):
     list_display = ['site', 'season', 'period_from', 'period_to']
 
+class VarietySeasonTemplateAdmin(admin.ModelAdmin):
+    list_display = ['variety', 'critical_date_type', 'formatted_variety_season_date']
+
 admin.site.register(Site, SiteAdmin)
 admin.site.register(Farm, FarmAdmin)
 admin.site.register(Product, ProductAdmin)
@@ -111,6 +114,6 @@ admin.site.register(CriticalDate, CriticalDateAdmin)
 admin.site.register(SeasonStartEnd, SeasonStartEndAdmin)
 admin.site.register(WeatherStation, WeatherStationAdmin)
 admin.site.register(Variety)
-admin.site.register(VarietySeasonTemplate)
+admin.site.register(VarietySeasonTemplate, VarietySeasonTemplateAdmin)
 admin.site.register(Strategy, StrategyAdmin)
 admin.site.register(StrategyType)

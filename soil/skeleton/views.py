@@ -31,11 +31,10 @@ logger = logging.getLogger(__name__)
 from .forms import DocumentForm, SiteReadingsForm
 
 from datetime import datetime
-
+from dateutil.relativedelta import relativedelta
 from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season, get_previous_season
 
-TEMPLATES = {"select_crsf": "wizard/season_select.html",
-             "create_rfpr": "wizard/refill_fullpoint_create.html"}
+TEMPLATES = {"select_crsf": "wizard/season_select.html"}
 
 '''
     Handles ajax call to display or update site note from the main Readings screen
@@ -116,6 +115,9 @@ def process_form_data(form_list, self):
     regions = form_data[0]['region']
     products = form_data[0]['product']
     season = form_data[0]['season']
+    multi_year_season = form_data[0]['multi_year_season']
+    refill_fullpoint_copy = form_data[0]['refill_fullpoint_copy']
+    logger.debug('Form ' + str(form_data[0]))
 
     # Get sites we are going to work with
     sites = Site.objects.none()
@@ -124,13 +126,30 @@ def process_form_data(form_list, self):
             sites |= Site.objects.filter(farm__address__locality__state=region, product=product)
     logger.debug('Sites to process in Season Wizard:' + str(sites))
 
+    # If multi season, get season start year
+    if multi_year_season:
+        logger.debug('Season Year Start ' + str(season.formatted_season_start_year))
+        season_end_year = season.season_date + relativedelta(years=1)
+        logger.debug('Season Year End ' + season_end_year.strftime('%Y'))
+
+
     for site in sites:
+        # Grap the start and end date types
+        site_season_start_date = None
+        site_season_end_date = None
+        if multi_year_season:
+            site_season_start = VarietySeasonTemplate.objects.get(variety__product__site__id=site.id, critical_date_type__name='Start')
+            site_season_start_date = site_season_start.season_date
+            logger.debug('For ' + str(site) + ' site_season_start_date' + str(site_season_start_date))
 
         # get variety season TEMPLATES
         templates = VarietySeasonTemplate.objects.filter(variety__product__site__id=site.id)
         for template in templates:
-
+            template_season_date = None
             logger.debug('For ' + str(site) + ' creating crtical date ' + str(template.critical_date_type) + str(template.season_date) + ' to season ' + str(season))
+
+
+
             # Transofrm template.season_date by
             try:
                 cd = CriticalDate(
