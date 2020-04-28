@@ -32,7 +32,8 @@ class Command(BaseCommand):
                 top = 0 # Top of root zone is hard coded to zero
                 bottom = getattr(site, rootzone + '_bottom')
                 logger.debug("Top:" + str(top) + ' Bottom:' + str(bottom))
-                if top == 0 and bottom > 0:
+                if bottom is not None:
+                #if top == 0 and bottom > 0:
                     seen_depth_in_bottom = False
                     first_no_depth = False
                     first_no_depth_value = 0
@@ -123,7 +124,7 @@ class Command(BaseCommand):
                                     average = (previous_vsw + vsw) / 2
                                     logger.debug("Adding " + str(average) + ' for interpoloated depth ' + str(depth - 10))
                                     total += average
-                                if depth < bottom:
+                                if depth <= bottom:
                                     logger.debug("Adding VSW " + str(vsw) + " for depth " + str(depth))
                                     total += vsw
 
