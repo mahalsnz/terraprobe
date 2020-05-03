@@ -182,7 +182,9 @@ def process_form_data(form_list, self):
             )
             reading.save()
     return (form_data, success_data)
+
 from io import StringIO
+
 @login_required
 def index(request):
     if request.method == 'POST':
@@ -221,8 +223,8 @@ def report_home(request):
     if request.method == 'POST':
         try:
             button_clicked = request.POST['button']
+            season = get_current_season()
             if button_clicked == 'reportSeasonDates':
-                season = get_current_season()
                 sites = SiteDatesTable(Site.objects.filter(~Q(seasonstartend__season=season)))
                 return render(request, "report_output.html", {
                     "title": "Sites Missing a Season Start and End Date for Current Season",
@@ -230,7 +232,6 @@ def report_home(request):
                 })
 
             if button_clicked == 'reportMissingReadingTypes':
-                season = get_current_season()
                 sites = Site.objects.all()
                 missing_sites = Site.objects.none() # Iniliase missing sites to empty queryset object
 
@@ -244,6 +245,24 @@ def report_home(request):
                 RequestConfig(request).configure(sites)
                 return render(request, "report_output.html", {
                     "title": "Sites Missing a Refill or Full Point Reading Type for Current Season",
+                    "table": sites
+                })
+
+            if button_clicked == 'reportNoMeterReading':
+                sites = Site.objects.all()
+                missing_sites = Site.objects.none()
+
+                for site in sites:
+                    dates = get_site_season_start_end(site, season)
+                    missing_site = Site.objects.filter(readings__type__name='Probe', readings__meter__isnull=True, readings__date__range=(dates.period_from, dates.period_to)).order_by('site_number').distinct()
+
+                    if (missing_site):
+                        missing_sites |= missing_site # Some great magic to concatenate querysets together
+
+                sites = SiteMissingReadingTypesTable(missing_sites)
+                RequestConfig(request).configure(sites)
+                return render(request, "report_output.html", {
+                    "title": "Sites Missing any Meter Reading (current year)",
                     "table": sites
                 })
 
