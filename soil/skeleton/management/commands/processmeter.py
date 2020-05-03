@@ -29,8 +29,8 @@ class Command(BaseCommand):
             for reading in readings:
                 date = reading.date
                 meter = reading.meter
-                if previous_date:
-                    logger.debug('Date:' + str(date) + ' PreviousDate:' + str(previous_date))
+                if previous_date and meter:
+                    logger.debug('Date:' + str(date) + ' meter:' + str(meter) + ' PreviousDate:' + str(previous_date) + ' previous meter:' + str(previous_meter))
 
                     irrigation_litres = round((previous_meter - meter) / site.irrigation_position, 2)
                     logger.debug('Irrigation litres:' + str(irrigation_litres))
