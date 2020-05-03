@@ -182,16 +182,17 @@ def process_form_data(form_list, self):
             )
             reading.save()
     return (form_data, success_data)
-
+from io import StringIO
 @login_required
 def index(request):
     if request.method == 'POST':
+        out = StringIO()
         try:
             button_clicked = request.POST['button']
             if button_clicked == 'processrootzones':
                 management.call_command('processrootzones')
             if button_clicked == 'processmeter':
-                management.call_command('processmeter')
+                management.call_command('processmeter', stdout=out)
             if button_clicked == 'processdailywateruse':
                 management.call_command('processdailywateruse')
             if button_clicked == 'processrain':
@@ -202,6 +203,12 @@ def index(request):
                 management.call_command('request_to_hortplus')
         except Exception as e:
             messages.error(request, "Error: " + str(e))
+
+        # For management commands if we want multiple messages to users, we need to sick stdout. (We also have to reserve stdout for messages)
+        lines = out.getvalue().splitlines()
+        for line in lines:
+            messages.warning(request, line)
+
         messages.success(request, "Successfully ran: " + str(button_clicked))
     return render(request, 'index.html', {})
 
@@ -624,11 +631,17 @@ def handle_prwin_file(file_data, request):
 
             # We only want 'Probe' reading types
             if reading_type == 'Probe':
-                # Get date part. Comes in as DD/MM/YYYY before we get 'space character' time component
+                # Get date part. Comes in as DD/MM/YYYY or DD-MM-YYYY before we get 'space character' time component
                 date_raw = str(fields[2])
                 datefields = date_raw.split(" ")
                 date = datefields[0]
-                date_object = datetime.strptime(date, '%d/%m/%Y') # American
+                date_object = None
+                hypen = re.search("^\d\d-.*", date)
+                if hypen:
+                    date_object = datetime.strptime(date, '%d-%m-%Y') # American
+                else:
+                    date_object = datetime.strptime(date, '%d/%m/%Y') # American
+
                 date_formatted = date_object.strftime('%Y-%m-%d')
                 logger.info("Date:" + date_formatted)
 
@@ -636,14 +649,17 @@ def handle_prwin_file(file_data, request):
                 if bolNeedSerialNumber:
                     serialnumber = fields[sn_index]
                     logger.info("Serial Number:" + serialnumber)
-                    serialnumber = int(serialnumber)
-                    # Check Serial Number exists and return info message if is not. Then get the serial number unique id
-                    if not Probe.objects.filter(serial_number=serialnumber).exists():
-                        raise Exception("Serial Number:" + serialnumber + " does not exist.")
-                    p = Probe.objects.get(serial_number=serialnumber)
-                    serial_number_id = p.id
-                    bolNeedSerialNumber = False
-
+                    if serialnumber:
+                        serialnumber = int(serialnumber)
+                        # Check Serial Number exists and return info message if is not. Then get the serial number unique id
+                        if not Probe.objects.filter(serial_number=serialnumber).exists():
+                            raise Exception("Serial Number:" + serialnumber + " does not exist.")
+                        p = Probe.objects.get(serial_number=serialnumber)
+                        serial_number_id = p.id
+                        bolNeedSerialNumber = False
+                    else:
+                        # PRWIN rading has no serial number, we just will be insering record with serial number set to null
+                        logger.info("Inserting record with serial number set to null")
                 # Create Key
                 key = site_number + "," + date_formatted
                 logger.info("Key:" + key)
