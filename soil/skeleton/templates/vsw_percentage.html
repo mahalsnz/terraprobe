@@ -237,7 +237,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             });
             // Seasons Groupiong
             season_grouping.push({
-                'dtg' : parsed_date,
+                'date' : parsed_date,
                 'rain' : reading["rain"],
                 'irrigation_mms' : reading["irrigation_mms"],
             });
@@ -320,16 +320,32 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             }
         }
     });
+    /* need to sort arrays by date */
     seasons_vsw_readings = seasons_vsw_readings.sort(sortByDateAscending);
-    console.log('seasons_vsw_readings');
-    console.log(seasons_vsw_readings);
+
     console.log('upper')
     seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
     console.log(seasons_upper_strategy);
     console.log('lower')
     seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
     console.log(seasons_lower_strategy);
+    first_upper = seasons_upper_strategy[0]['total'];
+    first_lower = seasons_lower_strategy[0]['total'];
+    diff = first_upper - first_lower
+    console.log('diff' + diff);
 
+    new_seasons_lower_strategy = [];
+    // replace all lowere with upper - diff
+    for (var i = 0; i < seasons_upper_strategy.length; i++) {
+        upper_total = seasons_upper_strategy[i]['total'];
+        lower_total = upper_total - diff;
+        seasons_lower_strategy[i]['total'] = lower_total;
+    }
+
+    console.log('lower_after')
+    console.log(seasons_lower_strategy);
+
+    season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
     x.domain([5, 50]);
@@ -354,7 +370,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     var keys = ['rain', 'irrigation_mms']
     //console.log("keys:" + keys);
 
-    x0.domain(season_grouping.map(function(d) { return d.dtg; }));
+    x0.domain(season_grouping.map(function(d) { return d.date; }));
     x1.domain(keys).rangeRound([0, x0.bandwidth()]);
     seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key] + 100; }); })])
 
@@ -363,10 +379,11 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .data(season_grouping)
         .enter().append("g")
         .attr("class", "bar")
-        .attr("transform", function(d) { return "translate(" + x0(d.dtg) + ",0)"; })
+        .attr("transform", function(d) { return "translate(" + x0(d.date) + ",0)"; })
         .selectAll("rect")
         .data(function(d) {
             return keys.map(function(key) {
+                console.log('key:' + key + ' value:' + d[key])
                 return {key: key, value: d[key]};
             });
         }).enter().append("rect")
