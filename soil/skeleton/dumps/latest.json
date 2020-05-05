@@ -356,6 +356,14 @@
   }
 },
 {
+  "model": "skeleton.document",
+  "pk": 7,
+  "fields": {
+    "description": "",
+    "document": "documents/S0000068_0P1QEMQ.TXT"
+  }
+},
+{
   "model": "skeleton.readingtype",
   "pk": 1,
   "fields": {
@@ -500,6 +508,28 @@
   }
 },
 {
+  "model": "skeleton.criticaldatetype",
+  "pk": 5,
+  "fields": {
+    "name": "Veraison",
+    "season_flag": false,
+    "comment": null,
+    "created_date": "2020-04-23T21:29:59Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.criticaldatetype",
+  "pk": 6,
+  "fields": {
+    "name": "Flowering",
+    "season_flag": false,
+    "comment": null,
+    "created_date": "2020-04-23T21:30:14Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.farm",
   "pk": 1,
   "fields": {
@@ -587,6 +617,78 @@
     "name": "Pinot Noir",
     "comment": "",
     "created_date": "2020-04-02T19:54:16Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.varietyseasontemplate",
+  "pk": 1,
+  "fields": {
+    "variety": 4,
+    "critical_date_type": 1,
+    "season_date": "2019-09-13",
+    "comment": "",
+    "created_date": "2020-04-23T21:28:55Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.varietyseasontemplate",
+  "pk": 2,
+  "fields": {
+    "variety": 4,
+    "critical_date_type": 3,
+    "season_date": "2019-09-14",
+    "comment": "",
+    "created_date": "2020-04-23T21:29:27Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.varietyseasontemplate",
+  "pk": 3,
+  "fields": {
+    "variety": 4,
+    "critical_date_type": 6,
+    "season_date": "2019-12-04",
+    "comment": "",
+    "created_date": "2020-04-23T21:30:27Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.varietyseasontemplate",
+  "pk": 4,
+  "fields": {
+    "variety": 4,
+    "critical_date_type": 5,
+    "season_date": "2020-02-11",
+    "comment": "",
+    "created_date": "2020-04-23T21:30:58Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.varietyseasontemplate",
+  "pk": 5,
+  "fields": {
+    "variety": 4,
+    "critical_date_type": 4,
+    "season_date": "2020-03-24",
+    "comment": "",
+    "created_date": "2020-04-23T21:31:24Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.varietyseasontemplate",
+  "pk": 6,
+  "fields": {
+    "variety": 4,
+    "critical_date_type": 2,
+    "season_date": "2020-04-29",
+    "comment": "",
+    "created_date": "2020-04-23T21:31:44Z",
     "created_by": 1
   }
 },
@@ -10055,6 +10157,123 @@
     "object_repr": "2019-2020",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"name\", \"season_date\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 275,
+  "fields": {
+    "action_time": "2020-04-23T21:29:24.342Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "1",
+    "object_repr": "Pinot Noir - Start - September-13",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 276,
+  "fields": {
+    "action_time": "2020-04-23T21:29:43.205Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "2",
+    "object_repr": "Pinot Noir - Bud Break - September-14",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 277,
+  "fields": {
+    "action_time": "2020-04-23T21:30:09.411Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "5",
+    "object_repr": "Veraison",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 278,
+  "fields": {
+    "action_time": "2020-04-23T21:30:19.122Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "6",
+    "object_repr": "Flowering",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 279,
+  "fields": {
+    "action_time": "2020-04-23T21:30:46.944Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "3",
+    "object_repr": "Pinot Noir - Flowering - December-04",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 280,
+  "fields": {
+    "action_time": "2020-04-23T21:31:12.184Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "4",
+    "object_repr": "Pinot Noir - Veraison - February-11",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 281,
+  "fields": {
+    "action_time": "2020-04-23T21:31:34.540Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "5",
+    "object_repr": "Pinot Noir - Harvest - March-24",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 282,
+  "fields": {
+    "action_time": "2020-04-23T21:31:58.361Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "6",
+    "object_repr": "Pinot Noir - End - April-24",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 283,
+  "fields": {
+    "action_time": "2020-04-23T21:32:12.942Z",
+    "user": 1,
+    "content_type": 35,
+    "object_id": "6",
+    "object_repr": "Pinot Noir - End - April-29",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"season_date\"]}}]"
   }
 }
 ]

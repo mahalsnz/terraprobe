@@ -4,6 +4,8 @@ from django.views.generic import TemplateView, ListView, View, CreateView
 from django.utils import timezone
 from django.core import management
 from django.http import JsonResponse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.conf import settings
@@ -16,13 +18,14 @@ from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from formtools.wizard.views import SessionWizardView
+
 from django_tables2 import RequestConfig
+from django_tables2 import SingleTableView
+from .tables import SiteReportTable
 
 import re
 import requests
 import calendar
-
-from .tables import SiteDatesTable, SiteMissingReadingTypesTable
 
 # Get an instance of a logger
 import logging
@@ -183,15 +186,18 @@ def process_form_data(form_list, self):
             reading.save()
     return (form_data, success_data)
 
+from io import StringIO
+
 @login_required
 def index(request):
     if request.method == 'POST':
+        out = StringIO()
         try:
             button_clicked = request.POST['button']
             if button_clicked == 'processrootzones':
                 management.call_command('processrootzones')
             if button_clicked == 'processmeter':
-                management.call_command('processmeter')
+                management.call_command('processmeter', stdout=out)
             if button_clicked == 'processdailywateruse':
                 management.call_command('processdailywateruse')
             if button_clicked == 'processrain':
@@ -202,8 +208,64 @@ def index(request):
                 management.call_command('request_to_hortplus')
         except Exception as e:
             messages.error(request, "Error: " + str(e))
+
+        # For management commands if we want multiple messages to users, we need to sick stdout. (We also have to reserve stdout for messages)
+        lines = out.getvalue().splitlines()
+        for line in lines:
+            messages.warning(request, line)
+
         messages.success(request, "Successfully ran: " + str(button_clicked))
     return render(request, 'index.html', {})
+
+class SeasonDatesListView(SingleTableView):
+    model = Site
+    table_class = SiteReportTable
+    template_name = 'report_season_dates.html'
+
+def report_season_dates(request):
+    season = get_current_season()
+    sites = SiteReportTable(Site.objects.filter(~Q(seasonstartend__season=season)))
+    return render(request, "report_output.html", {
+        "title": "Sites Missing a Season Start and End Date for Season " + season.name,
+        "table": sites
+    })
+
+def report_missing_reading_types(request):
+    season = get_current_season()
+    sites = Site.objects.all()
+    missing_sites = Site.objects.none() # Iniliase missing sites to empty queryset object
+
+    for site in sites:
+        dates = get_site_season_start_end(site, season)
+        missing_site = Site.objects.filter(~Q(readings__type__name='Refill', readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type__name='Full Point', readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
+        if (missing_site):
+            missing_sites |= missing_site # Some great magic to concatenate querysets together
+
+    sites = SiteReportTable(missing_sites)
+    RequestConfig(request).configure(sites)
+    return render(request, "report_output.html", {
+        "title": "Sites Missing a Refill or Full Point Reading Type for Season " + season.name,
+        "table": sites
+    })
+
+def report_no_meter_reading(request):
+    season = get_current_season()
+    sites = Site.objects.all()
+    missing_sites = Site.objects.none()
+
+    for site in sites:
+        dates = get_site_season_start_end(site, season)
+        missing_site = Site.objects.filter(readings__type__name='Probe', readings__meter__isnull=True, readings__date__range=(dates.period_from, dates.period_to)).order_by('site_number').distinct()
+
+        if (missing_site):
+            missing_sites |= missing_site # Some great magic to concatenate querysets together
+
+    sites = SiteReportTable(missing_sites)
+    RequestConfig(request).configure(sites)
+    return render(request, "report_output.html", {
+        "title": "Sites Missing any Meter Reading for Season " + season.name,
+        "table": sites
+    })
 
 '''
     Page that hosts reports. Click a button to run the query and uses django_tables2 to output data
@@ -215,31 +277,11 @@ def report_home(request):
         try:
             button_clicked = request.POST['button']
             if button_clicked == 'reportSeasonDates':
-                season = get_current_season()
-                sites = SiteDatesTable(Site.objects.filter(~Q(seasonstartend__season=season)))
-                return render(request, "report_output.html", {
-                    "title": "Sites Missing a Season Start and End Date for Current Season",
-                    "table": sites
-                })
-
+                return HttpResponseRedirect(reverse('report_season_dates'))
             if button_clicked == 'reportMissingReadingTypes':
-                season = get_current_season()
-                sites = Site.objects.all()
-                missing_sites = Site.objects.none() # Iniliase missing sites to empty queryset object
-
-                for site in sites:
-                    dates = get_site_season_start_end(site, season)
-                    missing_site = Site.objects.filter(~Q(readings__type__name='Refill', readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type__name='Full Point', readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
-                    if (missing_site):
-                        missing_sites |= missing_site # Some great magic to concatenate querysets together
-
-                sites = SiteMissingReadingTypesTable(missing_sites)
-                RequestConfig(request).configure(sites)
-                return render(request, "report_output.html", {
-                    "title": "Sites Missing a Refill or Full Point Reading Type for Current Season",
-                    "table": sites
-                })
-
+                return HttpResponseRedirect(reverse('report_missing_reading_types'))
+            if button_clicked == 'reportNoMeterReading':
+                return HttpResponseRedirect(reverse('report_no_meter_reading'))
         except Exception as e:
             messages.error(request, "Error: " + str(e))
     return render(request, 'report_home.html', {})
@@ -624,11 +666,17 @@ def handle_prwin_file(file_data, request):
 
             # We only want 'Probe' reading types
             if reading_type == 'Probe':
-                # Get date part. Comes in as DD/MM/YYYY before we get 'space character' time component
+                # Get date part. Comes in as DD/MM/YYYY or DD-MM-YYYY before we get 'space character' time component
                 date_raw = str(fields[2])
                 datefields = date_raw.split(" ")
                 date = datefields[0]
-                date_object = datetime.strptime(date, '%d/%m/%Y') # American
+                date_object = None
+                hypen = re.search("^\d\d-.*", date)
+                if hypen:
+                    date_object = datetime.strptime(date, '%d-%m-%Y') # American
+                else:
+                    date_object = datetime.strptime(date, '%d/%m/%Y') # American
+
                 date_formatted = date_object.strftime('%Y-%m-%d')
                 logger.info("Date:" + date_formatted)
 
@@ -636,14 +684,17 @@ def handle_prwin_file(file_data, request):
                 if bolNeedSerialNumber:
                     serialnumber = fields[sn_index]
                     logger.info("Serial Number:" + serialnumber)
-                    serialnumber = int(serialnumber)
-                    # Check Serial Number exists and return info message if is not. Then get the serial number unique id
-                    if not Probe.objects.filter(serial_number=serialnumber).exists():
-                        raise Exception("Serial Number:" + serialnumber + " does not exist.")
-                    p = Probe.objects.get(serial_number=serialnumber)
-                    serial_number_id = p.id
-                    bolNeedSerialNumber = False
-
+                    if serialnumber:
+                        serialnumber = int(serialnumber)
+                        # Check Serial Number exists and return info message if is not. Then get the serial number unique id
+                        if not Probe.objects.filter(serial_number=serialnumber).exists():
+                            raise Exception("Serial Number:" + serialnumber + " does not exist.")
+                        p = Probe.objects.get(serial_number=serialnumber)
+                        serial_number_id = p.id
+                        bolNeedSerialNumber = False
+                    else:
+                        # PRWIN rading has no serial number, we just will be insering record with serial number set to null
+                        logger.info("Inserting record with serial number set to null")
                 # Create Key
                 key = site_number + "," + date_formatted
                 logger.info("Key:" + key)

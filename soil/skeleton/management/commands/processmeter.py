@@ -14,10 +14,10 @@ class Command(BaseCommand):
         logger.info('Running processmeter.....')
         logger.info('Check for meter and null irrigation (litres).....')
 
-        # Get sites in current season that have readngs with a meter reading but no irrigation in litres
+        # Get sites in current season that have readngs with at least one meter reading but no irrigation in litres
         season = get_current_season()
         sites = Site.objects.filter(readings__meter__isnull=False, readings__irrigation_litres__isnull=True, readings__type=1).distinct()
-
+        logger.info('Sites' + str(sites))
         for site in sites:
             logger.info('Processing Site ' + site.name)
             dates = get_site_season_start_end(site, season)
@@ -29,14 +29,14 @@ class Command(BaseCommand):
             for reading in readings:
                 date = reading.date
                 meter = reading.meter
-                if previous_date:
-                    logger.debug('Date:' + str(date) + ' PreviousDate:' + str(previous_date))
+                if previous_date and meter:
+                    logger.debug('Date:' + str(date) + ' meter:' + str(meter) + ' PreviousDate:' + str(previous_date) + ' previous meter:' + str(previous_meter))
 
                     irrigation_litres = round((previous_meter - meter) / site.irrigation_position, 2)
-                    logger.debug('I litres:' + str(irrigation_litres))
+                    logger.debug('Irrigation litres:' + str(irrigation_litres))
 
                     irrigation_mms = round(irrigation_litres / ((site.row_spacing * site.plant_spacing) / 10000), 2)
-                    logger.debug('I mms:' + str(irrigation_mms))
+                    logger.debug('Irrigation mms:' + str(irrigation_mms))
 
                     previous_reading.irrigation_litres = irrigation_litres
                     previous_reading.irrigation_mms = irrigation_mms
@@ -45,7 +45,9 @@ class Command(BaseCommand):
                 else:
                     logger.debug('No previous date.')
                     if meter == None:
-                        raise Exception('No meter reading for latest reading date ' + str(date) + ' for site ' + site.name)
+                        # Alert but don't stop for No Meter Reading
+                        self.stdout.write('No meter reading for latest reading date ' + str(date) + ' for site ' + site.name + '\n')
+                        continue
                 previous_date = date
                 previous_meter = meter
                 previous_reading = reading

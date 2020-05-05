@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import url
 
-from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard
+from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard, SeasonDatesListView
 from . import views
 from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm
 
@@ -12,7 +12,13 @@ FORMS = [("select_crsf", SelectCropRegionSeasonForm)]
 
 urlpatterns = [
     path('', views.index, name='home'),
+
+    # Reports
     path('reports', views.report_home, name='report_home'),
+    path("reports/season_dates", views.report_season_dates, name='report_season_dates'),
+    path("reports/missing_reading_types", views.report_missing_reading_types, name='report_missing_reading_types'),
+    path("reports/no_meter_reading", views.report_no_meter_reading, name='report_no_meter_reading'),
+
     path('readings/site/', SiteReadingsView.as_view(), name='site_readings'),
     path('upload_readings_file/', UploadReadingsFileView.as_view(), name='upload_readings_file'),
     path('season_wizard/', SeasonWizard.as_view(FORMS), name='season_wizard'),
