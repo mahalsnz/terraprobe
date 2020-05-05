@@ -117,6 +117,7 @@
         - django-formtools==2.2
         - django-bootstrap-datepicker-plus==3.0.5
         - django-bootstrap4==1.1.1
+        - python-dateutil==2.8.1
 
     - name: Write env variables to bash_profile of application user
       blockinfile:

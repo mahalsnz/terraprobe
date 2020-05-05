@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [('skeleton', '0013_auto_20200330_1131'),
+    dependencies = [('skeleton', '0016_auto_20200424_0851'),
     ]
 
     operations = [
@@ -69,6 +69,14 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
                 zone1.effective_rainfall,
                 zone1.effective_irrigation,
                 zone1.comment,
+                zone1.rec_mon,
+                zone1.rec_tue,
+                zone1.rec_wed,
+                zone1.rec_thu,
+                zone1.rec_fri,
+                zone1.rec_sat,
+                zone1.rec_sun,
+
             	zone1.depth1,
                 zone1.vsw1,
             	zone1.count1,
@@ -143,6 +151,13 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
                     skeleton_reading.effective_rainfall,
                     skeleton_reading.effective_irrigation,
             		skeleton_reading.comment,
+                    skeleton_reading."rec_Mon" AS rec_mon,
+                    skeleton_reading."rec_Tue" AS rec_tue,
+                    skeleton_reading."rec_Wed" AS rec_wed,
+                    skeleton_reading."rec_Thu" AS rec_thu,
+                    skeleton_reading."rec_Fri" AS rec_fri,
+                    skeleton_reading."rec_Sat" AS rec_sat,
+                    skeleton_reading."rec_Sun" AS rec_sun,
             		skeleton_site.depth1,
             		skeleton_reading.depth1 AS vsw1,
                     skeleton_reading.depth1_count AS count1,

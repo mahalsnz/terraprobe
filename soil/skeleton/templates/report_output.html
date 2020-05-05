@@ -9,9 +9,7 @@
 <body>
     <h2>{{ title }}</h2>
     {% render_table table %}
-    <form>
-        <button type="submit" class="btn bg-green" formation="{% url 'report_home' %}">Report Home</button>
-    </form>
+    <a class="nav-link" href="{% url 'report_home' %}">Report Home</a>
 </body>
 
 {% endblock content %}

@@ -9,6 +9,7 @@ class Farm(models.Model):
 
 class Site(models.Model):
     name = models.CharField(max_length=100, null=False)
+    application_rate = models.FloatField()
 
     class Meta:
         managed = False
@@ -52,6 +53,13 @@ class vsw_reading(models.Model):
     effective_rainfall = models.FloatField()
     effective_irrigation = models.FloatField()
     comment = models.TextField()
+    rec_mon = models.FloatField()
+    rec_tue = models.FloatField()
+    rec_wed = models.FloatField()
+    rec_thu = models.FloatField()
+    rec_fri = models.FloatField()
+    rec_sat = models.FloatField()
+    rec_sun = models.FloatField()
     depth1 = models.IntegerField()
     count1 = models.FloatField()
     vsw1 = models.FloatField()

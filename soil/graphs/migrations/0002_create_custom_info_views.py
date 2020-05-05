@@ -16,7 +16,8 @@ class Migration(migrations.Migration):
             CREATE OR REPLACE VIEW graphs_site AS
             SELECT
                 skeleton_site.id,
-            	skeleton_site.name
+            	skeleton_site.name,
+                round(skeleton_site.emitter_rate::numeric / (skeleton_site.row_spacing::numeric * skeleton_site.emitter_spacing::numeric), 2) AS application_rate
             FROM
             	skeleton_site;
 
@@ -33,7 +34,7 @@ class Migration(migrations.Migration):
             	skeleton_readingtype.name
             FROM
                 skeleton_readingtype;
-                
+
             CREATE OR REPLACE VIEW graphs_product AS
             SELECT
                 skeleton_product.id,

@@ -7,76 +7,55 @@
 <div class="row">
     <div class="col" id="area1"></div>
     <div class="col" id="area3">
-        <table class="table table-sm table-bordered">
-            <thead class="thead-light">
-            <tr>
-                <th colspan="4">Current State</th>
-            </tr>
-            <tr>
-                <td colspan="2">Root Zone</td>
-                <td colspan="2">00000</td>
-            </tr>
-            <tr>
-                <td>Full</td>
-                <td>00000</td>
-                <td>Refill</td>
-                <td>00000</td>
-            </tr>
-            <tr>
-                <td>Previous</td>
-                <td>00000</td>
-                <td>Current</td>
-                <td>00000</td>
-            </tr>
-        </table>
-        <table class="table table-sm table-bordered">
+        <table id="amount-data" class="table table-sm table-bordered">
             <thead class="thead-light">
             <tr>
                 <th colspan="4">Amount Received Last Week</th>
             </tr>
             <tr>
                 <td></td>
-                <td>mm</td>
-                <td>L/plant</td>
+                <td>MM's/plant</td>
+                <td>Litres/plant</td>
                 <td>Hours</td>
             </tr>
             <tr>
                 <td>Irrigation</td>
-                <td>00000</td>
-                <td>00000</td>
-                <td>00000</td>
-            </tr>
-            <tr>
-                <td>Rainfall</td>
-                <td>00000</td>
-                <td>Crop Use</td>
-                <td>00000</td>
+                <td class="mms-plant">mm</td>
+                <td class="litres-plant">lp</td>
+                <td class="hours">hrs</td>
             </tr>
         </table>
     </div>
     <div class="col" id="area4">
-        <table class="table table-sm table-bordered">
+        <table id="recommendation" class="table table-sm table-bordered">
             <thead class="thead-light">
             <tr>
-                <th colspan="3">Recommendation</th>
+                <th colspan="7">Recommendation</th>
             </tr>
             <tr>
-                <td colspan="3">Lorem ipsum dolor sit amet, nibh admodum sententiae ad cum, vero phaedrum in ius, etiam dissentiet te per. Detraxit dissentias sea id. Per oblique th
+                <td class="text" colspan="7">Lorem ipsum dolor sit amet, nibh admodum sententiae ad cum, vero phaedrum in ius, etiam dissentiet te per. Detraxit dissentias sea id. Per oblique th
                 </td>
             </tr>
             <tr>
-                <td>Recommendations based on:
+                <td>Mon</td>
+                <td>Tue</td>
+                <td>Wed</td>
+                <td>Thu</td>
+                <td>Fri</td>
+                <td>Sat</td>
+                <td>Sun</td>
             </tr>
             <tr>
-                <td>Full</td>
-                <td>00000</td>
-                <td>Refill</td>
+                <td colspan="7">Hours</td>
             </tr>
             <tr>
-                <td>Previous</td>
-                <td>00000</td>
-                <td>Current</td>
-
+                <td class="mon">0</td>
+                <td class="tue">0</td>
+                <td class="wed">0</td>
+                <td class="thu">0</td>
+                <td class="fri">0</td>
+                <td class="sat">0</td>
+                <td class="sun">0</td>
             </tr>
         </table>
     </div>
@@ -210,6 +189,13 @@ var seasons_lower_strategy = []
 var season_grouping = [];
 vsw_count = 10; // delivered by vsw_reading api
 
+// Recommedations
+var hours_irrigation = 0;
+var mms_plant = 0;
+var litres_plant = 0;
+var recommendation_text = '';
+var rec_mon = 0, rec_tue = 0, rec_wed = 0, rec_thu = 0, rec_fri = 0, rec_sat = 0, rec_sun = 0;
+
 function sortByDateAscending(a, b) {
     // Dates will be cast to numbers automagically:
     return a.date - b.date;
@@ -268,6 +254,20 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                         console.log("where null");
                     }
                 } // end for loop
+                // get recommendation and other data for this week
+                recommendation_text = reading["comment"]
+                rec_mon = reading["rec_mon"]
+                rec_tue = reading["rec_tue"]
+                rec_wed = reading["rec_wed"]
+                rec_thu = reading["rec_thu"]
+                rec_fri = reading["rec_fri"]
+                rec_sat = reading["rec_sat"]
+                rec_sun = reading["rec_sun"]
+                //"rec_mon":0.0,"rec_tue":0.0,"rec_wed":2.0,"rec_thu":2.6,"rec_fri":0.0,"rec_sat":0.0
+                litres_plant = reading["irrigation_litres"]
+                mms_plant = reading["irrigation_mms"]
+                application_rate = reading["site"]["application_rate"]
+                hours_irrigation = Math.round(mms_plant / application_rate)
             }
 
             // Get last weeks readings
@@ -518,8 +518,23 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
           .text(function(d) { return d; });
 
 
+          // Update recommendation fields
+          $("#amount-data td.mms-plant").html(mms_plant);
+          $("#amount-data td.litres-plant").html(litres_plant);
+          $("#amount-data td.hours").html(hours_irrigation);
+          $("#recommendation td.text").html(recommendation_text);
+          $("#recommendation td.mon").html(rec_mon);
+          $("#recommendation td.tue").html(rec_tue);
+          $("#recommendation td.wed").html(rec_wed);
+          $("#recommendation td.thu").html(rec_thu);
+          $("#recommendation td.fri").html(rec_fri);
+          $("#recommendation td.sat").html(rec_sat);
+          $("#recommendation td.sun").html(rec_sun);
 });
+
 });
+
+
 </script>
 
 {% endblock content %}
