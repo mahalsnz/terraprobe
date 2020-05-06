@@ -271,10 +271,10 @@ class Site(models.Model):
     lower_limit = models.ForeignKey(ReadingType, related_name="lower_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Lower line for Graph")
     strategy = models.ForeignKey(StrategyType, null=True, blank=True, on_delete=models.CASCADE)
 
-    emitter_rate = models.FloatField(null=True, blank=True)
-    row_spacing = models.FloatField(null=True, blank=True, verbose_name="Row Spacing (Meters)")
-    emitter_spacing = models.FloatField(null=True, blank=True, verbose_name="Emitter Spacing (Meters)")
-    plant_spacing = models.FloatField(null=True, blank=True, verbose_name="Plant Spacing (Meters)")
+    emitter_rate = models.FloatField(null=False, default=1)
+    row_spacing = models.FloatField(null=False, default=1, verbose_name="Row Spacing (Meters)")
+    emitter_spacing = models.FloatField(null=False, default=1, verbose_name="Emitter Spacing (Meters)")
+    plant_spacing = models.FloatField(null=False, default=1, verbose_name="Plant Spacing (Meters)")
 
     comment = models.TextField(null=True, blank=True)
 

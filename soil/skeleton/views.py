@@ -217,10 +217,9 @@ def index(request):
         messages.success(request, "Successfully ran: " + str(button_clicked))
     return render(request, 'index.html', {})
 
-class SeasonDatesListView(SingleTableView):
-    model = Site
-    table_class = SiteReportTable
-    template_name = 'report_season_dates.html'
+'''
+    Reports
+'''
 
 def report_season_dates(request):
     season = get_current_season()
@@ -237,10 +236,12 @@ def report_missing_reading_types(request):
 
     for site in sites:
         dates = get_site_season_start_end(site, season)
-        missing_site = Site.objects.filter(~Q(readings__type__name='Refill', readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type__name='Full Point', readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
-        if (missing_site):
-            missing_sites |= missing_site # Some great magic to concatenate querysets together
-
+        if dates:
+            missing_site = Site.objects.filter(~Q(readings__type__name='Refill', readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type__name='Full Point', readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
+            if (missing_site):
+                missing_sites |= missing_site # Some great magic to concatenate querysets together
+        else:
+            messages.warning(request, "Site " + site.name + " has no season start and end dates.")
     sites = SiteReportTable(missing_sites)
     RequestConfig(request).configure(sites)
     return render(request, "report_output.html", {
@@ -255,11 +256,12 @@ def report_no_meter_reading(request):
 
     for site in sites:
         dates = get_site_season_start_end(site, season)
-        missing_site = Site.objects.filter(readings__type__name='Probe', readings__meter__isnull=True, readings__date__range=(dates.period_from, dates.period_to)).order_by('site_number').distinct()
-
-        if (missing_site):
-            missing_sites |= missing_site # Some great magic to concatenate querysets together
-
+        if dates:
+            missing_site = Site.objects.filter(readings__type__name='Probe', readings__meter__isnull=True, readings__date__range=(dates.period_from, dates.period_to)).order_by('site_number').distinct()
+            if (missing_site):
+                missing_sites |= missing_site # Some great magic to concatenate querysets together
+        else:
+            messages.warning(request, "Site " + site.name + " has no season start and end dates.")
     sites = SiteReportTable(missing_sites)
     RequestConfig(request).configure(sites)
     return render(request, "report_output.html", {
@@ -285,6 +287,7 @@ def report_home(request):
         except Exception as e:
             messages.error(request, "Error: " + str(e))
     return render(request, 'report_home.html', {})
+    
 '''
 class CreateSeasonStartEndView(LoginRequiredMixin, CreateView):
     def get_initial(self, *args, **kwargs):

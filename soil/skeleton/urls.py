@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import url
 
-from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard, SeasonDatesListView
+from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard
 from . import views
 from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm
 
