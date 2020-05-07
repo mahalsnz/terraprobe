@@ -188,6 +188,8 @@ var seasons_lower_strategy = []
 
 var season_grouping = [];
 vsw_count = 10; // delivered by vsw_reading api
+var full_point_rz1 = 0;
+var refill_rz1 = 0;
 
 // Recommedations
 var hours_irrigation = 0;
@@ -293,13 +295,14 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                     });
                 }
             }
+            full_point_rz1 = Math.round(reading["rz1"]);
             // Seasons Full Point - This is the rz1 value for each proble reading date
-            for (index = 0; index < vsw_readings_date_array.length; index++) {
+            /*for (index = 0; index < vsw_readings_date_array.length; index++) {
                 seasons_full_point_readings.push({
                     'date' : vsw_readings_date_array[index],
                     'total' : Math.round(reading["rz1"]),
                 });
-            }
+            }*/
         }
 
         if (reading.reading_type.name == "Refill") {
@@ -311,15 +314,26 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                     });
                 }
             }
-            // Seasons Refill - This is the rz1 value for each proble reading date
-            for (index = 0; index < vsw_readings_date_array.length; index++) {
-                seasons_refill_readings.push({
-                    'date' : vsw_readings_date_array[index],
-                    'total' : Math.round(reading["rz1"]),
-                });
-            }
+            refill_rz1 = Math.round(reading["rz1"]);
         }
     });
+
+    // Seasons Refill - This is the rz1 value for each proble reading date
+    for (index = 0; index < vsw_readings_date_array.length; index++) {
+        seasons_refill_readings.push({
+            'date' : vsw_readings_date_array[index],
+            'total' : refill_rz1
+        });
+        seasons_full_point_readings.push({
+            'date' : vsw_readings_date_array[index],
+            'total' : full_point_rz1
+        });
+    }
+
+
+    console.log('FP Season:')
+    console.log(seasons_full_point_readings)
+
     /* need to sort arrays by date */
     seasons_vsw_readings = seasons_vsw_readings.sort(sortByDateAscending);
 
@@ -368,7 +382,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     //console.log(season_grouping);
     var keys = ['rain', 'irrigation_mms']
-    //console.log("keys:" + keys);
+    var keys_with_date = ['date', 'rain', 'irrigation_mms']
 
     x0.domain(season_grouping.map(function(d) { return d.date; }));
     x1.domain(keys).rangeRound([0, x0.bandwidth()]);
@@ -383,8 +397,18 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .selectAll("rect")
         .data(function(d) {
             return keys.map(function(key) {
-                console.log('key:' + key + ' value:' + d[key])
-                return {key: key, value: d[key]};
+                date_formatted = '';
+                if (key == 'date') {
+                    date_formatted = d[key];
+                    date_formatted = moment(date_formatted).format('DD-MM-YY');
+                    console.log('Date:' + date_formatted);
+                } else {
+                    console.log('key:' + key + ' value:' + d[key])
+                    return {
+                        key: key,
+                        value: d[key]
+                    };
+                }
             });
         }).enter().append("rect")
           .attr("x", function(d) { return x1(d.key); })
