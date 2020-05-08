@@ -317,6 +317,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             refill_rz1 = Math.round(reading["rz1"]);
         }
     });
+    console.log('svsw reading');
+    console.log(seasons_vsw_readings)
 
     // Seasons Refill - This is the rz1 value for each proble reading date
     for (index = 0; index < vsw_readings_date_array.length; index++) {
@@ -330,35 +332,34 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         });
     }
 
-
-    console.log('FP Season:')
-    console.log(seasons_full_point_readings)
-
     /* need to sort arrays by date */
     seasons_vsw_readings = seasons_vsw_readings.sort(sortByDateAscending);
 
-    console.log('upper')
-    seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
-    console.log(seasons_upper_strategy);
-    console.log('lower')
-    seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
-    console.log(seasons_lower_strategy);
-    first_upper = seasons_upper_strategy[0]['total'];
-    first_lower = seasons_lower_strategy[0]['total'];
-    diff = first_upper - first_lower
-    console.log('diff' + diff);
+    // TODO: Do this better. Need to test if site actually has a strategy
+    if (seasons_upper_strategy.length > 0) {
+        seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
+        seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
+        console.log('upper');
+        console.log(seasons_upper_strategy)
+        console.log('lower');
+        console.log(seasons_lower_strategy)
+        first_upper = seasons_upper_strategy[0]['total'];
+        first_lower = seasons_lower_strategy[0]['total'];
+        console.log(seasons_upper_strategy)
+        diff = first_upper - first_lower
+        console.log('diff' + diff);
 
-    new_seasons_lower_strategy = [];
-    // replace all lowere with upper - diff
-    for (var i = 0; i < seasons_upper_strategy.length; i++) {
-        upper_total = seasons_upper_strategy[i]['total'];
-        lower_total = upper_total - diff;
-        seasons_lower_strategy[i]['total'] = lower_total;
+        new_seasons_lower_strategy = [];
+        // replace all lowere with upper - diff
+        for (var i = 0; i < seasons_upper_strategy.length; i++) {
+            upper_total = seasons_upper_strategy[i]['total'];
+            lower_total = upper_total - diff;
+            seasons_lower_strategy[i]['total'] = lower_total;
+        }
+
+        console.log('lower_after')
+        console.log(seasons_lower_strategy);
     }
-
-    console.log('lower_after')
-    console.log(seasons_lower_strategy);
-
     season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
@@ -401,9 +402,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 if (key == 'date') {
                     date_formatted = d[key];
                     date_formatted = moment(date_formatted).format('DD-MM-YY');
-                    console.log('Date:' + date_formatted);
+                    //console.log('Date:' + date_formatted);
                 } else {
-                    console.log('key:' + key + ' value:' + d[key])
+                    //console.log('key:' + key + ' value:' + d[key])
                     return {
                         key: key,
                         value: d[key]
