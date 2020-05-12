@@ -82,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$WrRjg3RiPbm2$pw4Dw613H5hzaBnklxCWIRFwZbYuoIfMmu3nYhQkUbg=",
-    "last_login": "2020-04-19T23:53:33.909Z",
+    "last_login": "2020-05-12T03:57:09.609Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -233,6 +233,14 @@
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2020-05-03T23:53:33.925Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "gf9puwogwlsocf50c781ve158ztm66zb",
+  "fields": {
+    "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
+    "expire_date": "2020-05-26T03:57:09.618Z"
   }
 },
 {
@@ -780,7 +788,7 @@
     "type": 1,
     "critical_date_type": 3,
     "days": 0,
-    "percentage": 1,
+    "percentage": 1.0,
     "comment": "",
     "created_date": "2020-03-05T20:43:03Z",
     "created_by": 1
@@ -832,7 +840,7 @@
     "type": 1,
     "critical_date_type": 3,
     "days": 100,
-    "percentage": 1,
+    "percentage": 1.0,
     "comment": "",
     "created_date": "2020-03-18T19:59:59Z",
     "created_by": 1
