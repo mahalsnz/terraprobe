@@ -198,8 +198,8 @@ class StrategyType(models.Model):
 
     class Meta:
         constraints = [
-            models.CheckConstraint(check=Q(percentage__gte=0), name='percentage_gte_0'),
-            models.CheckConstraint(check=Q(percentage__lte=1), name='percentage_1te_1')
+            models.CheckConstraint(check=Q(percentage__gte=0), name='strategy_type_percentage_gte_0'),
+            models.CheckConstraint(check=Q(percentage__lte=1), name='strategy_type_percentage_1te_1')
         ]
 
     def __str__(self):
@@ -217,8 +217,8 @@ class Strategy(models.Model):
 
     class Meta:
         constraints = [
-            models.CheckConstraint(check=Q(percentage__gte=0), name='percentage_gte_0'),
-            models.CheckConstraint(check=Q(percentage__lte=1), name='percentage_1te_1')
+            models.CheckConstraint(check=Q(percentage__gte=0), name='strategy_percentage_gte_0'),
+            models.CheckConstraint(check=Q(percentage__lte=1), name='strategy_percentage_1te_1')
         ]
 
     def __str__(self):

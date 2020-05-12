@@ -27,18 +27,18 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='strategy',
-            constraint=models.CheckConstraint(check=models.Q(percentage__gte=0), name='percentage_gte_0'),
+            constraint=models.CheckConstraint(check=models.Q(percentage__gte=0), name='strategy_percentage_gte_0'),
         ),
         migrations.AddConstraint(
             model_name='strategy',
-            constraint=models.CheckConstraint(check=models.Q(percentage__lte=1), name='percentage_1te_1'),
+            constraint=models.CheckConstraint(check=models.Q(percentage__lte=1), name='strategy_percentage_1te_1'),
         ),
         migrations.AddConstraint(
             model_name='strategytype',
-            constraint=models.CheckConstraint(check=models.Q(percentage__gte=0), name='percentage_gte_0'),
+            constraint=models.CheckConstraint(check=models.Q(percentage__gte=0), name='strategy_type_percentage_gte_0'),
         ),
         migrations.AddConstraint(
             model_name='strategytype',
-            constraint=models.CheckConstraint(check=models.Q(percentage__lte=1), name='percentage_1te_1'),
+            constraint=models.CheckConstraint(check=models.Q(percentage__lte=1), name='strategy_type_percentage_1te_1'),
         ),
     ]

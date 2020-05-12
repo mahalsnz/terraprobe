@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from django.shortcuts import render, get_object_or_404, redirect, render_to_response
+from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
