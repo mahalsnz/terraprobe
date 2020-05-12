@@ -108,6 +108,7 @@ class vsw_reading(models.Model):
 class vsw_strategy(models.Model):
     strategytype_id = models.IntegerField()
     strategy_name = models.TextField()
+    strategy_percentage = models.FloatField()
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
     site_name = models.TextField()
@@ -120,8 +121,6 @@ class vsw_strategy(models.Model):
     critical_date_type = models.TextField()
     critical_date = models.DateField(null=True)
     strategy_date = models.DateField(null=True)
-    upper_strategy_vsw = models.FloatField()
-    lower_strategy_vsw = models.FloatField()
 
     class Meta:
         managed = False

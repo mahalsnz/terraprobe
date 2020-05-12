@@ -767,7 +767,7 @@
   "pk": 1,
   "fields": {
     "name": "Rocket",
-    "percentage": 50,
+    "percentage": 0.5,
     "comment": "",
     "created_date": "2020-03-05T20:39:29Z",
     "created_by": 1
@@ -780,7 +780,7 @@
     "type": 1,
     "critical_date_type": 3,
     "days": 0,
-    "percentage": 100.0,
+    "percentage": 1,
     "comment": "",
     "created_date": "2020-03-05T20:43:03Z",
     "created_by": 1
@@ -793,7 +793,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -28,
-    "percentage": 93.0,
+    "percentage": 0.93,
     "comment": "",
     "created_date": "2020-03-05T22:17:28Z",
     "created_by": 1
@@ -806,7 +806,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -35,
-    "percentage": 95.0,
+    "percentage": 0.95,
     "comment": "",
     "created_date": "2020-03-05T22:17:58Z",
     "created_by": 1
@@ -819,7 +819,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -42,
-    "percentage": 98.0,
+    "percentage": 0.98,
     "comment": "",
     "created_date": "2020-03-05T22:18:25Z",
     "created_by": 1
@@ -832,7 +832,7 @@
     "type": 1,
     "critical_date_type": 3,
     "days": 100,
-    "percentage": 100.0,
+    "percentage": 1,
     "comment": "",
     "created_date": "2020-03-18T19:59:59Z",
     "created_by": 1
@@ -845,7 +845,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -22,
-    "percentage": 90.0,
+    "percentage": 0.9,
     "comment": "",
     "created_date": "2020-03-19T20:58:13Z",
     "created_by": 1
@@ -858,7 +858,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -18,
-    "percentage": 88.0,
+    "percentage": 0.88,
     "comment": "",
     "created_date": "2020-03-19T20:58:42Z",
     "created_by": 1
@@ -871,7 +871,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -14,
-    "percentage": 83.0,
+    "percentage": 0.83,
     "comment": "",
     "created_date": "2020-03-19T20:59:05Z",
     "created_by": 1
@@ -884,7 +884,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -11,
-    "percentage": 79.0,
+    "percentage": 0.79,
     "comment": "",
     "created_date": "2020-03-19T20:59:23Z",
     "created_by": 1
@@ -897,7 +897,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -9,
-    "percentage": 74.0,
+    "percentage": 0.74,
     "comment": "",
     "created_date": "2020-03-19T20:59:46Z",
     "created_by": 1
@@ -910,7 +910,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -7,
-    "percentage": 69.0,
+    "percentage": 0.69,
     "comment": "",
     "created_date": "2020-03-19T21:00:00Z",
     "created_by": 1
@@ -923,7 +923,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -5,
-    "percentage": 63.0,
+    "percentage": 0.63,
     "comment": "",
     "created_date": "2020-03-19T21:00:15Z",
     "created_by": 1
@@ -936,7 +936,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": -3,
-    "percentage": 56.0,
+    "percentage": 0.56,
     "comment": "",
     "created_date": "2020-03-19T21:00:31Z",
     "created_by": 1
@@ -949,7 +949,7 @@
     "type": 1,
     "critical_date_type": 4,
     "days": 0,
-    "percentage": 45.0,
+    "percentage": 0.45,
     "comment": "",
     "created_date": "2020-03-19T21:00:56Z",
     "created_by": 1

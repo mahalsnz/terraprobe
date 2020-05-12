@@ -211,15 +211,17 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         strategy_data.forEach(function(strategy) {
 
             parsed_date = parseTime(strategy.strategy_date);
-            console.log('strat date:' + strategy.strategy_date + ' strat vsw:' + strategy.upper_strategy_vsw);
+            console.log('strat date:' + strategy.strategy_date + ' strat percentage:' + strategy.percentage);
             seasons_upper_strategy.push({
                 'date' : parsed_date,
-                'total' : strategy.upper_strategy_vsw,
+                'percentage' : strategy.percentage
             });
-
+            console.log('In API')
+            console.log(seasons_upper_strategy)
+            // Fill
             seasons_lower_strategy.push({
                 'date' : parsed_date,
-                'total' : strategy.lower_strategy_vsw,
+                'percentage' : 0
             });
         });
 
@@ -338,26 +340,33 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     // TODO: Do this better. Need to test if site actually has a strategy
     if (seasons_upper_strategy.length > 0) {
         seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
-        seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
-        console.log('upper');
+
+        console.log('upper seasons_upper_strategy');
         console.log(seasons_upper_strategy)
-        console.log('lower');
-        console.log(seasons_lower_strategy)
-        first_upper = seasons_upper_strategy[0]['total'];
-        first_lower = seasons_lower_strategy[0]['total'];
-        console.log(seasons_upper_strategy)
-        diff = first_upper - first_lower
+        //console.log('lower');
+        //console.log(seasons_lower_strategy)
+
+        console.log('FP RZ1f' + full_point_rz1);
+        console.log('R RZ1f' + refill_rz1);
+        diff = full_point_rz1 - refill_rz1
         console.log('diff' + diff);
 
         new_seasons_lower_strategy = [];
         // replace all lowere with upper - diff
         for (var i = 0; i < seasons_upper_strategy.length; i++) {
-            upper_total = seasons_upper_strategy[i]['total'];
-            lower_total = upper_total - diff;
+            // $C$3-($F$3-($F$3*E8))
+            upper_total = full_point_rz1 - (diff - (diff * seasons_upper_strategy[i]['percentage']))
+
+            console.log('upper_total ' + upper_total + ' % ' + seasons_upper_strategy[i]['percentage'])
+            // =F8-($F$3*$G$8) - strategy_percentage
+            lower_total = upper_total - ( diff * .5 )
+            seasons_upper_strategy[i]['total'] = upper_total;
+            seasons_lower_strategy[i]['date'] = seasons_upper_strategy[i]['date'];
             seasons_lower_strategy[i]['total'] = lower_total;
         }
 
-        console.log('lower_after')
+        console.log('after')
+        console.log(seasons_upper_strategy)
         console.log(seasons_lower_strategy);
     }
     season_grouping  = season_grouping.sort(sortByDateAscending);

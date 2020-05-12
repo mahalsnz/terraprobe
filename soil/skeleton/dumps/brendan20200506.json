@@ -1319,7 +1319,7 @@
   "pk": 1,
   "fields": {
     "name": "Apple standard deficit",
-    "percentage": null,
+    "percentage": 0.5,
     "comment": "",
     "created_date": "2020-03-16T02:01:58Z",
     "created_by": 1
