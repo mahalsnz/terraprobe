@@ -149,10 +149,10 @@ class Command(BaseCommand):
                             logger.debug("Adding " + str(average) + ' for interpoloated depth ' + str(depth))
                             total += average
                         '''
-                    logger.info('Updating ' + rootzone + ' to ' + str(total) + ' for ' + site.name + ' on ' + str(reading.date))
+                    logger.info('Updating ' + rootzone + ' to ' + str(total) + ' for ' + site.name + ' on ' + str(reading.date) + ' for type ' + str(reading.type))
 
                     # Need to get a Reading object to update as we cannot update vsw_readings as it is a view
-                    r = Reading.objects.get(site=reading.site_id, date=reading.date)
+                    r = Reading.objects.get(site=reading.site_id, date=reading.date, type=reading.reading_type_id)
                     setattr(r, rootzone, total)
                     r.save() # Update
                 # Finished looping through rootzones
