@@ -79,6 +79,11 @@ var split_previous = previous.split("-");
 var last_week_date = new Date(split_previous[2], split_previous[1] - 1, split_previous[0]).toDateString();
 console.log('***Last Week DATE:' + last_week_date);
 
+var previous = "{{ period_from }}";
+var split_period_from = previous.split("-");
+var period_from_date = new Date(split_period_from[2], split_period_from[1] - 1, split_period_from[0]).toDateString();
+console.log('***Season Start DATE:' + period_from_date);
+
 // set the dimensions and margins of the weekly graph
 var margin = {top: 35, right: 30, bottom: 30, left: 40};
 width = 800 - margin.left - margin.right;
@@ -207,7 +212,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     // Get strategies
 
     d3.json('/graphs/api/vsw_strategy/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(strategy_data) {
-
         strategy_data.forEach(function(strategy) {
 
             parsed_date = parseTime(strategy.strategy_date);
@@ -216,8 +220,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 'date' : parsed_date,
                 'percentage' : strategy.percentage
             });
-            console.log('In API')
-            console.log(seasons_upper_strategy)
+
             // Fill
             seasons_lower_strategy.push({
                 'date' : parsed_date,
@@ -225,8 +228,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             });
         });
 
-
-    console.log("This Week:" + this_week_date + " Last week:" + last_week_date);
     vsw_readings_date_array = []; // This is better to use for refill and full point full_point_readings
 
     data.forEach(function(reading) {
@@ -319,8 +320,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             refill_rz1 = Math.round(reading["rz1"]);
         }
     });
-    console.log('svsw reading');
-    console.log(seasons_vsw_readings)
 
     // Seasons Refill - This is the rz1 value for each proble reading date
     for (index = 0; index < vsw_readings_date_array.length; index++) {
@@ -336,15 +335,24 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     /* need to sort arrays by date */
     seasons_vsw_readings = seasons_vsw_readings.sort(sortByDateAscending);
+    console.log('season vsw reading');
+    console.log(seasons_vsw_readings)
 
     // TODO: Do this better. Need to test if site actually has a strategy
     if (seasons_upper_strategy.length > 0) {
-        seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
+        console.log('start reading date' + seasons_refill_readings[0]['date'])
+        // First date of both strategies will be season start date (period from)
+        seasons_upper_strategy.push({
+            'date' : seasons_vsw_readings[0]['date'],
+            'percentage' : 1
+        });
+        seasons_lower_strategy.push({
+            'date' : seasons_vsw_readings[0]['date'],
+            'percentage' : 0
+        });
 
         console.log('upper seasons_upper_strategy');
         console.log(seasons_upper_strategy)
-        //console.log('lower');
-        //console.log(seasons_lower_strategy)
 
         console.log('FP RZ1f' + full_point_rz1);
         console.log('R RZ1f' + refill_rz1);
@@ -364,11 +372,14 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             seasons_lower_strategy[i]['date'] = seasons_upper_strategy[i]['date'];
             seasons_lower_strategy[i]['total'] = lower_total;
         }
-
-        console.log('after')
-        console.log(seasons_upper_strategy)
-        console.log(seasons_lower_strategy);
     }
+    seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
+    seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
+
+    console.log('after')
+    console.log(seasons_upper_strategy)
+    console.log(seasons_lower_strategy);
+
     season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
