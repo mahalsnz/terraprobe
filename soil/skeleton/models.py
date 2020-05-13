@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
+from django.db.models import Q
 
 import datetime
 
@@ -189,11 +190,17 @@ class Product(models.Model):
 
 class StrategyType(models.Model):
     name = models.CharField(max_length=50, null=False)
-    percentage = models.IntegerField(null=True, blank=True, help_text="The difference that the lower strategy should be below the upper strategy for a site. This is taken from the high limit.")
+    percentage = models.FloatField(null=False, default=0, help_text="A percentage between 0 and 1 indicating the difference that the lower strategy should be below the upper strategy for a site. This is taken from the high limit.")
     comment = models.TextField(null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(check=Q(percentage__gte=0), name='strategy_type_percentage_gte_0'),
+            models.CheckConstraint(check=Q(percentage__lte=1), name='strategy_type_percentage_1te_1')
+        ]
 
     def __str__(self):
         return self.name
@@ -201,12 +208,18 @@ class StrategyType(models.Model):
 class Strategy(models.Model):
     type = models.ForeignKey(StrategyType, null=False, on_delete=models.CASCADE)
     critical_date_type = models.ForeignKey(CriticalDateType, null=False, on_delete=models.CASCADE)
-    days = models.IntegerField(null=False, help_text="A positive or negative number indicated the amount of days away from that critical date.")
-    percentage = models.FloatField(null=False, help_text="A percentage number between 0 and 100 indicating the variation from the limit associated with the strategy.")
+    days = models.IntegerField(null=False, default=0, help_text="A positive or negative number indicated the amount of days away from that critical date.")
+    percentage = models.FloatField(null=False, default=0, help_text="A percentage between 0 and 1 indicating the variation from the limit associated with the strategy.")
     comment = models.TextField(null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(check=Q(percentage__gte=0), name='strategy_percentage_gte_0'),
+            models.CheckConstraint(check=Q(percentage__lte=1), name='strategy_percentage_1te_1')
+        ]
 
     def __str__(self):
         type = str(self.type)
@@ -271,10 +284,10 @@ class Site(models.Model):
     lower_limit = models.ForeignKey(ReadingType, related_name="lower_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Lower line for Graph")
     strategy = models.ForeignKey(StrategyType, null=True, blank=True, on_delete=models.CASCADE)
 
-    emitter_rate = models.FloatField(null=True, blank=True)
-    row_spacing = models.FloatField(null=True, blank=True, verbose_name="Row Spacing (Meters)")
-    emitter_spacing = models.FloatField(null=True, blank=True, verbose_name="Emitter Spacing (Meters)")
-    plant_spacing = models.FloatField(null=True, blank=True, verbose_name="Plant Spacing (Meters)")
+    emitter_rate = models.FloatField(null=False, default=1)
+    row_spacing = models.FloatField(null=False, default=1, verbose_name="Row Spacing (Meters)")
+    emitter_spacing = models.FloatField(null=False, default=1, verbose_name="Emitter Spacing (Meters)")
+    plant_spacing = models.FloatField(null=False, default=1, verbose_name="Plant Spacing (Meters)")
 
     comment = models.TextField(null=True, blank=True)
 
@@ -444,7 +457,7 @@ class Reading(models.Model):
         return site_text + ':' + self.date.strftime('%Y-%m-%d')
 
     class Meta:
-        unique_together = (('date', 'site'))
+        unique_together = (('date', 'site', 'type'))
 
 
 '''

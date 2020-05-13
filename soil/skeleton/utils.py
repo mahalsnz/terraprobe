@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 import logging
 logger = logging.getLogger(__name__)
 
-from .models import Site, Reading, Season, SeasonStartEnd
+from .models import Site, Reading, ReadingType, Season, SeasonStartEnd
 
 '''
     Takes a season and finds the previous season to it (number descinding) 2014 returnd 2013
@@ -68,9 +68,9 @@ def get_site_season_start_end(site, season):
 
     It expects structure of readings as below:
 
-    Key is site_number and date of reading in mm-dd-yyyy
+    Key is site_number, date of reading in mm-dd-yyyy, (Probe), (Full Point) or (Refill)
     data = {
-        '3306,28-5-2019' : [
+        '3306,28-5-2019,Probe' : [
             # First reading (of usually 3)
             [
                 3456, # First HA (depth reading) This is reversed and first HA will actually be deepest depth
@@ -107,13 +107,15 @@ def process_probe_data(readings, serial_unique_id, request, type):
         data = {}
         data['date'] = split_key[1]
 
+        rt = ReadingType.objects.get(name=str(split_key[2]))
+
         # Site is the primary key of site number so we need to look it up.
         s = Site.objects.get(site_number=split_key[0])
         data['site'] = s.id
         current_user = request.user
         data['created_by'] = current_user.id
         data['serial_number'] = serial_unique_id
-        data['type'] = '1'
+        data['type'] = rt.id
 
         for index in range(len(result)):
             # Neutron goes into depthn_count
@@ -123,7 +125,7 @@ def process_probe_data(readings, serial_unique_id, request, type):
                 data['depth' + str(index + 1)] = result[index]
 
         if data:
-            r = Reading.objects.filter(site=s.id, date=data['date'], type=1)
+            r = Reading.objects.filter(site=s.id, date=data['date'], type=rt.id)
             host = request.get_host()
             headers = {'contentType': 'application/json'}
             url = 'http://' + host
@@ -163,6 +165,8 @@ def process_irrigation_data(irrigation, serial_unique_id, request):
         data = {}
         data['date'] = split_key[1]
 
+        rt = ReadingType.objects.get(name=str(split_key[2]))
+
         # Site is the primary key of site number so we need to look it up.
         s = Site.objects.get(site_number=split_key[0])
         data['site'] = s.id
@@ -171,15 +175,13 @@ def process_irrigation_data(irrigation, serial_unique_id, request):
         current_user = request.user
         data['created_by'] = current_user.id
         data['serial_number'] = serial_unique_id
-        data['type'] = '1' # always probe
+        data['type'] = rt.id
 
         # Order of array
         # 0-100 cm (rz1),0-70 cm (rz2),0-45 cm (rz3),Deficit,ProbeDWU (probe_dwu),EstimatedDWU (estimated_dwu),
         # Rain,Meter,Irrigation(L) (irrigation_litres),Irrigation(mm) (irrigation_mms) ,EffRain1 (effective_rain_1),
         # Effective Rainfall (effective_rainfall) ,EffIrr1 (efflrr1),EffIrr2 (efflrr1), Effective Irrigation (effective_irrigation)
-        data['rz1'] = values[0]
-        data['rz2'] = values[1]
-        data['rz3'] = values[2]
+        # Don't load rz1, rz2 or rz3
         data['deficit'] = values[3]
         data['probe_dwu'] = values[4]
         data['estimated_dwu'] = values[5]
@@ -195,7 +197,7 @@ def process_irrigation_data(irrigation, serial_unique_id, request):
 
         if data:
             # If reading row already exist update otherwise insert
-            r = Reading.objects.filter(site=s.id, date=data['date'], type=1)
+            r = Reading.objects.filter(site=s.id, date=data['date'], type=rt.id)
             host = request.get_host()
             headers = {'contentType': 'application/json'}
             url = 'http://' + host

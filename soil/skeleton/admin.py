@@ -21,6 +21,9 @@ from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType
 class StrategyAdmin(admin.ModelAdmin):
     list_display = ('type', 'critical_date_type', 'days', 'percentage')
 
+class StrategyTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'percentage')
+
 class WeatherStationAdmin(admin.ModelAdmin):
     list_display = ('name', 'region', 'code')
 
@@ -116,4 +119,4 @@ admin.site.register(WeatherStation, WeatherStationAdmin)
 admin.site.register(Variety)
 admin.site.register(VarietySeasonTemplate, VarietySeasonTemplateAdmin)
 admin.site.register(Strategy, StrategyAdmin)
-admin.site.register(StrategyType)
+admin.site.register(StrategyType, StrategyTypeAdmin)

@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from django.shortcuts import render, get_object_or_404, redirect, render_to_response
+from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
@@ -217,10 +217,9 @@ def index(request):
         messages.success(request, "Successfully ran: " + str(button_clicked))
     return render(request, 'index.html', {})
 
-class SeasonDatesListView(SingleTableView):
-    model = Site
-    table_class = SiteReportTable
-    template_name = 'report_season_dates.html'
+'''
+    Reports
+'''
 
 def report_season_dates(request):
     season = get_current_season()
@@ -237,10 +236,12 @@ def report_missing_reading_types(request):
 
     for site in sites:
         dates = get_site_season_start_end(site, season)
-        missing_site = Site.objects.filter(~Q(readings__type__name='Refill', readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type__name='Full Point', readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
-        if (missing_site):
-            missing_sites |= missing_site # Some great magic to concatenate querysets together
-
+        if dates:
+            missing_site = Site.objects.filter(~Q(readings__type__name='Refill', readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type__name='Full Point', readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
+            if (missing_site):
+                missing_sites |= missing_site # Some great magic to concatenate querysets together
+        else:
+            messages.warning(request, "Site " + site.name + " has no season start and end dates.")
     sites = SiteReportTable(missing_sites)
     RequestConfig(request).configure(sites)
     return render(request, "report_output.html", {
@@ -255,11 +256,12 @@ def report_no_meter_reading(request):
 
     for site in sites:
         dates = get_site_season_start_end(site, season)
-        missing_site = Site.objects.filter(readings__type__name='Probe', readings__meter__isnull=True, readings__date__range=(dates.period_from, dates.period_to)).order_by('site_number').distinct()
-
-        if (missing_site):
-            missing_sites |= missing_site # Some great magic to concatenate querysets together
-
+        if dates:
+            missing_site = Site.objects.filter(readings__type__name='Probe', readings__meter__isnull=True, readings__date__range=(dates.period_from, dates.period_to)).order_by('site_number').distinct()
+            if (missing_site):
+                missing_sites |= missing_site # Some great magic to concatenate querysets together
+        else:
+            messages.warning(request, "Site " + site.name + " has no season start and end dates.")
     sites = SiteReportTable(missing_sites)
     RequestConfig(request).configure(sites)
     return render(request, "report_output.html", {
@@ -285,6 +287,7 @@ def report_home(request):
         except Exception as e:
             messages.error(request, "Error: " + str(e))
     return render(request, 'report_home.html', {})
+
 '''
 class CreateSeasonStartEndView(LoginRequiredMixin, CreateView):
     def get_initial(self, *args, **kwargs):
@@ -535,7 +538,7 @@ def handle_neutron_file(file_data, request):
                 date_object = datetime.strptime(date, '%m/%d/%y') # American
                 date_formatted = date_object.strftime('%Y-%m-%d')
 
-                key = site_number.rstrip() + "," + date_formatted
+                key = site_number.rstrip() + "," + date_formatted + "," + "Probe"
                 logger.info("Key:" + key)
 
                 if key in data:
@@ -608,7 +611,7 @@ def handle_diviner_file(file_data, request):
                 date_object = datetime.strptime(date_raw, '%d %b %Y %H:%M:%S')
                 date_formatted = date_object.strftime('%Y-%m-%d')
                 logger.info("Date:" + date_formatted)
-                key = site_number + "," + date_formatted
+                key = site_number + "," + date_formatted + "," + "Probe"
                 logger.info("Key:" + key)
                 data[key] = []
                 need_date = False
@@ -639,64 +642,71 @@ def handle_prwin_file(file_data, request):
     logger.debug("***Handling PRWIN")
     lines = file_data.split("\n")
 
-    # Use first line to get position of serial number (SN). Between serial number and field 3 (date) will be counts (up to 10)
-    logger.debug("***Line 1 is " + str(lines[0]))
+    # Use first line to get site number and position of serial number (SN). Between serial number and field 3 (date) will be counts (up to 10)
     header = lines[0].split(",")
+    site_number = header[0]
+    site = Site.objects.get(site_number=site_number)
+    logger.info("Site Number:" + site_number + " Site Name:" + site.name)
+
     sn_index = header.index('SN')
-    logger.info("SN Index:" + str(sn_index))
+    logger.info("Serial Number Index:" + str(sn_index))
+
+    # Now get rid of the header
     del lines[0]
 
+    # For refill and full point lines the date is old and mangy. Use the current season start date for the site
+    season = get_current_season()
+    dates = get_site_season_start_end(site, season)
+    season_start_date_formatted = dates.period_from.strftime('%Y-%m-%d')
+    logger.info("Season Start Date for Current Season " + str(season_start_date_formatted))
     data = {}
     irrigation_data = {}
-    site_number = None
-    serial_number_id = None
-    bolNeedSerialNumber = True
 
     for line in lines:
         reading = re.search("^\d.*", line) # Make sure we have a reading line
         if reading:
 
             fields = line.split(",")
-
-            # First field of every line is site number
-            site_number = fields[0]
-            logger.info("Site Number:" + site_number)
             reading_type = fields[1]
             logger.info("Type:" + reading_type)
-
-            # We only want 'Probe' reading types
-            if reading_type == 'Probe':
+            date_formatted = None
+            # We only want 'Probe', 'Full' or 'Refill' reading types
+            if reading_type == 'Probe' or reading_type == 'Full' or reading_type == 'Refill':
                 # Get date part. Comes in as DD/MM/YYYY or DD-MM-YYYY before we get 'space character' time component
+                # Wierdly refill has no date, but comes after full so we can use that date
                 date_raw = str(fields[2])
-                datefields = date_raw.split(" ")
-                date = datefields[0]
-                date_object = None
-                hypen = re.search("^\d\d-.*", date)
-                if hypen:
-                    date_object = datetime.strptime(date, '%d-%m-%Y') # American
-                else:
-                    date_object = datetime.strptime(date, '%d/%m/%Y') # American
 
-                date_formatted = date_object.strftime('%Y-%m-%d')
-                logger.info("Date:" + date_formatted)
-
-                # Get Serial Number. We are just going to get it once and asume all PRWIN readings for the season are from one probe
-                if bolNeedSerialNumber:
-                    serialnumber = fields[sn_index]
-                    logger.info("Serial Number:" + serialnumber)
-                    if serialnumber:
-                        serialnumber = int(serialnumber)
-                        # Check Serial Number exists and return info message if is not. Then get the serial number unique id
-                        if not Probe.objects.filter(serial_number=serialnumber).exists():
-                            raise Exception("Serial Number:" + serialnumber + " does not exist.")
-                        p = Probe.objects.get(serial_number=serialnumber)
-                        serial_number_id = p.id
-                        bolNeedSerialNumber = False
+                if date_raw:
+                    logger.info("dr" + str(date_raw))
+                    datefields = date_raw.split(" ")
+                    date = datefields[0]
+                    date_object = None
+                    hypen = re.search("^\d\d-.*", date)
+                    if hypen:
+                        date_object = datetime.strptime(date, '%d-%m-%Y') # American
                     else:
-                        # PRWIN rading has no serial number, we just will be insering record with serial number set to null
-                        logger.info("Inserting record with serial number set to null")
+                        date_object = datetime.strptime(date, '%d/%m/%Y') # American
+
+                    date_formatted = date_object.strftime('%Y-%m-%d')
+                    logger.info("Date:" + date_formatted)
+                    previous_date = date_formatted
+                else:
+                    logger.debug("Have to use Previous Date")
+                    date_formatted = previous_date
+
+                # Serial Number for PR WIN data is always set to manual. We are just going to get it once and asume all PRWIN readings for the season are from one probe
+                p = Probe.objects.get(serial_number='Manual')
+                serial_number_id = p.id
+
                 # Create Key
-                key = site_number + "," + date_formatted
+                if reading_type == "Probe":
+                    key = site_number + "," + date_formatted + ",Probe"
+                elif reading_type == "Full":
+                    key = site_number + "," + season_start_date_formatted + ",Full Point"
+                elif reading_type == "Refill":
+                    key = site_number + "," + season_start_date_formatted + ",Refill"
+                else:
+                    raise Exception("Unknown reading_type:" + reading_type)
                 logger.info("Key:" + key)
 
                 reading_array = []
@@ -731,7 +741,7 @@ def handle_prwin_file(file_data, request):
         # End if we have a reading
     # End loop through lines
 
-    #logger.info("Final Data:" + str(data))
+    logger.info("Final Data:" + str(data))
     logger.info("irrir array" + str(irrigation_data))
     process_probe_data(data, serial_number_id, request, 'P')
     process_irrigation_data(irrigation_data, serial_number_id, request)

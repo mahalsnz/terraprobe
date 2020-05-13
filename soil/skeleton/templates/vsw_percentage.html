@@ -79,6 +79,11 @@ var split_previous = previous.split("-");
 var last_week_date = new Date(split_previous[2], split_previous[1] - 1, split_previous[0]).toDateString();
 console.log('***Last Week DATE:' + last_week_date);
 
+var previous = "{{ period_from }}";
+var split_period_from = previous.split("-");
+var period_from_date = new Date(split_period_from[2], split_period_from[1] - 1, split_period_from[0]).toDateString();
+console.log('***Season Start DATE:' + period_from_date);
+
 // set the dimensions and margins of the weekly graph
 var margin = {top: 35, right: 30, bottom: 30, left: 40};
 width = 800 - margin.left - margin.right;
@@ -188,6 +193,8 @@ var seasons_lower_strategy = []
 
 var season_grouping = [];
 vsw_count = 10; // delivered by vsw_reading api
+var full_point_rz1 = 0;
+var refill_rz1 = 0;
 
 // Recommedations
 var hours_irrigation = 0;
@@ -205,24 +212,22 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     // Get strategies
 
     d3.json('/graphs/api/vsw_strategy/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(strategy_data) {
-
         strategy_data.forEach(function(strategy) {
 
             parsed_date = parseTime(strategy.strategy_date);
-            console.log('strat date:' + strategy.strategy_date + ' strat vsw:' + strategy.upper_strategy_vsw);
+            console.log('strat date:' + strategy.strategy_date + ' strat percentage:' + strategy.percentage);
             seasons_upper_strategy.push({
                 'date' : parsed_date,
-                'total' : strategy.upper_strategy_vsw,
+                'percentage' : strategy.percentage
             });
 
+            // Fill
             seasons_lower_strategy.push({
                 'date' : parsed_date,
-                'total' : strategy.lower_strategy_vsw,
+                'percentage' : 0
             });
         });
 
-
-    console.log("This Week:" + this_week_date + " Last week:" + last_week_date);
     vsw_readings_date_array = []; // This is better to use for refill and full point full_point_readings
 
     data.forEach(function(reading) {
@@ -237,7 +242,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             });
             // Seasons Groupiong
             season_grouping.push({
-                'dtg' : parsed_date,
+                'date' : parsed_date,
                 'rain' : reading["rain"],
                 'irrigation_mms' : reading["irrigation_mms"],
             });
@@ -293,13 +298,14 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                     });
                 }
             }
+            full_point_rz1 = Math.round(reading["rz1"]);
             // Seasons Full Point - This is the rz1 value for each proble reading date
-            for (index = 0; index < vsw_readings_date_array.length; index++) {
+            /*for (index = 0; index < vsw_readings_date_array.length; index++) {
                 seasons_full_point_readings.push({
                     'date' : vsw_readings_date_array[index],
                     'total' : Math.round(reading["rz1"]),
                 });
-            }
+            }*/
         }
 
         if (reading.reading_type.name == "Refill") {
@@ -311,25 +317,70 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                     });
                 }
             }
-            // Seasons Refill - This is the rz1 value for each proble reading date
-            for (index = 0; index < vsw_readings_date_array.length; index++) {
-                seasons_refill_readings.push({
-                    'date' : vsw_readings_date_array[index],
-                    'total' : Math.round(reading["rz1"]),
-                });
-            }
+            refill_rz1 = Math.round(reading["rz1"]);
         }
     });
+
+    // Seasons Refill - This is the rz1 value for each proble reading date
+    for (index = 0; index < vsw_readings_date_array.length; index++) {
+        seasons_refill_readings.push({
+            'date' : vsw_readings_date_array[index],
+            'total' : refill_rz1
+        });
+        seasons_full_point_readings.push({
+            'date' : vsw_readings_date_array[index],
+            'total' : full_point_rz1
+        });
+    }
+
+    /* need to sort arrays by date */
     seasons_vsw_readings = seasons_vsw_readings.sort(sortByDateAscending);
-    console.log('seasons_vsw_readings');
-    console.log(seasons_vsw_readings);
-    console.log('upper')
+    console.log('season vsw reading');
+    console.log(seasons_vsw_readings)
+
+    // TODO: Do this better. Need to test if site actually has a strategy
+    if (seasons_upper_strategy.length > 0) {
+        console.log('start reading date' + seasons_refill_readings[0]['date'])
+        // First date of both strategies will be season start date (period from)
+        seasons_upper_strategy.push({
+            'date' : seasons_vsw_readings[0]['date'],
+            'percentage' : 1
+        });
+        seasons_lower_strategy.push({
+            'date' : seasons_vsw_readings[0]['date'],
+            'percentage' : 0
+        });
+
+        console.log('upper seasons_upper_strategy');
+        console.log(seasons_upper_strategy)
+
+        console.log('FP RZ1f' + full_point_rz1);
+        console.log('R RZ1f' + refill_rz1);
+        diff = full_point_rz1 - refill_rz1
+        console.log('diff' + diff);
+
+        new_seasons_lower_strategy = [];
+        // replace all lowere with upper - diff
+        for (var i = 0; i < seasons_upper_strategy.length; i++) {
+            // $C$3-($F$3-($F$3*E8))
+            upper_total = full_point_rz1 - (diff - (diff * seasons_upper_strategy[i]['percentage']))
+
+            console.log('upper_total ' + upper_total + ' % ' + seasons_upper_strategy[i]['percentage'])
+            // =F8-($F$3*$G$8) - strategy_percentage
+            lower_total = upper_total - ( diff * .5 )
+            seasons_upper_strategy[i]['total'] = upper_total;
+            seasons_lower_strategy[i]['date'] = seasons_upper_strategy[i]['date'];
+            seasons_lower_strategy[i]['total'] = lower_total;
+        }
+    }
     seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
-    console.log(seasons_upper_strategy);
-    console.log('lower')
     seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
+
+    console.log('after')
+    console.log(seasons_upper_strategy)
     console.log(seasons_lower_strategy);
 
+    season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
     x.domain([5, 50]);
@@ -352,9 +403,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     //console.log(season_grouping);
     var keys = ['rain', 'irrigation_mms']
-    //console.log("keys:" + keys);
+    var keys_with_date = ['date', 'rain', 'irrigation_mms']
 
-    x0.domain(season_grouping.map(function(d) { return d.dtg; }));
+    x0.domain(season_grouping.map(function(d) { return d.date; }));
     x1.domain(keys).rangeRound([0, x0.bandwidth()]);
     seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key] + 100; }); })])
 
@@ -363,11 +414,22 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .data(season_grouping)
         .enter().append("g")
         .attr("class", "bar")
-        .attr("transform", function(d) { return "translate(" + x0(d.dtg) + ",0)"; })
+        .attr("transform", function(d) { return "translate(" + x0(d.date) + ",0)"; })
         .selectAll("rect")
         .data(function(d) {
             return keys.map(function(key) {
-                return {key: key, value: d[key]};
+                date_formatted = '';
+                if (key == 'date') {
+                    date_formatted = d[key];
+                    date_formatted = moment(date_formatted).format('DD-MM-YY');
+                    //console.log('Date:' + date_formatted);
+                } else {
+                    //console.log('key:' + key + ' value:' + d[key])
+                    return {
+                        key: key,
+                        value: d[key]
+                    };
+                }
             });
         }).enter().append("rect")
           .attr("x", function(d) { return x1(d.key); })

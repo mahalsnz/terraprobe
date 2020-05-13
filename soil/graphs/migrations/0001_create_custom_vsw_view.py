@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [('skeleton', '0016_auto_20200424_0851'),
+    dependencies = [('skeleton', '0019_auto_20200512_0757'),
     ]
 
     operations = [
@@ -17,6 +17,7 @@ CREATE OR REPLACE VIEW graphs_strategy AS
 SELECT
     skeleton_strategytype.id AS strategytype_id,
 	skeleton_strategytype.name AS strategy_name,
+    skeleton_strategytype.percentage AS strategy_percentage,
 	skeleton_site.id as site_id,
     skeleton_reading.type_id AS reading_type_id,
 	skeleton_site.name as site_name,
@@ -28,9 +29,7 @@ SELECT
 	skeleton_strategy.percentage,
 	skeleton_criticaldatetype.name AS critical_date_type,
 	skeleton_criticaldate.date AS critical_date,
-	skeleton_criticaldate.date + skeleton_strategy.days AS strategy_date,
-	skeleton_reading.rz1 * skeleton_strategy.percentage / 100 AS upper_strategy_vsw,
-	skeleton_reading.rz1 * skeleton_strategy.percentage / 100 * skeleton_strategytype.percentage / 100 AS lower_strategy_vsw
+	skeleton_criticaldate.date + skeleton_strategy.days AS strategy_date
 FROM
 	skeleton_site
 RIGHT JOIN skeleton_readingtype ON skeleton_site.upper_limit_id = skeleton_readingtype.id
@@ -198,7 +197,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
                 LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone2"
-            ON zone1.date = zone2.date AND zone1.id = zone2.id
+            ON zone1.date = zone2.date AND zone1.id = zone2.id AND zone1.type_id = zone2.type_id
             ---------
             LEFT JOIN
             --------
@@ -223,7 +222,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
                 LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone3"
-            ON zone1.date = zone3.date AND zone1.id = zone3.id
+            ON zone1.date = zone3.date AND zone1.id = zone3.id AND zone1.type_id = zone3.type_id
             ---------
             LEFT JOIN
             --------
@@ -248,7 +247,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
                 LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone4"
-            ON zone1.date = zone4.date AND zone1.id = zone4.id
+            ON zone1.date = zone4.date AND zone1.id = zone4.id AND zone1.type_id = zone4.type_id
             ---------
             LEFT JOIN
             --------
@@ -273,7 +272,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
                 LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone5"
-            ON zone1.date = zone5.date AND zone1.id = zone5.id
+            ON zone1.date = zone5.date AND zone1.id = zone5.id AND zone1.type_id = zone5.type_id
             ---------
             LEFT JOIN
             --------
@@ -298,7 +297,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
                 LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone6"
-            ON zone1.date = zone6.date AND zone1.id = zone6.id
+            ON zone1.date = zone6.date AND zone1.id = zone6.id AND zone1.type_id = zone6.type_id
             ---------
             LEFT JOIN
             --------
@@ -323,7 +322,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
                 LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone7"
-            ON zone1.date = zone7.date AND zone1.id = zone7.id
+            ON zone1.date = zone7.date AND zone1.id = zone7.id AND zone1.type_id = zone7.type_id
             ---------
             LEFT JOIN
             --------
@@ -348,7 +347,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
                 LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone8"
-            ON zone1.date = zone8.date AND zone1.id = zone8.id
+            ON zone1.date = zone8.date AND zone1.id = zone8.id AND zone1.type_id = zone8.type_id
             ---------
             LEFT JOIN
             --------
@@ -373,7 +372,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
                 LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone9"
-            ON zone1.date = zone9.date AND zone1.id = zone9.id
+            ON zone1.date = zone9.date AND zone1.id = zone9.id AND zone1.type_id = zone9.type_id
             ---------
             LEFT JOIN
             --------
@@ -398,7 +397,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             	RIGHT JOIN skeleton_reading ON skeleton_reading.site_id = skeleton_site.id AND skeleton_reading.serial_number_id = skeleton_calibration.serial_number_id
                 LEFT JOIN skeleton_readingtype ON skeleton_readingtype.id = skeleton_reading.type_id
             ) AS "zone10"
-            ON zone1.date = zone10.date AND zone1.id = zone10.id;
+            ON zone1.date = zone10.date AND zone1.id = zone10.id AND zone1.type_id = zone10.type_id;
 '''
         )
 
