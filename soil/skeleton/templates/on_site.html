@@ -1,0 +1,19 @@
+<!-- templates/on_site.html -->
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h1>On Site Manual Data Entry</h1>
+
+<form method="post" id="onsiteForm"novalidate>
+    {% csrf_token %}
+    <div class="container-sm">
+        <div class="row selector">
+            {{ form|crispy }}
+        </div>
+
+</form>
+
+{{ form.media }}
+{% endblock content %}

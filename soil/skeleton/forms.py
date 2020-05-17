@@ -8,6 +8,18 @@ from django.forms import ModelChoiceField, ModelMultipleChoiceField
 from django.forms import CheckboxInput
 from bootstrap_datepicker_plus import DatePickerInput
 
+from dal import autocomplete
+
+class SiteSelectionForm(forms.ModelForm):
+    site_number = forms.ModelChoiceField(
+        queryset=SiteDescription.objects.all(),
+        widget=autocomplete.ModelSelect2(url='autocomplete_sitenumber')
+    )
+
+    class Meta:
+        model = Site
+        fields = ['site_number',]
+
 class SelectCropRegionSeasonForm(forms.Form):
     product = forms.ModelMultipleChoiceField(queryset = Product.objects.all().order_by('crop'))
     region = forms.ModelMultipleChoiceField(queryset = State.objects.all().order_by('name'))

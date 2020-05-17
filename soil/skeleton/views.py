@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.core import management
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
@@ -14,7 +14,7 @@ from django.contrib import messages
 
 from django.db.models import Sum, Q
 from graphs.models import vsw_reading
-from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType, Variety, VarietySeasonTemplate
+from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType, Variety, VarietySeasonTemplate, SiteDescription
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from formtools.wizard.views import SessionWizardView
@@ -31,13 +31,31 @@ import calendar
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm, SiteReadingsForm
+from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season, get_previous_season
-
+from dal import autocomplete
 TEMPLATES = {"select_crsf": "wizard/season_select.html"}
+
+class OnsiteCreateView(LoginRequiredMixin, CreateView):
+    model = Site
+    form_class = SiteSelectionForm
+    template_name = 'on_site.html'
+    success_url = reverse_lazy('on_site')
+
+class SiteAutocompleteView(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        #if not self.request.user.is_authenticated():
+        #    return Site.objects.none()
+
+        qs = SiteDescription.objects.all()
+
+        if self.q:
+            qs = qs.filter(site_number__icontains=self.q)
+
+        return qs
 
 '''
     Handles ajax call to display or update site note from the main Readings screen
