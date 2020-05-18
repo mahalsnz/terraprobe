@@ -1,0 +1,51 @@
+<!-- templates/onsite_readings.html -->
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<form method="post" id="onsiteForm"novalidate>
+    {% csrf_token %}
+    <div class="container-sm">
+        <div class="row selector">
+            {{ form.site_number|as_crispy_field }}
+        </div>
+        <div class="row">
+            <p>Last Weeks Reading:</p><p id="previous_date"></p>
+        </div>
+        <div class="row">
+            Meter:<p id="previous_meter"></p>    Rain:<p id="previous_rain"></p>
+        </div>
+        <div class="row">
+            <p>This Weeks Reading</p>
+        </div>
+        <div class="row">
+            {{ form.date|as_crispy_field }}
+        </div>
+        <div class="row">
+            <button class="btn bg-green" type="button" id="">Submit</button>
+        </div>
+    </div>
+</form>
+
+{{ form.media }}
+<script>
+$("#id_site_number").change(function() {
+    var siteId = $(this).val();
+    console.log("SiteID:" + siteId);
+    $.ajax({
+        url: "/ajax/load-onsite-reading/",
+        data: {
+            'site': siteId
+        },
+        dataType: 'json',
+        success: function(result) {
+            console.log(result);
+            $("#previous_date").text(result.date);
+            $("#previous_meter").text(result.meter);
+            $("#previous_rain").text(result.rain);
+        }
+    });
+});
+</script>
+{% endblock content %}

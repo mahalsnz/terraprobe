@@ -42,8 +42,28 @@ TEMPLATES = {"select_crsf": "wizard/season_select.html"}
 class OnsiteCreateView(LoginRequiredMixin, CreateView):
     model = Site
     form_class = SiteSelectionForm
-    template_name = 'on_site.html'
-    success_url = reverse_lazy('on_site')
+    template_name = 'onsite_readings.html'
+
+'''
+    Ajax call to load previous reading for the onsite web page
+'''
+from django.core.exceptions import ObjectDoesNotExist
+def load_onsite_reading(request):
+    site_id = request.GET.get('site')
+    date = 'No Previous Date'
+    meter = 0
+    rain = 0
+
+    if site_id:
+        try:
+            reading = Reading.objects.filter(site=site_id).latest()
+            logger.debug(str(reading))
+            date = reading.date
+            meter = reading.meter
+            rain = reading.rain
+        except ObjectDoesNotExist:
+            pass
+    return JsonResponse({'date' : date, 'meter' : meter, 'rain' : rain})
 
 class SiteAutocompleteView(autocomplete.Select2QuerySetView):
     def get_queryset(self):

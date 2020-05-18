@@ -458,7 +458,7 @@ class Reading(models.Model):
 
     class Meta:
         unique_together = (('date', 'site', 'type'))
-
+        get_latest_by = 'date'
 
 '''
 These are crop coefficients (Kc) from .DWU files are daily water use data.

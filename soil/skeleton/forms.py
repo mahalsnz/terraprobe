@@ -15,10 +15,17 @@ class SiteSelectionForm(forms.ModelForm):
         queryset=SiteDescription.objects.all(),
         widget=autocomplete.ModelSelect2(url='autocomplete_sitenumber')
     )
+    date = forms.DateField(
+        widget = DatePickerInput(
+        ),
+        required = False,
+    )
+    meter = forms.FloatField(required=False)
+    rainfall = forms.FloatField(required=False)
 
     class Meta:
         model = Site
-        fields = ['site_number',]
+        fields = ['id',]
 
 class SelectCropRegionSeasonForm(forms.Form):
     product = forms.ModelMultipleChoiceField(queryset = Product.objects.all().order_by('crop'))

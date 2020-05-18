@@ -3,7 +3,7 @@ from django.conf.urls import url
 
 from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard, OnsiteCreateView, SiteAutocompleteView
 from . import views
-from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm
+from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm, SiteSelectionForm
 
 from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
 , FarmList, FarmDetail, ReadingDetail, ReadingList, SiteReadingList, SiteList, SiteDetail
@@ -25,7 +25,7 @@ urlpatterns = [
 
     path("vsw_percentage/<int:site_id>/<isodate:date>/", views.vsw_percentage),
 
-    path('readings/on_site/', OnsiteCreateView.as_view(), name='on_site'),
+    path('readings/onsite/', OnsiteCreateView.as_view(), name='onsite_readings'),
     path('autocomplete_sitenumber', SiteAutocompleteView.as_view(), name='autocomplete_sitenumber'),
 
     # API
@@ -49,4 +49,5 @@ urlpatterns = [
     path('ajax/load-graph/', views.load_graph, name='ajax_load_graph'),
     path('ajax/process-site-note/', views.process_site_note, name='ajax_process_site_note'),
     path('ajax/process-reading-recommendation/', views.process_reading_recommendation, name='ajax_process_reading_recommendation'),
+    path('ajax/load-onsite-reading/', views.load_onsite_reading, name='ajax_load_onsite_reading'),
 ]
