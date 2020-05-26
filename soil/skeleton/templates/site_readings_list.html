@@ -29,10 +29,7 @@
             <th>Meter</th>
             <th>Irri (L)</th>
             <th>Irri (mm)</th>
-            <th>Effective Rain1</th>
             <th>Effective Rainfall</th>
-            <th>efflrr1</th>
-            <th>efflrr2</th>
             <th>Effective Irridation</th>
         </tr>
     </thead>
@@ -102,10 +99,7 @@
             <td>{{ reading.meter|floatformat }}</td>
             <td>{{ reading.irrigation_litres|floatformat }}</td>
             <td>{{ reading.irrigation_mms|floatformat }}</td>
-            <td>{{ reading.effective_rain_1|floatformat }}</td>
-            <td>{{ reading.effective_rainfall|floatformat }}</td>
-            <td>{{ reading.efflrr1|floatformat }}</td>
-            <td>{{ reading.efflrr2|floatformat }}</td>
+            <td>{{ reading.effective_rainfall|floatformat }}</td>    
             <td>{{ reading.effective_irrigation|floatformat }}</td>
         </tr>
         {% endfor %}
