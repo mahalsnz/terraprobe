@@ -16,12 +16,12 @@ class SiteSelectionForm(forms.ModelForm):
         widget=autocomplete.ModelSelect2(url='autocomplete_sitenumber')
     )
     date = forms.DateField(
-        widget = DatePickerInput(
+        widget = DatePickerInput(format='%Y-%m-%d'
         ),
         required = False,
     )
     meter = forms.FloatField(required=False)
-    rainfall = forms.FloatField(required=False)
+    rain = forms.FloatField(required=False)
 
     class Meta:
         model = Site

@@ -28,6 +28,7 @@ urlpatterns = [
     path('readings/onsite/', OnsiteCreateView.as_view(), name='onsite_readings'),
     path('autocomplete_sitenumber', SiteAutocompleteView.as_view(), name='autocomplete_sitenumber'),
 
+
     # API
     path("api/report/", ReportList.as_view(), name="reports_list"),
     path("api/report/<int:pk>/", ReportDetail.as_view(), name="reports_detail"),
@@ -50,4 +51,5 @@ urlpatterns = [
     path('ajax/process-site-note/', views.process_site_note, name='ajax_process_site_note'),
     path('ajax/process-reading-recommendation/', views.process_reading_recommendation, name='ajax_process_reading_recommendation'),
     path('ajax/load-onsite-reading/', views.load_onsite_reading, name='ajax_load_onsite_reading'),
+    path('ajax/process-onsite-reading/', views.process_onsite_reading, name='ajax_process_onsite_reading'),
 ]

@@ -196,6 +196,8 @@ vsw_count = 10; // delivered by vsw_reading api
 var full_point_rz1 = 0;
 var refill_rz1 = 0;
 
+var season_critical_dates = {};
+
 // Recommedations
 var hours_irrigation = 0;
 var mms_plant = 0;
@@ -213,6 +215,10 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     d3.json('/graphs/api/vsw_strategy/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(strategy_data) {
         strategy_data.forEach(function(strategy) {
+            season_critical_dates[strategy.critical_date_type] = strategy.critical_date
+            //    'date' : strategy.critical_date,
+            //    'type' : strategy.critical_date_type
+            //});
 
             parsed_date = parseTime(strategy.strategy_date);
             console.log('strat date:' + strategy.strategy_date + ' strat percentage:' + strategy.percentage);
@@ -376,9 +382,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
     seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
 
-    console.log('after')
-    console.log(seasons_upper_strategy)
-    console.log(seasons_lower_strategy);
+    console.log('season critical dates')
+    console.log(season_critical_dates)
 
     season_grouping  = season_grouping.sort(sortByDateAscending);
 
