@@ -1,0 +1,102 @@
+<!-- templates/onsite_readings.html -->
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<form method="post" id="onsiteForm"novalidate>
+    {% csrf_token %}
+    <div class="container-sm">
+        <div class="col-sm-1">
+            <div class="row selector">
+                {{ form.site_number|as_crispy_field }}
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="row">
+                <b>Last Weeks Reading:</b><p id="previous_date"></p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="row">
+                <b>Meter:</b><p id="previous_meter"></p>    <b>Rain:</b><p id="previous_rain"></p>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="row">
+                <b><p>This Weeks Reading</p></b>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="row">
+                {{ form.date|as_crispy_field }}
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="row">
+                {{ form.meter|as_crispy_field }}
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="row">
+                {{ form.rain|as_crispy_field }}
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="row">
+                <button class="btn bg-green" type="button" id="submit-reading">Submit</button>
+            </div>
+        </div>
+        </br>
+        <div class="col-sm-2">
+            <div class="row">
+                <button class="btn bg-green" type="button" id="reset-meter">Reset Meter</button>
+                To: <input type="number" id="new-meter">
+            </div>
+        </div>
+    </div>
+</form>
+
+{{ form.media }}
+<script>
+$("#id_site_number").change(function() {
+    var siteId = $(this).val();
+    $.ajax({
+        url: "/ajax/load-onsite-reading/",
+        data: {
+            'site': siteId
+        },
+        dataType: 'json',
+        success: function(result) {
+            console.log(result);
+            $("#previous_date").text(result.date);
+            $("#previous_meter").text(result.meter);
+            $("#previous_rain").text(result.rain);
+        }
+    });
+});
+$("#submit-reading").click(function() {
+    var siteId = $("#id_site_number").val();
+    console.log("siteId:" + siteId);
+    var date = $("#id_date").val();
+    var meter = $("#id_meter").val();
+    var rain = $("#id_rain").val();
+    console.log("date:" + date);
+    $.ajax({
+        url: "/ajax/process-onsite-reading/",
+        data: {
+            'site': siteId,
+            'meter': meter,
+            'rain': rain,
+            'date': date
+        },
+        dataType: 'json',
+        success: function(result) {
+            console.log(result);
+
+        }
+    });
+
+});
+</script>
+{% endblock content %}

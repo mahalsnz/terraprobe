@@ -5,8 +5,8 @@ from django.utils import timezone
 from django.core import management
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect
-from django.urls import reverse
-
+from django.urls import reverse, reverse_lazy
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
@@ -14,7 +14,7 @@ from django.contrib import messages
 
 from django.db.models import Sum, Q
 from graphs.models import vsw_reading
-from .models import Probe, Reading, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType, Variety, VarietySeasonTemplate
+from .models import Probe, Reading, ReadingType, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType, Variety, VarietySeasonTemplate, SiteDescription
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from formtools.wizard.views import SessionWizardView
@@ -31,13 +31,69 @@ import calendar
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm, SiteReadingsForm
+from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season, get_previous_season
-
+from dal import autocomplete
 TEMPLATES = {"select_crsf": "wizard/season_select.html"}
+
+class OnsiteCreateView(LoginRequiredMixin, CreateView):
+    model = Site
+    form_class = SiteSelectionForm
+    template_name = 'onsite_readings.html'
+
+'''
+    Ajax call to load previous reading for a site on the onsite web page
+'''
+
+def load_onsite_reading(request):
+    site_id = request.GET.get('site')
+    date = 'No Previous Date'
+    meter = 0
+    rain = 0
+
+    if site_id:
+        try:
+            reading = Reading.objects.filter(site=site_id).latest()
+            logger.debug(str(reading))
+            date = reading.date
+            meter = reading.meter
+            rain = reading.rain
+        except ObjectDoesNotExist:
+            pass
+    return JsonResponse({'date' : date, 'meter' : meter, 'rain' : rain})
+
+'''
+    Ajax call to process onsite rain and meter readings for a site on the onsite web page
+'''
+
+def process_onsite_reading(request):
+    site_id = request.GET.get('site')
+    date = request.GET.get('date')
+    meter = request.GET.get('meter')
+    rain = request.GET.get('rain')
+    logger.debug('Date:' + str(date))
+
+    reading_type = ReadingType.objects.get(name='Probe')
+    site = Site.objects.get(id=site_id)
+    reading, created = Reading.objects.update_or_create(site=site, date=date, type=reading_type,
+        defaults={"date": date, "type": reading_type, "created_by": request.user, "rain": rain, "meter": meter})
+
+    return JsonResponse({'date' : date, 'meter' : meter, 'rain' : rain})
+
+class SiteAutocompleteView(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        #if not self.request.user.is_authenticated():
+        #    return Site.objects.none()
+
+        qs = SiteDescription.objects.all()
+
+        if self.q:
+            qs = qs.filter(site_number__icontains=self.q)
+
+        return qs
 
 '''
     Handles ajax call to display or update site note from the main Readings screen

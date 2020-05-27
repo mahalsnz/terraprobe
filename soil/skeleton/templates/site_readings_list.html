@@ -29,10 +29,7 @@
             <th>Meter</th>
             <th>Irri (L)</th>
             <th>Irri (mm)</th>
-            <th>Effective Rain1</th>
             <th>Effective Rainfall</th>
-            <th>efflrr1</th>
-            <th>efflrr2</th>
             <th>Effective Irridation</th>
         </tr>
     </thead>
@@ -102,10 +99,7 @@
             <td>{{ reading.meter|floatformat }}</td>
             <td>{{ reading.irrigation_litres|floatformat }}</td>
             <td>{{ reading.irrigation_mms|floatformat }}</td>
-            <td>{{ reading.effective_rain_1|floatformat }}</td>
             <td>{{ reading.effective_rainfall|floatformat }}</td>
-            <td>{{ reading.efflrr1|floatformat }}</td>
-            <td>{{ reading.efflrr2|floatformat }}</td>
             <td>{{ reading.effective_irrigation|floatformat }}</td>
         </tr>
         {% endfor %}
@@ -130,24 +124,43 @@
     <p>No readings</p>
 {% endif %}
 
-<iframe id="widget-iframe" width="300px" height="195px"
- src="https://services.metservice.com/weather-widget/widget?params=blue|medium|portrait|days-3|classic&loc=hastings&type=urban" allowtransparency="true" style="border:none" />
+<a class="weatherwidget-io" href="https://forecast7.com/en/n39d64176d84/hastings/" data-label_1="HASTINGS" data-label_2="WEATHER" data-theme="original">HASTINGS WEATHER</a>
 
 <script>
-//
-//<a class="weatherwidget-io" href="https://forecast7.com/en/n39d64176d84/hastings/" data-label_1="HASTINGS" data-label_2="WEATHER" data-theme="original" >HASTINGS WEATHER</a>
-//<script>
-//!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-//
 
 $(document).ready(function() {
+    // for weather widget
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+
+    // Sorting plug in for uk/nz dates. https://datatables.net/plug-ins/sorting/
+    // Not using https://cdn.datatables.net/plug-ins/1.10.21/sorting/date-uk.js as it uses '21/5/2018' not '21-5-2018'
+    jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+       "date-uk-pre": function ( a ) {
+           if (a == null || a == "") {
+               return 0;
+           }
+           var ukDatea = a.split('-');
+           return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+       },
+
+       "date-uk-asc": function ( a, b ) {
+           return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+       },
+
+       "date-uk-desc": function ( a, b ) {
+           return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+       }
+    } );
+
     $('#reading-table').DataTable({
         "paging": false,
         "scrollX": true,
         "scrollY": "500px",
         scrollCollapse: true,
         "searching": false,
-        //fixedColumns: true
+        "columnDefs": [
+                { "type": "date-uk", "targets": 1 }
+        ]
     });
 
     $(".clickable-row").click(function() {
