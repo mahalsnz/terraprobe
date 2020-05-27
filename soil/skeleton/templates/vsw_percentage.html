@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col" id="area1"></div>
     <div class="col" id="area3">
-        <table id="amount-data" class="table table-sm table-bordered">
+        <table id="last-week-data" class="table table-sm table-bordered">
             <thead class="thead-light">
             <tr>
                 <th colspan="4">Amount Received Last Week</th>
@@ -23,6 +23,22 @@
                 <td class="mms-plant">mm</td>
                 <td class="litres-plant">lp</td>
                 <td class="hours">hrs</td>
+            </tr>
+            <tr>
+                <td>Rain (mms)</td>
+                <td class="previous-rain">mm</td>
+            </tr>
+        </table>
+        <table id="season-data" class="table table-sm table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <th colspan="4">Season To Date</th>
+            </tr>
+            <tr>
+                <td>Irrigation</td>
+                <td class="std-irrigation"></td>
+                <td>Rain</td>
+                <td class="std-rain"></td>
             </tr>
         </table>
     </div>
@@ -58,12 +74,16 @@
                 <td class="sun">0</td>
             </tr>
         </table>
+
     </div>
+
 </div>
+
 <div class="row">
     <div class="col" id="area2"></div>
 </div>
 <script>
+
 //var parseTime = d3.timeParse("%m-%d-%Y");
 var parseTime = d3.timeParse("%Y-%m-%d");
 
@@ -86,13 +106,13 @@ console.log('***Season Start DATE:' + period_from_date);
 
 // set the dimensions and margins of the weekly graph
 var margin = {top: 35, right: 30, bottom: 30, left: 40};
-width = 800 - margin.left - margin.right;
+width = 650 - margin.left - margin.right;
 height = 350 - margin.top - margin.bottom;
 
 // set the dimensions and margins of the season graph
 //var season_margin = {top: 500, right: 20, bottom: 30, left: 50};
-season_width = 1500 - margin.left - margin.right;
-season_height = 350 - margin.top - margin.bottom;
+season_width = 1400 - margin.left - margin.right;
+season_height = 420 - margin.top - margin.bottom;
 
 // set the weekly ranges
 var x = d3.scaleLinear().range([0, width]); //vsw (%)
@@ -199,9 +219,12 @@ var refill_rz1 = 0;
 var season_critical_dates = {};
 
 // Recommedations
-var hours_irrigation = 0;
-var mms_plant = 0;
-var litres_plant = 0;
+var previous_rain = 0;
+var previous_hours_irrigation = 0;
+var previous_mms_plant = 0;
+var previous_litres_plant = 0;
+var std_irrigation = 0;
+var std_rain = 0;
 var recommendation_text = '';
 var rec_mon = 0, rec_tue = 0, rec_wed = 0, rec_thu = 0, rec_fri = 0, rec_sat = 0, rec_sun = 0;
 
@@ -216,9 +239,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     d3.json('/graphs/api/vsw_strategy/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(strategy_data) {
         strategy_data.forEach(function(strategy) {
             season_critical_dates[strategy.critical_date_type] = strategy.critical_date
-            //    'date' : strategy.critical_date,
-            //    'type' : strategy.critical_date_type
-            //});
 
             parsed_date = parseTime(strategy.strategy_date);
             console.log('strat date:' + strategy.strategy_date + ' strat percentage:' + strategy.percentage);
@@ -254,6 +274,11 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             });
 
             vsw_readings_date_array.push(parsed_date)
+
+            // Season to Date figures
+            std_irrigation += reading["irrigation_litres"]
+            std_rain += reading["rain"]
+
             if (this_week_date == reading_date) {
                 for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
@@ -275,10 +300,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 rec_sat = reading["rec_sat"]
                 rec_sun = reading["rec_sun"]
                 //"rec_mon":0.0,"rec_tue":0.0,"rec_wed":2.0,"rec_thu":2.6,"rec_fri":0.0,"rec_sat":0.0
-                litres_plant = reading["irrigation_litres"]
-                mms_plant = reading["irrigation_mms"]
-                application_rate = reading["site"]["application_rate"]
-                hours_irrigation = Math.round(mms_plant / application_rate)
+
             }
 
             // Get last weeks readings
@@ -291,6 +313,12 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                         })
                     }
                 } // end for loop
+                /* Calculate values for Amounts Recieved last Week */
+                previous_litres_plant = reading["irrigation_litres"]
+                previous_mms_plant = reading["irrigation_mms"]
+                previous_rain = reading["rain"]
+                application_rate = reading["site"]["application_rate"]
+                previous_hours_irrigation = Math.round(previous_mms_plant / application_rate)
             }
         }
 
@@ -441,7 +469,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
           .attr("y", function(d) { return seasony1(d.value); })
           .attr("id", function(d) { return d.key; })
           .attr("width", x1.bandwidth())
-          .attr("height", function(d) { return height - seasony1(d.value); })
+          .attr("height", function(d) { return season_height - seasony1(d.value); })
           .on("mouseover", function(d) {
               div.transition()
               .duration(200)
@@ -586,9 +614,12 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
 
           // Update recommendation fields
-          $("#amount-data td.mms-plant").html(mms_plant);
-          $("#amount-data td.litres-plant").html(litres_plant);
-          $("#amount-data td.hours").html(hours_irrigation);
+          $("#last-week-data td.mms-plant").html(previous_mms_plant);
+          $("#last-week-data td.litres-plant").html(previous_litres_plant);
+          $("#last-week-data td.hours").html(previous_hours_irrigation);
+          $("#last-week-data td.previous-rain").html(previous_rain);
+          $("#season-data td.std-irrigation").html(std_irrigation);
+          $("#season-data td.std-rain").html(std_rain);
           $("#recommendation td.text").html(recommendation_text);
           $("#recommendation td.mon").html(rec_mon);
           $("#recommendation td.tue").html(rec_tue);
