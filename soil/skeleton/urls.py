@@ -1,6 +1,6 @@
 from django.urls import path
 from django.conf.urls import url
-
+from django.views.generic import TemplateView
 from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard, OnsiteCreateView, SiteAutocompleteView
 from . import views
 from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm, SiteSelectionForm
@@ -12,7 +12,10 @@ FORMS = [("select_crsf", SelectCropRegionSeasonForm)]
 
 urlpatterns = [
     path('', views.index, name='home'),
-
+    path('sw.js', (
+        TemplateView.as_view(
+            template_name="sw.js",
+            content_type='application/javascript')), name='sw.js'),
     # Reports
     path('reports', views.report_home, name='report_home'),
     path("reports/season_dates", views.report_season_dates, name='report_season_dates'),
