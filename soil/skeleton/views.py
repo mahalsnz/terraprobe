@@ -139,7 +139,7 @@ def process_reading_recommendation(request):
             day_value = 0
         week_values[day] = day_value
 
-        water_day_value = float(site.application_rate) * float(day_value)
+        water_day_value = round(float(site.application_rate) * float(day_value))
         week_values[day + '-water'] = water_day_value
         reading.save()
 

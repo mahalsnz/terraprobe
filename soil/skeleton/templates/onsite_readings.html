@@ -86,7 +86,6 @@ $("#submit-reading").click(function() {
         },
         dataType: 'json',
         success: function(result) {
-            console.log(result);
             updateMessages(result.messages);
         }
     });

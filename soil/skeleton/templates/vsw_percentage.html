@@ -43,37 +43,39 @@
         </table>
     </div>
     <div class="col" id="area4">
-        <table id="recommendation" class="table table-sm table-bordered">
-            <thead class="thead-light">
-            <tr>
-                <th colspan="7">Recommendation</th>
-            </tr>
-            <tr>
-                <td class="text" colspan="7">Lorem ipsum dolor sit amet, nibh admodum sententiae ad cum, vero phaedrum in ius, etiam dissentiet te per. Detraxit dissentias sea id. Per oblique th
-                </td>
-            </tr>
-            <tr>
-                <td>Mon</td>
-                <td>Tue</td>
-                <td>Wed</td>
-                <td>Thu</td>
-                <td>Fri</td>
-                <td>Sat</td>
-                <td>Sun</td>
-            </tr>
-            <tr>
-                <td colspan="7">Hours</td>
-            </tr>
-            <tr>
-                <td class="mon">0</td>
-                <td class="tue">0</td>
-                <td class="wed">0</td>
-                <td class="thu">0</td>
-                <td class="fri">0</td>
-                <td class="sat">0</td>
-                <td class="sun">0</td>
-            </tr>
-        </table>
+
+        <textarea class="form-control form-control-md" rows="7" id="reading-recommendation-text" readonly></textarea>
+        <label>Hours:</label>
+        <div id='week-day-labels'>
+            <label for="Mon">Mon</label>
+            <label for="Tue">Tue</label>
+            <label for="Wed">Wed</label>
+            <label for="Thu">Thu</label>
+            <label for="Fri">Fri</label>
+            <label for="Sat">Sat</label>
+            <label for="Sun">Sun</label>
+        </div>
+        Hours
+        <div id='week-days' class="input-group">
+
+            <input type="text" class="form-control" id="Mon" placeholder="Mon" readonly>
+            <input type="text" class="form-control" id="Tue" placeholder="Tue" readonly>
+            <input type="text" class="form-control" id="Wed" placeholder="Wed" readonly>
+            <input type="text" class="form-control" id="Thu" placeholder="Thu" readonly>
+            <input type="text" class="form-control" id="Fri" placeholder="Fri" readonly>
+            <input type="text" class="form-control" id="Sat" placeholder="Sat" readonly>
+            <input type="text" class="form-control" id="Sun" placeholder="Sun" readonly>
+         </div>
+         MM/HR
+         <div id='week-days-water' class="input-group">
+             <input type="text" class="form-control" id="Mon-water" readonly>
+             <input type="text" class="form-control" id="Tue-water" readonly>
+             <input type="text" class="form-control" id="Wed-water" readonly>
+             <input type="text" class="form-control" id="Thu-water" readonly>
+             <input type="text" class="form-control" id="Fri-water" readonly>
+             <input type="text" class="form-control" id="Sat-water" readonly>
+             <input type="text" class="form-control" id="Sun-water" readonly>
+          </div>
 
     </div>
 
@@ -89,8 +91,9 @@ var parseTime = d3.timeParse("%Y-%m-%d");
 
 // assemble reading date and previous reading date into this and last weeks dates javascript dates. Time does not matter
 // js is a bitch extract on '-' for date 25-03-2019
-var date = "{{ date }}"
-var split_date = date.split("-")
+var date = "{{ date }}";
+var split_date = date.split("-");
+var this_week_date_test = new Date(split_date[2], split_date[1] - 1, split_date[0]);
 var this_week_date = new Date(split_date[2], split_date[1] - 1, split_date[0]).toDateString();
 console.log("***This week DATE:" + this_week_date);
 
@@ -612,22 +615,42 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
           .attr("dy", "0.32em")
           .text(function(d) { return d; });
 
+      // Update recommendation fields
+      $("#last-week-data td.mms-plant").html(previous_mms_plant);
+      $("#last-week-data td.litres-plant").html(previous_litres_plant);
+      $("#last-week-data td.hours").html(previous_hours_irrigation);
+      $("#last-week-data td.previous-rain").html(previous_rain);
+      $("#season-data td.std-irrigation").html(std_irrigation);
+      $("#season-data td.std-rain").html(std_rain);
 
-          // Update recommendation fields
-          $("#last-week-data td.mms-plant").html(previous_mms_plant);
-          $("#last-week-data td.litres-plant").html(previous_litres_plant);
-          $("#last-week-data td.hours").html(previous_hours_irrigation);
-          $("#last-week-data td.previous-rain").html(previous_rain);
-          $("#season-data td.std-irrigation").html(std_irrigation);
-          $("#season-data td.std-rain").html(std_rain);
-          $("#recommendation td.text").html(recommendation_text);
-          $("#recommendation td.mon").html(rec_mon);
-          $("#recommendation td.tue").html(rec_tue);
-          $("#recommendation td.wed").html(rec_wed);
-          $("#recommendation td.thu").html(rec_thu);
-          $("#recommendation td.fri").html(rec_fri);
-          $("#recommendation td.sat").html(rec_sat);
-          $("#recommendation td.sun").html(rec_sun);
+      //week_start = reading.date.weekday() + 1
+      //week_start_abbr = calendar.day_abbr[week_start]
+      console.log('Week Start:' + this_week_date_test)
+      var week_start = this_week_date_test.getDay();
+      console.log('Week Start:' + week_start)
+      days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+      week_start_abbr = days[week_start];
+      console.log('Week Start Abbr:' + week_start_abbr);
+
+      $("textarea#reading-recommendation-text").val(recommendation_text);
+
+      $("input#Mon").val(rec_mon);
+      $("input#Tue").val(rec_tue);
+      $("input#Wed").val(rec_wed);
+      $("input#Thu").val(rec_thu);
+      $("input#Fri").val(rec_fri);
+      $("input#Sat").val(rec_sat);
+      $("input#Sun").val(rec_sun);
+      $("input#Mon-water").val(Math.round(application_rate * rec_mon));
+      $("input#Tue-water").val(Math.round(application_rate * rec_tue));
+      $("input#Wed-water").val(Math.round(application_rate * rec_wed));
+      $("input#Thu-water").val(Math.round(application_rate * rec_thu));
+      $("input#Fri-water").val(Math.round(application_rate * rec_fri));
+      $("input#Sat-water").val(Math.round(application_rate * rec_sat));
+      $("input#Sun-water").val(Math.round(application_rate * rec_sun));
+
+      updateReadingRecommendations(week_start_abbr, week_start)
+
 });
 
 });
