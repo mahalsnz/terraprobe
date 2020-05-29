@@ -52,7 +52,6 @@ def load_onsite_reading(request):
     site_id = request.GET.get('site')
     date = 'No Previous Date'
     meter = 0
-    rain = 0
 
     if site_id:
         try:
@@ -60,10 +59,9 @@ def load_onsite_reading(request):
             logger.debug(str(reading))
             date = reading.date
             meter = reading.meter
-            rain = reading.rain
         except ObjectDoesNotExist:
             pass
-    return JsonResponse({'date' : date, 'meter' : meter, 'rain' : rain})
+    return JsonResponse({'date' : date, 'meter' : meter})
 
 '''
     Ajax call to process onsite rain and meter readings for a site on the onsite web page
@@ -72,16 +70,27 @@ def load_onsite_reading(request):
 def process_onsite_reading(request):
     site_id = request.GET.get('site')
     date = request.GET.get('date')
-    meter = request.GET.get('meter')
-    rain = request.GET.get('rain')
-    logger.debug('Date:' + str(date))
+    meter = request.GET.get('meter') or None
+    rain = request.GET.get('rain') or None
 
-    reading_type = ReadingType.objects.get(name='Probe')
-    site = Site.objects.get(id=site_id)
-    reading, created = Reading.objects.update_or_create(site=site, date=date, type=reading_type,
-        defaults={"date": date, "type": reading_type, "created_by": request.user, "rain": rain, "meter": meter})
+    try:
+        reading_type = ReadingType.objects.get(name='Probe')
+        site = Site.objects.get(id=site_id)
+        reading, created = Reading.objects.update_or_create(site=site, date=date, type=reading_type,
+            defaults={"date": date, "type": reading_type, "created_by": request.user, "rain": rain, "meter": meter})
+        messages.success(request, 'Saved.')
+    except Exception as e:
+        messages.error(request, "Error: " + str(e))
 
-    return JsonResponse({'date' : date, 'meter' : meter, 'rain' : rain})
+    django_messages = []
+    for message in messages.get_messages(request):
+        django_messages.append({
+            "level": message.level,
+            "message": message.message,
+            "extra_tags": message.tags,
+        })
+
+    return JsonResponse({'date' : date, 'meter' : meter, 'rain' : rain, 'messages': django_messages})
 
 class SiteAutocompleteView(autocomplete.Select2QuerySetView):
     def get_queryset(self):

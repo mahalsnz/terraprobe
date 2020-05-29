@@ -104,6 +104,17 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <!-- Moment.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
-
+        <script>
+        function updateMessages(messages){
+            $("#div_messages").empty();
+            $.each(messages, function (i, m) {
+                            $("#div_messages").append("<div class='alert " + m.extra_tags + " alert-dismissible' role='alert'>" +
+                            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>" +
+                            "<span aria-hidden='true'>&times;</span>" +
+                            "</button>" +
+                            m.message + "</div>");
+            });
+        }
+        </script>
     </body>
 </html>
