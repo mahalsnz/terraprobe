@@ -7,7 +7,7 @@ from crispy_forms.layout import Layout
 from django.forms import ModelChoiceField, ModelMultipleChoiceField
 from django.forms import CheckboxInput
 from bootstrap_datepicker_plus import DatePickerInput
-
+import datetime
 from dal import autocomplete
 
 class SiteSelectionForm(forms.ModelForm):
@@ -16,9 +16,9 @@ class SiteSelectionForm(forms.ModelForm):
         widget=autocomplete.ModelSelect2(url='autocomplete_sitenumber')
     )
     date = forms.DateField(
-        widget = DatePickerInput(format='%Y-%m-%d'
-        ),
+        widget = DatePickerInput(format='%Y-%m-%d'),
         required = False,
+        initial=datetime.date.today,
     )
     meter = forms.FloatField(required=False)
     rain = forms.FloatField(required=False)

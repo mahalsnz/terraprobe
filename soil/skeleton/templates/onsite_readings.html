@@ -2,6 +2,7 @@
 
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+
 {% block content %}
 
 <form method="post" id="onsiteForm"novalidate>
@@ -19,7 +20,7 @@
         </div>
         <div class="col-sm-4">
             <div class="row">
-                <b>Meter:</b><p id="previous_meter"></p>    <b>Rain:</b><p id="previous_rain"></p>
+                <b>Last Weeks Meter:</b><p id="previous_meter"></p>
             </div>
         </div>
         <div class="col-sm-1">
@@ -47,13 +48,6 @@
                 <button class="btn bg-green" type="button" id="submit-reading">Submit</button>
             </div>
         </div>
-        </br>
-        <div class="col-sm-2">
-            <div class="row">
-                <button class="btn bg-green" type="button" id="reset-meter">Reset Meter</button>
-                To: <input type="number" id="new-meter">
-            </div>
-        </div>
     </div>
 </form>
 
@@ -71,7 +65,7 @@ $("#id_site_number").change(function() {
             console.log(result);
             $("#previous_date").text(result.date);
             $("#previous_meter").text(result.meter);
-            $("#previous_rain").text(result.rain);
+            $("#id_meter").val(result.meter);
         }
     });
 });
@@ -92,11 +86,27 @@ $("#submit-reading").click(function() {
         },
         dataType: 'json',
         success: function(result) {
-            console.log(result);
-
+            updateMessages(result.messages);
         }
     });
 
 });
+
 </script>
+
+{% block sw_script %}
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+            .then(function(reg) {
+                // registration worked
+                console.log('Registration succeeded. Scope is ' + reg.scope);
+            }).catch(function(error) {
+                // registration failed
+                console.log('Registration failed with ' + error);
+            });
+        }
+    </script>
+{% endblock sw_script %}
+
 {% endblock content %}
