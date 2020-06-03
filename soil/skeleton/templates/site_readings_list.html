@@ -4,7 +4,7 @@
 
 {% if readings %}
 
-<table class="table table-sm table-striped table-bordered text-nowrap" id="reading-table">
+<table class="table table-sm table-bordered text-nowrap" id="reading-table">
     <thead>
         <tr>
             <th>Type</th>
@@ -35,9 +35,15 @@
     </thead>
     <tbody>
         {% for reading in readings %}
-
-        <tr class='clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
-            <td>{{ reading.type }}</td>
+            {% if reading.type == 'Refill' %}
+                <tr class='refill clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
+            {% elif reading.type == 'Full Point' %}
+                <tr class='full clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
+            {% else %}
+                <tr class='clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
+            {% endif %}
+            <td>
+                {{ reading.type }}</td>
             <td>{{ reading.date }}</td>
             <td>{% if reading.type == 'Probe' %}
                 {{ reading.vsw1_perc|floatformat }}
@@ -124,8 +130,8 @@
     <p>No readings</p>
 {% endif %}
 
-<a class="weatherwidget-io" href="https://forecast7.com/en/n39d64176d84/hastings/" data-label_1="HASTINGS" data-label_2="WEATHER" data-theme="original">HASTINGS WEATHER</a>
-
+<iframe id="widget-iframe" width="1400px" height="120px"
+ src="/weather" allowtransparency="true" style="border:none"></iframe>
 <script>
 
 $(document).ready(function() {
@@ -152,14 +158,24 @@ $(document).ready(function() {
        }
     } );
 
+    var refillType = $.fn.dataTable.absoluteOrder( 'Refill' );
+    var fullType = $.fn.dataTable.absoluteOrder( 'Full Point' );
+
     $('#reading-table').DataTable({
         "paging": false,
-        "scrollX": true,
+
         "scrollY": "500px",
-        scrollCollapse: true,
+        "scrollX": true,
+        "scrollCollapse": true,
         "searching": false,
+        "fixedColumns": {
+            "leftColumns": 2,
+        },
+        "hideEmptyCols": true,
         "columnDefs": [
-                { "type": "date-uk", "targets": 1 }
+            { targets: 0, type: refillType },
+            { targets: 0, type: fullType },
+            { "type": "date-uk", "targets": 1 }
         ]
     });
 

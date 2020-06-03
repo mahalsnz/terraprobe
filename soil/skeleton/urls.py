@@ -30,7 +30,7 @@ urlpatterns = [
 
     path('readings/onsite/', OnsiteCreateView.as_view(), name='onsite_readings'),
     path('autocomplete_sitenumber', SiteAutocompleteView.as_view(), name='autocomplete_sitenumber'),
-
+    path('weather', views.weather, name='weather'),
 
     # API
     path("api/report/", ReportList.as_view(), name="reports_list"),

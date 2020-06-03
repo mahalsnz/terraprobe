@@ -35,7 +35,7 @@ SOIL_DB_PASSWORD = get_env_variable('SOIL_DB_PASSWORD')
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Application definition
 
