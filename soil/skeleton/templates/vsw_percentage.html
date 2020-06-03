@@ -4,9 +4,13 @@
 {% block content %}
 
 <h5 align="center">Reading date: {{ date }} Last Week date: {{ previous }} Period From: {{ period_from }} Period To: {{ period_to }}</h3>
+
 <div class="row">
-    <div class="col" id="area1"></div>
-    <div class="col" id="area3">
+    <div class="col-4" id="area1"></div>
+
+    <div class="container">
+    <div class="row">
+    <div class="col-6" id="area3">
         <table id="last-week-data" class="table table-sm table-bordered">
             <thead class="thead-light">
             <tr>
@@ -42,10 +46,8 @@
             </tr>
         </table>
     </div>
-    <div class="col" id="area4">
-
-        <textarea class="form-control form-control-md" rows="7" id="reading-recommendation-text" readonly></textarea>
-        <label>Hours:</label>
+    <div class="col-6" id="area4">
+        <textarea class="form-control form-control-sm" rows="3" id="reading-recommendation-text" readonly></textarea>
         <div id='week-day-labels'>
             <label for="Mon">Mon</label>
             <label for="Tue">Tue</label>
@@ -55,7 +57,6 @@
             <label for="Sat">Sat</label>
             <label for="Sun">Sun</label>
         </div>
-        Hours
         <div id='week-days' class="input-group">
 
             <input type="text" class="form-control" id="Mon" placeholder="Mon" readonly>
@@ -76,14 +77,19 @@
              <input type="text" class="form-control" id="Sat-water" readonly>
              <input type="text" class="form-control" id="Sun-water" readonly>
           </div>
-
+    </div>
+    <div class="col-8" id="area5">
+       <iframe id="widget-iframe" width="1100" height="125" src="/weather" allowtransparency="true" style="border:none"></iframe>
+   </div>
+    </div>
     </div>
 
-</div>
 
+</div>
 <div class="row">
     <div class="col" id="area2"></div>
 </div>
+
 <script>
 
 //var parseTime = d3.timeParse("%m-%d-%Y");
@@ -109,7 +115,7 @@ console.log('***Season Start DATE:' + period_from_date);
 
 // set the dimensions and margins of the weekly graph
 var margin = {top: 35, right: 30, bottom: 30, left: 40};
-width = 650 - margin.left - margin.right;
+width = 600 - margin.left - margin.right;
 height = 350 - margin.top - margin.bottom;
 
 // set the dimensions and margins of the season graph
@@ -241,7 +247,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     d3.json('/graphs/api/vsw_strategy/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(strategy_data) {
         strategy_data.forEach(function(strategy) {
-            season_critical_dates[strategy.critical_date_type] = strategy.critical_date
+            season_critical_dates[strategy.critical_date_type] = parseTime(strategy.critical_date);
 
             parsed_date = parseTime(strategy.strategy_date);
             console.log('strat date:' + strategy.strategy_date + ' strat percentage:' + strategy.percentage);
@@ -413,9 +419,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
     seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
 
-    console.log('season critical dates')
-    console.log(season_critical_dates)
-
     season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
@@ -444,6 +447,33 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     x0.domain(season_grouping.map(function(d) { return d.date; }));
     x1.domain(keys).rangeRound([0, x0.bandwidth()]);
     seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key] + 100; }); })])
+
+    /* We use our season critical dates to draw vertical lines. We can have 1..n */
+    console.log(season_critical_dates);
+    colours = ["navy", "salmon", "orchid", "lime"]
+    colour_index = 0;
+    for (type in season_critical_dates) {
+        colour_index
+        var critical_date = season_critical_dates[type];
+        console.log('CD:' + type + ' date ' + critical_date);
+
+        season_graph.append("line")
+            .attr("x1", seasonx(critical_date))  //<<== change your code here
+            .attr("y1", 0)
+            .attr("x2", seasonx(critical_date))
+            .attr("y2", season_height)
+            .style("stroke-width", 2)
+            .style("stroke", colours[colour_index])
+            .style("fill", "none");
+
+        season_graph.append("text")
+           .attr("y", -10)//magic number here
+           .attr("x", seasonx(critical_date))
+           .attr('text-anchor', 'middle')
+           .attr("class", "myLabel")//easy to style with CSS
+           .text(type);
+        colour_index++;
+    }
 
     // append the rectangles for the seasonal bar chart
     season_graph.selectAll(".bar")
@@ -517,6 +547,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .style("stroke", "yellow")
         .style("stroke-width", "3px")
         .attr("d", season_lower_strategy_line);
+
+
 
     weekly_graph.append("path")
         .data([previous_vsw_readings])

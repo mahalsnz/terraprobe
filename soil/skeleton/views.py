@@ -337,6 +337,8 @@ def report_no_meter_reading(request):
 '''
     Page that hosts reports. Click a button to run the query and uses django_tables2 to output data
 '''
+def weather(request):
+    return render(request, 'weather.html', {})
 
 @login_required
 def report_home(request):
@@ -474,7 +476,7 @@ def load_site_readings(request):
                 raise Exception("No Season Start and End set up for site.")
 
             # Using the vsw_readings view in the graph app as it has all the calibrations applied
-            readings = vsw_reading.objects.filter(site_id=site_id, date__range=(dates.period_from, dates.period_to)).order_by('-reading_type_id','date')
+            readings = vsw_reading.objects.filter(site_id=site_id, date__range=(dates.period_from, dates.period_to)).order_by('-date')
 
             # Get the last comment
             c = readings.filter().last()

@@ -88,50 +88,17 @@ nav {
     color: #7f8c8d;
     font-size: 80%;
 }
-/*
-.readings-header {
-    position: absolute;
-    font-weight: 700;
-    background-color: #f0f6e9;
-}
 
-.readings-header .readings-column ul li {
-    background-color: #f0f6e9
-}
-
-.readings-values {
-    overflow: hidden;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-}
-
-.readings-column {
-    display: inline-block;
-    width: 200px;
-    margin: 0px;
-    padding: 0px;
-}
-
-.readings-values .readings-column:nth-of-type(odd) {
-    background-color: #ecf0f1;
-}
-
-.readings-column ul {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-}
-
-.readings-column ul li {
-    overflow: hidden;
-    margin: 0px;
-    padding: 6px 12px;
-    margin-bottom: 4px;
-}
-*/
 #reading-table tr {
     cursor: pointer;
+}
+
+#reading-table .refill {
+    background-color: lightcoral;
+}
+
+#reading-table .full {
+    background-color: springgreen;
 }
 
 /* CSS for D3 graphs */
