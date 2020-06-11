@@ -468,7 +468,7 @@ def load_site_readings(request):
     try:
         site_id = request.GET.get('site')
         season_id = request.GET.get('season')
-
+        # Get farm and techncian of site
         if site_id:
             try:
                 dates = SeasonStartEnd.objects.get(site=site_id, season=season_id)
@@ -477,14 +477,14 @@ def load_site_readings(request):
 
             # Using the vsw_readings view in the graph app as it has all the calibrations applied
             readings = vsw_reading.objects.filter(site_id=site_id, date__range=(dates.period_from, dates.period_to)).order_by('-date')
+            if readings:
+                # Get the last comment
+                c = readings.filter().last()
+                comment = c.comment
 
-            # Get the last comment
-            c = readings.filter().last()
-            comment = c.comment
-
-            # Total Rainfall and irrigation
-            rainfall_total = readings.aggregate(Sum('rain'))
-            irrigation_total = readings.aggregate(Sum('irrigation_litres'))
+                # Total Rainfall and irrigation
+                rainfall_total = readings.aggregate(Sum('rain'))
+                irrigation_total = readings.aggregate(Sum('irrigation_litres'))
     except Exception as e:
         messages.error(request, " Error is: " + str(e))
     return render(request, 'site_readings_list.html', {
