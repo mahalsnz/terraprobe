@@ -144,51 +144,24 @@ var x1 = d3.scaleBand()
 var z = d3.scaleOrdinal()
     .range(["red", "blue"]);
 
-    var div = d3.select("body").append("div")
+var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
+/******************** Weekly Graph Lines *********************/
 
-// define the vsw percentage line
 var vswline = d3.line()
     .x(function(r) { return x(r.vsw); })
     .y(function(r) { return y(r.depth); });
 
-var season_vswline0 = d3.line()
-    .x(function(r) { return seasonx(r.date); })
-    .y(function(r) { return seasony0(r.total); });
-
-// Season upper stategy line
-var season_upper_strategy_line = d3.line()
-    .x(function(r) { return seasonx(r.date); })
-    .y(function(r) { return seasony0(r.total); });
-
-// Season lower strategy line
-var season_lower_strategy_line = d3.line()
-    .x(function(r) { return seasonx(r.date); })
-    .y(function(r) { return seasony0(r.total); });
-
-// Season Full Point Total
-var season_full_point_line = d3.line()
-    .x(function(r) { return seasonx(r.date); })
-    .y(function(r) { return seasony0(r.total); });
-
-// Season Refill Total
-var season_refill_line = d3.line()
-    .x(function(r) { return seasonx(r.date); })
-    .y(function(r) { return seasony0(r.total); });
-
-// define previous vsw percentage line
 var previous_vswline = d3.line()
     .x(function(r) { return x(r.vsw); })
     .y(function(r) { return y(r.depth); });
 
-// define the refill line
 var refill_line = d3.line()
     .x(function(r) { return x(r.vsw); })
     .y(function(r) { return y(r.depth); });
 
-// define the full point line
 var full_point_line = d3.line()
     .x(function(r) { return x(r.vsw); })
     .y(function(r) { return y(r.depth); });
@@ -199,6 +172,28 @@ var weekly_graph = d3.select("#area1").append("svg")
     .append("g")
     .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
+
+/******************** Season Graph Lines *********************/
+
+var season_vswline0 = d3.line()
+    .x(function(r) { return seasonx(r.date); })
+    .y(function(r) { return seasony0(r.total); });
+
+var season_upper_strategy_line = d3.line()
+    .x(function(r) { return seasonx(r.date); })
+    .y(function(r) { return seasony0(r.total); });
+
+var season_lower_strategy_line = d3.line()
+    .x(function(r) { return seasonx(r.date); })
+    .y(function(r) { return seasony0(r.total); });
+
+var season_full_point_line = d3.line()
+    .x(function(r) { return seasonx(r.date); })
+    .y(function(r) { return seasony0(r.total); });
+
+var season_refill_line = d3.line()
+    .x(function(r) { return seasonx(r.date); })
+    .y(function(r) { return seasony0(r.total); });
 
 var season_graph = d3.select("#area2").append("svg")
     .attr("width", season_width + margin.left + margin.right)
@@ -440,7 +435,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .attr("class", "line")
         .attr("d", season_vswline0);
 
-    //console.log(season_grouping);
     var keys = ['rain', 'irrigation_mms']
     var keys_with_date = ['date', 'rain', 'irrigation_mms']
 
