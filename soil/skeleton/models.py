@@ -334,8 +334,9 @@ class SeasonStartEnd(models.Model):
     end = models.ForeignKey(CriticalDateType, related_name='end_date_type', on_delete=models.CASCADE)
     season_name = models.CharField(max_length=20)
     site_name = models.CharField(max_length=100)
-    period_from = models.DateTimeField()
-    period_to = models.DateTimeField()
+    season_current_flag = models.BooleanField()
+    period_from = models.DateField()
+    period_to = models.DateField()
 
     class Meta:
         managed = False

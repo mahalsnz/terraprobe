@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
             SELECT
                 season_start.season_id,
                 season_start.season_name,
+                season_start.season_current_flag,
                 season_start.site_id,
                 season_start.site_name,
                 season_start.type_name AS start_name,
@@ -28,6 +29,7 @@ class Migration(migrations.Migration):
             (
                 SELECT
                 skeleton_season.name AS season_name,
+                skeleton_season.current_flag AS season_current_flag,
                 skeleton_season.id AS season_id,
                 skeleton_site.name AS site_name,
                 skeleton_site.id AS site_id,
@@ -49,6 +51,7 @@ class Migration(migrations.Migration):
             (
                 SELECT
                     skeleton_season.name,
+                    skeleton_season.current_flag,
                     skeleton_season.id AS season_id,
                     skeleton_site.name,
                     skeleton_site.id AS site_id,

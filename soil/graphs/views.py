@@ -1,14 +1,9 @@
 from django.http import HttpResponse
 from django.template import loader
 
-def first_graph(request, site_id):
-    template = loader.get_template('graphs/first_graph.html')
+def customer_weekly(request, site_id):
+    template = loader.get_template('customer_weekly.html')
     context = {
         'site_id' : site_id,
     }
-    return HttpResponse(template.render(context, request))
-
-def example_graph(request):
-    template = loader.get_template('graphs/example_graph.html')
-    context = {}
     return HttpResponse(template.render(context, request))

@@ -2,10 +2,19 @@ import logging
 from rest_framework import generics
 
 from .models import vsw_reading, vsw_strategy
-from .serializers import VSWSerializer, SiteSerializer, FarmSerializer, ReadingTypeSerializer, VSWStrategySerializer
+from skeleton.models import SeasonStartEnd
+from .serializers import VSWSerializer, SiteSerializer, FarmSerializer, ReadingTypeSerializer, VSWStrategySerializer, VSWDateSerializer
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
+
+class VSWDateList(generics.ListCreateAPIView):
+
+    def get_queryset(self):
+        queryset = SeasonStartEnd.objects.filter(site=self.kwargs["pk"], season_current_flag=True)
+
+        return queryset
+    serializer_class = VSWDateSerializer
 
 class VSWReadingList(generics.ListCreateAPIView):
 

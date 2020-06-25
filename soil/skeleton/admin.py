@@ -93,7 +93,7 @@ class CriticalDateAdmin(admin.ModelAdmin):
     list_display = ['site', 'season', 'type', 'date']
 
 class SeasonStartEndAdmin(admin.ModelAdmin):
-    list_display = ['site', 'season', 'period_from', 'period_to']
+    list_display = ['site', 'season', 'period_from', 'period_to', 'season_current_flag', ]
 
 class VarietySeasonTemplateAdmin(admin.ModelAdmin):
     list_display = ['variety', 'critical_date_type', 'formatted_variety_season_date']
