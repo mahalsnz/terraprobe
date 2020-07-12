@@ -35,15 +35,14 @@
     </thead>
     <tbody>
         {% for reading in readings %}
-            {% if reading.type == 'Refill' %}
-                <tr class='refill clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
-            {% elif reading.type == 'Full Point' %}
-                <tr class='full clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
-            {% else %}
-                <tr class='clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
-            {% endif %}
-            <td>
-                {{ reading.type }}</td>
+        {% if reading.type == 'Refill' %}
+            <tr class='refill clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
+        {% elif reading.type == 'Full Point' %}
+            <tr class='full clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
+        {% else %}
+            <tr class='clickable-row' data-href="{% url 'admin:skeleton_reading_change' reading.reading_id %}">
+        {% endif %}
+            <td>{{ reading.type }}</td>
             <td>{{ reading.date }}</td>
             <td>{% if reading.type == 'Probe' %}
                 {{ reading.vsw1_perc|floatformat }}
@@ -164,9 +163,8 @@ $(document).ready(function() {
     $('#reading-table').DataTable({
         "paging": false,
 
-        "scrollY": "500px",
-        "scrollX": true,
-        "scrollCollapse": true,
+        "scrollX": false,
+        //"scrollCollapse": true,
         "searching": false,
         "fixedColumns": {
             "leftColumns": 2,
