@@ -439,6 +439,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     var keys_with_date = ['date', 'rain', 'irrigation_mms']
 
     x0.domain(season_grouping.map(function(d) { return d.date; }));
+    console.log('Bandwidth' + x0.bandwidth())
     x1.domain(keys).rangeRound([0, x0.bandwidth()]);
     seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key] + 100; }); })])
 
@@ -452,7 +453,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         console.log('CD:' + type + ' date ' + critical_date);
 
         season_graph.append("line")
-            .attr("x1", seasonx(critical_date))  //<<== change your code here
+            .attr("x1", seasonx(critical_date))
             .attr("y1", 0)
             .attr("x2", seasonx(critical_date))
             .attr("y2", season_height)
@@ -478,24 +479,17 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .selectAll("rect")
         .data(function(d) {
             return keys.map(function(key) {
-                date_formatted = '';
-                if (key == 'date') {
-                    date_formatted = d[key];
-                    date_formatted = moment(date_formatted).format('DD-MM-YY');
-                    //console.log('Date:' + date_formatted);
-                } else {
-                    //console.log('key:' + key + ' value:' + d[key])
-                    return {
-                        key: key,
-                        value: d[key]
-                    };
-                }
+                return {
+                    key: key,
+                    value: d[key]
+                };
+
             });
         }).enter().append("rect")
           .attr("x", function(d) { return x1(d.key); })
           .attr("y", function(d) { return seasony1(d.value); })
           .attr("id", function(d) { return d.key; })
-          .attr("width", x1.bandwidth())
+          .attr("width", 3)
           .attr("height", function(d) { return season_height - seasony1(d.value); })
           .on("mouseover", function(d) {
               div.transition()

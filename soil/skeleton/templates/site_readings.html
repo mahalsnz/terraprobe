@@ -298,23 +298,23 @@
             },
             dataType: 'json',
             success: function(result) {
-                $("textarea#reading-recommendation-text").val(result.comment);
+                $("#reading-recommendation-modal textarea#reading-recommendation-text").val(result.comment);
 
-                $("input#Mon").val(result.values['Mon']);
-                $("input#Tue").val(result.values['Tue']);
-                $("input#Wed").val(result.values['Wed']);
-                $("input#Thu").val(result.values['Thu']);
-                $("input#Fri").val(result.values['Fri']);
-                $("input#Sat").val(result.values['Sat']);
-                $("input#Sun").val(result.values['Sun']);
+                $("#reading-recommendation-modal input#Mon").val(result.values['Mon']);
+                $("#reading-recommendation-modal input#Tue").val(result.values['Tue']);
+                $("#reading-recommendation-modal input#Wed").val(result.values['Wed']);
+                $("#reading-recommendation-modal input#Thu").val(result.values['Thu']);
+                $("#reading-recommendation-modal input#Fri").val(result.values['Fri']);
+                $("#reading-recommendation-modal input#Sat").val(result.values['Sat']);
+                $("#reading-recommendation-modal input#Sun").val(result.values['Sun']);
 
-                $("input#Mon-water").val(result.values['Mon-water']);
-                $("input#Tue-water").val(result.values['Tue-water']);
-                $("input#Wed-water").val(result.values['Wed-water']);
-                $("input#Thu-water").val(result.values['Thu-water']);
-                $("input#Fri-water").val(result.values['Fri-water']);
-                $("input#Sat-water").val(result.values['Sat-water']);
-                $("input#Sun-water").val(result.values['Sun-water']);
+                $("#reading-recommendation-modal input#Mon-water").val(result.values['Mon-water']);
+                $("#reading-recommendation-modal input#Tue-water").val(result.values['Tue-water']);
+                $("#reading-recommendation-modal input#Wed-water").val(result.values['Wed-water']);
+                $("#reading-recommendation-modal input#Thu-water").val(result.values['Thu-water']);
+                $("#reading-recommendation-modal input#Fri-water").val(result.values['Fri-water']);
+                $("#reading-recommendation-modal input#Sat-water").val(result.values['Sat-water']);
+                $("#reading-recommendation-modal input#Sun-water").val(result.values['Sun-water']);
 
                 updateReadingRecommendations(result.week_start_abbr, result.week_start);
             }
@@ -323,14 +323,15 @@
     $("#save-reading-recommendation").click(function() {
         var siteId = $("#id_site").val();
         var seasonId = $("#id_season").val();
-        var comment = $("#reading-recommendation-text").val();
-        var mon = $("input#Mon").val();
-        var tue = $("input#Tue").val();
-        var wed = $("input#Wed").val();
-        var thu = $("input#Thu").val();
-        var fri = $("input#Fri").val();
-        var sat = $("input#Sat").val();
-        var sun = $("input#Sun").val();
+        var comment = $('#reading-recommendation-modal textarea#reading-recommendation-text').val();
+
+        var mon = $("#reading-recommendation-modal input#Mon").val();
+        var tue = $("#reading-recommendation-modal input#Tue").val();
+        var wed = $("#reading-recommendation-modal input#Wed").val();
+        var thu = $("#reading-recommendation-modal input#Thu").val();
+        var fri = $("#reading-recommendation-modal input#Fri").val();
+        var sat = $("#reading-recommendation-modal input#Sat").val();
+        var sun = $("#reading-recommendation-modal input#Sun").val();
 
         $.ajax({
             url: "/ajax/process-reading-recommendation/",
@@ -349,7 +350,7 @@
             dataType: 'json',
             success: function(result) {
                 console.log('Result' + result);
-                $("textarea#reading-recommendation-text").val(result.comment);
+                $("#reading-recommendation-modal textarea#reading-recommendation-text").val(result.comment);
             }
         });
     });
