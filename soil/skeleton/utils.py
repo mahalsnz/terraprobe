@@ -9,6 +9,22 @@ logger = logging.getLogger(__name__)
 from .models import Site, Reading, ReadingType, Season, SeasonStartEnd
 
 '''
+    Takes a site_id
+    Returns a String Title Composing 'FarmName - SiteName (TechnicanFullName)'
+'''
+
+def get_title(site_id):
+    try:
+        s = Site.objects.select_related('technician').select_related('farm').get(id=site_id)
+        f = s.farm
+        u = s.technician
+    except:
+        raise Exception('No Site for Title')
+    title = str(f.name) + ' - ' + str(s.name) + ' (' + u.first_name + ' ' + u.last_name + ')'
+    logger.info('get_title() ' + title)
+    return title
+
+'''
     Takes a season and finds the previous season to it (number descinding) 2014 returnd 2013
     Returns a Season object
 '''

@@ -35,7 +35,7 @@ from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from .utils import get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season, get_previous_season
+from .utils import get_title, get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season, get_previous_season
 from dal import autocomplete
 TEMPLATES = {"select_crsf": "wizard/season_select.html"}
 
@@ -427,6 +427,8 @@ def load_graph(request):
     try:
         site = Site.objects.get(id=site_id)
         season = Season.objects.get(id=season_id)
+
+        title = get_title(site_id)
         dates = get_site_season_start_end(site, season)
 
         readings = Reading.objects.filter(site=site.id, type__name='Probe', date__range=(dates.period_from, dates.period_to)).order_by('-date')
@@ -443,6 +445,7 @@ def load_graph(request):
         logger.debug("Previous:" + str(previous))
 
         context = {
+            'title' : title,
             'site_id' : site_id,
             'date' : latest,
             'previous': previous,
@@ -470,6 +473,7 @@ def load_site_readings(request):
         season_id = request.GET.get('season')
         # Get farm and techncian of site
         if site_id:
+            title = get_title(site_id)
             try:
                 dates = SeasonStartEnd.objects.get(site=site_id, season=season_id)
             except:
@@ -488,6 +492,7 @@ def load_site_readings(request):
     except Exception as e:
         messages.error(request, " Error is: " + str(e))
     return render(request, 'site_readings_list.html', {
+        'title' : title,
         'readings' : readings,
         'comment' : comment,
         'rainfall' : rainfall_total,

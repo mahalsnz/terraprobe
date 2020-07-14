@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 
-<h5 align="center">Reading date: {{ date }} Last Week date: {{ previous }} Period From: {{ period_from }} Period To: {{ period_to }}</h3>
+<h5 align="center">{{ title }} Reading date: {{ date }} Period From: {{ period_from }} Period To: {{ period_to }}</h5>
 
 <div class="row">
     <div class="col-4" id="area1"></div>
@@ -18,7 +18,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td>MM's/plant</td>
+                <td>mm/plant</td>
                 <td>Litres/plant</td>
                 <td>Hours</td>
             </tr>
@@ -29,14 +29,14 @@
                 <td class="hours">hrs</td>
             </tr>
             <tr>
-                <td>Rain (mms)</td>
+                <td>Rain (mm)</td>
                 <td class="previous-rain">mm</td>
             </tr>
         </table>
         <table id="season-data" class="table table-sm table-bordered">
             <thead class="thead-light">
             <tr>
-                <th colspan="4">Season To Date</th>
+                <th colspan="4">Season To Date mm</th>
             </tr>
             <tr>
                 <td>Irrigation</td>
@@ -47,18 +47,19 @@
         </table>
     </div>
     <div class="col-6" id="area4">
+        <form>
         <textarea class="form-control form-control-sm" rows="3" id="reading-recommendation-text" readonly></textarea>
-        <div id='week-day-labels'>
-            <label for="Mon">Mon</label>
-            <label for="Tue">Tue</label>
-            <label for="Wed">Wed</label>
-            <label for="Thu">Thu</label>
-            <label for="Fri">Fri</label>
-            <label for="Sat">Sat</label>
-            <label for="Sun">Sun</label>
+        <fieldset>
+        <div id='week-day-labels'>Hours
+            <label for="Mon">Mon:</label>
+            <label for="Tue">Tue:</label>
+            <label for="Wed">Wed:</label>
+            <label for="Thu">Thu:</label>
+            <label for="Fri">Fri:</label>
+            <label for="Sat">Sat:</label>
+            <label for="Sun">Sun:</label>
         </div>
         <div id='week-days' class="input-group">
-
             <input type="text" class="form-control" id="Mon" placeholder="Mon" readonly>
             <input type="text" class="form-control" id="Tue" placeholder="Tue" readonly>
             <input type="text" class="form-control" id="Wed" placeholder="Wed" readonly>
@@ -67,7 +68,7 @@
             <input type="text" class="form-control" id="Sat" placeholder="Sat" readonly>
             <input type="text" class="form-control" id="Sun" placeholder="Sun" readonly>
          </div>
-         MM/HR
+         mm
          <div id='week-days-water' class="input-group">
              <input type="text" class="form-control" id="Mon-water" readonly>
              <input type="text" class="form-control" id="Tue-water" readonly>
@@ -76,7 +77,9 @@
              <input type="text" class="form-control" id="Fri-water" readonly>
              <input type="text" class="form-control" id="Sat-water" readonly>
              <input type="text" class="form-control" id="Sun-water" readonly>
-          </div>
+         </div>
+     </fieldset>
+    </form>
     </div>
     <div class="col-8" id="area5">
        <iframe id="widget-iframe" width="1100" height="125" src="/weather" allowtransparency="true" style="border:none"></iframe>
@@ -124,8 +127,8 @@ season_width = 1400 - margin.left - margin.right;
 season_height = 420 - margin.top - margin.bottom;
 
 // set the weekly ranges
-var x = d3.scaleLinear().range([0, width]); //vsw (%)
-var y = d3.scaleLinear().range([0, height]);
+var weekly_x = d3.scaleLinear().range([0, width]); //vsw (%)
+var weekly_y = d3.scaleLinear().range([0, height]);
 
 // set the season ranges
 var seasonx = d3.scaleTime().range([0, season_width]); //date
@@ -151,20 +154,20 @@ var div = d3.select("body").append("div")
 /******************** Weekly Graph Lines *********************/
 
 var vswline = d3.line()
-    .x(function(r) { return x(r.vsw); })
-    .y(function(r) { return y(r.depth); });
+    .x(function(r) { return weekly_x(r.vsw); })
+    .y(function(r) { return weekly_y(r.depth); });
 
 var previous_vswline = d3.line()
-    .x(function(r) { return x(r.vsw); })
-    .y(function(r) { return y(r.depth); });
+    .x(function(r) { return weekly_x(r.vsw); })
+    .y(function(r) { return weekly_y(r.depth); });
 
 var refill_line = d3.line()
-    .x(function(r) { return x(r.vsw); })
-    .y(function(r) { return y(r.depth); });
+    .x(function(r) { return weekly_x(r.vsw); })
+    .y(function(r) { return weekly_y(r.depth); });
 
 var full_point_line = d3.line()
-    .x(function(r) { return x(r.vsw); })
-    .y(function(r) { return y(r.depth); });
+    .x(function(r) { return weekly_x(r.vsw); })
+    .y(function(r) { return weekly_y(r.depth); });
 
 var weekly_graph = d3.select("#area1").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -417,8 +420,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
-    x.domain([5, 50]);
-    y.domain([d3.min(vsw_readings, function(r) { return r.depth - 5; }), d3.max(vsw_readings, function(r) { return r.depth + 5; })]);
+    //weekly_x.domain([5, 50]);
+    weekly_x.domain([d3.min(vsw_readings, function(r) { return r.vsw - 5; }), d3.max(full_point_readings, function(r) { return r.vsw + 2; })]);
+    weekly_y.domain([d3.min(vsw_readings, function(r) { return r.depth - 5; }), d3.max(vsw_readings, function(r) { return r.depth + 5; })]);
 
     seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
     seasony0.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 40; }), d3.max(seasons_full_point_readings, function(d) { return d.total + 10; })]);
@@ -563,13 +567,13 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       .data(vsw_readings)
       .enter().append("circle")
       .attr("r", 5)
-      .attr("cx", function(r) { return x(r.vsw); })
-      .attr("cy", function(r) { return y(r.depth); });
+      .attr("cx", function(r) { return weekly_x(r.vsw); })
+      .attr("cy", function(r) { return weekly_y(r.depth); });
 
     // Add the X Axis
     weekly_graph.append("g")
         //.attr("transform", "translate(0," + height + ")")
-        .call(d3.axisTop(x));
+        .call(d3.axisTop(weekly_x));
 
     weekly_graph.append("text")
         .attr("transform",
@@ -579,7 +583,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     // Add the Y Axis
     weekly_graph.append("g")
-          .call(d3.axisLeft(y));
+          .call(d3.axisLeft(weekly_y));
 
     weekly_graph.append("text")
         .attr("transform", "rotate(-90)")
