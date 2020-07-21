@@ -95,26 +95,20 @@
 
 <script>
 
-//var parseTime = d3.timeParse("%m-%d-%Y");
-var parseTime = d3.timeParse("%Y-%m-%d");
+var parseTime = d3.timeParse("%d-%m-%Y");
 
 // assemble reading date and previous reading date into this and last weeks dates javascript dates. Time does not matter
 // js is a bitch extract on '-' for date 25-03-2019
 var date = "{{ date }}";
+var this_week_date = parseTime(date);
 var split_date = date.split("-");
 var this_week_date_test = new Date(split_date[2], split_date[1] - 1, split_date[0]);
-var this_week_date = new Date(split_date[2], split_date[1] - 1, split_date[0]).toDateString();
+
 console.log("***This week DATE:" + this_week_date);
 
 var previous = "{{ previous }}";
-var split_previous = previous.split("-");
-var last_week_date = new Date(split_previous[2], split_previous[1] - 1, split_previous[0]).toDateString();
+var last_week_date = parseTime(previous);
 console.log('***Last Week DATE:' + last_week_date);
-
-var previous = "{{ period_from }}";
-var split_period_from = previous.split("-");
-var period_from_date = new Date(split_period_from[2], split_period_from[1] - 1, split_period_from[0]).toDateString();
-console.log('***Season Start DATE:' + period_from_date);
 
 // set the dimensions and margins of the weekly graph
 var margin = {top: 35, right: 30, bottom: 30, left: 40};
@@ -248,7 +242,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             season_critical_dates[strategy.critical_date_type] = parseTime(strategy.critical_date);
 
             parsed_date = parseTime(strategy.strategy_date);
-            console.log('strat date:' + strategy.strategy_date + ' strat percentage:' + strategy.percentage);
             seasons_upper_strategy.push({
                 'date' : parsed_date,
                 'percentage' : strategy.percentage
@@ -264,8 +257,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     vsw_readings_date_array = []; // This is better to use for refill and full point full_point_readings
 
     data.forEach(function(reading) {
-        var reading_date = new Date(reading.date).toDateString();
-
+        //var reading_date = new Date(reading.date).toDateString();
+        parsed_date = parseTime(reading.date);
         // get seasons_vsw percentage readings for Probe
         if (reading.reading_type.name == "Probe") {
             parsed_date = parseTime(reading.date);
@@ -286,7 +279,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             std_irrigation += reading["irrigation_litres"]
             std_rain += reading["rain"]
 
-            if (this_week_date == reading_date) {
+            if (this_week_date.toDateString() == parsed_date.toDateString()) {
+                console.log("** Reading Date:" + parsed_date + " This week date:" + this_week_date)
                 for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
                         vsw_readings.push({
@@ -311,7 +305,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             }
 
             // Get last weeks readings
-            if (last_week_date == reading_date) {
+            if (last_week_date.toDateString() == parsed_date.toDateString()) {
                 for (index = 1; index <= vsw_count; index++) {
                     if (reading["depth" + index] !== null) {
                         previous_vsw_readings.push({
@@ -392,13 +386,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             'percentage' : 0
         });
 
-        console.log('upper seasons_upper_strategy');
-        console.log(seasons_upper_strategy)
-
-        console.log('FP RZ1f' + full_point_rz1);
-        console.log('R RZ1f' + refill_rz1);
         diff = full_point_rz1 - refill_rz1
-        console.log('diff' + diff);
 
         new_seasons_lower_strategy = [];
         // replace all lowere with upper - diff
@@ -406,8 +394,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             // $C$3-($F$3-($F$3*E8))
             upper_total = full_point_rz1 - (diff - (diff * seasons_upper_strategy[i]['percentage']))
 
-            console.log('upper_total ' + upper_total + ' % ' + seasons_upper_strategy[i]['percentage'])
-            // =F8-($F$3*$G$8) - strategy_percentage
             lower_total = upper_total - ( diff * .5 )
             seasons_upper_strategy[i]['total'] = upper_total;
             seasons_lower_strategy[i]['date'] = seasons_upper_strategy[i]['date'];
@@ -454,7 +440,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     for (type in season_critical_dates) {
         colour_index
         var critical_date = season_critical_dates[type];
-        console.log('CD:' + type + ' date ' + critical_date);
 
         season_graph.append("line")
             .attr("x1", seasonx(critical_date))
