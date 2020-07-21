@@ -7,7 +7,7 @@
     instance_type: t2.micro
     security_group: launch-wizard-1
     image: ami-0fb7513bcdc525c3b
-    keypair: fruition
+    keypair: byron_mahals
     region: ap-southeast-2
     count: 1
   vars_files:
@@ -29,7 +29,7 @@
 
     - name: Add newly created host
       add_host:
-        name: "{{ item.public_ip }}"
+        name: 3.105.105.140
         groups: app_server
       with_items: "{{ ec2.instances }}"
 
@@ -45,12 +45,22 @@
         tags:
           Type: app_server
 
+    - name: Associate elastic ip to instance
+      ec2_eip:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        device_id: "{{ item }}"
+        ip: 3.105.105.140
+        region: "{{ region }}"
+      with_items:
+        "{{ ec2.instance_ids }}"
+      register: elastic_ip
+
     - name: Wait for ssh to come up
       wait_for:
-        host: "{{ item.public_ip }}"
+        host: 3.105.105.140
         port: 22
         state: started
-      with_items: "{{ ec2.instances }}"
 
 - hosts: app_server
   sudo: yes
@@ -110,6 +120,7 @@
         - aws-psycopg2==1.1.1
         - django-address==0.2.2
         - djangorestframework==3.11.0
+        - djangorestframework-simplejwt==4.4.0
         - requests==2.22.0
         - django-crispy-forms==1.9.0
         - django-extensions==2.2.9
