@@ -121,7 +121,7 @@ season_width = 1400 - margin.left - margin.right;
 season_height = 420 - margin.top - margin.bottom;
 
 // set the weekly ranges
-var weekly_x = d3.scaleLinear().range([0, width]); //vsw (%)
+var weekly_x = d3.scaleLinear().range([0, width]);
 var weekly_y = d3.scaleLinear().range([0, height]);
 
 // set the season ranges
@@ -257,7 +257,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     vsw_readings_date_array = []; // This is better to use for refill and full point full_point_readings
 
     data.forEach(function(reading) {
-        //var reading_date = new Date(reading.date).toDateString();
+
         parsed_date = parseTime(reading.date);
         // get seasons_vsw percentage readings for Probe
         if (reading.reading_type.name == "Probe") {
@@ -334,13 +334,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 }
             }
             full_point_rz1 = Math.round(reading["rz1"]);
-            // Seasons Full Point - This is the rz1 value for each proble reading date
-            /*for (index = 0; index < vsw_readings_date_array.length; index++) {
-                seasons_full_point_readings.push({
-                    'date' : vsw_readings_date_array[index],
-                    'total' : Math.round(reading["rz1"]),
-                });
-            }*/
         }
 
         if (reading.reading_type.name == "Refill") {
@@ -406,7 +399,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
-    //weekly_x.domain([5, 50]);
     weekly_x.domain([d3.min(vsw_readings, function(r) { return r.vsw - 5; }), d3.max(full_point_readings, function(r) { return r.vsw + 2; })]);
     weekly_y.domain([d3.min(vsw_readings, function(r) { return r.depth - 5; }), d3.max(vsw_readings, function(r) { return r.depth + 5; })]);
 
@@ -419,6 +411,58 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       .data([vsw_readings])
       .attr("class", "line")
       .attr("d", vswline);
+
+    weekly_graph.append("path")
+      .data([previous_vsw_readings])
+      .attr("class", "line")
+      .style("stroke-width", "1px")
+      .attr("d", previous_vswline);
+
+    // Add the refill line
+    weekly_graph.append("path")
+      .data([refill_readings])
+      .attr("class", "line")
+      .style("stroke", "red")
+      .attr("d", refill_line);
+
+    // Add the full point line
+    weekly_graph.append("path")
+      .data([full_point_readings])
+      .attr("class", "line")
+      .style("stroke", "green")
+      .attr("d", full_point_line);
+
+    // Add the scatterplot
+    weekly_graph.selectAll("dot")
+    .data(vsw_readings)
+    .enter().append("circle")
+    .attr("r", 5)
+    .attr("cx", function(r) { return weekly_x(r.vsw); })
+    .attr("cy", function(r) { return weekly_y(r.depth); });
+
+    // Add the X Axis
+    weekly_graph.append("g")
+      //.attr("transform", "translate(0," + height + ")")
+      .call(d3.axisTop(weekly_x));
+
+    weekly_graph.append("text")
+      .attr("transform",
+            "translate(" + (width/2) + " ," +
+                           (0 - 20) + ")")
+      .text("VSW (%)");
+
+    // Add the Y Axis
+    weekly_graph.append("g")
+        .call(d3.axisLeft(weekly_y));
+
+    weekly_graph.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x", 0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Depth (cm)");
+
 
     season_graph.append("path")
         .data([seasons_vsw_readings])
@@ -524,59 +568,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .style("stroke", "yellow")
         .style("stroke-width", "3px")
         .attr("d", season_lower_strategy_line);
-
-
-
-    weekly_graph.append("path")
-        .data([previous_vsw_readings])
-        .attr("class", "line")
-        .style("stroke-width", "1px")
-        .attr("d", previous_vswline);
-
-    // Add the refill line
-    weekly_graph.append("path")
-        .data([refill_readings])
-        .attr("class", "line")
-        .style("stroke", "red")
-        .attr("d", refill_line);
-
-    // Add the full point line
-    weekly_graph.append("path")
-        .data([full_point_readings])
-        .attr("class", "line")
-        .style("stroke", "green")
-        .attr("d", full_point_line);
-
-    // Add the scatterplot
-    weekly_graph.selectAll("dot")
-      .data(vsw_readings)
-      .enter().append("circle")
-      .attr("r", 5)
-      .attr("cx", function(r) { return weekly_x(r.vsw); })
-      .attr("cy", function(r) { return weekly_y(r.depth); });
-
-    // Add the X Axis
-    weekly_graph.append("g")
-        //.attr("transform", "translate(0," + height + ")")
-        .call(d3.axisTop(weekly_x));
-
-    weekly_graph.append("text")
-        .attr("transform",
-              "translate(" + (width/2) + " ," +
-                             (0 - 20) + ")")
-        .text("VSW (%)");
-
-    // Add the Y Axis
-    weekly_graph.append("g")
-          .call(d3.axisLeft(weekly_y));
-
-    weekly_graph.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x", 0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Depth (cm)");
 
     // Add Season Graph X Axis
     season_graph.append("g")

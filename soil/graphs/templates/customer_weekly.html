@@ -4,36 +4,232 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Graph</title>
-
+    <style>
+        .line {
+          fill: none;
+          stroke: steelblue;
+          stroke-width: 5px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
 <div class="row">
-    <div id="area3"></div>
+    <div id="area1"></div>
 </div>
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
-    <script>
+<script type="text/javascript">
     // get the id of url
     var path = window.location.pathname.split('/');;
     site_id = path[3];
-    alert('site' + site_id)
-    
-    // set the dimensions of weekly graph
-    var margin = {top: 35, right: 30, bottom: 30, left: 40};
-    width = 600 - margin.left - margin.right;
-    height = 350 - margin.top - margin.bottom;
+    console.log('site_id:' + site_id)
 
-    var x = d3.scaleLinear().range([0, width]); //vsw (%)
-    var y = d3.scaleLinear().range([0, height]);
+    /************************** Start Global Settings ***************************************/
+    vsw_count = 10; // This is the maximum depth delivered by vsw_reading api meaning 1-10
+    var parseTime = d3.timeParse("%d-%m-%Y"); // For d3
+    var full_point_rz1 = 0;
+    var refill_rz1 = 0;
+    /************************** End Global Settings ***************************************/
+
+
+    /************************** Start Recommendation Settings ***************************************/
+    var previous_rain = 0;
+    var previous_hours_irrigation = 0;
+    var previous_mms_plant = 0;
+    var previous_litres_plant = 0;
+    var recommendation_text = '';
+    var rec_mon = 0, rec_tue = 0, rec_wed = 0, rec_thu = 0, rec_fri = 0, rec_sat = 0, rec_sun = 0;
+    /************************** End Recommendation Settings ***************************************/
+
+    /************************* Start Weekly Graph Settings ****************************/
+    var margin = {top: 35, right: 30, bottom: 30, left: 40};
+    weekly_width = 600 - margin.left - margin.right;
+    weekly_height = 350 - margin.top - margin.bottom;
+
+    var weekly_x = d3.scaleLinear().range([0, weekly_width]);
+    var weekly_y = d3.scaleLinear().range([0, weekly_height]);
+
+    var weekly_vswline = d3.line()
+        .x(function(r) { return weekly_x(r.vsw); })
+        .y(function(r) { return weekly_y(r.depth); });
+
+    var weekly_previous_vswline = d3.line()
+        .x(function(r) { return weekly_x(r.vsw); })
+        .y(function(r) { return weekly_y(r.depth); });
+
+    var weekly_refill_line = d3.line()
+        .x(function(r) { return weekly_x(r.vsw); })
+        .y(function(r) { return weekly_y(r.depth); });
+
+    var weekly_full_point_line = d3.line()
+        .x(function(r) { return weekly_x(r.vsw); })
+        .y(function(r) { return weekly_y(r.depth); });
+
+    var weekly_graph = d3.select("#area1").append("svg")
+        .attr("width", weekly_width + margin.left + margin.right)
+        .attr("height", weekly_height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+    // Weeks readings arrays
+    var weekly_vsw_readings = [];
+    var weekly_previous_vsw_readings = [];
+    var weekly_full_point_readings = [];
+    var weekly_refill_readings = [];
+    /************************* End Weekly Graph Settings****************************/
 
     d3.json('/graphs/api/vsw_date/' + site_id + '/?format=json').then(function(data) {
         data.forEach(function(date) {
+            var readings_date_array = [];
             d3.json('/graphs/api/vsw_reading/' + site_id + '/' + date.period_from + '/' + date.period_to + '/?format=json').then(function(data) {
+                var latest_reading_date = parseTime(data[0].date);
+                var previous_reading_date = parseTime(data[1].date);
+                console.log("Latest Date:" + latest_reading_date + " - Previous Date:" + previous_reading_date);
 
-            });
+                data.forEach(function(reading) {
+
+                    parsed_date = parseTime(reading.date);
+                    readings_date_array.push(parsed_date)
+
+                    if (reading.reading_type.name == "Probe") {
+
+                        // Get this weeks vsw_readings figures for the weekly graph
+                        if (latest_reading_date.toDateString() == parsed_date.toDateString()) {
+                            console.log("** Reading Date:" + parsed_date + " Latest Reading date:" + latest_reading_date)
+                            for (index = 1; index <= vsw_count; index++) {
+                                if (reading["depth" + index] !== null) {
+                                    weekly_vsw_readings.push({
+                                        'depth' : reading["depth" + index],
+                                        'vsw' : reading["vsw" + index + '_perc'],
+                                    })
+                                } else {
+                                    console.log("where null");
+                                }
+                            }
+                            // get recommendation and other data for this week
+                            recommendation_text = reading["comment"]
+                            rec_mon = reading["rec_mon"]
+                            rec_tue = reading["rec_tue"]
+                            rec_wed = reading["rec_wed"]
+                            rec_thu = reading["rec_thu"]
+                            rec_fri = reading["rec_fri"]
+                            rec_sat = reading["rec_sat"]
+                            rec_sun = reading["rec_sun"]
+
+                        }
+
+                        // Get last weeks readings
+                        if (previous_reading_date.toDateString() == parsed_date.toDateString()) {
+                            for (index = 1; index <= vsw_count; index++) {
+                                if (reading["depth" + index] !== null) {
+                                    weekly_previous_vsw_readings.push({
+                                        'depth' : reading["depth" + index],
+                                        'vsw' : reading["vsw" + index + '_perc'],
+                                    })
+                                }
+                            } // end for loop
+                            /* Calculate values for Amounts Recieved last Week */
+                            previous_litres_plant = reading["irrigation_litres"]
+                            previous_mms_plant = reading["irrigation_mms"]
+                            previous_rain = reading["rain"]
+                            application_rate = reading["site"]["application_rate"]
+                            previous_hours_irrigation = Math.round(previous_mms_plant / application_rate)
+                        }
+                    } // End if Probe
+
+                    // Get the Full Point and Refill - These are the vsw figures
+                    if (reading.reading_type.name == "Full Point") {
+                        for (index = 1; index <= vsw_count; index++) {
+                            if (reading["depth" + index] !== null) {
+                                weekly_full_point_readings.push({
+                                    'depth' : reading["depth" + index],
+                                    'vsw' : reading["vsw" + index],
+                                });
+                            }
+                        }
+                        full_point_rz1 = Math.round(reading["rz1"]);
+                    }
+
+                    if (reading.reading_type.name == "Refill") {
+                        for (index = 1; index <= vsw_count; index++) {
+                            if (reading["depth" + index] !== null) {
+                                weekly_refill_readings.push({
+                                    'depth' : reading["depth" + index],
+                                    'vsw' : reading["vsw" + index],
+                                });
+                            }
+                        }
+                        refill_rz1 = Math.round(reading["rz1"]);
+                    }
+                });
+
+                /***************************************** Start Display Weekly Graph *******************************/
+                weekly_x.domain([d3.min(weekly_vsw_readings, function(r) { return r.vsw - 5; }), d3.max(weekly_full_point_readings, function(r) { return r.vsw + 2; })]);
+                weekly_y.domain([d3.min(weekly_vsw_readings, function(r) { return r.depth - 5; }), d3.max(weekly_vsw_readings, function(r) { return r.depth + 5; })]);
+                console.log(weekly_vsw_readings)
+                weekly_graph.append("path")
+                  .data([weekly_vsw_readings])
+                  .attr("class", "line")
+                  .attr("d", weekly_vswline);
+
+                weekly_graph.append("path")
+                  .data([weekly_previous_vsw_readings])
+                  .attr("class", "line")
+                  .style("stroke-width", "1px")
+                  .attr("d", weekly_previous_vswline);
+
+                // Add the refill line
+                weekly_graph.append("path")
+                  .data([weekly_refill_readings])
+                  .attr("class", "line")
+                  .style("stroke", "red")
+                  .attr("d", weekly_refill_line);
+
+                // Add the full point line
+                weekly_graph.append("path")
+                  .data([weekly_full_point_readings])
+                  .attr("class", "line")
+                  .style("stroke", "green")
+                  .attr("d", weekly_full_point_line);
+
+                // Add the scatterplot
+                weekly_graph.selectAll("dot")
+                    .data(weekly_vsw_readings)
+                    .enter().append("circle")
+                    .attr("r", 5)
+                    .attr("cx", function(r) { return weekly_x(r.vsw); })
+                    .attr("cy", function(r) { return weekly_y(r.depth); });
+
+                // Add the X Axis
+                weekly_graph.append("g")
+                  //.attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisTop(weekly_x));
+
+                weekly_graph.append("text")
+                  .attr("transform",
+                        "translate(" + (weekly_width/2) + " ," +
+                                       (0 - 20) + ")")
+                  .text("VSW (%)");
+
+                // Add the Y Axis
+                weekly_graph.append("g")
+                    .call(d3.axisLeft(weekly_y));
+
+                weekly_graph.append("text")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", 0 - margin.left)
+                  .attr("x", 0 - (weekly_height / 2))
+                  .attr("dy", "1em")
+                  .style("text-anchor", "middle")
+                  .text("Depth (cm)");
+                /***************************************** End  Display Weekly Graph *******************************/
+
+            }); // End vsw_reading call
         });
-    });
+    }); // End vsw_date call
+
 </script>
 </body>
 </html>

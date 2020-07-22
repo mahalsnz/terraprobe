@@ -103,6 +103,7 @@ class vsw_reading(models.Model):
 
     class Meta:
         managed = False
+        ordering = ('-date','reading_type') #add this line
         db_table = "graphs_vsw"
 
 class vsw_strategy(models.Model):

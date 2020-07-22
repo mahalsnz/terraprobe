@@ -7,6 +7,8 @@
     instance_type: t2.micro
     security_group: launch-wizard-1
     image: ami-0fb7513bcdc525c3b
+    static_ip: 52.64.185.106
+### 3.105.105.140, 3.105.176.241
     keypair: byron_mahals
     region: ap-southeast-2
     count: 1
@@ -29,7 +31,7 @@
 
     - name: Add newly created host
       add_host:
-        name: 3.105.105.140
+        name: "{{ static_ip }}"
         groups: app_server
       with_items: "{{ ec2.instances }}"
 
@@ -50,7 +52,7 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         device_id: "{{ item }}"
-        ip: 3.105.105.140
+        ip: "{{ static_ip }}"
         region: "{{ region }}"
       with_items:
         "{{ ec2.instance_ids }}"
@@ -58,7 +60,7 @@
 
     - name: Wait for ssh to come up
       wait_for:
-        host: 3.105.105.140
+        host: "{{ static_ip }}"
         port: 22
         state: started
 
