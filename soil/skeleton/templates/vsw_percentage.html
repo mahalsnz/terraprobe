@@ -399,12 +399,13 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
-    weekly_x.domain([d3.min(vsw_readings, function(r) { return r.vsw - 5; }), d3.max(full_point_readings, function(r) { return r.vsw + 2; })]);
+    var min_weekly_x = refill_readings.concat(vsw_readings).concat(previous_vsw_readings);
+    weekly_x.domain([d3.min(min_weekly_x, function(r) { return r.vsw - 2; }), d3.max(full_point_readings, function(r) { return r.vsw + 2; })]);
     weekly_y.domain([d3.min(vsw_readings, function(r) { return r.depth - 5; }), d3.max(vsw_readings, function(r) { return r.depth + 5; })]);
 
     seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
     seasony0.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 40; }), d3.max(seasons_full_point_readings, function(d) { return d.total + 10; })]);
-    //seasony1.domain([d3.min(seasons_rain, function(d) { return d.rain - 5; }), d3.max(seasons_rain, function(d) { return d.rain + 5; })]);
+
 
     // Add the lines
     weekly_graph.append("path")
