@@ -1,3 +1,4 @@
+---
 - hosts: app_server
   become: yes
   remote_user: ubuntu
@@ -17,6 +18,98 @@
         regexp: '^127\.0\.0\.1[ \t]+localhost'
         line: '127.0.0.1 localhost {{ domain_name }} www.{{ domain_name }}'
         state: present
+
+    - name: Add Apt signing key for postgresql
+      apt_key:
+        id: 7FCC7D46ACCC4CF8
+        keyserver: keyserver.ubuntu.com
+
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #One day
+
+    - name: Install aptitude
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+          - aptitude
+
+    # A bit to do here, set local and set timezone is differnet for RH-Amaxoner
+    #- name: Set locale
+    #  command: /usr/sbin/update-locale LANG={{ locale }} LC_ALL={{ locale }}
+
+    #- name: Set /etc/localtime
+    #  file: src=/usr/share/zoneinfo/{{ timezone }} dest=/etc/localtime
+
+    # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html
+    #- name: Set /etc/timezone
+    #  template: src=../../ansible_templates/timezone.j2 dest=/etc/timezone
+    #  notify: update tzdata
+
+    - name: Add apt repository for postgresql
+      apt_repository:
+        repo: 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main'
+        update-cache: yes
+
+    - name: Install system packages
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+          - apache2
+          - certbot
+          - git
+          - libapache2-mod-wsgi-py3
+          - postgresql-10
+          - postgresql-client-10
+          - postgresql-server-dev-10
+          - python3-dev
+          - python3-pip
+          - python3-venv
+          - python-psycopg2
+          - ssl-cert
+          - tzdata
+          - unzip
+
+    - name: Make sure we run python3 by changing syslink for python sudo ln -sfn /usr/bin/python3.6 /usr/bin/python. Should create lrwxrwxrwx  1 root root          18 May  3 11:00  python -> /usr/bin/python3.7
+      file:
+        src: /usr/bin/python3.6
+        dest: /usr/bin/python
+        state: link
+        force: yes
+
+    - name: Upgrade pip
+      pip:
+        name: pip
+        executable: pip3
+        extra_args: --upgrade
+
+    - name: Install pip3 packages
+      pip:
+        name: "{{ item }}"
+        executable: pip3
+      with_items:
+        - Django==3.0.6
+        - aws-psycopg2==1.1.1
+        - django-address==0.2.2
+        - djangorestframework==3.11.0
+        - requests==2.22.0
+        - django-crispy-forms==1.9.0
+        - django-extensions==2.2.9
+        - django-tables2==2.2.1
+        - django-formtools==2.2
+        - django-bootstrap-datepicker-plus==3.0.5
+        - django-bootstrap4==1.1.1
+        - python-dateutil==2.8.1
+        - django-autocomplete-light==3.5.1
 
     - name: Create main directory for the project
       file:
@@ -61,83 +154,58 @@
         group: users
         recurse: yes
 
-    - name: Add Apt signing key for postgresql
-      apt_key:
-        id: 7FCC7D46ACCC4CF8
-        keyserver: keyserver.ubuntu.com
+    - name: Copy PostgreSQL authentication configuration
+      template:
+        src: ../../ansible_templates/pg_hba.j2
+        dest: /etc/postgresql/10/main/pg_hba.conf
+      notify:
+        - restart postgresql
 
-    - name: Install aptitude
-      apt: pkg={{ item }} update-cache=yes
+    - name: Make sure PostgreSQL server is running
+      service: name=postgresql state=started
+
+    - name: Create database user
+      become_user: postgres
+      postgresql_user: name={{ soil_db_user }} password={{ soil_db_password }} role_attr_flags=CREATEDB,LOGIN encrypted=yes
+
+    - name: Create database
+      become_user: postgres
+      postgresql_db: name={{ soil_db_name }} owner={{ soil_db_user }}
+
+    - name: Enable required apache modules
+      apache2_module:
+        state: present
+        name: "{{ item }}"
       with_items:
-        - aptitude
+        - alias
+        - expires
+        - rewrite
+        - ssl
+        - wsgi
 
-    - name: Update and upgrade apt packages
-      become: true
-      apt:
-        upgrade: yes
-        update_cache: yes
-        cache_valid_time: 86400 #One day
+    - name: Prepare apache configuration
+      block:
+        - name: Remove default apache site
+          file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
+          notify:
+            - restart apache
 
-    # A bit to do here, set local and set timezone is differnet for RH-Amaxoner
-    #- name: Set locale
-    #  command: /usr/sbin/update-locale LANG={{ locale }} LC_ALL={{ locale }}
+        - name: Copy Apache-Pre config
+          template:
+            src: ../../ansible_templates/apache_site-pre.conf.j2
+            dest: /etc/apache2/sites-available/{{ project_name }}.conf
 
-    #- name: Set /etc/localtime
-    #  file: src=/usr/share/zoneinfo/{{ timezone }} dest=/etc/localtime
+        - name: Create website configuration symlink
+          file:
+            src: /etc/apache2/sites-available/{{ project_name }}.conf
+            dest: /etc/apache2/sites-enabled/{{ project_name }}.conf
+            state: link
+          notify:
+            - restart apache
 
-    # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html
-    #- name: Set /etc/timezone
-    #  template: src=../../ansible_templates/timezone.j2 dest=/etc/timezone
-    #  notify: update tzdata
-
-    - name: Add apt repository for postgresql
-      apt_repository:
-        repo: 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main'
-        update-cache: yes
-
-    - name: Install system packages
-      apt: pkg={{ item }} update-cache=yes
-      with_items:
-        - apache2
-        - certbot
-        - git
-        - libapache2-mod-wsgi-py3
-        - postgresql-10
-        - postgresql-client-10
-        - postgresql-server-dev-10
-        - python3-dev
-        - python3-pip
-        - python3-venv
-        - python-psycopg2
-        - ssl-cert
-        - tzdata
-        - unzip
-
-    - name: Make sure we run python3 by changing syslink for python sudo ln -sfn /usr/bin/python3.7 /usr/bin/python. Should create lrwxrwxrwx  1 root root          18 May  3 11:00  python -> /usr/bin/python3.7
-      file:
-        src: /usr/bin/python3.7
-        dest: /usr/bin/python
-        state: link
-        force: yes
-
-    - name: Install pip3 packages
-      pip:
-        name: "{{ packages }}"
-      vars:
-        packages:
-        - Django==3.0.6
-        - aws-psycopg2==1.1.1
-        - django-address==0.2.2
-        - djangorestframework==3.11.0
-        - requests==2.22.0
-        - django-crispy-forms==1.9.0
-        - django-extensions==2.2.9
-        - django-tables2==2.2.1
-        - django-formtools==2.2
-        - django-bootstrap-datepicker-plus==3.0.5
-        - django-bootstrap4==1.1.1
-        - python-dateutil==2.8.1
-        - django-autocomplete-light==3.5.1
+    #- name: Install self-signed SSL certificate
+    #  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ domain_name }}" -days 365 -keyout /etc/ssl/private/server.key -out /etc/ssl/certs/server.crt -extensions v3_ca creates=/etc/ssl/certs/server.crt
+    #  notify: restart apache
 
   handlers:
     - name: update tzdata
@@ -145,3 +213,8 @@
 
     - name: restart apache
       service: name=apache2 state=restarted
+
+    - name: restart postgresql
+      service: name=postgresql state=restarted
+
+- import_playbook: deploy.yml

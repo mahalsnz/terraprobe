@@ -100,11 +100,11 @@ WSGI_APPLICATION = 'soil.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'soil',
+        'NAME': SOIL_DB_NAME,
 #        'TEST': {
 #            'NAME': 'soiltest',
 #        },
-        'USER': 'soiladmin',
+        'USER': SOIL_DB_USER,
         'PASSWORD': SOIL_DB_PASSWORD,
         'HOST': 'localhost',
         'PORT': '',

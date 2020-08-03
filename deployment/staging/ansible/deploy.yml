@@ -1,0 +1,33 @@
+---
+- hosts: app_server
+  become: yes
+  gather_facts: no
+  remote_user: ubuntu
+  vars_files:
+    - aws_keys.yml
+    - vars.yml
+
+  tasks:
+    - name: Clone/pull project repo
+      git:
+        repo: "{{ project_repo }}"
+        dest: "{{ project_root }}/src/{{ project_name }}"
+        accept_hostkey: yes
+      become: yes
+      become_user: "{{ user_username }}"
+      notify:
+        - restart apache
+
+    - name: Django migrate
+      django_manage:
+        command: migrate
+        app_path: "{{ project_root }}/src/{{ project_name }}"
+        pythonpath: "{{ python_path }}"
+        #settings: "{{ django_settings }}"
+        #virtualenv: "{{ project_root }}/env/"
+      become: yes
+      become_user: "{{ user_username }}"
+
+  handlers:
+    - name: restart apache
+      service: name=apache2 state=restarted
