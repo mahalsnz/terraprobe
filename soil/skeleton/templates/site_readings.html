@@ -124,7 +124,7 @@
       </div>
     </div>
 </div>
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
 
     /******************* start loadScreen ********************************/
@@ -353,6 +353,10 @@
                 $("#reading-recommendation-modal textarea#reading-recommendation-text").val(result.comment);
             }
         });
+    });
+
+    $("#reading-recommendation-modal").draggable({
+        handle: ".modal-header"
     });
 
 </script>
