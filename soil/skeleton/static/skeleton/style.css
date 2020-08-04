@@ -117,7 +117,14 @@ nav {
     fill: red;
 }
 
-.bar { fill: steelblue; }
+.bar {
+    fill: steelblue;
+}
+
+.area {
+    fill: steelblue;
+	opacity: 0.3;
+}
 
 div.tooltip {
 position: absolute;

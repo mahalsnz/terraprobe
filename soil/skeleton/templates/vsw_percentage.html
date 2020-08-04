@@ -363,8 +363,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     /* need to sort arrays by date */
     seasons_vsw_readings = seasons_vsw_readings.sort(sortByDateAscending);
-    console.log('season vsw reading');
-    console.log(seasons_vsw_readings)
 
     // TODO: Do this better. Need to test if site actually has a strategy
     if (seasons_upper_strategy.length > 0) {
@@ -397,6 +395,10 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
 
     season_grouping  = season_grouping.sort(sortByDateAscending);
+    console.log('previous_vsw_readings');
+    console.log(previous_vsw_readings.length);
+
+
 
     // Scale the range of the data
     var min_weekly_x = refill_readings.concat(vsw_readings).concat(previous_vsw_readings);
@@ -406,6 +408,31 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
     seasony0.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 40; }), d3.max(seasons_full_point_readings, function(d) { return d.total + 10; })]);
 
+    /*********************** Weekly Graph Shaded Area between This Week and Previous weeks line ********************/
+    // We need to get data into arrays for x and y for this week and x for previous week
+    var this_week_x = [];
+    var this_week_y = [];
+    previous_week_x = [];
+
+    for (i=0; i < previous_vsw_readings.length; i++) {
+        this_week_y.push(vsw_readings[i].depth);
+        this_week_x.push(vsw_readings[i].vsw);
+        previous_week_x.push(previous_vsw_readings[i].vsw);
+    }
+
+   	var area = d3.area()
+    	.x0(function(d) { return weekly_x(this_week_x[d]) })
+        .x1(function(d) { return weekly_x(previous_week_x[d]) ; })
+      	.y0(function(d) { return weekly_y(this_week_y[d] ); })
+      	.y1(function(d) { return weekly_y(this_week_y[d] ); });
+
+    // Append the shaded area to graph
+    var indexies = d3.range( this_week_y.length );
+    weekly_graph.append("path")
+       .datum(indexies)
+       .attr("class", "area")
+       .attr("d", area);
+    /***************************************** End Shaded Area *********************************************************/
 
     // Add the lines
     weekly_graph.append("path")
@@ -440,6 +467,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     .attr("r", 5)
     .attr("cx", function(r) { return weekly_x(r.vsw); })
     .attr("cy", function(r) { return weekly_y(r.depth); });
+
+
 
     // Add the X Axis
     weekly_graph.append("g")
