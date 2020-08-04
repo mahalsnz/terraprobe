@@ -27,13 +27,19 @@
             </tr>
             <tr>
                 <td>Irrigation</td>
-                <td class="mms-plant">mm</td>
-                <td class="litres-plant">lp</td>
-                <td class="hours">hrs</td>
+                <td class="mms-plant"></td>
+                <td class="litres-plant"></td>
+                <td class="hours"></td>
             </tr>
             <tr>
                 <td>Rain (mm)</td>
-                <td class="previous-rain">mm</td>
+                <td class="previous-rain"></td>
+                <td>Root Zone</td>
+                <td class="root-zone"></td>
+            </tr>
+            <tr>
+                <td>Estimated DWU</td>
+                <td class="estimated-dwu"></td>
             </tr>
         </table>
         <table id="season-data" class="table table-sm table-bordered">
@@ -229,6 +235,8 @@ var previous_mms_plant = 0;
 var previous_litres_plant = 0;
 var std_irrigation = 0;
 var std_rain = 0;
+var root_zone = '0 - ';
+var estimated_dwu = 0;
 var recommendation_text = '';
 var rec_mon = 0, rec_tue = 0, rec_wed = 0, rec_thu = 0, rec_fri = 0, rec_sat = 0, rec_sun = 0;
 
@@ -318,11 +326,13 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                     }
                 } // end for loop
                 /* Calculate values for Amounts Recieved last Week */
-                previous_litres_plant = reading["irrigation_litres"]
-                previous_mms_plant = reading["irrigation_mms"]
-                previous_rain = reading["rain"]
-                application_rate = reading["site"]["application_rate"]
-                previous_hours_irrigation = Math.round(previous_mms_plant / application_rate)
+                previous_litres_plant = reading["irrigation_litres"];
+                previous_mms_plant = reading["irrigation_mms"];
+                previous_rain = reading["rain"];
+                root_zone += reading["rz1_bottom"];
+                estimated_dwu = reading["estimated_dwu"];
+                application_rate = reading["site"]["application_rate"];
+                previous_hours_irrigation = Math.round(previous_mms_plant / application_rate);
             }
         }
 
@@ -589,13 +599,15 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .data([seasons_upper_strategy])
         .attr("class", "line")
         .style("stroke", "black")
+        .style("stroke-dasharray", ("5, 5"))
         .style("stroke-width", "3px")
         .attr("d", season_upper_strategy_line);
 
     season_graph.append("path")
         .data([seasons_lower_strategy])
         .attr("class", "line")
-        .style("stroke", "yellow")
+        .style("stroke", "orange")
+        .style("stroke-dasharray", ("5, 5"))
         .style("stroke-width", "3px")
         .attr("d", season_lower_strategy_line);
 
@@ -650,6 +662,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       $("#last-week-data td.litres-plant").html(previous_litres_plant);
       $("#last-week-data td.hours").html(previous_hours_irrigation);
       $("#last-week-data td.previous-rain").html(previous_rain);
+      $("#last-week-data td.root-zone").html(root_zone);
+      $("#last-week-data td.estimated-dwu").html(estimated_dwu);
       $("#season-data td.std-irrigation").html(std_irrigation);
       $("#season-data td.std-rain").html(std_rain);
 
