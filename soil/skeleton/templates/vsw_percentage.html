@@ -6,9 +6,12 @@
 <h5 align="center">{{ title }} Reading date: {{ date }} Period From: {{ period_from }} Period To: {{ period_to }}</h5>
 
 <div class="row">
-    <div class="col-4" id="area1"></div>
+    <div class="col-4" id="weekly"></div>
+    <div class="col-1">
+        <svg id="legend" height=300 width=200></svg>
 
-    <div class="container">
+    </div>
+    <div class="container col-7">
     <div class="row">
     <div class="col-6" id="area3">
         <table id="last-week-data" class="table table-sm table-bordered">
@@ -90,7 +93,7 @@
 
 </div>
 <div class="row">
-    <div class="col" id="area2"></div>
+    <div class="col" id="seasonal"></div>
 </div>
 
 <script>
@@ -163,7 +166,7 @@ var full_point_line = d3.line()
     .x(function(r) { return weekly_x(r.vsw); })
     .y(function(r) { return weekly_y(r.depth); });
 
-var weekly_graph = d3.select("#area1").append("svg")
+var weekly_graph = d3.select("#weekly").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -192,7 +195,7 @@ var season_refill_line = d3.line()
     .x(function(r) { return seasonx(r.date); })
     .y(function(r) { return seasony0(r.total); });
 
-var season_graph = d3.select("#area2").append("svg")
+var season_graph = d3.select("#seasonal").append("svg")
     .attr("width", season_width + margin.left + margin.right)
     .attr("height", season_height + margin.top + margin.bottom)
     .append("g")
@@ -468,8 +471,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     .attr("cx", function(r) { return weekly_x(r.vsw); })
     .attr("cy", function(r) { return weekly_y(r.depth); });
 
-
-
     // Add the X Axis
     weekly_graph.append("g")
       //.attr("transform", "translate(0," + height + ")")
@@ -492,7 +493,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .text("Depth (cm)");
-
 
     season_graph.append("path")
         .data([seasons_vsw_readings])
@@ -525,7 +525,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             .style("fill", "none");
 
         season_graph.append("text")
-           .attr("y", -10)//magic number here
+           .attr("y", -10)
            .attr("x", seasonx(critical_date))
            .attr('text-anchor', 'middle')
            .attr("class", "myLabel")//easy to style with CSS
@@ -680,6 +680,14 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       $("input#Sun-water").val(Math.round(application_rate * rec_sun));
 
       updateReadingRecommendations(week_start_abbr, week_start)
+
+      // Handmade legend
+      var svg = d3.select("#legend")
+    svg.append("circle").attr("cx",20).attr("cy",80).attr("r", 4).style("fill", "green")
+    svg.append("circle").attr("cx",20).attr("cy",100).attr("r", 4).style("fill", "red")
+    svg.append("text").attr("x", 30).attr("y", 50).text("Legend").style("font-size", "20px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 30).attr("y", 80).text("Full Point").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 30).attr("y", 100).text("Refill").style("font-size", "15px").attr("alignment-baseline","middle")
 
 });
 
