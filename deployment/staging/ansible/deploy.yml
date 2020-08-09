@@ -23,11 +23,21 @@
         command: migrate
         app_path: "{{ project_root }}/src/{{ project_name }}"
         pythonpath: "{{ python_path }}"
-        #settings: "{{ django_settings }}"
+        settings: "{{ django_settings }}"
         #virtualenv: "{{ project_root }}/env/"
       become: yes
       become_user: "{{ user_username }}"
 
-  handlers:
-    - name: restart apache
-      service: name=apache2 state=restarted
+    - name: Django collect static
+      django_manage:
+        command: collectstatic
+        app_path: "{{ project_root }}/src/{{ project_name }}"
+        pythonpath: "{{ python_path }}"
+        settings: "{{ django_settings }}"
+        #virtualenv: "{{ project_root }}/env/"
+      become: yes
+      become_user: "{{ user_username }}"
+
+handlers:
+  - name: restart nginx
+    service: name=nginx state=restarted

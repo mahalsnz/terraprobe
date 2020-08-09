@@ -3,3 +3,4 @@ media/
 Pipfile.lock
 Pipfile
 .vscode
+logs/

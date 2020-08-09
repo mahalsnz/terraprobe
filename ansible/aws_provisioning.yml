@@ -140,6 +140,8 @@
           export HORTPLUS_JACK_KEY="{{ hortplus_jack_key }}"
           export DJANGO_SECRET_KEY="{{ django_secret_key }}"
           export SOIL_DB_PASSWORD="{{ soil_db_password }}"
+          export SOIL_DB_USER="{{ soil_db_user }}"
+          export SOIL_DB_NAME="{{ soil_db_name }}"
         backup: yes
 
     - name: Ensure PostgreSQL database is initialized.
