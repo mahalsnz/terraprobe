@@ -63,7 +63,7 @@
         packages:
           - certbot
           - git
-          - ngnix
+          - nginx
           - postgresql-10
           - postgresql-client-10
           - postgresql-server-dev-10
@@ -196,9 +196,9 @@
       lineinfile:
         path: /etc/nginx/nginx.conf
         insertafter: "sites-enabled"
-          line: "include {{ project_root }}/src/soil/config/nginx.conf;"
-          firstmatch: yes
-          state: present
+        line: "include {{ project_root }}/src/soil/config/nginx.conf;"
+        firstmatch: yes
+        state: present
       notify:
         - restart nginx
     #- name: Install self-signed SSL certificate

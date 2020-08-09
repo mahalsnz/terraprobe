@@ -38,6 +38,6 @@
       become: yes
       become_user: "{{ user_username }}"
 
-handlers:
+  handlers:
   - name: restart nginx
     service: name=nginx state=restarted
