@@ -32,18 +32,25 @@ class Command(BaseCommand):
                 if previous_date and meter:
                     logger.debug('Date:' + str(date) + ' meter:' + str(meter) + ' PreviousDate:' + str(previous_date) + ' previous meter:' + str(previous_meter))
 
-                    irrigation_litres = round((previous_meter - meter) / site.irrigation_position, 2)
+                    # When it comes to processing the meter reading, if the difference between last week and this week is less than one,
+                    # the system will realise that this is a faulty meter and data cannot be derived between the reset and previous meter reading.
+                    # This will cause zero's for the derived fields that depend on this for that weeks reading.
+                    if meter > previous_meter:
+                        irrigation_litres = 0
+                        irrigation_mms = 0
+
+                    else:
+                        irrigation_litres = round((previous_meter - meter) / site.irrigation_position, 2)
+                        irrigation_mms = round(irrigation_litres / ((site.row_spacing * site.plant_spacing) / 10000), 2)
+
                     logger.debug('Irrigation litres:' + str(irrigation_litres))
-
-                    irrigation_mms = round(irrigation_litres / ((site.row_spacing * site.plant_spacing) / 10000), 2)
                     logger.debug('Irrigation mms:' + str(irrigation_mms))
-
                     previous_reading.irrigation_litres = irrigation_litres
                     previous_reading.irrigation_mms = irrigation_mms
                     logger.debug('Previous Reading:' + str(previous_reading))
                     previous_reading.save()
                 else:
-                    logger.debug('No previous date.')
+                    logger.debug('No previous date for reading date:' + str(date))
                     if meter == None:
                         # Alert but don't stop for No Meter Reading
                         self.stdout.write('No meter reading for latest reading date ' + str(date) + ' for site ' + site.name + '\n')

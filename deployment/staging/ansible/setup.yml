@@ -199,8 +199,7 @@
         line: "include {{ project_root }}/src/soil/config/nginx.conf;"
         firstmatch: yes
         state: present
-      notify:
-        - restart nginx
+
     #- name: Install self-signed SSL certificate
     #  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ domain_name }}" -days 365 -keyout /etc/ssl/private/server.key -out /etc/ssl/certs/server.crt -extensions v3_ca creates=/etc/ssl/certs/server.crt
     #  notify: restart nginx

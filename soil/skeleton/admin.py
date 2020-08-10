@@ -20,6 +20,8 @@ from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType
 
 class StrategyAdmin(admin.ModelAdmin):
     list_display = ('type', 'critical_date_type', 'days', 'percentage')
+    list_filter = ('type', 'critical_date_type')
+    search_fields = ('type', 'critical_date_type')
 
 class StrategyTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'percentage')
