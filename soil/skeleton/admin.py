@@ -18,10 +18,16 @@ from .models import SeasonStartEnd
 from .models import WeatherStation
 from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType
 
+class InputFilter(admin.SimpleListFilter):
+    template = 'admin/input_filter.html'
+
+    def lookups(self, request, model_admin):
+        # Dummy, required to show the filter.
+        return ((),)
+
 class StrategyAdmin(admin.ModelAdmin):
     list_display = ('type', 'critical_date_type', 'days', 'percentage')
     list_filter = ('type', 'critical_date_type')
-    search_fields = ('type', 'critical_date_type')
 
 class StrategyTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'percentage')
@@ -37,12 +43,15 @@ class DivinerAdmin(admin.ModelAdmin):
 
 class KCReadingAdmin(admin.ModelAdmin):
     list_display = ('crop', 'period_from', 'period_to', 'kc')
+    list_filter = ['crop']
 
 class ETReadingAdmin(admin.ModelAdmin):
     list_display = ('date', 'state', 'daily')
 
 class ReadingAdmin(admin.ModelAdmin):
     list_display = ('site', 'type', 'date', 'serial_number', 'depth1', 'depth1_count', 'comment')
+    list_filter = ['type']
+    search_fields = ['site__name']
 
 class ReadingTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'comment', 'formula')
@@ -55,6 +64,9 @@ class FarmAdmin(admin.ModelAdmin):
 
 class CalibrationAdmin(admin.ModelAdmin):
     list_display = ('serial_number', 'soil_type', 'period_from', 'period_to', 'slope', 'intercept')
+    list_filter = ('serial_number', 'soil_type')
+    search_fields = ['serial_number_id__serial_number']
+    #raw_id_fields = ('serial_number',)
 
 class FarmAdmin(admin.ModelAdmin):
     list_display = ('name', 'weatherstation')
@@ -84,6 +96,8 @@ class SiteAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['crop', 'variety']
+    list_filter = ['crop']
+    search_fields = ['variety', 'crop']
 
 class ProbeAdmin(admin.ModelAdmin):
     list_display = ['id', 'serial_number', 'comment']
@@ -93,6 +107,9 @@ class CriticalDateTypeAdmin(admin.ModelAdmin):
 
 class CriticalDateAdmin(admin.ModelAdmin):
     list_display = ['site', 'season', 'type', 'date']
+    list_filter = ('season', 'type')
+    search_fields = ['site__name']
+    #raw_id_fields = ('site',)
 
 class SeasonStartEndAdmin(admin.ModelAdmin):
     list_display = ['site', 'season', 'period_from', 'period_to', 'season_current_flag', ]
