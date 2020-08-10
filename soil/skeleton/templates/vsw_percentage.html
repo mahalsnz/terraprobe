@@ -58,16 +58,17 @@
     <div class="col-6" id="area4">
         <form>
         <textarea class="form-control form-control-sm" rows="3" id="reading-recommendation-text" readonly></textarea>
-        <fieldset>
-        <div id='week-day-labels'>Hours
-            <label for="Mon">Mon:</label>
-            <label for="Tue">Tue:</label>
-            <label for="Wed">Wed:</label>
-            <label for="Thu">Thu:</label>
-            <label for="Fri">Fri:</label>
-            <label for="Sat">Sat:</label>
-            <label for="Sun">Sun:</label>
+
+        <div id='week-day-labels' class="input-group">
+            <input type="text" class="form-control" id="Mon-label" placeholder="Mon" readonly>
+            <input type="text" class="form-control" id="Tue-label" placeholder="Tue" readonly>
+            <input type="text" class="form-control" id="Wed-label" placeholder="Wed" readonly>
+            <input type="text" class="form-control" id="Thu-label" placeholder="Thu" readonly>
+            <input type="text" class="form-control" id="Fri-label" placeholder="Fri" readonly>
+            <input type="text" class="form-control" id="Sat-label" placeholder="Sat" readonly>
+            <input type="text" class="form-control" id="Sun-label" placeholder="Sun" readonly>
         </div>
+
         <div id='week-days' class="input-group">
             <input type="text" class="form-control" id="Mon" placeholder="Mon" readonly>
             <input type="text" class="form-control" id="Tue" placeholder="Tue" readonly>
@@ -87,7 +88,6 @@
              <input type="text" class="form-control" id="Sat-water" readonly>
              <input type="text" class="form-control" id="Sun-water" readonly>
          </div>
-     </fieldset>
     </form>
     </div>
     <div class="col-8" id="area5">

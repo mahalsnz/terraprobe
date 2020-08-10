@@ -39,9 +39,11 @@ function updateReadingRecommendations(week_start_abbr, week_start) {
         var days_input = wrapper.children();
 
         console.log(first_day)
+        console.log('week_start_abbr:' + week_start_abbr)
+        console.log('week_start:' + week_start)
         arr = [0,1,2,3,4,5,6];
         arr = reorder(arr, week_start)
-
+        console.log('after reorder arr:' + arr)
         wrapper.append( $.map(arr, function(v){ return days_input[v] }) );
 
         wrapper = $('#week-day-labels');
