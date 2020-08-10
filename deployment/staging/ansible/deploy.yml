@@ -2,6 +2,7 @@
 - hosts: app_server
   become: yes
   gather_facts: no
+  remote_user: ubuntu
   vars_files:
     - aws_keys.yml
     - vars.yml
