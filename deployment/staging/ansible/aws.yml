@@ -5,7 +5,8 @@
   vars:
     instance_type: t2.micro
     security_group: launch-wizard-1
-    image: ami-0bc49f9283d686bab
+    image: ami-0f87b0a4eff45d9ce
+    #image: ami-0bc49f9283d686bab
     keypair: byron_mahals
     region: ap-southeast-2
     count: 1

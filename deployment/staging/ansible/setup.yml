@@ -24,11 +24,11 @@
         id: 7FCC7D46ACCC4CF8
         keyserver: keyserver.ubuntu.com
 
-    #- name: Install aptitude
-    #  apt:
-    #    name: aptitude
-    #    state: present
-    #    update_cache: yes
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: present
+        update_cache: yes
 
     - name: Update and upgrade apt packages
       become: true
@@ -133,12 +133,9 @@
         group: webapps
         mode: 0775
       with_items:
-        - "{{ project_root }}/.ssh"
         - "{{ project_root }}/src"
-        - "{{ project_root }}/db_backups"
+        - "{{ project_root }}/.ssl"
         - "{{ project_root }}/logs"
-        - "{{ project_root }}/commands"
-        - "{{ project_root }}/public_html"
 
     #- name: Save ssh key to server
     #  copy: src={{ ssh_github_key }} dest={{ project_root }}/.ssh/id_rsa mode=600
@@ -200,9 +197,8 @@
         firstmatch: yes
         state: present
 
-    #- name: Install self-signed SSL certificate
-    #  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ domain_name }}" -days 365 -keyout /etc/ssl/private/server.key -out /etc/ssl/certs/server.crt -extensions v3_ca creates=/etc/ssl/certs/server.crt
-    #  notify: restart nginx
+    - name: Install self-signed SSL certificate
+      command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ domain_name }}" -days 3650 -keyout {{ project_root }}/.ssl/staging.key -out {{ project_root }}/.ssl/staging.crt
 
   handlers:
     - name: update tzdata

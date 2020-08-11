@@ -16,6 +16,11 @@
       become: yes
       become_user: "{{ user_username }}"
 
+    - name: Source the soil users .bash_profile
+      shell: "source {{ project_root }}.bash_profile"
+      become: yes
+      become_user: "{{ user_username }}"
+
     - name: Django migrate
       django_manage:
         command: migrate
