@@ -8,7 +8,6 @@
     security_group: launch-wizard-1
     image: ami-0fb7513bcdc525c3b
     static_ip: 3.105.176.241
-### 3.105.105.140, 52.64.185.106
     keypair: byron_mahals
     region: ap-southeast-2
     count: 1
@@ -72,6 +71,7 @@
   vars:
     home_dir: /home/ec2-user
     django_dir: /home/ec2-user/dev/soil
+    django_settings: soil.settings.dev
   vars_files:
     - aws_keys.yml
 
@@ -188,21 +188,26 @@
 #        command: makemigrations skeleton
 #        app_path: "{{ django_dir }}"
 
+    - name: Source the soil users .bash_profile
+      shell: source /home/ec2-user/.bash_profile
+
     - name: Migrate soil database
       django_manage:
         command: migrate
         app_path: "{{ django_dir }}"
+        settings: "{{ django_settings }}"
 
     - name: In test load the test data suite (latest.json)
       django_manage:
         command: loaddata skeleton/dumps/latest.json
         app_path: "{{ django_dir }}"
+        settings: "{{ django_settings }}"
 
     - name: runserver on port 8000
       django_manage:
         command: "runserver 0.0.0.0:8000"
         app_path: "{{ django_dir }}"
-
+        settings: "{{ django_settings }}"
 
 #    - name: install ssh key
 #      authorized_key:
