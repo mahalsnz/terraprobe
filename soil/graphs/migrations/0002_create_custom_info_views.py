@@ -17,9 +17,12 @@ class Migration(migrations.Migration):
             SELECT
                 skeleton_site.id,
             	skeleton_site.name,
-                round(skeleton_site.emitter_rate::numeric / (skeleton_site.row_spacing::numeric * skeleton_site.emitter_spacing::numeric), 2) AS application_rate
+                round(skeleton_site.emitter_rate::numeric / (skeleton_site.row_spacing::numeric * skeleton_site.emitter_spacing::numeric), 2) AS application_rate,
+                skeleton_site.comment AS site_note,
+                auth_user.first_name || ' ' || auth_user.last_name AS technician
             FROM
-            	skeleton_site;
+            	skeleton_site
+            LEFT JOIN auth_user ON skeleton_site.technician_id = auth_user.id;
 
             CREATE OR REPLACE VIEW graphs_farm AS
             SELECT

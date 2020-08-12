@@ -24,11 +24,11 @@
         id: 7FCC7D46ACCC4CF8
         keyserver: keyserver.ubuntu.com
 
-    - name: Install aptitude
-      apt:
-        name: aptitude
-        state: present
-        update_cache: yes
+    #- name: Install aptitude
+    #  apt:
+    #    name: aptitude
+    #    state: present
+    #    update_cache: yes
 
     - name: Update and upgrade apt packages
       become: true

@@ -100,6 +100,10 @@
 </div>
 <div class="row">
     <div class="col" id="seasonal"></div>
+    <div class="col" id="alert-box">
+        <textarea id="site-note" rows="4" cols="30" style="border:2px solid red;" readonly>
+        </textarea>
+    </div>
 </div>
 
 <script>
@@ -332,6 +336,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 root_zone += reading["rz1_bottom"];
                 estimated_dwu = reading["estimated_dwu"];
                 application_rate = reading["site"]["application_rate"];
+                site_note = reading["site"]["site_note"];
                 previous_hours_irrigation = Math.round(previous_mms_plant / application_rate);
             }
         }
@@ -677,6 +682,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       console.log('Week Start Abbr:' + week_start_abbr);
 
       $("textarea#reading-recommendation-text").val(recommendation_text);
+      $("textarea#site-note").val(site_note);
 
       $("input#Mon").val(rec_mon);
       $("input#Tue").val(rec_tue);
