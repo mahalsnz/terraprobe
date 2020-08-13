@@ -182,6 +182,8 @@ BOOTSTRAP4 = {
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGLEVEL = os.environ.get('LOGLEVEL', 'debug').upper()
+LOGFILE = os.path.join(BASE_DIR, 'logs/terraprobe.log')
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -202,7 +204,7 @@ LOGGING = {
             'level': LOGLEVEL,
             'class': 'logging.FileHandler',
             'formatter': 'file',
-            'filename': '/tmp/debug.log'
+            'filename': LOGFILE
         }
     },
     'loggers': {
