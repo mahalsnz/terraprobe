@@ -4,7 +4,8 @@
 {% block content %}
 
 <h5 align="center">{{ title }} Reading date: {{ date }} Period From: {{ period_from }} Period To: {{ period_to }}</h5>
-
+<!-- Initialize a select button -->
+<select id="selectButton"></select>
 <div class="row">
     <div class="col-4" id="weekly"></div>
     <div class="col-1">
@@ -329,7 +330,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 root_zone += reading["rz1_bottom"] + ' cm';
                 estimated_dwu = Math.round(reading["estimated_dwu"] * 7);
                 application_rate = reading["site"]["application_rate"];
-                site_note = reading["site"]["site_note"];
+                site_note = reading["site"]["comment"];
                 previous_hours_irrigation = Math.round(previous_mms_plant / application_rate);
             }
         }
@@ -361,6 +362,18 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     });
     console.log('Weekly vsw map');
     console.log(weekly_vsw_map);
+
+    /* https://www.d3-graph-gallery.com/graph/line_filter.html
+    allGroup = d3.map(weekly_vsw_map, function(d){return(d.vsw)}).keys()
+    // add the options to the button
+    d3.select("#selectButton")
+      .selectAll('myOptions')
+     	.data(allGroup)
+      .enter()
+    	.append('option')
+      .text(function (d) { return d; }) // text showed in the menu
+      .attr("value", function (d) { return d; }) // corresponding value returned by the button
+    */
 
     // Seasons Refill - This is the rz1 value for each proble reading date
     for (index = 0; index < vsw_readings_date_array.length; index++) {
@@ -586,7 +599,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 div.transition()
                     .duration(200)
                     .style("opacity", .9);
-                div.html(formatTime(r.total) + "<br/>" + r.date)
+                div.html(r.total + "<br/>" + formatTime(r.date))
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
             })
@@ -594,6 +607,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 div.transition()
                     .duration(500)
                     .style("opacity", 0);
+            })
+            .on("click", function(r) {
+                updateWeeklyGraph(r.date)
             });
 
     // Full Point Season line. This is just the total of full_point_readings across all dates
@@ -725,6 +741,10 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
 });
 
+// ** Update data section
+function updateWeeklyGraph(x) {
+    alert("Updating" + x);
+}
 
 </script>
 

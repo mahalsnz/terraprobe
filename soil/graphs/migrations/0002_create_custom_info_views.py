@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 skeleton_site.id,
             	skeleton_site.name,
                 round(skeleton_site.emitter_rate::numeric / (skeleton_site.row_spacing::numeric * skeleton_site.emitter_spacing::numeric), 2) AS application_rate,
-                skeleton_site.comment AS site_note,
+                skeleton_site.comment,
                 auth_user.first_name || ' ' || auth_user.last_name AS technician
             FROM
             	skeleton_site

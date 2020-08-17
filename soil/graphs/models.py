@@ -10,7 +10,7 @@ class Farm(models.Model):
 class Site(models.Model):
     name = models.CharField(max_length=100, null=False)
     application_rate = models.FloatField()
-    site_note = models.TextField()
+    comment = models.TextField()
     technician = models.CharField(max_length=100)
 
     class Meta:
