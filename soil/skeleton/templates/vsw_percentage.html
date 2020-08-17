@@ -107,6 +107,7 @@
 <script>
 
 var parseTime = d3.timeParse("%d-%m-%Y");
+var formatTime = d3.timeFormat("%d-%m-%Y");
 
 // assemble reading date and previous reading date into this and last weeks dates javascript dates. Time does not matter
 // js is a bitch extract on '-' for date 25-03-2019
@@ -478,11 +479,11 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     // Add the scatterplot
     weekly_graph.selectAll("dot")
-    .data(vsw_readings)
-    .enter().append("circle")
-    .attr("r", 5)
-    .attr("cx", function(r) { return weekly_x(r.vsw); })
-    .attr("cy", function(r) { return weekly_y(r.depth); });
+        .data(vsw_readings)
+        .enter().append("circle")
+        .attr("r", 5)
+        .attr("cx", function(r) { return weekly_x(r.vsw); })
+        .attr("cy", function(r) { return weekly_y(r.depth); });
 
     // Add the X Axis
     weekly_graph.append("g")
@@ -506,11 +507,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .text("Depth (cm)");
-
-    season_graph.append("path")
-        .data([seasons_vsw_readings])
-        .attr("class", "line")
-        .attr("d", season_vswline0);
 
     var keys = ['rain', 'irrigation_mms']
     var keys_with_date = ['date', 'rain', 'irrigation_mms']
@@ -581,6 +577,31 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
               .style("opacity", 0);
           })
           .attr("fill", function(d) { return z(d.key); });
+
+    season_graph.append("path")
+      .data([seasons_vsw_readings])
+      .attr("class", "line")
+      .attr("d", season_vswline0);
+
+    season_graph.selectAll("dot")
+        .data(seasons_vsw_readings)
+        .enter().append("circle")
+            .attr("r", 5)
+            .attr("cx", function(r) { return seasonx(r.date); })
+            .attr("cy", function(r) { return seasony0(r.total); })
+            .on("mouseover", function(r) {
+                div.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                div.html(formatTime(r.total) + "<br/>" + r.date)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+            })
+            .on("mouseout", function(r) {
+                div.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
 
     // Full Point Season line. This is just the total of full_point_readings across all dates
     season_graph.append("path")
@@ -701,11 +722,11 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
       // Handmade legend
       var svg = d3.select("#legend")
-    svg.append("circle").attr("cx",20).attr("cy",80).attr("r", 4).style("fill", "green")
-    svg.append("circle").attr("cx",20).attr("cy",100).attr("r", 4).style("fill", "red")
-    svg.append("text").attr("x", 30).attr("y", 50).text("Legend").style("font-size", "20px").attr("alignment-baseline","middle")
-    svg.append("text").attr("x", 30).attr("y", 80).text("Full Point").style("font-size", "15px").attr("alignment-baseline","middle")
-    svg.append("text").attr("x", 30).attr("y", 100).text("Refill").style("font-size", "15px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx",20).attr("cy",80).attr("r", 4).style("fill", "green")
+        svg.append("circle").attr("cx",20).attr("cy",100).attr("r", 4).style("fill", "red")
+        svg.append("text").attr("x", 30).attr("y", 50).text("Legend").style("font-size", "20px").attr("alignment-baseline","middle")
+        svg.append("text").attr("x", 30).attr("y", 80).text("Full Point").style("font-size", "15px").attr("alignment-baseline","middle")
+        svg.append("text").attr("x", 30).attr("y", 100).text("Refill").style("font-size", "15px").attr("alignment-baseline","middle")
 
 });
 
