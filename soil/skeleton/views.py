@@ -31,13 +31,38 @@ import calendar
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm
+from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm, SiteReportReadyForm
 
-from datetime import datetime
+import datetime
+
 from dateutil.relativedelta import relativedelta
 from .utils import get_title, get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season, get_previous_season
 from dal import autocomplete
 TEMPLATES = {"select_crsf": "wizard/season_select.html"}
+
+'''
+    RecommendationReadyView:
+    Simple view for page to make the reviewed field of Readings true.
+    Once reviewed field is true, it becomes avaiable in Graphs API
+'''
+
+class RecommendationReadyView(LoginRequiredMixin, CreateView):
+
+    def get(self, request, *args, **kwargs):
+        # get todays date
+        date = request.GET.get('date')
+        if date == None:
+            date = datetime.date.today()
+        readings = Reading.objects.filter(date=date).order_by('date')
+        return render(request, 'recommendation_ready.html', { 'readings': readings, 'form': SiteReportReadyForm() })
+
+    def post(self, request, *args, **kwargs):
+        reviewed = request.POST.getlist('reviewed')
+        for review in reviewed:
+            reading = Reading.objects.get(id=review)
+            reading.reviewed = True
+            reading.save()
+        return render(request, 'recommendation_ready.html', { 'form': SiteReportReadyForm() })
 
 class OnsiteCreateView(LoginRequiredMixin, CreateView):
     model = Site
@@ -199,7 +224,6 @@ def process_form_data(form_list, self):
         logger.debug('Season Year Start ' + str(season.formatted_season_start_year))
         season_end_year = season.season_date + relativedelta(years=1)
         logger.debug('Season Year End ' + season_end_year.strftime('%Y'))
-
 
     for site in sites:
         # Grap the start and end date types

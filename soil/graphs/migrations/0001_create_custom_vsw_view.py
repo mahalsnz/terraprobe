@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [('skeleton', '0019_auto_20200512_0757'),
+    dependencies = [('skeleton', '0021_reading_reviewed'),
     ]
 
     operations = [
@@ -75,7 +75,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
                 zone1.rec_fri,
                 zone1.rec_sat,
                 zone1.rec_sun,
-
+                zone1.reviewed,
             	zone1.depth1,
                 zone1.vsw1,
             	zone1.count1,
@@ -157,6 +157,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
                     skeleton_reading."rec_Fri" AS rec_fri,
                     skeleton_reading."rec_Sat" AS rec_sat,
                     skeleton_reading."rec_Sun" AS rec_sun,
+                    skeleton_reading.reviewed,
             		skeleton_site.depth1,
             		skeleton_reading.depth1 AS vsw1,
                     skeleton_reading.depth1_count AS count1,

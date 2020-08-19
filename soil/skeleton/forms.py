@@ -10,6 +10,19 @@ from bootstrap_datepicker_plus import DatePickerInput
 import datetime
 from dal import autocomplete
 
+class SiteReportReadyForm(forms.ModelForm):
+    #date = forms.DateField(queryset = Reading.objects.filter(type=1).distinct('date').order_by('date'))
+    #birth_year = widget=forms.Select(queryset = Reading.objects.filter(type=1).distinct('date').order_by('date'))
+    date = forms.DateField(
+        widget = DatePickerInput(format='%Y-%m-%d'),
+        required = False,
+        initial=datetime.date.today,
+    )
+
+    class Meta:
+        model = Reading
+        fields = ['id',]
+
 class SiteSelectionForm(forms.ModelForm):
     site_number = forms.ModelChoiceField(
         queryset=SiteDescription.objects.all(),

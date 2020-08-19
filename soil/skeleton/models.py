@@ -398,6 +398,8 @@ class Reading(models.Model):
     type = models.ForeignKey(ReadingType, null=False, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now, null=False)
 
+    reviewed = models.BooleanField(default=False, null=True, help_text="Has reading been reviewed. Only really applies to Probe readings.")
+
     depth1 = models.FloatField(null=True, blank=True, verbose_name="Depth1 VSW/Normal")
     depth2 = models.FloatField(null=True, blank=True, verbose_name="Depth1 VSW/Normal")
     depth3 = models.FloatField(null=True, blank=True, verbose_name="Depth3 VSW/Normal")

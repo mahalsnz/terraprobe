@@ -40,6 +40,8 @@
             <tr>
                 <td>Estimated 7 day water use</td>
                 <td class="estimated-dwu"></td>
+                <td>Reviewed</td>
+                <td class="recommendation-reviewed"></td>
             </tr>
         </table>
         <table id="season-data" class="table table-sm table-bordered">
@@ -241,6 +243,7 @@ var std_rain = 0;
 var root_zone = '0 - ';
 var estimated_dwu = 0;
 var recommendation_text = '';
+var recommendation_reviewed = false
 var rec_mon = 0, rec_tue = 0, rec_wed = 0, rec_thu = 0, rec_fri = 0, rec_sat = 0, rec_sun = 0;
 
 function sortByDateAscending(a, b) {
@@ -312,6 +315,12 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
                 // get recommendation and other data for this week
                 recommendation_text = reading["comment"]
+                recommendation_reviewed = reading["reviewed"]
+                if (recommendation_reviewed === false) {
+                    recommendation_reviewed = 'false';
+                }
+
+                console.log('reviewed' + recommendation_reviewed)
                 rec_mon = reading["rec_mon"]
                 rec_tue = reading["rec_tue"]
                 rec_wed = reading["rec_wed"]
@@ -699,6 +708,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       $("#last-week-data td.estimated-dwu").html(estimated_dwu);
       $("#season-data td.std-irrigation").html(std_irrigation);
       $("#season-data td.std-rain").html(std_rain);
+      $("#last-week-data td.recommendation-reviewed").html(recommendation_reviewed);
 
       //week_start = reading.date.weekday() + 1
       //week_start_abbr = calendar.day_abbr[week_start]

@@ -62,6 +62,7 @@ class vsw_reading(models.Model):
     rec_fri = models.FloatField()
     rec_sat = models.FloatField()
     rec_sun = models.FloatField()
+    reviewed = models.BooleanField()
     depth1 = models.IntegerField()
     count1 = models.FloatField()
     vsw1 = models.FloatField()

@@ -8,7 +8,7 @@ from .serializers import VSWSerializer, SiteSerializer, FarmSerializer, ReadingT
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
-class VSWDateList(generics.ListCreateAPIView):
+class VSWDateList(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = SeasonStartEnd.objects.filter(site=self.kwargs["pk"], season_current_flag=True)
@@ -16,16 +16,26 @@ class VSWDateList(generics.ListCreateAPIView):
         return queryset
     serializer_class = VSWDateSerializer
 
-class VSWReadingList(generics.ListCreateAPIView):
+#TODO: Not the best way to do the ready-reviwed option for getting readings.
+class VSWReadingList(generics.ListAPIView):
 
     def get_queryset(self):
         #r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date').first()
-        queryset = vsw_reading.objects.filter(site=self.kwargs["pk"], date__range=(self.kwargs["period_from"], self.kwargs["period_to"]))
+        queryset = vsw_reading.objects.filter(site=self.kwargs["pk"], date__range=(self.kwargs["period_from"], self.kwargs["period_to"]) )
 
         return queryset
     serializer_class = VSWSerializer
 
-class VSWStrategyList(generics.ListCreateAPIView):
+class VSWReadingReadyList(generics.ListAPIView):
+
+    def get_queryset(self):
+        #r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date').first()
+        queryset = vsw_reading.objects.filter(site=self.kwargs["pk"], date__range=(self.kwargs["period_from"], self.kwargs["period_to"]), reviewed=self.kwargs["reviewed"] )
+
+        return queryset
+    serializer_class = VSWSerializer
+
+class VSWStrategyList(generics.ListAPIView):
 
     def get_queryset(self):
         #r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date').first()
