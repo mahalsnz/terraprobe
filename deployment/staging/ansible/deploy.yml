@@ -16,8 +16,23 @@
       become: yes
       become_user: "{{ user_username }}"
 
-    - name: Source the soil users .bash_profile
-      shell: "source {{ project_root }}/.bash_profile"
+    - name: Write env variables to .profile of application user
+      blockinfile:
+        path: "{{ project_root }}/.profile"
+        state: present
+        create: yes
+        block: |
+          export HORTPLUS_JACK_KEY="{{ hortplus_jack_key }}"
+          export DJANGO_SECRET_KEY="{{ django_secret_key }}"
+          export SOIL_DB_PASSWORD="{{ soil_db_password }}"
+          export SOIL_DB_USER="{{ soil_db_user }}"
+          export SOIL_DB_NAME="{{ soil_db_name }}"
+        backup: yes
+      become: yes
+      become_user: "{{ user_username }}"
+
+    - name: Source the soil users .profile
+      shell: ". {{ project_root }}/.profile"
       become: yes
       become_user: "{{ user_username }}"
 
