@@ -53,11 +53,12 @@ class RecommendationReadyView(LoginRequiredMixin, CreateView):
         date = request.GET.get('date')
         if date == None:
             date = datetime.date.today()
-        readings = Reading.objects.filter(date=date).order_by('date')
+        readings = Reading.objects.select_related('site__farm').select_related('site__technician').filter(date=date).order_by('date')
         return render(request, 'recommendation_ready.html', { 'readings': readings, 'form': SiteReportReadyForm() })
 
     def post(self, request, *args, **kwargs):
         reviewed = request.POST.getlist('reviewed')
+        logger.debug('Posted:' + str(reviewed))
         for review in reviewed:
             reading = Reading.objects.get(id=review)
             reading.reviewed = True

@@ -16,7 +16,7 @@
     </div>
     <div class="col-sm-4">
         <div class="row">
-            <button class="btn bg-green" type="submit">Submit Date</button>
+            <button class="btn bg-green" id="submit-date" type="submit">Submit Date</button>
         </div>
     </div>
 </div>
@@ -26,27 +26,49 @@
 
 
 {% if readings %}
-<div class="container-sm">
-<form method="post" id="reportListForm" novalidate>
+<form method="post">
 {% csrf_token %}
+<table class="table table-sm table-bordered text-nowrap" id="recommendation-review-table">
 
-<div class="col-sm-8">
-    <ul class="list-group">
+    <thead>
+        <tr>
+            <th>Site</th>
+            <th>Farm</th>
+            <th>Technician</th>
+            <th>Date</th>
+            <th>Reviewed</th>
+        </tr>
+    </thead>
+    <tbody>
 {% for reading in readings %}
-
-    <li class="list-group-item"><input type="checkbox" class="form-check-input" name="reviewed" value="{{ reading.id }}" checked>{{ reading.site }} - Reviewed {{reading.date }} {{reading.reviewed }}</li>
-
+        <tr>
+            <td>{{ reading.site }}</td>
+            <td>{{ reading.site.farm }}</td>
+            <td>{{ reading.site.technician.first_name }} {{ reading.site.technician.last_name }}</td>
+            <td>{{ reading.date }}</td>
+            <td><input type="checkbox" class="form-check-input" name="reviewed" value="{{ reading.id }}" checked>{{reading.reviewed }}</td>
+        </tr>
 {% endfor %}
-    </ul>
-    <div class="col-sm-8">
-        <div class="row">
-            <button class="btn bg-green" type="submit">Submit</button>
-        </div>
-    </div>
+</tbody>
+</table
+<div class="col-sm-8">
+    <div class="row">
+        <button class="btn bg-green" id="submit-reviewed" type="submit">Submit Review</button>
     </div>
 </div>
 </form>
 {% endif %}
 </div>
+
+<script>
+$(document).ready(function() {
+    var table = $('#recommendation-review-table').DataTable({
+        "paging": false,
+        "scrollX": false,
+        "searching": false,
+    });
+
+} );
+</script>
 
 {% endblock content %}
