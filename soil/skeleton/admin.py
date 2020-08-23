@@ -18,12 +18,14 @@ from .models import SeasonStartEnd
 from .models import WeatherStation
 from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType
 
+'''
 class InputFilter(admin.SimpleListFilter):
     template = 'admin/input_filter.html'
 
     def lookups(self, request, model_admin):
         # Dummy, required to show the filter.
         return ((),)
+'''
 
 class StrategyAdmin(admin.ModelAdmin):
     list_display = ('type', 'critical_date_type', 'days', 'percentage')
@@ -40,6 +42,11 @@ class ProbeDivinerAdmin(admin.ModelAdmin):
 
 class DivinerAdmin(admin.ModelAdmin):
     list_display = ('diviner_number', 'site')
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'site':
+            kwargs["queryset"] = SiteDescription.objects.all()
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 class KCReadingAdmin(admin.ModelAdmin):
     list_display = ('crop', 'period_from', 'period_to', 'kc')
