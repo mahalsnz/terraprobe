@@ -61,9 +61,11 @@ INSTALLED_APPS = [
     'formtools',
     'bootstrap_datepicker_plus',
     'bootstrap4',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -157,6 +159,8 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'# Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

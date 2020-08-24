@@ -107,6 +107,7 @@
         - django-bootstrap4==1.1.1
         - python-dateutil==2.8.1
         - django-autocomplete-light==3.5.1
+        - django-cors-headers==3.4.0
 
     - name: Create main directory for the project
       file:
