@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
         # Get sites in current season that have readngs with a rain reading but no effective_rain_1
         season = get_current_season()
-        sites = Site.objects.filter(readings__rain__isnull=False, readings__effective_rain_1__isnull=True, readings__type=1).distinct()
+        sites = Site.objects.filter(readings__rain__isnull=False, readings__effective_rain_1__isnull=True, readings__type__name='Probe').distinct()
 
         for site in sites:
             dates = get_site_season_start_end(site, season)

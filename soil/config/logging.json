@@ -1,0 +1,6 @@
+{
+    "LoggingEnabled": {
+        "TargetBucket": "terraprobe-dev-db1",
+        "TargetPrefix": "logs/"
+    }
+}

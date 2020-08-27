@@ -114,9 +114,8 @@ class Command(BaseCommand):
                                 # We no have some wierd rules. 1. If running depth is 0 and first depth is 20 add half of vsw to total
                                 if depth == 20 and running_depth == 0:
                                     logger.debug("In running depth is 0 and first depth is 20")
-                                    half = vsw / 2
-                                    logger.debug("Adding " + str(half) + ' for interpoloated depth 10')
-                                    total += half
+                                    logger.debug("Adding " + str(vsw) + ' for interpoloated depth 10')
+                                    total += vsw
                                 #  2. If depth minus running depth equals 20 add together previous vsw with present vsw then divide by 2
                                 elif (depth - running_depth) == 20:
                                     logger.debug("depth minus running depth equals 20")
@@ -128,11 +127,11 @@ class Command(BaseCommand):
                                     logger.debug("Adding VSW " + str(vsw) + " for depth " + str(depth))
                                     total += vsw
 
-                                else:
-                                    # We half the depth figure that is above the Bottom
-                                    half = vsw / 2
-                                    logger.debug("Adding half of VSW " + str(half) + " for depth " + str(depth) + ' as this depth is greater than bottom of ' + str(bottom))
-                                    total += half
+                                #else:
+                                #    # We half the depth figure that is above the Bottom. No? We should ignore a figure abover the bottom
+                                #    half = vsw / 2
+                                #    logger.debug("Adding half of VSW " + str(half) + " for depth " + str(depth) + ' as this depth is greater than bottom of ' + str(bottom))
+                                #    total += half
                                 previous_vsw = vsw
                                 previous_he = he
                                 running_depth = depth
@@ -153,7 +152,7 @@ class Command(BaseCommand):
 
                     # Need to get a Reading object to update as we cannot update vsw_readings as it is a view
                     r = Reading.objects.get(site=reading.site_id, date=reading.date, type=reading.reading_type_id)
-                    setattr(r, rootzone, total)
+                    setattr(r, rootzone, round(total))
                     r.save() # Update
                 # Finished looping through rootzones
             # Finished looping through readings

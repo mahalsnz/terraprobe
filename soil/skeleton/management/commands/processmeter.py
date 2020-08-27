@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
         # Get sites in current season that have readngs with at least one meter reading but no irrigation in litres
         season = get_current_season()
-        sites = Site.objects.filter(readings__meter__isnull=False, readings__irrigation_litres__isnull=True, readings__type=1).distinct()
+        sites = Site.objects.filter(readings__meter__isnull=False, readings__irrigation_litres__isnull=True, readings__type__name='Probe').distinct()
         logger.info('Sites' + str(sites))
         for site in sites:
             logger.info('Processing Site ' + site.name)
