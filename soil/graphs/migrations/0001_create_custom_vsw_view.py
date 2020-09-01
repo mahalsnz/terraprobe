@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [('skeleton', '0021_reading_reviewed'),
+    dependencies = [('skeleton', '0022_auto_20200829_0956'),
     ]
 
     operations = [
@@ -59,6 +59,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
                 zone1.rz3,
             	zone1.probe_dwu,
             	zone1.estimated_dwu,
+                zone1.weekly_edwu,
                 zone1.deficit,
             	zone1.irrigation_litres,
             	zone1.irrigation_mms,
@@ -141,6 +142,7 @@ LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id
             		skeleton_reading.rz3,
             		skeleton_reading.probe_dwu,
             		skeleton_reading.estimated_dwu,
+                    ROUND(skeleton_reading.estimated_dwu * 7 * skeleton_site.rz_percentage) AS weekly_edwu,
             		skeleton_reading.deficit,
             		skeleton_reading.irrigation_litres,
             		skeleton_reading.irrigation_mms,

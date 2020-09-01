@@ -18,15 +18,6 @@ from .models import SeasonStartEnd
 from .models import WeatherStation
 from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType
 
-'''
-class InputFilter(admin.SimpleListFilter):
-    template = 'admin/input_filter.html'
-
-    def lookups(self, request, model_admin):
-        # Dummy, required to show the filter.
-        return ((),)
-'''
-
 class StrategyAdmin(admin.ModelAdmin):
     list_display = ('type', 'critical_date_type', 'days', 'percentage')
     list_filter = ('type', 'critical_date_type')
@@ -85,7 +76,7 @@ class SiteAdmin(admin.ModelAdmin):
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
             'classes': ['collapse']}),
         ('Root Zones',
-                    {'fields': ['rz1_bottom','rz2_bottom','rz3_bottom'], 'classes': ['collapse']}),
+                    {'fields': ['rz1_bottom','rz2_bottom','rz3_bottom', 'rz_percentage'], 'classes': ['collapse']}),
         ('Depths',  {'fields': [('depth1', 'depth_he1'),('depth2', 'depth_he2'),('depth3', 'depth_he3'),('depth4', 'depth_he4'),
                                 ('depth5', 'depth_he5'),('depth6', 'depth_he6'),('depth7', 'depth_he7'),('depth8', 'depth_he8'),
                                 ('depth9', 'depth_he9'),('depth10', 'depth_he10')],'classes': ['collapse']}),

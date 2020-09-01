@@ -39,7 +39,7 @@
             </tr>
             <tr>
                 <td>Estimated 7 day water use</td>
-                <td class="estimated-dwu"></td>
+                <td class="weekly-edwu"></td>
                 <td>Reviewed</td>
                 <td class="recommendation-reviewed"></td>
             </tr>
@@ -241,7 +241,7 @@ var previous_litres_plant = 0;
 var std_irrigation = 0;
 var std_rain = 0;
 var root_zone = '0 - ';
-var estimated_dwu = 0;
+var weekly_edwu = 0;
 var recommendation_text = '';
 var recommendation_reviewed = false
 var rec_mon = 0, rec_tue = 0, rec_wed = 0, rec_thu = 0, rec_fri = 0, rec_sat = 0, rec_sun = 0;
@@ -335,7 +335,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 previous_mms_plant = reading["irrigation_mms"];
                 previous_rain = reading["rain"];
                 root_zone += reading["rz1_bottom"] + ' cm';
-                estimated_dwu = Math.round(reading["estimated_dwu"] * 7);
+                weekly_edwu = reading["weekly_edwu"];
                 application_rate = reading["site"]["application_rate"];
                 site_note = reading["site"]["comment"];
                 previous_hours_irrigation = Math.round(previous_mms_plant / application_rate);
@@ -714,7 +714,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       $("#last-week-data td.hours").html(previous_hours_irrigation);
       $("#last-week-data td.previous-rain").html(previous_rain);
       $("#last-week-data td.root-zone").html(root_zone);
-      $("#last-week-data td.estimated-dwu").html(estimated_dwu);
+      $("#last-week-data td.weekly-edwu").html(weekly_edwu);
       $("#season-data td.std-irrigation").html(std_irrigation);
       $("#season-data td.std-rain").html(std_rain);
       $("#last-week-data td.recommendation-reviewed").html(recommendation_reviewed);

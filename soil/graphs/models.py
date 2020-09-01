@@ -46,6 +46,7 @@ class vsw_reading(models.Model):
     rz3 = models.FloatField()
     probe_dwu = models.FloatField()
     estimated_dwu = models.FloatField()
+    weekly_edwu = models.FloatField()
     deficit = models.FloatField()
     meter = models.FloatField()
     irrigation_litres = models.FloatField()

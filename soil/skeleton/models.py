@@ -254,6 +254,7 @@ class Site(models.Model):
     rz1_bottom = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True, help_text="The Bottom Depth of Root Zone 1. The Top will aways be zero.")
     rz2_bottom = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True, help_text="The Bottom Depth of Root Zone 2. The Top will aways be zero.")
     rz3_bottom = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True, help_text="The Bottom Depth of Root Zone 3. The Top will aways be zero.")
+    rz_percentage = models.FloatField(null=False, default=1, help_text="A percentage between 0 and 1 indicating total 7 day water use. A lower percentage from 100 indicates a smaller root stock.")
 
     # depth
     depth1 = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True)
@@ -293,6 +294,12 @@ class Site(models.Model):
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(check=Q(rz_percentage__gte=0), name='site_rz_percentage_gte_0'),
+            models.CheckConstraint(check=Q(rz_percentage__lte=1), name='site_rz_percentage_percentage_1te_1')
+        ]
 
     def __str__(self):
         return self.name
