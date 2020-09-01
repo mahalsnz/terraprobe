@@ -30,3 +30,21 @@ class ProcessTest(TestCase):
             logger.debug(str(reading))
             if str(reading.date) == '2018-12-14':
                 self.assertEquals(reading.rz1, 224)
+                self.assertEquals(reading.rz2, 147)
+                self.assertEquals(reading.rz3, 82)
+            if str(reading.date) == '2019-05-02':
+                self.assertEquals(reading.rz1, 321)
+                self.assertEquals(reading.rz2, 178)
+                self.assertEquals(reading.rz3, 76)
+            if str(reading.date) == '2019-05-07':
+                self.assertEquals(reading.rz1, 314)
+                self.assertEquals(reading.rz2, 223)
+                self.assertEquals(reading.rz3, 132)
+            if str(reading.date) == '2019-05-14':
+                self.assertEquals(reading.rz1, 220)
+                self.assertEquals(reading.rz2, 145)
+                self.assertEquals(reading.rz3, 82)
+            if str(reading.date) == '2019-05-21':
+                self.assertEquals(reading.rz1, 205)
+                self.assertEquals(reading.rz2, 144)
+                self.assertEquals(reading.rz3, 82)

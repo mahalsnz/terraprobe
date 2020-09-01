@@ -6,8 +6,9 @@ from django.db.models import Q
 
 from skeleton.utils import get_current_season, get_site_season_start_end
 
-# Get an instance of a logger
 import logging
+import  decimal
+
 logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
@@ -152,7 +153,9 @@ class Command(BaseCommand):
 
                     # Need to get a Reading object to update as we cannot update vsw_readings as it is a view
                     r = Reading.objects.get(site=reading.site_id, date=reading.date, type=reading.reading_type_id)
-                    setattr(r, rootzone, round(total))
+
+                    total = decimal.Decimal(total).quantize(decimal.Decimal('1'), rounding=decimal.ROUND_HALF_UP)
+                    setattr(r, rootzone, total)
                     r.save() # Update
                 # Finished looping through rootzones
             # Finished looping through readings
