@@ -82,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$180000$mjWrWM1uxpsM$FixDxutiGYpJuNnUaGYSKBqhunOaCmooNpAYrrv8BXE=",
-    "last_login": "2020-08-25T21:41:45.588Z",
+    "last_login": "2020-09-06T21:53:47.901Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -185,6 +185,14 @@
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2019-12-30T19:42:00.184Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "8ceb3ebhesbwij1nz2wh6qdrolrktn3z",
+  "fields": {
+    "session_data": "NzVjMWM0YTM5NDgwMDM0YmZhZjVlZjliOTRlOGY3NGE5NzM5Njg2NTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5YjMwYmY2NzgxZjQyOTcwNTVkMGY4ZWI4Nzc3ODk5OTNmNzE2MWUxIn0=",
+    "expire_date": "2020-09-20T21:53:47.908Z"
   }
 },
 {
@@ -928,6 +936,7 @@
     "rz1_bottom": 110,
     "rz2_bottom": 70,
     "rz3_bottom": 40,
+    "rz_percentage": 0.75,
     "depth1": 20,
     "depth2": 30,
     "depth3": 40,
@@ -981,6 +990,7 @@
     "rz1_bottom": 60,
     "rz2_bottom": 60,
     "rz3_bottom": 0,
+    "rz_percentage": 1.0,
     "depth1": 20,
     "depth2": 30,
     "depth3": 40,
@@ -1034,6 +1044,7 @@
     "rz1_bottom": 110,
     "rz2_bottom": 60,
     "rz3_bottom": 0,
+    "rz_percentage": 1.0,
     "depth1": 20,
     "depth2": 30,
     "depth3": 40,
@@ -1087,6 +1098,7 @@
     "rz1_bottom": 100,
     "rz2_bottom": 70,
     "rz3_bottom": 40,
+    "rz_percentage": 1.0,
     "depth1": 10,
     "depth2": 20,
     "depth3": 30,
@@ -1140,6 +1152,7 @@
     "rz1_bottom": 100,
     "rz2_bottom": 30,
     "rz3_bottom": 70,
+    "rz_percentage": 1.0,
     "depth1": 10,
     "depth2": 20,
     "depth3": 30,
@@ -1193,6 +1206,7 @@
     "rz1_bottom": 60,
     "rz2_bottom": 20,
     "rz3_bottom": 40,
+    "rz_percentage": 1.0,
     "depth1": 10,
     "depth2": 20,
     "depth3": 30,
@@ -6168,47 +6182,11 @@
 },
 {
   "model": "skeleton.kcreading",
-  "pk": 1,
-  "fields": {
-    "crop": 2,
-    "period_from": "2018-10-10",
-    "period_to": "2018-11-10",
-    "kc": 0.5,
-    "created_date": "2019-07-09T01:41:04Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.kcreading",
-  "pk": 2,
-  "fields": {
-    "crop": 2,
-    "period_from": "2018-11-11",
-    "period_to": "2018-12-11",
-    "kc": 1.0,
-    "created_date": "2019-07-09T01:43:16Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.kcreading",
-  "pk": 3,
-  "fields": {
-    "crop": 2,
-    "period_from": "2018-12-12",
-    "period_to": "2019-01-11",
-    "kc": 2.0,
-    "created_date": "2019-07-09T01:44:05Z",
-    "created_by": 1
-  }
-},
-{
-  "model": "skeleton.kcreading",
   "pk": 4,
   "fields": {
     "crop": 2,
-    "period_from": "2019-01-11",
-    "period_to": "2019-02-12",
+    "period_from": "2018-12-14",
+    "period_to": "2019-05-12",
     "kc": 3.2,
     "created_date": "2019-07-09T01:45:20Z",
     "created_by": 1
@@ -6219,7 +6197,7 @@
   "pk": 5,
   "fields": {
     "crop": 2,
-    "period_from": "2019-02-13",
+    "period_from": "2019-05-13",
     "period_to": "2019-05-14",
     "kc": 4.0,
     "created_date": "2019-07-09T01:46:32Z",
@@ -6424,8 +6402,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-21",
-    "weekly": 1.4,
-    "daily": 1.4,
+    "weekly": 1.05,
+    "daily": 1.05,
     "created_date": "2019-12-03T23:03:09Z",
     "created_by": 1
   }
@@ -6436,8 +6414,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-20",
-    "weekly": 1.6,
-    "daily": 1.6,
+    "weekly": 1.0125,
+    "daily": 1.0125,
     "created_date": "2019-12-03T23:03:30Z",
     "created_by": 1
   }
@@ -6448,8 +6426,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-19",
-    "weekly": 2.2,
-    "daily": 2.2,
+    "weekly": 1.0,
+    "daily": 1.0,
     "created_date": "2019-12-03T23:03:49Z",
     "created_by": 1
   }
@@ -6460,8 +6438,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-18",
-    "weekly": 4.4,
-    "daily": 4.4,
+    "weekly": 0.95625,
+    "daily": 0.95625,
     "created_date": "2019-12-03T23:04:04Z",
     "created_by": 1
   }
@@ -6472,8 +6450,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-17",
-    "weekly": 3.2,
-    "daily": 3.2,
+    "weekly": 1.0875,
+    "daily": 1.0875,
     "created_date": "2019-12-03T23:04:17Z",
     "created_by": 1
   }
@@ -6484,8 +6462,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-16",
-    "weekly": 1.0,
-    "daily": 1.0,
+    "weekly": 1.30625,
+    "daily": 1.30625,
     "created_date": "2019-12-03T23:04:29Z",
     "created_by": 1
   }
@@ -6496,8 +6474,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-15",
-    "weekly": 0.8,
-    "daily": 0.8,
+    "weekly": 1.21875,
+    "daily": 1.21875,
     "created_date": "2019-12-03T23:04:39Z",
     "created_by": 1
   }
@@ -6508,8 +6486,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-14",
-    "weekly": 2.0,
-    "daily": 2.0,
+    "weekly": 1.21875,
+    "daily": 1.21875,
     "created_date": "2019-12-03T23:04:55Z",
     "created_by": 1
   }
@@ -6520,8 +6498,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-13",
-    "weekly": 2.3,
-    "daily": 2.3,
+    "weekly": 1.1375,
+    "daily": 1.1375,
     "created_date": "2019-12-03T23:05:17Z",
     "created_by": 1
   }
@@ -6532,8 +6510,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-12",
-    "weekly": 2.0,
-    "daily": 2.0,
+    "weekly": 1.06875,
+    "daily": 1.06875,
     "created_date": "2019-12-03T23:05:35Z",
     "created_by": 1
   }
@@ -6544,8 +6522,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-11",
-    "weekly": 1.1,
-    "daily": 1.1,
+    "weekly": 1.16875,
+    "daily": 1.16875,
     "created_date": "2019-12-03T23:06:05Z",
     "created_by": 1
   }
@@ -6556,8 +6534,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-10",
-    "weekly": 0.6,
-    "daily": 0.6,
+    "weekly": 1.13125,
+    "daily": 1.13125,
     "created_date": "2019-12-03T23:06:19Z",
     "created_by": 1
   }
@@ -6568,8 +6546,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-09",
-    "weekly": 4.0,
-    "daily": 4.0,
+    "weekly": 1.075,
+    "daily": 1.075,
     "created_date": "2019-12-03T23:06:35Z",
     "created_by": 1
   }
@@ -6580,8 +6558,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-08",
-    "weekly": 7.0,
-    "daily": 7.0,
+    "weekly": 1.2125,
+    "daily": 1.2125,
     "created_date": "2019-12-03T23:06:44Z",
     "created_by": 1
   }
@@ -6592,8 +6570,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-07",
-    "weekly": 1.2,
-    "daily": 1.2,
+    "weekly": 1.206666667,
+    "daily": 1.206666667,
     "created_date": "2019-12-03T23:07:03Z",
     "created_by": 1
   }
@@ -6616,8 +6594,8 @@
   "fields": {
     "state": 1,
     "date": "2019-05-02",
-    "weekly": 2.0,
-    "daily": 2.0,
+    "weekly": 1.2875,
+    "daily": 1.2875,
     "created_date": "2019-12-16T20:00:04Z",
     "created_by": 1
   }
@@ -10455,6 +10433,292 @@
     "object_repr": "7003:1:2010-08-21",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"Slope\", \"Intercept\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 296,
+  "fields": {
+    "action_time": "2020-09-06T21:54:30.356Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "12",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-21:1.05",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 297,
+  "fields": {
+    "action_time": "2020-09-06T21:54:45.996Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "13",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-20:1.0125",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 298,
+  "fields": {
+    "action_time": "2020-09-06T21:54:56.906Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "14",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-19:1.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 299,
+  "fields": {
+    "action_time": "2020-09-06T21:55:08.752Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "15",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-18:0.95625",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 300,
+  "fields": {
+    "action_time": "2020-09-06T21:55:18.188Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "16",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-17:1.0875",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 301,
+  "fields": {
+    "action_time": "2020-09-06T21:55:29.213Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "17",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-16:1.30625",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 302,
+  "fields": {
+    "action_time": "2020-09-06T21:55:42.506Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "18",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-15:1.21875",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 303,
+  "fields": {
+    "action_time": "2020-09-06T21:56:06.869Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "19",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-14:1.21875",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 304,
+  "fields": {
+    "action_time": "2020-09-06T21:56:18.632Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "20",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-13:1.1375",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 305,
+  "fields": {
+    "action_time": "2020-09-06T21:56:31.248Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "21",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-12:1.06875",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 306,
+  "fields": {
+    "action_time": "2020-09-06T21:56:42.895Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "22",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-11:1.16875",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 307,
+  "fields": {
+    "action_time": "2020-09-06T21:56:55.339Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "23",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-10:1.13125",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 308,
+  "fields": {
+    "action_time": "2020-09-06T21:57:10.210Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "24",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-09:1.075",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 309,
+  "fields": {
+    "action_time": "2020-09-06T21:57:24.102Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "25",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-08:1.2125",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 310,
+  "fields": {
+    "action_time": "2020-09-06T21:57:41.947Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "26",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-07:1.206666667",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 311,
+  "fields": {
+    "action_time": "2020-09-06T21:58:14.494Z",
+    "user": 1,
+    "content_type": 29,
+    "object_id": "28",
+    "object_repr": "Hawkes Bay, New Zealand:2019-05-02:1.2875",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Weekly\", \"Daily\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 312,
+  "fields": {
+    "action_time": "2020-09-06T22:03:47Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "4",
+    "object_repr": "Grapes:2018-12-14:2019-05-12:3.2",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Period from\", \"Period to\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 313,
+  "fields": {
+    "action_time": "2020-09-06T22:03:59.879Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "3",
+    "object_repr": "Grapes:2018-12-12:2019-01-11:2.0",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 314,
+  "fields": {
+    "action_time": "2020-09-06T22:03:59.886Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "2",
+    "object_repr": "Grapes:2018-11-11:2018-12-11:1.0",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 315,
+  "fields": {
+    "action_time": "2020-09-06T22:03:59.895Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "1",
+    "object_repr": "Grapes:2018-10-10:2018-11-10:0.5",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 316,
+  "fields": {
+    "action_time": "2020-09-06T22:06:47.550Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "1",
+    "object_repr": "Pinot Noir Springstone",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Rz percentage\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 317,
+  "fields": {
+    "action_time": "2020-09-06T22:13:31.991Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "5",
+    "object_repr": "Grapes:2019-05-13:2019-05-14:4.0",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Period from\"]}}]"
   }
 }
 ]

@@ -7,7 +7,7 @@ from django.db.models import Q
 from skeleton.utils import get_current_season, get_site_season_start_end
 
 import logging
-import  decimal
+import decimal
 
 logger = logging.getLogger(__name__)
 

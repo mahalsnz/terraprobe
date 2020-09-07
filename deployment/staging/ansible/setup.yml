@@ -62,7 +62,6 @@
         update_cache: yes
       vars:
         packages:
-          - certbot
           - git
           - nginx
           - postgresql-10
@@ -187,7 +186,7 @@
         state: present
 
     - name: Install self-signed SSL certificate
-      command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ domain_name }}" -days 3650 -keyout {{ project_root }}/.ssl/staging.key -out {{ project_root }}/.ssl/staging.crt
+      command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ domain_name }}" -days 3650 -keyout {{ project_root }}/.ssl/staging.key -out {{ project_root }}/.ssl/staging.crt -extensions v3_ca creates=/etc/nginx/ssl/server.crt
 
   handlers:
     - name: update tzdata

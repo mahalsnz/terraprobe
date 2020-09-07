@@ -3,7 +3,7 @@ from django.utils import timezone
 from skeleton.models import Reading, Site, ETReading, KCReading, Product, Crop
 from skeleton.utils import get_site_season_start_end, get_current_season, get_rz1_full_point_reading
 
-# Get an instance of a logger
+import decimal
 import logging
 logger = logging.getLogger(__name__)
 
@@ -35,19 +35,19 @@ class Command(BaseCommand):
             for reading in readings:
                 date = reading.date
 
-                # Get Evapotranspiration (ET) for the site on the reading date
+                # Get Evapotranspiration (ET) for the site on the reading date.
                 et = ETReading.objects.get(state__localities__addresses__farm__site__id=site.id, date=date)
-                daily_et = et.daily
+                daily_et = round(et.daily, 2)
                 logger.debug('ET Reading:' + str(daily_et))
-                daily_et = et.daily
 
-                # Get Crop Co-efficient (KC) for site
+                # Get Crop Co-efficient (KC) for site.
                 kc = KCReading.objects.get(period_from__lte=date, period_to__gte=date, crop__product__site__id=site.id)
-                crop_kc = kc.kc
+                crop_kc = round(kc.kc, 2)
                 logger.debug('KC Reading:' + str(crop_kc))
 
                 # Get EDWU as et * kc
-                edwu = round(daily_et * crop_kc, 2)
+                edwu = daily_et * crop_kc
+                edwu = round(edwu, 2)
                 logger.debug('EDWU:' + str(edwu))
                 reading.estimated_dwu = edwu
 
