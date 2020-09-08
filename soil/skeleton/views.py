@@ -774,15 +774,15 @@ def handle_prwin_file(file_data, request):
                 date_raw = str(fields[2])
 
                 if date_raw:
-                    logger.info("dr" + str(date_raw))
+                    logger.debug("date raw:" + str(date_raw))
                     datefields = date_raw.split(" ")
                     date = datefields[0]
                     date_object = None
                     hypen = re.search("^\d\d-.*", date)
                     if hypen:
-                        date_object = datetime.strptime(date, '%d-%m-%Y') # American
+                        date_object = datetime.datetime.strptime(date, '%d-%m-%Y') # American
                     else:
-                        date_object = datetime.strptime(date, '%d/%m/%Y') # American
+                        date_object = datetime.datetime.strptime(date, '%d/%m/%Y') # American
 
                     date_formatted = date_object.strftime('%Y-%m-%d')
                     logger.info("Date:" + date_formatted)

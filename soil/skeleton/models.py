@@ -309,8 +309,16 @@ class Site(models.Model):
         application_rate = self.emitter_rate / (self.row_spacing * self.emitter_spacing)
         return round(application_rate, 2)
 
+# Combines Site name and number. A lot of sites are known by number
+class SiteDescription(Site):
+    class Meta:
+        proxy = True
+
+    def __str__(self):
+        return "(" + self.site_number + ") " + self.name
+
 class CriticalDate(models.Model):
-    site = models.ForeignKey(Site, related_name='sites', on_delete=models.CASCADE)
+    site = models.ForeignKey(SiteDescription, related_name='sites', on_delete=models.CASCADE)
     season = models.ForeignKey(Season, related_name='seasons', on_delete=models.CASCADE)
     type = models.ForeignKey(CriticalDateType, related_name='critical_date_types', on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now, null=False)
@@ -326,16 +334,8 @@ class CriticalDate(models.Model):
     class Meta:
         unique_together = (('site', 'season', 'type'))
 
-# Combines Site name and number. A lot of sites are known by number
-class SiteDescription(Site):
-    class Meta:
-        proxy = True
-
-    def __str__(self):
-        return "(" + self.site_number + ") " + self.name
-
 class SeasonStartEnd(models.Model):
-    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    site = models.ForeignKey(SiteDescription, on_delete=models.CASCADE)
     season = models.ForeignKey(Season, primary_key=True, on_delete=models.CASCADE)
     start = models.ForeignKey(CriticalDateType, related_name='start_date_type', on_delete=models.CASCADE)
     end = models.ForeignKey(CriticalDateType, related_name='end_date_type', on_delete=models.CASCADE)

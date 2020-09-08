@@ -71,6 +71,7 @@ class FarmAdmin(admin.ModelAdmin):
 
 class SiteAdmin(admin.ModelAdmin):
     list_display = ('site_number', 'name', 'farm', 'product', 'technician', 'application_rate')
+    search_fields = ['site_number', 'name']
     fieldsets = [
         ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'product','comment','created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
@@ -106,7 +107,7 @@ class CriticalDateTypeAdmin(admin.ModelAdmin):
 class CriticalDateAdmin(admin.ModelAdmin):
     list_display = ['site', 'season', 'type', 'date']
     list_filter = ('season', 'type')
-    search_fields = ['site__name']
+    search_fields = ['site__name', 'site__site_number']
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'site':
@@ -114,13 +115,17 @@ class CriticalDateAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 class SeasonStartEndAdmin(admin.ModelAdmin):
-    list_display = ['site', 'season', 'period_from', 'period_to', 'season_current_flag', ]
+    list_display = ['site',  'season', 'period_from', 'period_to', 'season_current_flag', ]
     list_filter = ('season', 'season_current_flag')
-    search_fields = ['site__name']
+    list_display_links = None
+
     def has_add_permission(self, request, obj=None):
         return False
 
     def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
         return False
 
 class VarietySeasonTemplateAdmin(admin.ModelAdmin):
