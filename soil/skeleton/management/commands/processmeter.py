@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
                     else:
                         irrigation_litres = round((previous_meter - meter) / site.irrigation_position, 2)
-                        irrigation_mms = round(irrigation_litres / ((site.row_spacing * site.plant_spacing) / 10000), 2)
+                        irrigation_mms = round(irrigation_litres / ((site.row_spacing * site.plant_spacing * 10000) / 10000), 2)
 
                     logger.debug('Irrigation litres:' + str(irrigation_litres))
                     logger.debug('Irrigation mms:' + str(irrigation_mms))

@@ -82,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$180000$mjWrWM1uxpsM$FixDxutiGYpJuNnUaGYSKBqhunOaCmooNpAYrrv8BXE=",
-    "last_login": "2020-09-06T21:53:47.901Z",
+    "last_login": "2020-09-08T20:19:56.115Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -233,6 +233,14 @@
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2020-03-31T19:13:54.228Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "g1oi7spuk7fc9ixv7vkn3l2z664gr00f",
+  "fields": {
+    "session_data": "NzVjMWM0YTM5NDgwMDM0YmZhZjVlZjliOTRlOGY3NGE5NzM5Njg2NTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5YjMwYmY2NzgxZjQyOTcwNTVkMGY4ZWI4Nzc3ODk5OTNmNzE2MWUxIn0=",
+    "expire_date": "2020-09-22T20:19:56.122Z"
   }
 },
 {
@@ -5768,7 +5776,7 @@
     "probe_dwu": null,
     "estimated_dwu": null,
     "rain": null,
-    "meter": null,
+    "meter": 6950.0,
     "irrigation_litres": null,
     "irrigation_mms": null,
     "effective_rain_1": null,
@@ -5824,7 +5832,7 @@
     "probe_dwu": null,
     "estimated_dwu": null,
     "rain": null,
-    "meter": null,
+    "meter": 6700.0,
     "irrigation_litres": null,
     "irrigation_mms": null,
     "effective_rain_1": null,
@@ -5880,7 +5888,7 @@
     "probe_dwu": null,
     "estimated_dwu": null,
     "rain": null,
-    "meter": null,
+    "meter": 6550.0,
     "irrigation_litres": null,
     "irrigation_mms": null,
     "effective_rain_1": null,
@@ -5936,7 +5944,7 @@
     "probe_dwu": null,
     "estimated_dwu": null,
     "rain": null,
-    "meter": null,
+    "meter": 6500.0,
     "irrigation_litres": null,
     "irrigation_mms": null,
     "effective_rain_1": null,
@@ -6048,7 +6056,7 @@
     "probe_dwu": null,
     "estimated_dwu": null,
     "rain": null,
-    "meter": null,
+    "meter": 6540.0,
     "irrigation_litres": null,
     "irrigation_mms": null,
     "effective_rain_1": null,
@@ -10719,6 +10727,84 @@
     "object_repr": "Grapes:2019-05-13:2019-05-14:4.0",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"Period from\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 318,
+  "fields": {
+    "action_time": "2020-09-08T20:20:42.944Z",
+    "user": 1,
+    "content_type": 32,
+    "object_id": "67",
+    "object_repr": "Pinot Noir Springstone:2019-05-21",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Inline Water Meter in Litres\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 319,
+  "fields": {
+    "action_time": "2020-09-08T20:21:07.967Z",
+    "user": 1,
+    "content_type": 32,
+    "object_id": "68",
+    "object_repr": "Pinot Noir Springstone:2019-05-14",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Inline Water Meter in Litres\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 320,
+  "fields": {
+    "action_time": "2020-09-08T20:21:26.114Z",
+    "user": 1,
+    "content_type": 32,
+    "object_id": "69",
+    "object_repr": "Pinot Noir Springstone:2019-05-07",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Irrigation in Litres\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 321,
+  "fields": {
+    "action_time": "2020-09-08T20:21:43.439Z",
+    "user": 1,
+    "content_type": 32,
+    "object_id": "72",
+    "object_repr": "Pinot Noir Springstone:2019-05-02",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Inline Water Meter in Litres\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 322,
+  "fields": {
+    "action_time": "2020-09-08T20:22:04.489Z",
+    "user": 1,
+    "content_type": 32,
+    "object_id": "70",
+    "object_repr": "Pinot Noir Springstone:2018-12-14",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Inline Water Meter in Litres\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 323,
+  "fields": {
+    "action_time": "2020-09-08T20:29:04.667Z",
+    "user": 1,
+    "content_type": 32,
+    "object_id": "69",
+    "object_repr": "Pinot Noir Springstone:2019-05-07",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Inline Water Meter in Litres\", \"Irrigation in Litres\"]}}]"
   }
 }
 ]
