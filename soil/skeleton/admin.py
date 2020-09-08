@@ -107,10 +107,21 @@ class CriticalDateAdmin(admin.ModelAdmin):
     list_display = ['site', 'season', 'type', 'date']
     list_filter = ('season', 'type')
     search_fields = ['site__name']
-    #raw_id_fields = ('site',)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'site':
+            kwargs["queryset"] = SiteDescription.objects.all()
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 class SeasonStartEndAdmin(admin.ModelAdmin):
     list_display = ['site', 'season', 'period_from', 'period_to', 'season_current_flag', ]
+    list_filter = ('season', 'season_current_flag')
+    search_fields = ['site__name']
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
 
 class VarietySeasonTemplateAdmin(admin.ModelAdmin):
     list_display = ['variety', 'critical_date_type', 'formatted_variety_season_date']
