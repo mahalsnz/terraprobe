@@ -353,7 +353,6 @@ class SeasonStartEnd(models.Model):
 class Diviner(models.Model):
     diviner_number = models.CharField(max_length=50, null=False)
     site = models.ForeignKey(Site, null=True, blank=True, on_delete=models.CASCADE)
-    comment = models.CharField(max_length=100, null=True, blank=True)
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)

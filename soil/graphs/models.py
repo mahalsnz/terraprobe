@@ -109,12 +109,14 @@ class vsw_reading(models.Model):
         managed = False
         ordering = ('-date','reading_type') #add this line
         db_table = "graphs_vsw"
+        get_latest_by = 'date'
 
 class vsw_strategy(models.Model):
     strategytype_id = models.IntegerField()
     strategy_name = models.TextField()
     strategy_percentage = models.FloatField()
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
     site_name = models.TextField()
     reading_type_name = models.TextField()

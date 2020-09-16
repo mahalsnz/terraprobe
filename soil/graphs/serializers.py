@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import vsw_reading, Site, Farm, ReadingType, vsw_strategy
 from skeleton.models import SeasonStartEnd
 
+
 class FarmSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -18,6 +19,13 @@ class ReadingTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReadingType
+        fields = '__all__'
+
+class FruitionSummarySerializer(serializers.ModelSerializer):
+    site = SiteSerializer(many=False, read_only=True, required=False)
+    farm = FarmSerializer(many=False, read_only=True, required=False)
+    class Meta:
+        model = vsw_strategy
         fields = '__all__'
 
 class VSWSerializer(serializers.ModelSerializer):

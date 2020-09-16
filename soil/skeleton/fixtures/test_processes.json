@@ -1513,7 +1513,6 @@
   "fields": {
     "diviner_number": "22",
     "site": 1,
-    "comment": null,
     "created_date": "2019-08-21T22:53:56Z",
     "created_by": 1
   }
@@ -1524,7 +1523,6 @@
   "fields": {
     "diviner_number": "31",
     "site": 2,
-    "comment": null,
     "created_date": "2019-08-21T23:05:05Z",
     "created_by": 1
   }
@@ -1535,7 +1533,6 @@
   "fields": {
     "diviner_number": "94",
     "site": 3,
-    "comment": null,
     "created_date": "2019-08-21T23:05:41Z",
     "created_by": 1
   }

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Document, Reading, ReadingType, Season, Farm, Site, UserFullName, SiteDescription, Product, CriticalDate, SeasonStartEnd
+from .models import Probe, ProbeDiviner, Diviner, Document, Reading, ReadingType, Season, Farm, Site, UserFullName, SiteDescription, Product, CriticalDate, SeasonStartEnd
 from address.models import State
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
@@ -9,6 +9,13 @@ from django.forms import CheckboxInput
 from bootstrap_datepicker_plus import DatePickerInput
 import datetime
 from dal import autocomplete
+
+class DivinerForm(forms.ModelForm):
+    probe = forms.ModelChoiceField(Probe.objects.all(), widget=forms.Select())
+
+    class Meta:
+        model = Diviner
+        fields = ['diviner_number', 'site']
 
 class SiteReportReadyForm(forms.ModelForm):
     #date = forms.DateField(queryset = Reading.objects.filter(type=1).distinct('date').order_by('date'))

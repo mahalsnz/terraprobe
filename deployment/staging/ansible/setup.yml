@@ -64,12 +64,14 @@
         packages:
           - git
           - nginx
+          - certbot
           - postgresql-10
           - postgresql-client-10
           - postgresql-server-dev-10
           - python3-dev
           - python3-pip
           - python-psycopg2
+          - python-certbot-nginx
           - ssl-cert
           - tzdata
           - unzip
@@ -185,8 +187,8 @@
         firstmatch: yes
         state: present
 
-    - name: Install self-signed SSL certificate
-      command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ domain_name }}" -days 3650 -keyout {{ project_root }}/.ssl/staging.key -out {{ project_root }}/.ssl/staging.crt -extensions v3_ca creates=/etc/nginx/ssl/server.crt
+    #- name: Create and Install Cert Using Plugin
+    #  command: "certbot --nginx -d {{ domain_name }} -d www.{{ domain_name }} -m mahalsnz@gmail.com --agree-tos --noninteractive --redirect"
 
   handlers:
     - name: update tzdata

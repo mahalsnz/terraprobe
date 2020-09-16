@@ -15,13 +15,16 @@ class Migration(migrations.Migration):
             '''
 CREATE OR REPLACE VIEW graphs_strategy AS
 SELECT
+    skeleton_season.id AS season_id,
     skeleton_strategytype.id AS strategytype_id,
 	skeleton_strategytype.name AS strategy_name,
     skeleton_strategytype.percentage AS strategy_percentage,
+    skeleton_site.farm_id as farm_id,
 	skeleton_site.id as site_id,
     skeleton_reading.type_id AS reading_type_id,
 	skeleton_site.name as site_name,
 	skeleton_readingtype.name AS reading_type_name,
+    skeleton_reading.id AS reading_id,
 	skeleton_reading.date AS reading_date,
 	skeleton_reading.rz1,
     skeleton_strategy.id AS strategy_id,
@@ -37,6 +40,7 @@ RIGHT JOIN skeleton_strategytype ON skeleton_site.strategy_id = skeleton_strateg
 LEFT JOIN skeleton_strategy ON skeleton_strategy.type_id = skeleton_strategytype.id AND skeleton_strategy.type_id = skeleton_site.strategy_id
 LEFT JOIN skeleton_criticaldatetype ON skeleton_criticaldatetype.id = skeleton_strategy.critical_date_type_id
 LEFT JOIN skeleton_criticaldate ON skeleton_criticaldate.site_id = skeleton_site.id AND skeleton_criticaldate.type_id = skeleton_strategy.critical_date_type_id
+LEFT JOIN skeleton_season ON skeleton_season.id = skeleton_criticaldate.season_id
 LEFT JOIN skeleton_reading ON skeleton_reading.type_id = skeleton_readingtype.id AND skeleton_reading.site_id = skeleton_site.id;
 
 
