@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework.documentation import include_docs_urls
+from rest_framework.schemas import get_schema_view
 
 import datetime
 from django.urls import register_converter
+
+API_TITLE = 'Terraprobe'
+API_DESCRIPTION = 'A Web API for retrieving Terraprobe data.'
+schema_view = get_schema_view(title=API_TITLE)
 
 class IsoDateConverter:
     regex = '\d{2}-\d{2}-\d{4}'
@@ -35,6 +41,9 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('graphs/', include('graphs.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)),
+    path('schema/', schema_view),
 ]
 
 admin.site.site_header = "Fruition Soil Moisture Administration"

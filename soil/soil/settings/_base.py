@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
     'skeleton.apps.SkeletonConfig',
     'graphs.apps.GraphsConfig',
     'crispy_forms',
@@ -149,7 +151,15 @@ DATE_FORMAT = 'd-m-Y'
 USE_TZ = True
 
 REST_FRAMEWORK = {
-    'DATE_FORMAT': '%d-%m-%Y'
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
+    ],
+    'DATE_FORMAT': '%d-%m-%Y',
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 # Static files (CSS, JavaScript, Images)

@@ -1,10 +1,14 @@
 import logging
 from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from .models import vsw_reading, vsw_strategy
 from skeleton.models import Farm, Site, SeasonStartEnd
-from .serializers import VSWSerializer, SiteSerializer, FarmSerializer, ReadingTypeSerializer, VSWStrategySerializer, VSWDateSerializer, FruitionSummarySerializer
+from .serializers import VSWSerializer, SiteSerializer, FarmSerializer, ReadingTypeSerializer, VSWStrategySerializer, VSWDateSerializer
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.serializers import serialize
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -12,38 +16,44 @@ logger = logging.getLogger(__name__)
 class VSWDateList(generics.ListAPIView):
 
     def get_queryset(self):
+
         queryset = SeasonStartEnd.objects.filter(site=self.kwargs["pk"], season_current_flag=True)
 
         return queryset
     serializer_class = VSWDateSerializer
 
-class FruitionSummary(generics.ListAPIView):
+class FruitionSummary(APIView):
 
-    def get_queryset(self):
-
-        # Get latest date
-        #Reading.objects.filter(site=site, type__name='Probe', date__range=(dates.period_from, dates.period_to)).latest('date')
-
-        #farm = vsw_reading.objects.filter(farm=self.kwargs["pk"]).order_by('site_id').distinct('site_id')
-        sites = Site.objects.filter(farm_id=self.kwargs["pk"]).distinct()
-        missing_sites = vsw_strategy.objects.none()
+    def get(self, request, pk, format=None):
+        logger.debug(self)
+        sites = Site.objects.filter(farm_id=self.kwargs["pk"])
+        strategy_serialized_data = []
         for site in sites:
             logger.debug(str(site.name))
-            # We need the latest reading date from vsw_readings
-            latest_reading = vsw_reading.objects.filter(site=site.id).latest('date')
-            logger.debug(str(latest_reading.date))
+            try:
+                latest_reading = vsw_reading.objects.filter(site=site.id, reviewed=True).latest('date')
+                logger.debug('Latest Date:' + str(latest_reading.date) + ' RZ1:' + str(latest_reading.rz1))
+                strategy = vsw_strategy.objects.filter(site=latest_reading.site).filter(Q(strategy_date__gte=latest_reading.date)).order_by('strategy_date')[0]
+                logger.debug('Strategy:' + str(strategy.strategy_date))
+                strategy_serialized_data.append({
+                    'site_id': site.id,
+                    'latest_reading_date': latest_reading.date,
+                    'latest_reading_date_rz1': latest_reading.rz1,
+                    'stategy_date': strategy.strategy_date,
+                    'strategy_rz1': strategy.rz1,
+                    'percentage': strategy.percentage
+                })
 
-            # We now need the strategy record that the latest reading is between
-            pk = vsw_strategy.objects.filter(site=latest_reading.site).filter(Q(strategy_date__lte=latest_reading.date), Q(strategy_date__gte=latest_reading.date))
-            #objects.filter(Q(drop_off__gte=start_date), Q(pick_up__lte=end_date))
-            logger.debug(str(pk.query))
-            missing_sites |= pk
-            #missing_sites |= readings
-        #logger.debug(str(farm.rz1))
+            except ObjectDoesNotExist:
+                pass # No latest reading
+            except IndexError:
+                pass # No strategy
 
-        queryset = vsw_reading.objects.filter(farm=self.kwargs["pk"])
-        return missing_sites
-    serializer_class = FruitionSummarySerializer
+        data = {
+            'sites': strategy_serialized_data,
+            'farm_id': self.kwargs["pk"],
+        }
+        return Response(data)
 
 #TODO: Not the best way to do the ready-reviwed option for getting readings.
 class VSWReadingList(generics.ListAPIView):
@@ -67,7 +77,6 @@ class VSWReadingReadyList(generics.ListAPIView):
 class VSWStrategyList(generics.ListAPIView):
 
     def get_queryset(self):
-        #r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date').first()
         queryset = vsw_strategy.objects.filter(site=self.kwargs["pk"], reading_date__range=(self.kwargs["period_from"], self.kwargs["period_to"]))
 
         return queryset
