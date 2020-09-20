@@ -42,9 +42,14 @@
         app_path: "{{ project_root }}/src/{{ project_name }}"
         pythonpath: "{{ python_path }}"
         settings: "{{ django_settings }}"
-        #virtualenv: "{{ project_root }}/env/"
       become: yes
       become_user: "{{ user_username }}"
+
+    - name: In staging load the test data suite (brendan20200805.json)
+      django_manage:
+        command: loaddata skeleton/dumps/brendan20200805.json
+        app_path: "{{ django_dir }}"
+        settings: "{{ django_settings }}"
 
     - name: Django collect static
       django_manage:
@@ -52,7 +57,6 @@
         app_path: "{{ project_root }}/src/{{ project_name }}"
         pythonpath: "{{ python_path }}"
         settings: "{{ django_settings }}"
-        #virtualenv: "{{ project_root }}/env/"
       become: yes
       become_user: "{{ user_username }}"
 
