@@ -630,8 +630,8 @@ def handle_diviner_file(file_data, request, type):
     logger.info("***Handling Diviner")
     # Get probe serial number for type
     probes = type.split("_")
-    sn = probes[1]
-    logger.info("***Serial Number:" + str(sn))
+    file_type_sn = probes[1]
+    logger.debug("***Serial Number From File:" + str(file_type_sn))
 
     lines = file_data.split("\n")
 
@@ -658,17 +658,17 @@ def handle_diviner_file(file_data, request, type):
 
             # Get Serial Number and Site Number from Diviner Probe and
             try:
-                site = Site.objects.get(diviner__diviner_number=int(diviner_number_formatted))
+                site = Site.objects.get(diviner__diviner_number=int(diviner_number_formatted), diviner__probediviner__probe__serial_number=file_type_sn)
             except:
                 raise Exception("Diviner Number:" + diviner_number_formatted + " not set up for a site.")
             site_number = site.site_number
             logger.info("Site Number:" + site_number)
 
             try:
-                sn = Probe.objects.get(probediviner__diviner__diviner_number=int(diviner_number_formatted))
+                probe = Probe.objects.get(serial_number=file_type_sn, probediviner__diviner__diviner_number=int(diviner_number_formatted))
             except:
                 raise Exception("Diviner Number:" + diviner_number_formatted + " not set up for a probe/serial number.")
-            serial_number_id = sn.id
+            serial_number_id = probe.id
             logger.info("Serial Number ID:" + str(serial_number_id))
 
         elif reading:

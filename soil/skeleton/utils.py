@@ -1,4 +1,6 @@
 import requests
+from requests.auth import HTTPBasicAuth
+import json
 import statistics
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -6,7 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 import logging
 logger = logging.getLogger(__name__)
 
-from .models import Site, Reading, ReadingType, Season, SeasonStartEnd
+from .models import Site, Reading, ReadingType, Season, SeasonStartEnd, Probe
 
 '''
     Takes a site_id
@@ -113,25 +115,25 @@ def process_probe_data(readings, serial_unique_id, request, type):
     logger.info("*** process_probe_data")
 
     for key, site_info in readings.items():
-        # Firstly we total up each site-dates readings
-        totals = {}
-        split_key = key.split(",")
-
+        # Away to average out the results
         result = [statistics.mean(k) for k in zip(*site_info)]
 
-        # create data object in the way we want
+        # Need to get objects for keys of reading (date, site, type, probe)
+        split_key = key.split(",")
+        date = split_key[1]
+        reading_type_name = str(split_key[2])
+        site_number = split_key[0]
+
+        reading_type = ReadingType.objects.get(name=reading_type_name)
+        site = Site.objects.get(site_number=site_number)
+        probe = Probe.objects.get(pk=serial_unique_id)
+
+        # Create a data dictionary
         data = {}
-        data['date'] = split_key[1]
-
-        rt = ReadingType.objects.get(name=str(split_key[2]))
-
-        # Site is the primary key of site number so we need to look it up.
-        s = Site.objects.get(site_number=split_key[0])
-        data['site'] = s.id
-        current_user = request.user
-        data['created_by'] = current_user.id
-        data['serial_number'] = serial_unique_id
-        data['type'] = rt.id
+        data["date"] = date
+        data["type"] = reading_type
+        data["created_by"] = request.user
+        data["serial_number"] = probe
 
         for index in range(len(result)):
             # Neutron goes into depthn_count
@@ -141,34 +143,15 @@ def process_probe_data(readings, serial_unique_id, request, type):
                 data['depth' + str(index + 1)] = result[index]
 
         if data:
-            r = Reading.objects.filter(site=s.id, date=data['date'], type=rt.id)
-            host = request.get_host()
-            headers = {'contentType': 'application/json'}
-            url = 'http://' + host
-
-            # If reading row already exist update otherwise insert
-            if r:
-                url += '/api/reading/' + str(r[0].id) + '/'
-                logger.info("Ready to update:" + url + " data " + str(data))
-                r = requests.patch(url, headers=headers, data=data)
-            else:
-                url += '/api/reading/'
-                logger.info("Ready to insert:" + url + " data " + str(data))
-                r = requests.post(url, headers=headers, data=data)
-            try:
-                r.raise_for_status()
-            except requests.exceptions.HTTPError as e:
-                logger.error('request response' + r.text)
-                raise Exception(r.text)
-            data = {}
+            reading, created = Reading.objects.update_or_create(site=site, date=date, type=reading_type,
+                defaults=data)
+            data = {} # reset
 
     logger.info("Outside of Process Probe Data Loop:")
 
 '''
     Similar to process_probe_data but:
     - Only one reading array
-
-
 '''
 
 def process_irrigation_data(irrigation, serial_unique_id, request):
@@ -177,21 +160,22 @@ def process_irrigation_data(irrigation, serial_unique_id, request):
     for key, values in irrigation.items():
         split_key = key.split(",")
 
-        # create data object in the way we want
+        # Need to get objects for keys of reading (date, site, type, probe)
+        split_key = key.split(",")
+        date = split_key[1]
+        reading_type_name = str(split_key[2])
+        site_number = split_key[0]
+
+        reading_type = ReadingType.objects.get(name=reading_type_name)
+        site = Site.objects.get(site_number=site_number)
+        probe = Probe.objects.get(pk=serial_unique_id)
+
+        # Create a data dictionary
         data = {}
-        data['date'] = split_key[1]
-
-        rt = ReadingType.objects.get(name=str(split_key[2]))
-
-        # Site is the primary key of site number so we need to look it up.
-        s = Site.objects.get(site_number=split_key[0])
-        data['site'] = s.id
-
-        # Set up data values
-        current_user = request.user
-        data['created_by'] = current_user.id
-        data['serial_number'] = serial_unique_id
-        data['type'] = rt.id
+        data["date"] = date
+        data["type"] = reading_type
+        data["created_by"] = request.user
+        data["serial_number"] = probe
 
         # Order of array
         # 0-100 cm (rz1),0-70 cm (rz2),0-45 cm (rz3),Deficit,ProbeDWU (probe_dwu),EstimatedDWU (estimated_dwu),
@@ -212,26 +196,8 @@ def process_irrigation_data(irrigation, serial_unique_id, request):
         data['effective_irrigation'] = values[14]
 
         if data:
-            # If reading row already exist update otherwise insert
-            r = Reading.objects.filter(site=s.id, date=data['date'], type=rt.id)
-            host = request.get_host()
-            headers = {'contentType': 'application/json'}
-            url = 'http://' + host
-            # Site, date and type are unique so either get one record or none
-            if r:
-                url += '/api/reading/' + str(r[0].id) + '/'
-                logger.error("Ready to update:" + url + " data " + str(data))
-                r = requests.patch(url, headers=headers, data=data)
-            else:
-                url += '/api/reading/'
-                logger.error("Ready to insert:" + url + " data " + str(data))
-                r = requests.post(url, headers=headers, data=data)
-
-            try:
-                r.raise_for_status()
-            except requests.exceptions.HTTPError as e:
-                logger.error('request response' + r.text)
-                raise Exception(r.text)
-            data = {}
+            reading, created = Reading.objects.update_or_create(site=site, date=date, type=reading_type,
+                defaults=data)
+            data = {} # reset
 
     logger.error("Outside of process_irrigation_data Loop:")

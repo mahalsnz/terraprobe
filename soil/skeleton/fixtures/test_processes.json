@@ -82,7 +82,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$180000$mjWrWM1uxpsM$FixDxutiGYpJuNnUaGYSKBqhunOaCmooNpAYrrv8BXE=",
-    "last_login": "2020-09-08T20:19:56.115Z",
+    "last_login": "2020-09-21T18:10:39.473Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Mr",
@@ -177,6 +177,14 @@
   "fields": {
     "session_data": "YmRjOWUyYzNjYmU3MTRlODEwNWU1NzEyNzliMWE1NDBkMTM3NGFkMjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjYmU1NzM1YzMxMTJiMzEzMGJiMTliMTYzODJlZTBhMjUyNWFkYjE0In0=",
     "expire_date": "2020-03-19T20:39:01.593Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "40iqryib0z2woegp902huu2h00iafe87",
+  "fields": {
+    "session_data": "NzVjMWM0YTM5NDgwMDM0YmZhZjVlZjliOTRlOGY3NGE5NzM5Njg2NTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5YjMwYmY2NzgxZjQyOTcwNTVkMGY4ZWI4Nzc3ODk5OTNmNzE2MWUxIn0=",
+    "expire_date": "2020-10-05T18:10:39.482Z"
   }
 },
 {
@@ -1521,7 +1529,7 @@
   "model": "skeleton.diviner",
   "pk": 2,
   "fields": {
-    "diviner_number": "31",
+    "diviner_number": "22",
     "site": 2,
     "created_date": "2019-08-21T23:05:05Z",
     "created_by": 1
@@ -1578,6 +1586,16 @@
   }
 },
 {
+  "model": "skeleton.probe",
+  "pk": 5,
+  "fields": {
+    "serial_number": "7777",
+    "comment": "Diviner 2",
+    "created_date": "2020-09-21T18:14:50Z",
+    "created_by": 1
+  }
+},
+{
   "model": "skeleton.probediviner",
   "pk": 1,
   "fields": {
@@ -1591,7 +1609,7 @@
   "model": "skeleton.probediviner",
   "pk": 2,
   "fields": {
-    "probe": 4,
+    "probe": 5,
     "diviner": 2,
     "created_date": "2019-08-21T23:06:39Z",
     "created_by": 1
@@ -2094,6 +2112,146 @@
     "slope": 1.0,
     "intercept": 0.0,
     "created_date": "2020-03-10T22:53:20Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 44,
+  "fields": {
+    "serial_number": 5,
+    "soil_type": 1,
+    "period_from": "2010-09-21",
+    "period_to": null,
+    "slope": 1.0,
+    "intercept": 0.0,
+    "created_date": "2020-09-21T18:15:33Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 45,
+  "fields": {
+    "serial_number": 5,
+    "soil_type": 2,
+    "period_from": "2010-09-21",
+    "period_to": null,
+    "slope": 1.0,
+    "intercept": 0.0,
+    "created_date": "2020-09-21T18:15:51Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 46,
+  "fields": {
+    "serial_number": 5,
+    "soil_type": 3,
+    "period_from": "2010-09-21",
+    "period_to": null,
+    "slope": 1.0,
+    "intercept": 0.0,
+    "created_date": "2020-09-21T18:16:02Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 47,
+  "fields": {
+    "serial_number": 5,
+    "soil_type": 4,
+    "period_from": "2010-09-21",
+    "period_to": null,
+    "slope": 1.0,
+    "intercept": 0.0,
+    "created_date": "2020-09-21T18:16:19Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 48,
+  "fields": {
+    "serial_number": 5,
+    "soil_type": 5,
+    "period_from": "2010-09-21",
+    "period_to": null,
+    "slope": 1.0,
+    "intercept": 0.0,
+    "created_date": "2020-09-21T18:16:33Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 49,
+  "fields": {
+    "serial_number": 5,
+    "soil_type": 6,
+    "period_from": "2010-09-21",
+    "period_to": null,
+    "slope": 1.0,
+    "intercept": 0.0,
+    "created_date": "2020-09-21T18:16:49Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 50,
+  "fields": {
+    "serial_number": 5,
+    "soil_type": 7,
+    "period_from": "2010-09-21",
+    "period_to": null,
+    "slope": 1.0,
+    "intercept": 0.0,
+    "created_date": "2020-09-21T18:17:02Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 51,
+  "fields": {
+    "serial_number": 5,
+    "soil_type": 8,
+    "period_from": "2010-09-21",
+    "period_to": null,
+    "slope": 1.0,
+    "intercept": 0.0,
+    "created_date": "2020-09-21T18:17:23Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 52,
+  "fields": {
+    "serial_number": 5,
+    "soil_type": 9,
+    "period_from": "2010-09-21",
+    "period_to": null,
+    "slope": 1.0,
+    "intercept": 0.0,
+    "created_date": "2020-09-21T18:17:38Z",
+    "created_by": 1
+  }
+},
+{
+  "model": "skeleton.calibration",
+  "pk": 53,
+  "fields": {
+    "serial_number": 5,
+    "soil_type": 10,
+    "period_from": "2010-09-21",
+    "period_to": null,
+    "slope": 1.0,
+    "intercept": 0.0,
+    "created_date": "2020-09-21T18:17:48Z",
     "created_by": 1
   }
 },
@@ -10802,6 +10960,227 @@
     "object_repr": "Pinot Noir Springstone:2019-05-07",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"Inline Water Meter in Litres\", \"Irrigation in Litres\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 324,
+  "fields": {
+    "action_time": "2020-09-21T18:14:16.629Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "2",
+    "object_repr": "22",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Diviner number\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 325,
+  "fields": {
+    "action_time": "2020-09-21T18:14:57.879Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "5",
+    "object_repr": "5",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 326,
+  "fields": {
+    "action_time": "2020-09-21T18:15:09.114Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "5",
+    "object_repr": "7777",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Serial number\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 327,
+  "fields": {
+    "action_time": "2020-09-21T18:15:46.155Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "44",
+    "object_repr": "7777:1:2010-09-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 328,
+  "fields": {
+    "action_time": "2020-09-21T18:16:00.296Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "45",
+    "object_repr": "7777:2:2020-09-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 329,
+  "fields": {
+    "action_time": "2020-09-21T18:16:14.315Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "46",
+    "object_repr": "7777:3:2010-09-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 330,
+  "fields": {
+    "action_time": "2020-09-21T18:16:31.136Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "47",
+    "object_repr": "7777:4:2010-09-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 331,
+  "fields": {
+    "action_time": "2020-09-21T18:16:47.137Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "48",
+    "object_repr": "7777:5:2021-09-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 332,
+  "fields": {
+    "action_time": "2020-09-21T18:16:59.918Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "49",
+    "object_repr": "7777:6:2010-09-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 333,
+  "fields": {
+    "action_time": "2020-09-21T18:17:11.663Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "50",
+    "object_repr": "7777:6:2010-09-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 334,
+  "fields": {
+    "action_time": "2020-09-21T18:17:21.309Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "50",
+    "object_repr": "7777:7:2010-09-21",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Soil type\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 335,
+  "fields": {
+    "action_time": "2020-09-21T18:17:34.847Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "51",
+    "object_repr": "7777:8:2010-09-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 336,
+  "fields": {
+    "action_time": "2020-09-21T18:17:48.602Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "52",
+    "object_repr": "7777:9:2010-09-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 337,
+  "fields": {
+    "action_time": "2020-09-21T18:17:59.457Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "53",
+    "object_repr": "7777:10:2010-09-21",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 338,
+  "fields": {
+    "action_time": "2020-09-21T18:18:16.946Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "48",
+    "object_repr": "7777:5:2010-09-21",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Period from\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 339,
+  "fields": {
+    "action_time": "2020-09-21T18:18:27.144Z",
+    "user": 1,
+    "content_type": 31,
+    "object_id": "45",
+    "object_repr": "7777:2:2010-09-21",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Period from\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 340,
+  "fields": {
+    "action_time": "2020-09-21T18:18:41.939Z",
+    "user": 1,
+    "content_type": 28,
+    "object_id": "2",
+    "object_repr": "7777:22",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Probe\"]}}]"
   }
 }
 ]
