@@ -1,7 +1,8 @@
 from django.urls import path
 from django.conf.urls import url
 from django.views.generic import TemplateView
-from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard, OnsiteCreateView, SiteAutocompleteView, RecommendationReadyView
+from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard, OnsiteCreateView, SiteAutocompleteView \
+, RecommendationReadyView, ProbeDivinerListView
 from . import views
 from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm, SiteSelectionForm
 
@@ -12,11 +13,9 @@ FORMS = [("select_crsf", SelectCropRegionSeasonForm)]
 
 urlpatterns = [
     path('', views.index, name='home'),
-    path('sw.js', (
-        TemplateView.as_view(
-            template_name="sw.js",
-            content_type='application/javascript')), name='sw.js'),
-    # Reports
+    path('probe_diviner/', views.ProbeDivinerListView.as_view(), name='probe_diviner_list'),
+    path('probe_diviner/add/', views.probe_diviner_detail, name='probe_diviner_add'),
+
     path('reports', views.report_home, name='report_home'),
     path("reports/season_dates", views.report_season_dates, name='report_season_dates'),
     path("reports/missing_reading_types", views.report_missing_reading_types, name='report_missing_reading_types'),

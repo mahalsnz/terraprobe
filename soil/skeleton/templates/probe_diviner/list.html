@@ -1,0 +1,46 @@
+<!-- blog/templates/blog/post/list.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-sm">
+  <h1>Diviner Probe Listing</h1>
+  <ul>
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'probe_diviner_add' %}">Add New Diviner</a>
+  </li>
+  </ul>
+  {% if probe_diviners %}
+  <table class="table table-sm table-bordered text-nowrap" id="probe-diviner-table">
+      <thead>
+          <tr>
+              <th>Site</th>
+              <th>Probe S/N</th>
+              <th>Diviner Number</th>
+          </tr>
+      </thead>
+      <tbody>
+      {% for probe_diviner in probe_diviners %}
+      <tr>
+          <td>{{ probe_diviner.diviner.site.name }}</td>
+          <td>{{ probe_diviner.probe }}</td>
+          <td>{{ probe_diviner.diviner }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  {% endif %}
+</div>
+
+<script>
+$(document).ready(function() {
+    var table = $('#probe-diviner-table').DataTable({
+        "paging": false,
+        "scrollX": false,
+        "searching": false,
+    });
+
+} );
+</script>
+
+{% endblock %}

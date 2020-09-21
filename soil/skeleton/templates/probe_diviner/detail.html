@@ -1,0 +1,14 @@
+<!-- skeleton/templates/diviner_probe/detail.html -->
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Title{% endblock %}
+{% block content %}
+  <h1>{{ probe.serial_number }} {{ diviner.diviner_number }}</h1>
+  <form method="post">
+      {{ diviner_form.as_p }}
+      {% csrf_token %}
+      <p><input type="submit" value="Add Diviner Entry"></p>
+    </form>
+{% endblock %}

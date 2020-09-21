@@ -14,7 +14,8 @@ from django.contrib import messages
 
 from django.db.models import Sum, Q
 from graphs.models import vsw_reading
-from .models import Probe, Reading, ReadingType, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType, Variety, VarietySeasonTemplate, SiteDescription
+from .models import Probe, ProbeDiviner, Diviner, Reading, ReadingType, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType \
+, Variety, VarietySeasonTemplate, SiteDescription
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from formtools.wizard.views import SessionWizardView
@@ -31,7 +32,7 @@ import calendar
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm, SiteReportReadyForm
+from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm, SiteReportReadyForm, DivinerForm
 
 import datetime
 
@@ -39,6 +40,31 @@ from dateutil.relativedelta import relativedelta
 from .utils import get_title, get_site_season_start_end, process_probe_data, process_irrigation_data, get_current_season, get_previous_season
 from dal import autocomplete
 TEMPLATES = {"select_crsf": "wizard/season_select.html"}
+
+###
+#    probe_diviner_detail actually adds a diviner and probe deviner entry with NO error checking
+#    A quick and dirty way to add without using two admin screens for each entry.
+#    The probe diviner list aids this adding
+
+def probe_diviner_detail(request):
+    if request.method == 'POST':
+        diviner_form = DivinerForm(data=request.POST)
+        if diviner_form.is_valid():
+            logger.debug(str(request.POST['site']))
+            new_diviner = diviner_form.save(commit=False)
+            new_diviner.created_by = request.user
+            new_diviner.save()
+            probe = Probe.objects.get(pk=request.POST['probe'])
+            pd, created = ProbeDiviner.objects.update_or_create(probe=probe, diviner=new_diviner,
+                defaults={ "created_by": request.user })
+    else:
+        diviner_form = DivinerForm()
+    return render(request, 'probe_diviner/detail.html', { 'diviner_form': diviner_form})
+
+class ProbeDivinerListView(ListView):
+    queryset = ProbeDiviner.objects.all().select_related('diviner__site')
+    context_object_name = 'probe_diviners'
+    template_name = 'probe_diviner/list.html'
 
 '''
     RecommendationReadyView:
@@ -52,7 +78,7 @@ class RecommendationReadyView(LoginRequiredMixin, CreateView):
         # get todays date
         date = request.GET.get('date')
         if date == None:
-            date = datetime.date.today()
+            date = datetime.datetime.date.today()
         readings = Reading.objects.select_related('site__farm').select_related('site__technician').filter(date=date).order_by('date')
         return render(request, 'recommendation_ready.html', { 'readings': readings, 'form': SiteReportReadyForm() })
 
@@ -380,64 +406,6 @@ def report_home(request):
             messages.error(request, "Error: " + str(e))
     return render(request, 'report_home.html', {})
 
-'''
-class CreateSeasonStartEndView(LoginRequiredMixin, CreateView):
-    def get_initial(self, *args, **kwargs):
-        initial = super(CreateSeasonStartEndView, self).get_initial(**kwargs)
-
-    def get(self, request, *args, **kwargs):
-        return render(request, 'season_start_end.html', { 'form': SeasonStartEndForm() })
-
-    def post(self, request, *args, **kwargs):
-        try:
-            form = SeasonStartEndForm(request.POST)
-            logger.debug(request)
-            # for a crop and region get all of those sites
-            region = request.POST['region']
-            crop = request.POST.getlist('crop')
-            season = request.POST['season']
-            logger.debug(crop)
-            sites = Site.objects.filter(farm__address__locality__state=region, crop=crop)
-
-            if sites:
-                # create a couple of start and end critical date critical_date_types
-                start_type = CriticalDateType.objects.get(name='Start')
-                end_type = CriticalDateType.objects.get(name='End')
-                current_user = request.user
-
-                for site in sites:
-                    # If we don't already have a season start end we insert, we don't update and existing one
-                    exists = SeasonStartEnd.objects.filter(site=site.id, season=season).count()
-                    logger.debug(site.name + " has " + str(exists))
-                    if exists:
-                        logger.debug('Not updating')
-                        messages.warning(request, site.name + " already has a start and end date for that season")
-                    else:
-                        cd = CriticalDate(
-                            site = site,
-                            season_id = season,
-                            date = request.POST['period_from'],
-                            type = start_type,
-                            created_by = current_user
-                        )
-                        cd.save()
-                        cd = CriticalDate(
-                            site = site,
-                            season_id = season,
-                            date = request.POST['period_to'],
-                            type = end_type,
-                            created_by = current_user
-                        )
-                        cd.save()
-                        logger.debug('Inserting Season start end records')
-                        messages.success(request, "Successfully inserted start and end dates for " + site.name)
-            else:
-                messages.warning(request, 'No sites in region for that crop')
-        except Exception as e:
-            messages.error(request, "Error: " + str(e))
-        return redirect('season_start_end')
-'''
-
 #TODO why CreateView and not Template View
 class SiteReadingsView(LoginRequiredMixin, CreateView):
     model = Reading
@@ -576,8 +544,8 @@ def handle_file(f, request):
         # Call different handlers
         if type == 'neutron':
             handle_neutron_file(file_data, request)
-        elif type == 'diviner':
-            handle_diviner_file(file_data, request)
+        elif type == 'diviner_7003' or type == 'diviner_7777' or type == 'diviner_953':
+            handle_diviner_file(file_data, request, type)
         else:
             handle_prwin_file(file_data, request)
 
@@ -632,7 +600,7 @@ def handle_neutron_file(file_data, request):
                 date_raw = str(reading_line[11])
                 datefields = date_raw.split("_")
                 date = datefields[0]
-                date_object = datetime.strptime(date, '%m/%d/%y') # American
+                date_object = datetime.datetime.strptime(date, '%m/%d/%y') # American
                 date_formatted = date_object.strftime('%Y-%m-%d')
 
                 key = site_number.rstrip() + "," + date_formatted + "," + "Probe"
@@ -658,8 +626,13 @@ def handle_neutron_file(file_data, request):
     * Stores data in depthn field
 '''
 
-def handle_diviner_file(file_data, request):
+def handle_diviner_file(file_data, request, type):
     logger.info("***Handling Diviner")
+    # Get probe serial number for type
+    probes = type.split("_")
+    sn = probes[1]
+    logger.info("***Serial Number:" + str(sn))
+
     lines = file_data.split("\n")
 
     # Variable for loop
@@ -705,7 +678,7 @@ def handle_diviner_file(file_data, request):
             if need_date:
                 # Handle date in dd Month YYYY 24HH:MM:SS format
                 date_raw = str(reading_line[0])
-                date_object = datetime.strptime(date_raw, '%d %b %Y %H:%M:%S')
+                date_object = datetime.datetime.strptime(date_raw, '%d %b %Y %H:%M:%S')
                 date_formatted = date_object.strftime('%Y-%m-%d')
                 logger.info("Date:" + date_formatted)
                 key = site_number + "," + date_formatted + "," + "Probe"

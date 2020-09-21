@@ -12,14 +12,13 @@ from dal import autocomplete
 
 class DivinerForm(forms.ModelForm):
     probe = forms.ModelChoiceField(Probe.objects.all(), widget=forms.Select())
+    site = forms.ModelChoiceField(SiteDescription.objects.all().order_by('-site_number'), widget=forms.Select())
 
     class Meta:
         model = Diviner
         fields = ['diviner_number', 'site']
 
 class SiteReportReadyForm(forms.ModelForm):
-    #date = forms.DateField(queryset = Reading.objects.filter(type=1).distinct('date').order_by('date'))
-    #birth_year = widget=forms.Select(queryset = Reading.objects.filter(type=1).distinct('date').order_by('date'))
     date = forms.DateField(
         widget = DatePickerInput(format='%Y-%m-%d'),
         required = False,

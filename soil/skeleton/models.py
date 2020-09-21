@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db.models import Q
+from django.urls import reverse
 
 import datetime
 
@@ -376,6 +377,9 @@ class ProbeDiviner(models.Model):
 
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def get_absolute_url(self):
+        return reverse('probe_diviner_detail', args=[str(self.id)])
 
     def __str__(self):
         return str(self.probe) + ":" + str(self.diviner)

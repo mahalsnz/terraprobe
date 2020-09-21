@@ -6,6 +6,13 @@
   vars_files:
     - aws_keys.yml
     - vars.yml
+  vars:
+    soil_env:
+      HORTPLUS_JACK_KEY: "{{ hortplus_jack_key }}"
+      DJANGO_SECRET_KEY: "{{ django_secret_key }}"
+      SOIL_DB_PASSWORD: "{{ soil_db_password }}"
+      SOIL_DB_USER: "{{ soil_db_user }}"
+      SOIL_DB_NAME: "{{ soil_db_name }}"
 
   tasks:
     - name: Clone/pull project repo
@@ -31,11 +38,6 @@
       become: yes
       become_user: "{{ user_username }}"
 
-    - name: Source the soil users .profile
-      shell: ". {{ project_root }}/.profile"
-      become: yes
-      become_user: "{{ user_username }}"
-
     - name: Django migrate
       django_manage:
         command: migrate
@@ -44,6 +46,7 @@
         settings: "{{ django_settings }}"
       become: yes
       become_user: "{{ user_username }}"
+      environment: "{{ soil_env }}"
 
     - name: In staging load the test data suite (brendan20200805.json)
       django_manage:
