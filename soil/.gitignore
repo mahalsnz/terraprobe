@@ -3,4 +3,5 @@ media/
 Pipfile.lock
 Pipfile
 .vscode
-logs/
+logs/*
+!logs/.gitkeep

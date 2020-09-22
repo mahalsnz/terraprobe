@@ -935,7 +935,7 @@
   "model": "skeleton.site",
   "pk": 1,
   "fields": {
-    "site_number": "ABC123",
+    "site_number": 123,
     "farm": 1,
     "technician": 3,
     "selected": null,

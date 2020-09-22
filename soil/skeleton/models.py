@@ -231,7 +231,7 @@ class Strategy(models.Model):
 
 class Site(models.Model):
     # Main
-    site_number = models.CharField(max_length=20, unique=True, null=False)
+    site_number = models.IntegerField(default=0, unique=True, null=False)
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     technician = models.ForeignKey(User, related_name="technician_id", on_delete=models.CASCADE, default=1)
     selected = models.BooleanField(null=True) #???
@@ -316,7 +316,7 @@ class SiteDescription(Site):
         proxy = True
 
     def __str__(self):
-        return "(" + self.site_number + ") " + self.name
+        return str(self.site_number) + " - " + self.name
 
 class CriticalDate(models.Model):
     site = models.ForeignKey(SiteDescription, related_name='sites', on_delete=models.CASCADE)

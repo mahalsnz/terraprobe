@@ -12,7 +12,7 @@ from dal import autocomplete
 
 class DivinerForm(forms.ModelForm):
     probe = forms.ModelChoiceField(Probe.objects.all(), widget=forms.Select())
-    site = forms.ModelChoiceField(SiteDescription.objects.all().order_by('-site_number'), widget=forms.Select())
+    site = forms.ModelChoiceField(SiteDescription.objects.all().order_by('site_number'), widget=forms.Select())
 
     class Meta:
         model = Diviner
@@ -99,7 +99,7 @@ class DocumentForm(forms.ModelForm):
 class SiteReadingsForm(forms.ModelForm):
 
     farm = forms.ModelChoiceField(Farm.objects.all().order_by('-name'), widget=forms.Select())
-    site = forms.ModelChoiceField(SiteDescription.objects.all().order_by('-site_number'), widget=forms.Select())
+    site = forms.ModelChoiceField(SiteDescription.objects.all().order_by('site_number'), widget=forms.Select())
     technician = forms.ModelChoiceField(queryset=UserFullName.objects.filter(groups__name='Technician'), widget=forms.Select())
     season = forms.ModelChoiceField(Season.objects.all().order_by('-current_flag'), empty_label=None, widget=forms.Select()) # current season is at top
     helper = FormHelper()
