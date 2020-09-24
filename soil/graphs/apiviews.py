@@ -24,13 +24,15 @@ class VSWDateList(generics.ListAPIView):
 
 class FruitionSummary(APIView):
 
-    def get(self, request, pk, format=None):
-        logger.debug(self)
-        sites = Site.objects.filter(farm_id=self.kwargs["pk"])
+    def get(self, request, site_ids, format=None):
+        logger.debug(str(request.GET))
+        ids = request.GET.getlist('sites[]')
+        logger.debug(ids)
         strategy_serialized_data = []
-        for site in sites:
-            logger.debug(str(site.name))
+        for site_id in ids:
             try:
+                site = Site.objects.get(pk=site_id)
+                logger.debug(str(site.name))
                 latest_reading = vsw_reading.objects.filter(site=site.id, reviewed=True).latest('date')
                 logger.debug('Latest Date:' + str(latest_reading.date) + ' RZ1:' + str(latest_reading.rz1))
                 strategy = vsw_strategy.objects.filter(site=latest_reading.site).filter(Q(strategy_date__gte=latest_reading.date)).order_by('strategy_date')[0]
@@ -51,8 +53,8 @@ class FruitionSummary(APIView):
 
         data = {
             'sites': strategy_serialized_data,
-            'farm_id': self.kwargs["pk"],
         }
+
         return Response(data)
 
 #TODO: Not the best way to do the ready-reviwed option for getting readings.
