@@ -78,7 +78,7 @@ class RecommendationReadyView(LoginRequiredMixin, CreateView):
         # get todays date
         date = request.GET.get('date')
         if date == None:
-            date = datetime.datetime.date.today()
+            date = datetime.date.today()
         readings = Reading.objects.select_related('site__farm').select_related('site__technician').filter(date=date).order_by('date')
         return render(request, 'recommendation_ready.html', { 'readings': readings, 'form': SiteReportReadyForm() })
 

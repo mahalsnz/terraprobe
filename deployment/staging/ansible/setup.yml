@@ -189,6 +189,11 @@
         firstmatch: yes
         state: present
 
+    - name: Copy logrotate configuration for terraprobe
+      template:
+        src: ../../ansible_templates/logrotate.j2
+        dest: /etc/logrotate.d/terraprobe
+
     #- name: Create and Install Cert Using Plugin
     #  command: "certbot --nginx -d {{ domain_name }} -d www.{{ domain_name }} -m mahalsnz@gmail.com --agree-tos --noninteractive --redirect"
 

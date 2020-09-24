@@ -29,5 +29,5 @@ timezone: Pacific/Auckland
 domain_name: staging.terraprobe.mahal.co.nz
 django_settings: soil.settings.staging
 
-letsencrypt_email: ""
+letsencrypt_email: "mahalsnz@gmail.com"
 wsgi_file_name: wsgi_staging.py

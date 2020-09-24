@@ -1,0 +1,10 @@
+{# deployment/ansible_templates/logrotate.j2 #}
+{{ python_path }}/logs/terraprobe.log {
+        hourly
+        copytruncate
+        missingok
+        dateext
+        rotate 10
+        size=1M
+        compress
+}
