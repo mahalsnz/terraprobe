@@ -77,6 +77,7 @@ def get_site_season_start_end(site, season):
         logger.info('Season start: ' + str(dates.period_from) + ' Season end: ' + str(dates.period_to))
     except ObjectDoesNotExist:
         logger.warn('No Season Start and End dates')
+        raise Exception('No Season Start and End dates for site ' + str(site.name) + ' and season ' + str(season.name))
     return dates
 
 '''

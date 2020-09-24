@@ -105,13 +105,13 @@ class CriticalDateTypeAdmin(admin.ModelAdmin):
     list_display = ['name', 'season_flag']
 
 class CriticalDateAdmin(admin.ModelAdmin):
-    list_display = ['site', 'season', 'type', 'date']
+    list_display = ['site', 'season', 'type', 'date',]
     list_filter = ('season', 'type')
     search_fields = ['site__name', 'site__site_number']
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'site':
-            kwargs["queryset"] = SiteDescription.objects.all()
+            kwargs["queryset"] = SiteDescription.objects.all().order_by('site_number')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 class SeasonStartEndAdmin(admin.ModelAdmin):

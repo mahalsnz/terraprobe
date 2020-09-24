@@ -314,6 +314,7 @@ class Site(models.Model):
 class SiteDescription(Site):
     class Meta:
         proxy = True
+        ordering = ['site_number']
 
     def __str__(self):
         return str(self.site_number) + " - " + self.name
