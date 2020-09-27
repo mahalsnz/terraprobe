@@ -183,6 +183,9 @@ def process_irrigation_data(irrigation, serial_unique_id, request):
         # Rain,Meter,Irrigation(L) (irrigation_litres),Irrigation(mm) (irrigation_mms) ,EffRain1 (effective_rain_1),
         # Effective Rainfall (effective_rainfall) ,EffIrr1 (efflrr1),EffIrr2 (efflrr1), Effective Irrigation (effective_irrigation)
         # Don't load rz1, rz2 or rz3
+        data['rz1'] = values[0]
+        data['rz2'] = values[1]
+        data['rz3'] = values[2]
         data['deficit'] = values[3]
         data['probe_dwu'] = values[4]
         data['estimated_dwu'] = values[5]
