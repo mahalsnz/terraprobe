@@ -21,11 +21,12 @@ class ProcessTest(TestCase):
         # There are 7 readings including Full Point and Refill
         self.assertEquals(readings.count(), 7)
 
-    def testRootZones(self):
+    def testProcesses(self):
 
         management.call_command('processrootzones')
         management.call_command('processdailywateruse')
         management.call_command('processmeter')
+        management.call_command('processrainirrigation')
 
         season = get_current_season()
         site = Site.objects.get(id=1)
@@ -43,6 +44,8 @@ class ProcessTest(TestCase):
                 self.assertEquals(reading.estimated_dwu, 9.6)
                 self.assertEquals(reading.irrigation_litres, None)
                 self.assertEquals(reading.irrigation_mms, None)
+                self.assertEquals(reading.effective_rainfall, None)
+                self.assertEquals(reading.effective_irrigation, None)
             if str(reading.date) == '2019-05-02':
                 self.assertEquals(reading.rz1, 321)
                 self.assertEquals(reading.rz2, 178)
@@ -52,6 +55,8 @@ class ProcessTest(TestCase):
                 self.assertEquals(reading.estimated_dwu, 4.13)
                 self.assertEquals(reading.irrigation_litres, 1.33)
                 self.assertEquals(reading.irrigation_mms, 0.11)
+                self.assertEquals(reading.effective_rainfall, 0.0)
+                self.assertEquals(reading.effective_irrigation, 0.11)
             if str(reading.date) == '2019-05-07':
                 self.assertEquals(reading.rz1, 314)
                 self.assertEquals(reading.rz2, 223)
@@ -61,6 +66,8 @@ class ProcessTest(TestCase):
                 self.assertEquals(reading.estimated_dwu, 3.87)
                 self.assertEquals(reading.irrigation_litres, 0.33)
                 self.assertEquals(reading.irrigation_mms, 0.03)
+                self.assertEquals(reading.effective_rainfall, 0.0)
+                self.assertEquals(reading.effective_irrigation, 0.0)
             if str(reading.date) == '2019-05-14':
                 self.assertEquals(reading.rz1, 220)
                 self.assertEquals(reading.rz2, 145)
@@ -70,6 +77,8 @@ class ProcessTest(TestCase):
                 self.assertEquals(reading.estimated_dwu, 4.88)
                 self.assertEquals(reading.irrigation_litres, 5)
                 self.assertEquals(reading.irrigation_mms, 0.4)
+                self.assertEquals(reading.effective_rainfall, 0)
+                self.assertEquals(reading.effective_irrigation, 0)
             if str(reading.date) == '2019-05-21':
                 self.assertEquals(reading.rz1, 205)
                 self.assertEquals(reading.rz2, 144)
@@ -79,6 +88,8 @@ class ProcessTest(TestCase):
                 self.assertEquals(reading.estimated_dwu, 4.41)
                 self.assertEquals(reading.irrigation_litres, 8.33)
                 self.assertEquals(reading.irrigation_mms, 0.67)
+                self.assertEquals(reading.effective_rainfall, 0.7)
+                self.assertEquals(reading.effective_irrigation, 0.67)
 '''
     def testDailyWaterUse(self):
         logger.debug('Running daily water use.')

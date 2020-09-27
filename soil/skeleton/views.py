@@ -314,7 +314,7 @@ def index(request):
             if button_clicked == 'processdailywateruse':
                 management.call_command('processdailywateruse')
             if button_clicked == 'processrain':
-                management.call_command('processrain')
+                management.call_command('processrainirrigation')
             if button_clicked == 'processall':
                 management.call_command('processall_readings')
             if button_clicked == 'load-rainfall':

@@ -12,8 +12,10 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         logger.info('Running processall_readings.....')
 
+        management.call_command('request_to_hortplus')
         management.call_command('processrootzones')
         management.call_command('processmeter')
         management.call_command('processdailywateruse')
+        management.call_command('processrainirrigation')
 
         logger.info('Finished processall_readings.....')

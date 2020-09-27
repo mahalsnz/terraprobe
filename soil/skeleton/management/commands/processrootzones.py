@@ -83,8 +83,8 @@ class Command(BaseCommand):
             dates = get_site_season_start_end(site, season)
 
             # Using the vsw_readings view in the graph app as it has all the calibrations applied
-            #readings = vsw_reading.objects.filter(Q(rz1__isnull=True)|Q(rz2__isnull=True)|Q(rz3__isnull=True), site_id=site.id, date__range=(dates.period_from, dates.period_to)).order_by('date')
-            readings = vsw_reading.objects.filter(site_id=site.id, date__range=(dates.period_from, dates.period_to)).order_by('date')
+            # Only get readings wher rz1 is null
+            readings = vsw_reading.objects.filter(site_id=site.id, rz1__isnull=True, date__range=(dates.period_from, dates.period_to)).order_by('date')
             for reading in readings:
                 # find rootzones in map for site and rz
                 logger.debug("Reading Date: " + str(reading.date) + " Type: " + reading.type)
