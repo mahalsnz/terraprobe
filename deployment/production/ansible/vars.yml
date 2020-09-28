@@ -1,4 +1,4 @@
-# staging/staging/ansible/vars.yml
+# production/staging/ansible/vars.yml
 ---
 # a unix path-friendly name (IE, no spaces or special characters)
 project_name: soil
@@ -23,8 +23,8 @@ media_root: "{{ python_path }}/media"
 locale: en_NZ.UTF-8
 timezone: Pacific/Auckland
 
-domain_name: staging.terraprobe.mahal.co.nz
-django_settings: soil.settings.staging
+domain_name: terraprobe.mahal.co.nz
+django_settings: soil.settings.prod
 
 letsencrypt_email: "mahalsnz@gmail.com"
-wsgi_file_name: wsgi_staging.py
+wsgi_file_name: wsgi_prod.py

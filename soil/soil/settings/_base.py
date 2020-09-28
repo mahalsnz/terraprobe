@@ -26,8 +26,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-
 SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
 HORTPLUS_JACK_KEY = get_env_variable('HORTPLUS_JACK_KEY')
 SOIL_DB_PASSWORD = get_env_variable('SOIL_DB_PASSWORD')
