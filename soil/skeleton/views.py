@@ -758,8 +758,8 @@ def handle_prwin_file(file_data, request):
                     logger.info("Date:" + date_formatted)
                     previous_date = date_formatted
                 else:
-                    logger.debug("Have to use Previous Date")
-                    date_formatted = previous_date
+                    logger.debug("Have to use Season Start Date")
+                    date_formatted = season_start_date_formatted
 
                 # Serial Number for PR WIN data is always set to manual. We are just going to get it once and asume all PRWIN readings for the season are from one probe
                 p = Probe.objects.get(serial_number='Manual')
@@ -782,9 +782,11 @@ def handle_prwin_file(file_data, request):
                 irrigation_data[key] = []
 
                 for depth in range(3, sn_index):
-                    reading = float(fields[depth])
-                    logger.info("Reading:" + str(reading))
-                    reading_array.append(reading)
+                    reading = 0
+                    if fields[depth] is not '':
+                        reading = float(fields[depth])
+                        logger.debug("Reading:" + str(reading))
+                        reading_array.append(reading)
 
                 #logger.info("Reading Array:" + str(reading_array))
 
