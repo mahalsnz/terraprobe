@@ -4,12 +4,14 @@ from skeleton.models import Reading, Site
 from graphs.models import vsw_reading
 from django.db.models import Q
 
-from skeleton.utils import get_current_season, get_site_season_start_end
+from skeleton.utils import get_current_season, get_site_season_start_end, get_rootzone_mapping
 
 import logging
 import decimal
 
 logger = logging.getLogger(__name__)
+
+# Refer to master data spreadsheet and worksheet rootzones for example. This is well, and overly, complicated
 
 class Command(BaseCommand):
     help = 'Processes formulas to populate reading fields derived from rain and meter'
@@ -17,73 +19,15 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         logger.info('Running processrootzones.....')
 
-        logger.info('Creating site root zone map.....')
-        # TODO Restrict this to active sites
-        sites = Site.objects.all()
-        rootzones = {}
-        for site in sites:
-            logger.info('Processing Site ' + site.name)
-            for z in range(1,4):
-                rootzone = 'rz' + str(z)
-                key = str(site.id) + rootzone
-                logger.debug("Key:" + key)
-                depth_array = []
-                rootzones[key] = []
-
-                top = 0 # Top of root zone is hard coded to zero
-                bottom = getattr(site, rootzone + '_bottom')
-                logger.debug("Top:" + str(top) + ' Bottom:' + str(bottom))
-                if bottom is not None:
-                #if top == 0 and bottom > 0:
-                    seen_depth_in_bottom = False
-                    first_no_depth = False
-                    first_no_depth_value = 0
-                    first_no_depth_he = 0
-                    for i in range(1,11):
-                        depths_key = {}
-                        column = 'depth' + str(i)
-                        depth = getattr(site, column)
-
-                        if depth:
-                            if depth > top and depth < bottom:
-                                logger.debug(column + ' of site:' + str(depth))
-                                he = int(getattr(site, 'depth_he' + str(i)))
-                                depths_key = { 'depth' : depth, 'he' : he, 'rz_bottom' : bottom }
-                                depth_array.append(depths_key)
-                            if bottom == depth:
-                                logger.debug(column + ' of site:' + str(depth))
-                                logger.debug('Bottom equals a depth figure for this rootzone')
-                                he = int(getattr(site, 'depth_he' + str(i)))
-                                depths_key = { 'depth' : depth, 'he' : he, 'rz_bottom' : bottom  }
-                                depth_array.append(depths_key)
-                                seen_depth_in_bottom = True
-                            if not seen_depth_in_bottom and depth > bottom:
-                                logger.debug('Depth greater than Bottom and not seen_depth_in_bottom')
-                                logger.debug(column + ' of site:' + str(depth))
-                                he = int(getattr(site, 'depth_he' + str(i)))
-                                depths_key = { 'depth' : depth, 'he' : he, 'rz_bottom' : bottom  }
-                                depth_array.append(depths_key)
-                                break
-                        else:
-                            logger.debug('No depth for column ' + column)
-                            first_no_depth = True
-
-                    # We have an exception here where we just add it to the depth_array
-                    if not seen_depth_in_bottom:
-                        depths_key = { 'depth' : bottom, 'he' : 0, 'rz_bottom' : bottom  }
-                        depth_array.append(depths_key)
-                rootzones[key] = depth_array
-        logger.debug(rootzones)
-        logger.info('Finished site root zone map.....')
-
         logger.info('Starting update of empty root zone readings for current season (all reading types).....')
         season = get_current_season()
-        sites = Site.objects.filter().distinct()
+        # This will still get some sites that do not need to be updated eg. Old reading with no rz1. Will be very rare in production
+        sites = Site.objects.filter(readings__rz1__isnull=True).distinct()
         for site in sites:
             dates = get_site_season_start_end(site, season)
+            rootzones = get_rootzone_mapping(site)
 
-            # Using the vsw_readings view in the graph app as it has all the calibrations applied
-            # Only get readings wher rz1 is null
+            # Only get readings where rz1 is null
             readings = vsw_reading.objects.filter(site_id=site.id, rz1__isnull=True, date__range=(dates.period_from, dates.period_to)).order_by('date')
             for reading in readings:
                 # find rootzones in map for site and rz
@@ -127,12 +71,6 @@ class Command(BaseCommand):
                                 if depth <= bottom:
                                     logger.debug("Adding VSW " + str(vsw) + " for depth " + str(depth))
                                     total += vsw
-
-                                #else:
-                                #    # We half the depth figure that is above the Bottom. No? We should ignore a figure abover the bottom
-                                #    half = vsw / 2
-                                #    logger.debug("Adding half of VSW " + str(half) + " for depth " + str(depth) + ' as this depth is greater than bottom of ' + str(bottom))
-                                #    total += half
                                 previous_vsw = vsw
                                 previous_he = he
                                 running_depth = depth

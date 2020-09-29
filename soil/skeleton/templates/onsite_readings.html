@@ -94,19 +94,4 @@ $("#submit-reading").click(function() {
 
 </script>
 
-{% block sw_script %}
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-            .then(function(reg) {
-                // registration worked
-                console.log('Registration succeeded. Scope is ' + reg.scope);
-            }).catch(function(error) {
-                // registration failed
-                console.log('Registration failed with ' + error);
-            });
-        }
-    </script>
-{% endblock sw_script %}
-
 {% endblock content %}

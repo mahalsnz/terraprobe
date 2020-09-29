@@ -156,7 +156,7 @@ def process_probe_data(readings, serial_unique_id, request, type):
 '''
 
 def process_irrigation_data(irrigation, serial_unique_id, request):
-    logger.error("*** process_irrigation_data")
+    logger.info("*** process_irrigation_data")
 
     for key, values in irrigation.items():
         split_key = key.split(",")
@@ -203,4 +203,77 @@ def process_irrigation_data(irrigation, serial_unique_id, request):
                 defaults=data)
             data = {} # reset
 
-    logger.error("Outside of process_irrigation_data Loop:")
+    logger.info("Outside of process_irrigation_data Loop:")
+
+'''
+    Get a rootzone mapping for a site
+    Returns a Dictionary keyed by siteid and rootzone
+    {'6rz1': [
+        {'depth': 10, 'he': 1, 'rz_bottom': 60}, {'depth': 20, 'he': 2, 'rz_bottom': 60}, {'depth': 30, 'he': 3, 'rz_bottom': 60}, {'depth': 40, 'he': 4, 'rz_bottom': 60}, {'depth': 50, 'he': 5, 'rz_bottom': 60}, {'depth': 60, 'he': 6, 'rz_bottom': 60}
+        ],
+     '6rz2': [
+        {'depth': 10, 'he': 1, 'rz_bottom': 20}, {'depth': 20, 'he': 2, 'rz_bottom': 20}
+        ],
+     '6rz3': [
+        {'depth': 10, 'he': 1, 'rz_bottom': 40}, {'depth': 20, 'he': 2, 'rz_bottom': 40}, {'depth': 30, 'he': 3, 'rz_bottom': 40}, {'depth': 40, 'he': 4, 'rz_bottom': 40}
+        ]
+    }
+
+'''
+
+def get_rootzone_mapping(site):
+    logger.info("*** get_rootzone_mapping for site " + site.name)
+
+    rootzones = {}
+    for z in range(1,4):
+        rootzone = 'rz' + str(z)
+        key = str(site.id) + rootzone
+        logger.debug("Key:" + key)
+        depth_array = []
+        rootzones[key] = []
+
+        top = 0 # Top of root zone is hard coded to zero
+        bottom = getattr(site, rootzone + '_bottom')
+        logger.debug("Top:" + str(top) + ' Bottom:' + str(bottom))
+        if bottom is not None:
+            seen_depth_in_bottom = False
+            first_no_depth = False
+            first_no_depth_value = 0
+            first_no_depth_he = 0
+            for i in range(1,11):
+                depths_key = {}
+                column = 'depth' + str(i)
+                depth = getattr(site, column)
+
+                if depth:
+                    if depth > top and depth < bottom:
+                        logger.debug(column + ' of site:' + str(depth))
+                        he = int(getattr(site, 'depth_he' + str(i)))
+                        depths_key = { 'depth' : depth, 'he' : he, 'rz_bottom' : bottom }
+                        depth_array.append(depths_key)
+                    if bottom == depth:
+                        logger.debug(column + ' of site:' + str(depth))
+                        logger.debug('Bottom equals a depth figure for this rootzone')
+                        he = int(getattr(site, 'depth_he' + str(i)))
+                        depths_key = { 'depth' : depth, 'he' : he, 'rz_bottom' : bottom  }
+                        depth_array.append(depths_key)
+                        seen_depth_in_bottom = True
+                    if not seen_depth_in_bottom and depth > bottom:
+                        logger.debug('Depth greater than Bottom and not seen_depth_in_bottom')
+                        logger.debug(column + ' of site:' + str(depth))
+                        he = int(getattr(site, 'depth_he' + str(i)))
+                        depths_key = { 'depth' : depth, 'he' : he, 'rz_bottom' : bottom  }
+                        depth_array.append(depths_key)
+                        break
+                else:
+                    logger.debug('No depth for column ' + column)
+                    first_no_depth = True
+
+            # We have an exception here where we just add it to the depth_array
+            if not seen_depth_in_bottom:
+                depths_key = { 'depth' : bottom, 'he' : 0, 'rz_bottom' : bottom  }
+                depth_array.append(depths_key)
+        rootzones[key] = depth_array
+    logger.debug('Return Root Zone ' + str(rootzones))
+    logger.info('Finished site root zone map.....')
+    return rootzones

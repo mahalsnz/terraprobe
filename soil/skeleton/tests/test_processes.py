@@ -55,8 +55,8 @@ class ProcessTest(TestCase):
                 self.assertEquals(reading.estimated_dwu, 4.13)
                 self.assertEquals(reading.irrigation_litres, 1.33)
                 self.assertEquals(reading.irrigation_mms, 0.11)
-                self.assertEquals(reading.effective_rainfall, 0.0)
-                self.assertEquals(reading.effective_irrigation, 0.11)
+                self.assertEquals(reading.effective_rainfall, None)
+                self.assertEquals(reading.effective_irrigation, None)
             if str(reading.date) == '2019-05-07':
                 self.assertEquals(reading.rz1, 314)
                 self.assertEquals(reading.rz2, 223)
@@ -66,7 +66,7 @@ class ProcessTest(TestCase):
                 self.assertEquals(reading.estimated_dwu, 3.87)
                 self.assertEquals(reading.irrigation_litres, 0.33)
                 self.assertEquals(reading.irrigation_mms, 0.03)
-                self.assertEquals(reading.effective_rainfall, 0.0)
+                self.assertEquals(reading.effective_rainfall, None)
                 self.assertEquals(reading.effective_irrigation, 0.0)
             if str(reading.date) == '2019-05-14':
                 self.assertEquals(reading.rz1, 220)
