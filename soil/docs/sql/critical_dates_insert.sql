@@ -1,7 +1,7 @@
 ﻿INSERT INTO skeleton_criticaldate (
 SELECT
 	nextval('skeleton_criticaldate_id_seq') as id,
-	date + interval '1 year' AS date,
+	CAST(date + interval '1 year' as date) AS date,
 	comment,
 	CURRENT_TIMESTAMP as created_date,
 	created_by_id,
