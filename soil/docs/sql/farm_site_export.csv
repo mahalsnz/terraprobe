@@ -1,16 +1,23 @@
 ﻿SELECT
-	skeleton_farm.id,
-	skeleton_farm.name,
+	skeleton_farm.id AS farm_id,
+	skeleton_farm.name AS farm_name,
 	skeleton_farm.owner,
 	skeleton_farm.comment as RNID,
-	
-	skeleton_site.*
+	address_address.raw,
+	address_locality.name AS suburb,
+	address_locality.postal_code,
+	address_state.name AS province,
+	skeleton_farm.email,
+	skeleton_site.id AS site_id,
+	skeleton_site.site_number,
+	skeleton_site.name AS site_name,
+	skeleton_site.comment
 FROM
 	skeleton_farm
 LEFT JOIN skeleton_site ON skeleton_farm.id = skeleton_site.farm_id
-LEFT JOIN 
-
-
+LEFT JOIN address_address ON skeleton_farm.address_id = address_address.id
+LEFT JOIN address_locality ON address_locality.id = address_address.locality_id 
+LEFT JOIN address_state ON address_locality.state_id = address_state.id;
 
 --Farm
  -- internal db id
