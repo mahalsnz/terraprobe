@@ -225,6 +225,7 @@ var seasons_full_point_readings = []
 var seasons_refill_readings = []
 var seasons_upper_strategy = []
 var seasons_lower_strategy = []
+var strategy_percentage = 0
 
 var season_grouping = [];
 vsw_count = 10; // delivered by vsw_reading api
@@ -257,14 +258,14 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     d3.json('/graphs/api/vsw_strategy/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(strategy_data) {
         strategy_data.forEach(function(strategy) {
             season_critical_dates[strategy.critical_date_type] = parseTime(strategy.critical_date);
-
+            strategy_percentage = strategy.strategy_percentage
             parsed_date = parseTime(strategy.strategy_date);
+            // 'strategy_percentage' is the same for all
             seasons_upper_strategy.push({
                 'date' : parsed_date,
                 'percentage' : strategy.percentage
             });
 
-            // Fill
             seasons_lower_strategy.push({
                 'date' : parsed_date,
                 'percentage' : 0
@@ -415,10 +416,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         new_seasons_lower_strategy = [];
         // replace all lowere with upper - diff
         for (var i = 0; i < seasons_upper_strategy.length; i++) {
-            // $C$3-($F$3-($F$3*E8))
             upper_total = full_point_rz1 - (diff - (diff * seasons_upper_strategy[i]['percentage']))
 
-            lower_total = upper_total - ( diff * .5 )
+            lower_total = upper_total - ( diff * strategy_percentage )
             seasons_upper_strategy[i]['total'] = upper_total;
             seasons_lower_strategy[i]['date'] = seasons_upper_strategy[i]['date'];
             seasons_lower_strategy[i]['total'] = lower_total;
