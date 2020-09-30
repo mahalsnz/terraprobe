@@ -1,0 +1,26 @@
+﻿SELECT
+	skeleton_farm.id,
+	skeleton_farm.name,
+	skeleton_farm.owner,
+	skeleton_farm.comment as RNID,
+	
+	skeleton_site.*
+FROM
+	skeleton_farm
+LEFT JOIN skeleton_site ON skeleton_farm.id = skeleton_site.farm_id
+LEFT JOIN 
+
+
+
+--Farm
+ -- internal db id
+ -- owner
+ -- comment
+ -- address
+ -- email
+--Site
+ -- internal db id
+ -- site number
+ -- name
+ -- comment
+
