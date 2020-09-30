@@ -104,9 +104,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': SOIL_DB_NAME,
-#        'TEST': {
-#            'NAME': 'soiltest',
-#        },
         'USER': SOIL_DB_USER,
         'PASSWORD': SOIL_DB_PASSWORD,
         'HOST': 'localhost',

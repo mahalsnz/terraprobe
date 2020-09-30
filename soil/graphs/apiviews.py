@@ -97,7 +97,7 @@ class VSWReadingReadyList(generics.ListAPIView):
 class VSWStrategyList(generics.ListAPIView):
 
     def get_queryset(self):
-        queryset = vsw_strategy.objects.filter(site=self.kwargs["pk"], reading_date__range=(self.kwargs["period_from"], self.kwargs["period_to"]))
+        queryset = vsw_strategy.objects.filter(site=self.kwargs["pk"], critical_date__range=(self.kwargs["period_from"], self.kwargs["period_to"]))
 
         return queryset
     serializer_class = VSWStrategySerializer
