@@ -27,6 +27,7 @@ from .tables import SiteReportTable
 import re
 import requests
 import calendar
+import numpy as np
 
 # Get an instance of a logger
 import logging
@@ -608,7 +609,8 @@ def handle_neutron_file(file_data, request):
                 else:
                     logger.info("No Key does not exist:")
                     data[key] = []
-
+            if float(reading_line[7]) == 0:
+                reading_line[7] = np.nan
             readings.append(float(reading_line[7]))
         else:
             logger.info("Else not valid processing line!"  + line)
@@ -628,7 +630,7 @@ def handle_diviner_file(file_data, request, type):
     # Get probe serial number for type
     probes = type.split("_")
     file_type_sn = probes[1]
-    logger.debug("***Serial Number From File:" + str(file_type_sn))
+    logger.debug("***Serial Number From File Type:" + str(file_type_sn))
 
     lines = file_data.split("\n")
 
@@ -639,6 +641,7 @@ def handle_diviner_file(file_data, request, type):
     serial_number_id = None
     readings = []
     need_date = True
+    site = None
 
     for line in lines:
         # Site Heading line contains the special Diviner Number
@@ -647,22 +650,22 @@ def handle_diviner_file(file_data, request, type):
         reading = re.search("^\d.*", line)
 
         if heading:
-            logger.info("***We have a heading line:" + line)
+            logger.debug("***We have a heading line:" + line)
             diviner_fields = line.split(",")
             diviner_number = diviner_fields[1]
             diviner_number_formatted = diviner_number.lstrip()
-            logger.info("Diviner Number Formatted:" + diviner_number_formatted)
+            logger.debug("Diviner Number Formatted:" + diviner_number_formatted)
 
             # Get Serial Number and Site Number from Diviner Probe and
             try:
-                site = Site.objects.get(diviner__diviner_number=int(diviner_number_formatted), diviner__probediviner__probe__serial_number=file_type_sn)
+                site = Site.objects.get(diviner__diviner_number=int(diviner_number_formatted), diviner__probediviner__probe__serial_number=int(file_type_sn))
             except:
-                raise Exception("Diviner Number:" + diviner_number_formatted + " not set up for a site.")
+                raise Exception("Diviner Number:" + diviner_number_formatted + " not set up for site.")
             site_number = site.site_number
-            logger.info("Site Number:" + site_number)
+            logger.info("Site Number:" + str(site_number))
 
             try:
-                probe = Probe.objects.get(serial_number=file_type_sn, probediviner__diviner__diviner_number=int(diviner_number_formatted))
+                probe = Probe.objects.get(serial_number=int(file_type_sn), probediviner__diviner__diviner_number=int(diviner_number_formatted))
             except:
                 raise Exception("Diviner Number:" + diviner_number_formatted + " not set up for a probe/serial number.")
             serial_number_id = probe.id
@@ -678,7 +681,7 @@ def handle_diviner_file(file_data, request, type):
                 date_object = datetime.datetime.strptime(date_raw, '%d %b %Y %H:%M:%S')
                 date_formatted = date_object.strftime('%Y-%m-%d')
                 logger.info("Date:" + date_formatted)
-                key = site_number + "," + date_formatted + "," + "Probe"
+                key = str(site_number) + "," + date_formatted + "," + "Probe"
                 logger.info("Key:" + key)
                 data[key] = []
                 need_date = False
@@ -690,6 +693,8 @@ def handle_diviner_file(file_data, request, type):
             for reading in reading_line:
                 reading = reading.lstrip(' ')
                 reading = reading.rstrip()
+                if float(reading) == 0:
+                    reading = np.nan
                 reading_array.append(float(reading))
 
             data[key].append(reading_array)

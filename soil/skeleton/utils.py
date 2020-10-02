@@ -1,7 +1,7 @@
 import requests
 from requests.auth import HTTPBasicAuth
 import json
-import statistics
+import numpy as np
 from django.core.exceptions import ObjectDoesNotExist
 
 # Get an instance of a logger
@@ -117,7 +117,8 @@ def process_probe_data(readings, serial_unique_id, request, type):
 
     for key, site_info in readings.items():
         # Away to average out the results
-        result = [statistics.mean(k) for k in zip(*site_info)]
+        result = [np.nanmean(k) for k in zip(*site_info)]
+        logger.info("result after working out mean:" + str(result))
 
         # Need to get objects for keys of reading (date, site, type, probe)
         split_key = key.split(",")
