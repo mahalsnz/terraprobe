@@ -8,12 +8,12 @@
 <form method="post" id="onsiteForm"novalidate>
     {% csrf_token %}
     <div class="container-sm">
-        <div class="col-sm-1">
+        <div class="col-sm-4">
             <div class="row selector">
                 {{ form.site_number|as_crispy_field }}
             </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-4">
             <div class="row">
                 <b>Last Weeks Reading:</b><p id="previous_date"></p>
             </div>
@@ -23,27 +23,27 @@
                 <b>Last Weeks Meter:</b><p id="previous_meter"></p>
             </div>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-4">
             <div class="row">
                 <b><p>This Weeks Reading</p></b>
             </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-4">
             <div class="row">
                 {{ form.date|as_crispy_field }}
             </div>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-4">
             <div class="row">
                 {{ form.meter|as_crispy_field }}
             </div>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-4">
             <div class="row">
                 {{ form.rain|as_crispy_field }}
             </div>
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-4">
             <div class="row">
                 <button class="btn bg-green" type="button" id="submit-reading">Submit</button>
             </div>
