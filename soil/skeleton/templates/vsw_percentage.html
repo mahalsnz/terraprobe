@@ -120,10 +120,21 @@ var split_date = date.split("-");
 var this_week_date_test = new Date(split_date[2], split_date[1] - 1, split_date[0]);
 
 console.log("***This week DATE:" + this_week_date);
-
+var last_week_exists = false
 var previous = "{{ previous }}";
-var last_week_date = formatTime(parseTime(previous));
-console.log('***Last Week DATE:' + last_week_date);
+if (previous != 'None') {
+    last_week_date = formatTime(parseTime(previous));
+    console.log('***Last Week DATE:' + last_week_date);
+    last_week_exists = true;
+}
+
+var period_to = "{{ period_to }}";
+period_to = formatTime(parseTime(period_to));
+period_to = parseTime(period_to);
+
+var period_from = "{{ period_from }}";
+period_from = formatTime(parseTime(period_from));
+period_from = parseTime(period_from);
 
 // set the dimensions and margins of the weekly graph
 var margin = {top: 35, right: 30, bottom: 30, left: 40};
@@ -147,11 +158,11 @@ var seasony1 = d3.scaleLinear().range([season_height, 0]);
 // The scale spacing the groups:
 var x0 = d3.scaleBand()
     .range([0, season_width])
-    .paddingInner(0.3);
+    .paddingInner(0.1);
 
 // The scale for spacing each group's bar:
 var x1 = d3.scaleBand()
-    .padding(0.7);
+    .padding(0.05);
 
 var z = d3.scaleOrdinal()
     .range(["red", "blue"]);
@@ -244,6 +255,7 @@ var std_rain = 0;
 var root_zone = '0 - ';
 var weekly_edwu = 0;
 var recommendation_text = '';
+var site_note = '';
 var recommendation_reviewed = false
 var rec_mon = 0, rec_tue = 0, rec_wed = 0, rec_thu = 0, rec_fri = 0, rec_sat = 0, rec_sun = 0;
 
@@ -275,6 +287,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     vsw_readings_date_array = []; // This is better to use for refill and full point full_point_readings
 
     data.forEach(function(reading) {
+        console.log(reading)
         parsed_date = parseTime(reading.date);
         // get seasons_vsw percentage readings for Probe
         if (reading.reading_type.name == "Probe") {
@@ -319,7 +332,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                     recommendation_reviewed = 'false';
                 }
 
-                console.log('reviewed' + recommendation_reviewed)
                 rec_mon = reading["rec_mon"]
                 rec_tue = reading["rec_tue"]
                 rec_wed = reading["rec_wed"]
@@ -327,19 +339,21 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 rec_fri = reading["rec_fri"]
                 rec_sat = reading["rec_sat"]
                 rec_sun = reading["rec_sun"]
+                site_note = reading["site"]["comment"];
+                application_rate = reading["site"]["application_rate"];
             }
 
-            // Get last weeks readings
-            if (last_week_date == formatTime(parsed_date)) {
-                /* Calculate values for Amounts Recieved last Week */
-                previous_litres_plant = reading["irrigation_litres"];
-                previous_mms_plant = reading["irrigation_mms"];
-                previous_rain = reading["rain"];
-                root_zone += reading["rz1_bottom"] + ' cm';
-                weekly_edwu = reading["weekly_edwu"];
-                application_rate = reading["site"]["application_rate"];
-                site_note = reading["site"]["comment"];
-                previous_hours_irrigation = Math.round(previous_mms_plant / application_rate);
+            // Get last weeks readings if not false
+            if (last_week_exists) {
+                if (last_week_date == formatTime(parsed_date)) {
+                    /* Calculate values for Amounts Recieved last Week */
+                    previous_litres_plant = reading["irrigation_litres"];
+                    previous_mms_plant = reading["irrigation_mms"];
+                    previous_rain = reading["rain"];
+                    root_zone += reading["rz1_bottom"] + ' cm';
+                    weekly_edwu = reading["weekly_edwu"];
+                    previous_hours_irrigation = Math.round(previous_mms_plant / application_rate);
+                }
             }
         }
 
@@ -397,6 +411,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     /* need to sort arrays by date */
     seasons_vsw_readings = seasons_vsw_readings.sort(sortByDateAscending);
+    console.log("seasons_vsw_readings After sort:")
+    console.log(seasons_vsw_readings)
 
     // TODO: Do this better. Need to test if site actually has a strategy
     if (seasons_upper_strategy.length > 0) {
@@ -430,11 +446,18 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
-    var min_weekly_x = refill_readings.concat(weekly_vsw_map[this_week_date]).concat(weekly_vsw_map[last_week_date]);
+    var min_weekly_x = 0;
+    if (last_week_exists) {
+        min_weekly_x = refill_readings.concat(weekly_vsw_map[this_week_date]).concat(weekly_vsw_map[last_week_date]);
+    } else {
+        min_weekly_x = refill_readings.concat(weekly_vsw_map[this_week_date])
+    }
     weekly_x.domain([d3.min(min_weekly_x, function(r) { return r.vsw - 2; }), d3.max(full_point_readings, function(r) { return r.vsw + 2; })]);
     weekly_y.domain([d3.min(weekly_vsw_map[this_week_date], function(r) { return r.depth - 5; }), d3.max(weekly_vsw_map[this_week_date], function(r) { return r.depth + 5; })]);
 
-    seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
+    seasonx.domain([period_from, period_to]);
+
+    //seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
     seasony0.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 40; }), d3.max(seasons_full_point_readings, function(d) { return d.total + 10; })]);
 
     /*********************** Weekly Graph Shaded Area between This Week and Previous weeks line ********************/
@@ -443,26 +466,28 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     var this_week_x = [];
     var this_week_y = [];
     var previous_week_x = [];
+    weekly_area = 0;
+    if (last_week_exists) {
+        for (i=0; i < weekly_vsw_map[last_week_date].length; i++) {
+            this_week_y.push(weekly_vsw_map[this_week_date][i].depth);
+            this_week_x.push(weekly_vsw_map[this_week_date][i].vsw);
+            previous_week_x.push(weekly_vsw_map[last_week_date][i].vsw);
+        }
 
-    for (i=0; i < weekly_vsw_map[last_week_date].length; i++) {
-        this_week_y.push(weekly_vsw_map[this_week_date][i].depth);
-        this_week_x.push(weekly_vsw_map[this_week_date][i].vsw);
-        previous_week_x.push(weekly_vsw_map[last_week_date][i].vsw);
+        // Append the shaded area to graph
+        var indexies = d3.range( this_week_y.length );
+        var weekly_area = weekly_graph
+           .append('g')
+           .append("path")
+           .datum(indexies)
+           .attr("d", d3.area()
+               .x0(function(d) { return weekly_x(this_week_x[d]) })
+               .x1(function(d) { return weekly_x(previous_week_x[d]) ; })
+               .y0(function(d) { return weekly_y(this_week_y[d] ); })
+               .y1(function(d) { return weekly_y(this_week_y[d] ); })
+            )
+           .attr("class", "area");
     }
-
-    // Append the shaded area to graph
-    var indexies = d3.range( this_week_y.length );
-    var weekly_area = weekly_graph
-       .append('g')
-       .append("path")
-       .datum(indexies)
-       .attr("d", d3.area()
-           .x0(function(d) { return weekly_x(this_week_x[d]) })
-           .x1(function(d) { return weekly_x(previous_week_x[d]) ; })
-           .y0(function(d) { return weekly_y(this_week_y[d] ); })
-           .y1(function(d) { return weekly_y(this_week_y[d] ); })
-        )
-       .attr("class", "area");
     // End Shaded Area
 
     var weekly_vswline = weekly_graph
@@ -475,16 +500,18 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         )
         .attr("class", "line");
 
-    var weekly_previous_vswline = weekly_graph
-        .append('g')
-        .append("path")
-        .datum(weekly_vsw_map[last_week_date])
-        .attr("d", d3.line()
-            .x(function(r) { return weekly_x(r.vsw); })
-            .y(function(r) { return weekly_y(r.depth); })
-        )
-        .style("stroke-width", "1px")
-        .attr("class", "line");
+    if (last_week_exists) {
+        var weekly_previous_vswline = weekly_graph
+            .append('g')
+            .append("path")
+            .datum(weekly_vsw_map[last_week_date])
+            .attr("d", d3.line()
+                .x(function(r) { return weekly_x(r.vsw); })
+                .y(function(r) { return weekly_y(r.depth); })
+            )
+            .style("stroke-width", "1px")
+            .attr("class", "line");
+    }
 
     // Add the scatterplot
     var weekly_scatterplot = weekly_graph
@@ -533,12 +560,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       .style("text-anchor", "middle")
       .text("Depth (cm)");
 
-    var keys = ['rain', 'irrigation_mms']
-    var keys_with_date = ['date', 'rain', 'irrigation_mms']
+    console.log("Season graph");
 
-    x0.domain(season_grouping.map(function(d) { return d.date; }));
-    x1.domain(keys).rangeRound([0, x0.bandwidth()]);
-    seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key] + 100; }); })])
 
     /* We use our season critical dates to draw vertical lines. We can have 1..n */
     console.log(season_critical_dates);
@@ -566,6 +589,15 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         colour_index++;
     }
 
+    var tickValuesForAxis = seasons_vsw_readings.map(d => d.date);
+
+    var keys = ['rain', 'irrigation_mms']
+
+    //x0.domain(tickValuesForAxis);
+    x0.domain(season_grouping.map(function(d) { return d.date; }));
+    x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+    seasony1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key] + 100; }); })])
+
     // append the rectangles for the seasonal bar chart
     season_graph.selectAll(".bar")
         .data(season_grouping)
@@ -585,7 +617,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
           .attr("x", function(d) { return x1(d.key); })
           .attr("y", function(d) { return seasony1(d.value); })
           .attr("id", function(d) { return d.key; })
-          .attr("width", 3)
+          .attr("width", 6)
           .attr("height", function(d) { return season_height - seasony1(d.value); })
           .on("mouseover", function(d) {
               div.transition()
@@ -662,13 +694,12 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .style("stroke-width", "3px")
         .attr("d", season_lower_strategy_line);
 
-    // Add Season Graph X Axis
-    season_graph.append("g")
-        .attr("class", "axis")
-        .attr("transform", "translate(0," + season_height + ")")
-        .call(d3.axisBottom(seasonx)
-            .ticks(d3.timeWeek.every(1))
-            .tickFormat(d3.timeFormat("%m-%d")));
+      season_graph.append("g")
+          .attr("class", "axis")
+          .attr("transform", "translate(0," + season_height + ")")
+          .call(d3.axisBottom(seasonx)
+              .tickValues(tickValuesForAxis)
+              .tickFormat(d3.timeFormat("%m-%d")));
 
     // Add Season Graph Y0 Axis
     season_graph.append("g")
@@ -781,38 +812,39 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                         .duration(1000)
                         .attr("cx", function(r) { return weekly_x(r.vsw); })
                         .attr("cy", function(r) { return weekly_y(r.depth); });
+                if (last_week_exists) {
+                    // Give these new data to update line
+                    weekly_previous_vswline
+                        .datum(weekly_vsw_map[last_week])
+                        .transition()
+                        .duration(1000)
+                        .attr("d", d3.line()
+                          .x(function(r) { return weekly_x(r.vsw) })
+                          .y(function(r) { return weekly_y(r.depth) })
+                      );
+                      var this_week_x = [];
+                      var this_week_y = [];
+                      var previous_week_x = [];
+                      for (i=0; i < weekly_vsw_map[last_week].length; i++) {
+                          this_week_y.push(weekly_vsw_map[this_week][i].depth);
+                          this_week_x.push(weekly_vsw_map[this_week][i].vsw);
+                          previous_week_x.push(weekly_vsw_map[last_week][i].vsw);
+                      }
 
-                // Give these new data to update line
-                weekly_previous_vswline
-                    .datum(weekly_vsw_map[last_week])
-                    .transition()
-                    .duration(1000)
-                    .attr("d", d3.line()
-                      .x(function(r) { return weekly_x(r.vsw) })
-                      .y(function(r) { return weekly_y(r.depth) })
-                  );
-                  var this_week_x = [];
-                  var this_week_y = [];
-                  var previous_week_x = [];
-                  for (i=0; i < weekly_vsw_map[last_week].length; i++) {
-                      this_week_y.push(weekly_vsw_map[this_week][i].depth);
-                      this_week_x.push(weekly_vsw_map[this_week][i].vsw);
-                      previous_week_x.push(weekly_vsw_map[last_week][i].vsw);
-                  }
-
-                  // Append the shaded area to graph
-                  indexies = d3.range( this_week_y.length );
-                  weekly_area
-                     .datum(indexies)
-                     .transition()
-                     .duration(1000)
-                     .attr("d", d3.area()
-                         .x0(function(d) { return weekly_x(this_week_x[d]) })
-                         .x1(function(d) { return weekly_x(previous_week_x[d]) ; })
-                         .y0(function(d) { return weekly_y(this_week_y[d] ); })
-                         .y1(function(d) { return weekly_y(this_week_y[d] ); })
-                      )
-                     .attr("class", "area");
+                      // Append the shaded area to graph
+                      indexies = d3.range( this_week_y.length );
+                      weekly_area
+                         .datum(indexies)
+                         .transition()
+                         .duration(1000)
+                         .attr("d", d3.area()
+                             .x0(function(d) { return weekly_x(this_week_x[d]) })
+                             .x1(function(d) { return weekly_x(previous_week_x[d]) ; })
+                             .y0(function(d) { return weekly_y(this_week_y[d] ); })
+                             .y1(function(d) { return weekly_y(this_week_y[d] ); })
+                          )
+                         .attr("class", "area");
+                } // End if last week exists
         }
 
         // When the button is changed, run the updateChart function

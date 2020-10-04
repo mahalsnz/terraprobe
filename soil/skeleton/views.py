@@ -414,6 +414,8 @@ def load_graph(request):
     site_id = request.GET.get('site')
     season_id = request.GET.get('season')
     context = None
+    latest = None
+    previous = None
 
     try:
         site = Site.objects.get(id=site_id)
@@ -427,11 +429,11 @@ def load_graph(request):
         try:
             latest = readings[0].date
         except:
-            raise Exception("No Reading for Site and Season")
+            pass
         try:
             previous = readings[1].date
         except:
-            raise Exception("No Previous Reading for Site and Season")
+            pass
         logger.debug("Date:" + str(latest))
         logger.debug("Previous:" + str(previous))
 
@@ -450,7 +452,7 @@ def load_graph(request):
 def load_sites(request):
     technician_id = request.GET.get('technician')
     farm_id = request.GET.get('farm')
-    sites = Site.objects.filter(Q(technician_id=technician_id)|Q(farm_id=farm_id)).order_by('name')
+    sites = SiteDescription.objects.filter(Q(technician_id=technician_id)|Q(farm_id=farm_id)).order_by('name')
     return render(request, 'site_dropdown_list_options.html', {'sites':sites})
 
 def load_site_readings(request):
