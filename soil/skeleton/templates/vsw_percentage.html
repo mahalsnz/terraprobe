@@ -458,7 +458,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     seasonx.domain([period_from, period_to]);
 
     //seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
-    seasony0.domain([d3.min(seasons_vsw_readings, function(d) { return d.total - 40; }), d3.max(seasons_full_point_readings, function(d) { return d.total + 10; })]);
+    seasony0.domain([d3.min(seasons_refill_readings, function(d) { return d.total - 40; }), d3.max(seasons_full_point_readings, function(d) { return d.total + 10; })]);
 
     /*********************** Weekly Graph Shaded Area between This Week and Previous weeks line ********************/
     // We need to get data into arrays for x and y for this week and x for previous week
