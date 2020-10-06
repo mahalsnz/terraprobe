@@ -2,6 +2,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 import numpy as np
+import math
 from django.core.exceptions import ObjectDoesNotExist
 
 # Get an instance of a logger
@@ -116,7 +117,7 @@ def process_probe_data(readings, serial_unique_id, request, type):
     logger.info("*** process_probe_data")
 
     for key, site_info in readings.items():
-        # Away to average out the results
+        # get the mean of the readings. Use nanmean as nan used for zeros and we don't want them affecting the mean
         result = [np.nanmean(k) for k in zip(*site_info)]
         logger.info("result after working out mean:" + str(result))
 
@@ -138,11 +139,14 @@ def process_probe_data(readings, serial_unique_id, request, type):
         data["serial_number"] = probe
 
         for index in range(len(result)):
-            # Neutron goes into depthn_count
-            if type == 'N':
-                data['depth' + str(index + 1) + '_count'] = result[index]
+            if not math.isnan(result[index]):
+                # Neutron goes into depthn_count
+                if type == 'N':
+                    data['depth' + str(index + 1) + '_count'] = result[index]
+                else:
+                    data['depth' + str(index + 1)] = result[index]
             else:
-                data['depth' + str(index + 1)] = result[index]
+                logger.debug("Looks like all nan for depth so not inserting")
 
         if data:
             reading, created = Reading.objects.update_or_create(site=site, date=date, type=reading_type,
