@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from datetime import timedelta, date
 from django.contrib import messages
+from skeleton.utils import get_current_season, get_site_season_start_end
 
 from skeleton.models import Reading, Site, Farm, WeatherStation
 import os
@@ -50,10 +51,11 @@ class Command(BaseCommand):
             readings = Reading.objects.select_related('site__farm__weatherstation').filter(rain__isnull=True, type=1)
             for reading in readings:
                 logger.debug('Reading object to process: ' + str(reading))
-                
+                season = get_current_season()
+                dates = get_site_season_start_end(reading.site, season)
                 # If a site has only one reading we cannot calculate the previous reading date. A try block is the only way to catch this
                 try:
-                    previous_reading = reading.get_previous_by_date(site=reading.site)
+                    previous_reading = reading.get_previous_by_date(site=reading.site, date__range=(dates.period_from, dates.period_to))
                 except:
                     previous_reading = None
                 if previous_reading:
@@ -62,7 +64,7 @@ class Command(BaseCommand):
                     weatherstation = farm.weatherstation
 
                     days = (reading.date  - previous_reading.date).days - 1
-                    logger.debug(previous_reading)
+                    logger.debug('Previous Reading:' + str(previous_reading))
                     logger.debug(days)
                     startdate = previous_reading.date + timedelta(days=1)
                     logger.debug('startdate' + str(startdate))

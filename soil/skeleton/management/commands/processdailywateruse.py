@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
         # Get sites in current season that have readngs with a rz1 defined but no deficit
         season = get_current_season()
-        sites = Site.objects.filter(readings__rz1__isnull=False, readings__deficit__isnull=True, readings__type__name='Probe').distinct()
+        sites = Site.objects.filter(is_active=True, readings__rz1__isnull=False, readings__deficit__isnull=True, readings__type__name='Probe').distinct()
 
         for site in sites:
             dates = get_site_season_start_end(site, season)

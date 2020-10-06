@@ -22,7 +22,7 @@ class Command(BaseCommand):
         logger.info('Starting update of empty root zone readings for current season (all reading types).....')
         season = get_current_season()
         # This will still get some sites that do not need to be updated eg. Old reading with no rz1. Will be very rare in production
-        sites = Site.objects.filter(readings__rz1__isnull=True).distinct()
+        sites = Site.objects.filter(is_active=True, readings__rz1__isnull=True).distinct()
         for site in sites:
             dates = get_site_season_start_end(site, season)
             rootzones = get_rootzone_mapping(site)
