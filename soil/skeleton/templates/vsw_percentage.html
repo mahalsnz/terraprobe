@@ -483,7 +483,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     if (min <= refill_rz1){ min_seasony = min } else { min_seasony = refill_rz1 }
     console.log('max_seasony:' + max_seasony)
     console.log('min_seasony:' + min_seasony)
-    seasony0.domain([min_seasony - 20, max_seasony + 20]);
+    seasony0.domain([min_seasony - 50, max_seasony + 20]);
     //seasony0.domain([d3.min(seasons_refill_readings, function(d) { return d.total - 20; }), d3.max(seasons_full_point_readings, function(d) { return d.total + 20; })]);
 
     /*********************** Weekly Graph Shaded Area between This Week and Previous weeks line ********************/

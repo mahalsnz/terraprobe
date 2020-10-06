@@ -111,6 +111,7 @@
         - django-cors-headers==3.4.0
         - django-rest-auth==0.9.5
         - coreapi==2.3.3
+        - numpy==1.19.2
 
     - name: Create main directory for the project
       file:

@@ -147,7 +147,7 @@ def process_onsite_reading(request):
 
 class SiteAutocompleteView(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = SiteDescription.objects.all().order_by('site_number')
+        qs = SiteDescription.objects.filter(is_active=True).order_by('site_number')
 
         if self.q:
             qs = qs.filter(site_number__icontains=self.q)

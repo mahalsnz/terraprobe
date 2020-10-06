@@ -36,7 +36,7 @@ class FruitionSummary(APIView):
                 site = Site.objects.get(pk=site_id)
                 # Get sites full point and refill readings for season
                 dates = get_site_season_start_end(site, season)
-                latest_reading = vsw_reading.objects.get(site=site.id, date__range=(dates.period_from, dates.period_to), type='Probe', reviewed=True).latest('date')
+                latest_reading = vsw_reading.objects.filter(site=site.id, date__range=(dates.period_from, dates.period_to), type='Probe', reviewed=True).latest('date')
                 logger.debug('Latest Date for site :' + str(site.name) + ' - ' + str(latest_reading.date) + ' RZ1:' + str(latest_reading.rz1))
 
                 full = vsw_reading.objects.get(site_id=site_id, type='Full Point', date__range=(dates.period_from, dates.period_to))

@@ -293,6 +293,7 @@ class Site(models.Model):
 
     comment = models.TextField(null=True, blank=True)
 
+    is_active = models.BooleanField(default=True)
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
 
@@ -305,6 +306,10 @@ class Site(models.Model):
     def __str__(self):
         return self.name
 
+    def make_inactive(self):
+        self.is_active = False
+        self.save
+
     @property
     def application_rate(self):
         application_rate = self.emitter_rate / (self.row_spacing * self.emitter_spacing)
@@ -312,6 +317,7 @@ class Site(models.Model):
 
 # Combines Site name and number. A lot of sites are known by number
 class SiteDescription(Site):
+
     class Meta:
         proxy = True
         ordering = ['site_number']
