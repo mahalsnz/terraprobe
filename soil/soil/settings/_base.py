@@ -153,6 +153,14 @@ REST_FRAMEWORK = {
     ],
     'DATE_FORMAT': '%d-%m-%Y',
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '600/min',
+        'user': '600/min'
+    }
 }
 
 # Static files (CSS, JavaScript, Images)
