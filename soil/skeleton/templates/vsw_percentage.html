@@ -17,7 +17,7 @@
         <table id="last-week-data" class="table table-sm table-bordered">
             <thead class="thead-light">
             <tr>
-                <th colspan="4">Amount Received Last Week</th>
+                <th colspan="4" class="application-rate-heading"></th>
             </tr>
             <tr>
                 <td></td>
@@ -622,6 +622,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     console.log(season_grouping)
 
     season_bar_x0.domain(season_grouping.map(function(d) { return d.date; }));
+    //season_bar_x0.domain([period_from, period_to]);
     season_bar_x1.domain(keys).rangeRound([0, season_bar_x0.bandwidth()]);
     //seasonx.domain([d3.min(seasons_vsw_readings, function(d) { return d.date; }), d3.max(seasons_vsw_readings, function(d) { return d.date; })]);
     //seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
@@ -644,7 +645,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
           .attr("x", function(d) { return season_bar_x1(d.key); })
           .attr("y", function(d) { return season_bar_y1(d.value); })
           .attr("id", function(d) { return d.key; })
-          .attr("width", season_bar_x1.bandwidth())
+          .attr("width", 3)
           .attr("height", function(d) { return season_bar_height - season_bar_y1(d.value); })
           .on("mouseover", function(d) {
               div.transition()
@@ -780,6 +781,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       $("#season-data td.std-irrigation").html(std_irrigation);
       $("#season-data td.std-rain").html(std_rain);
       $("#last-week-data td.recommendation-reviewed").html(recommendation_reviewed);
+      $("#last-week-data th.application-rate-heading").html("Amount Received Last Week (Based on an irrigation system application rate of " +
+          application_rate + "mm/hr");
 
       //week_start = reading.date.weekday() + 1
       //week_start_abbr = calendar.day_abbr[week_start]
