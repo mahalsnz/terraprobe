@@ -110,7 +110,7 @@
     <div class="col" id="seasonal_bar"></div>
 </div>
 <script>
-
+console.clear();
 var parseTime = d3.timeParse("%d-%m-%Y");
 var formatTime = d3.timeFormat("%d-%m-%Y");
 
@@ -154,9 +154,7 @@ var weekly_x = d3.scaleLinear().range([0, width]);
 var weekly_y = d3.scaleLinear().range([0, height]);
 
 // set the season ranges
-var seasonx = d3.scaleTime().range([0, season_width]); //date
-var season_bar_x0 = d3.scaleBand().range([0, season_width]).paddingInner(0.1);
-var season_bar_x1 = d3.scaleBand().padding(0.05); // The scale for spacing each group's bar:
+var seasonx = d3.scaleTime().range([0, season_width]);
 
 var seasony0 = d3.scaleLinear().range([season_height, 0]);
 var season_bar_y1 = d3.scaleLinear().range([season_bar_height, 0]);
@@ -423,8 +421,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     /* need to sort arrays by date */
     seasons_vsw_readings = seasons_vsw_readings.sort(sortByDateAscending);
-    console.log("seasons_vsw_readings After sort:")
-    console.log(seasons_vsw_readings)
 
     // TODO: Do this better. Need to test if site actually has a strategy
     if (seasons_upper_strategy.length > 0) {
@@ -467,12 +463,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     weekly_x.domain([d3.min(min_weekly_x, function(r) { return r.vsw - 2; }), d3.max(full_point_readings, function(r) { return r.vsw + 2; })]);
     weekly_y.domain([d3.min(weekly_vsw_map[this_week_date], function(r) { return r.depth - 5; }), d3.max(weekly_vsw_map[this_week_date], function(r) { return r.depth + 5; })]);
 
-    //seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
-
-    // Min and max for
-    //.concat(weekly_vsw_map[this_week_date]).concat(weekly_vsw_map[last_week_date]);
-    //var max_seasony = seasons_full_point_readings['total'].concat
-    vsws = seasons_vsw_readings.map(d => d.total);
+    // Min and max for seasony and then set domain on it. Max could be full point of vsw, min could be refill or vsw
+    vsws = seasons_vsw_readings.map(d => d.total); // get the vsw readings for the season
     console.log(vsws)
     max = Math.max(...vsws)
     min = Math.min(...vsws)
@@ -483,7 +475,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     console.log('max_seasony:' + max_seasony)
     console.log('min_seasony:' + min_seasony)
     seasony0.domain([min_seasony - 50, max_seasony + 20]);
-    //seasony0.domain([d3.min(seasons_refill_readings, function(d) { return d.total - 20; }), d3.max(seasons_full_point_readings, function(d) { return d.total + 20; })]);
 
     /*********************** Weekly Graph Shaded Area between This Week and Previous weeks line ********************/
     // We need to get data into arrays for x and y for this week and x for previous week
@@ -621,13 +612,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     console.log('season_grouping')
     console.log(season_grouping)
 
-    season_bar_x0.domain(season_grouping.map(function(d) { return d.date; }));
-    //season_bar_x0.domain([period_from, period_to]);
-    season_bar_x1.domain(keys).rangeRound([0, season_bar_x0.bandwidth()]);
-    //seasonx.domain([d3.min(seasons_vsw_readings, function(d) { return d.date; }), d3.max(seasons_vsw_readings, function(d) { return d.date; })]);
-    //seasonx.domain(d3.extent(seasons_vsw_readings, function(d) { return d.date; }));
     seasonx.domain([period_from, period_to]);
 
+    var season_bar_x0 = d3.scaleTime().range([0, season_width]).domain([period_from, period_to]);
     season_bar_y1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key]; }); })])
 
     // append the rectangles for the seasonal bar chart
@@ -642,11 +629,11 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 return { key: key, value: d[key] };
             });
         }).enter().append("rect")
-          .attr("x", function(d) { return season_bar_x1(d.key); })
+          .attr('x', function(d) { if (d.key == 'rain') { return -4; } else { return 3; } } )
           .attr("y", function(d) { return season_bar_y1(d.value); })
           .attr("id", function(d) { return d.key; })
-          .attr("width", 3)
-          .attr("height", function(d) { return season_bar_height - season_bar_y1(d.value); })
+          .attr('height', function(d) { return season_bar_height - season_bar_y1(d.value); })
+          .attr("width", 5)
           .on("mouseover", function(d) {
               div.transition()
               .duration(200)
@@ -732,7 +719,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       season_bar_graph.append("g")
           .attr("class", "axis")
           .attr("transform", "translate(0," + season_bar_height + ")")
-          .call(d3.axisBottom(season_bar_x0).tickFormat(d3.timeFormat("%m-%d")));
+          .call(d3.axisBottom(season_bar_x0)
+            .tickValues(tickValuesForAxis)
+            .tickFormat(d3.timeFormat("%m-%d")));
 
     // Add Season Graph Y0 Axis
     season_graph.append("g")
@@ -782,16 +771,11 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       $("#season-data td.std-rain").html(std_rain);
       $("#last-week-data td.recommendation-reviewed").html(recommendation_reviewed);
       $("#last-week-data th.application-rate-heading").html("Amount Received Last Week (Based on an irrigation system application rate of " +
-          application_rate + "mm/hr");
+          application_rate + "mm/hr)");
 
-      //week_start = reading.date.weekday() + 1
-      //week_start_abbr = calendar.day_abbr[week_start]
-      console.log('Week Start:' + this_week_date_test)
       var week_start = this_week_date_test.getDay();
-      console.log('Week Start:' + week_start)
       days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
       week_start_abbr = days[week_start];
-      console.log('Week Start Abbr:' + week_start_abbr);
 
       $("textarea#reading-recommendation-text").val(recommendation_text);
       $("textarea#site-note").val(site_note);
