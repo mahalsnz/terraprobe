@@ -320,8 +320,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                         'depth' : reading["depth" + index],
                         'vsw' : reading["vsw" + index + '_perc'],
                     });
-                } else {
-                    console.log("where null");
                 }
                 weekly_vsw_map[formatTime(parsed_date)] = vsw_readings;
             } // end for loop
@@ -575,18 +573,13 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .text("Depth (cm)");
-
-    console.log("Season graph");
-
+    seasonx.domain([period_from, period_to]);
 
     /* We use our season critical dates to draw vertical lines. We can have 1..n */
-    console.log(season_critical_dates);
-    colours = ["navy", "salmon", "orchid", "lime"]
+    colours = ["navy", "salmon", "orchid", "lime", "aqua"]
     colour_index = 0;
     for (type in season_critical_dates) {
-        colour_index
         var critical_date = season_critical_dates[type];
-
         season_graph.append("line")
             .attr("x1", seasonx(critical_date))
             .attr("y1", 0)
@@ -612,7 +605,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     console.log('season_grouping')
     console.log(season_grouping)
 
-    seasonx.domain([period_from, period_to]);
 
     var season_bar_x0 = d3.scaleTime().range([0, season_width]).domain([period_from, period_to]);
     season_bar_y1.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key]; }); })])
