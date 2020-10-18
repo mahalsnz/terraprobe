@@ -374,47 +374,55 @@ def index(request):
 
 def report_season_dates(request):
     season = get_current_season()
-    sites = SiteReportTable(Site.objects.filter(~Q(seasonstartend__season=season)))
+    sites = SiteReportTable(Site.objects.filter(is_active=True).filter(~Q(seasonstartend__season=season)))
     return render(request, "report_output.html", {
         "title": "Sites Missing a Season Start and End Date for Season " + season.name,
         "table": sites
     })
 
 def report_missing_reading_types(request):
-    season = get_current_season()
-    sites = Site.objects.all()
     missing_sites = Site.objects.none() # Iniliase missing sites to empty queryset object
+    try:
+        season = get_current_season()
+        sites = Site.objects.filter(is_active=True)
 
-    for site in sites:
-        dates = get_site_season_start_end(site, season)
-        if dates:
-            missing_site = Site.objects.filter(~Q(readings__type__name='Refill', readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type__name='Full Point', readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
-            if (missing_site):
-                missing_sites |= missing_site # Some great magic to concatenate querysets together
-        else:
-            messages.warning(request, "Site " + site.name + " has no season start and end dates.")
-    sites = SiteReportTable(missing_sites)
-    RequestConfig(request).configure(sites)
+        for site in sites:
+            dates = get_site_season_start_end(site, season)
+            if dates:
+                missing_site = Site.objects.filter(is_active=True).filter(~Q(readings__type__name='Refill', readings__date__range=(dates.period_from, dates.period_to))|~Q(readings__type__name='Full Point', readings__date__range=(dates.period_from, dates.period_to)),id=site.id).order_by('site_number')
+                if (missing_site):
+                    missing_sites |= missing_site # Some great magic to concatenate querysets together
+            else:
+                messages.warning(request, "Site " + site.name + " has no season start and end dates.")
+        sites = SiteReportTable(missing_sites)
+        RequestConfig(request).configure(sites)
+    except Exception as e:
+        sites = SiteReportTable(missing_sites)
+        messages.error(request, "Error: " + str(e))
     return render(request, "report_output.html", {
         "title": "Sites Missing a Refill or Full Point Reading Type for Season " + season.name,
         "table": sites
     })
 
 def report_no_meter_reading(request):
-    season = get_current_season()
-    sites = Site.objects.all()
-    missing_sites = Site.objects.none()
+    missing_sites = Site.objects.none() # Iniliase missing sites to empty queryset object
+    try:
+        season = get_current_season()
+        sites = Site.objects.filter(is_active=True)
 
-    for site in sites:
-        dates = get_site_season_start_end(site, season)
-        if dates:
-            missing_site = Site.objects.filter(readings__type__name='Probe', readings__meter__isnull=True, readings__date__range=(dates.period_from, dates.period_to)).order_by('site_number').distinct()
-            if (missing_site):
-                missing_sites |= missing_site # Some great magic to concatenate querysets together
-        else:
-            messages.warning(request, "Site " + site.name + " has no season start and end dates.")
-    sites = SiteReportTable(missing_sites)
-    RequestConfig(request).configure(sites)
+        for site in sites:
+            dates = get_site_season_start_end(site, season)
+            if dates:
+                missing_site = Site.objects.filter(is_active=True, readings__type__name='Probe', readings__meter__isnull=True, readings__date__range=(dates.period_from, dates.period_to)).order_by('site_number').distinct()
+                if (missing_site):
+                    missing_sites |= missing_site # Some great magic to concatenate querysets together
+            else:
+                messages.warning(request, "Site " + site.name + " has no season start and end dates.")
+        sites = SiteReportTable(missing_sites)
+        RequestConfig(request).configure(sites)
+    except Exception as e:
+        sites = SiteReportTable(missing_sites)
+        messages.error(request, "Error: " + str(e))
     return render(request, "report_output.html", {
         "title": "Sites Missing any Meter Reading for Season " + season.name,
         "table": sites
