@@ -60,15 +60,13 @@ class ReadingTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReadingSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Reading
         fields = '__all__'
 
 class SiteSerializer(serializers.ModelSerializer):
-    readings = ReadingSerializer(many=True, read_only=True, required=False)
-    upper_limit = ReadingTypeSerializer(many=False, read_only=True, required=False)
-    lower_limit = ReadingTypeSerializer(many=False, read_only=True, required=False)
+
     class Meta:
         model = Site
         fields = '__all__'

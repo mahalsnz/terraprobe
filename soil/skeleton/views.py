@@ -19,16 +19,18 @@ from .models import Probe, ProbeDiviner, Diviner, Reading, ReadingType, Site, Se
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from formtools.wizard.views import SessionWizardView
+from django.core import serializers
 
 from django_tables2 import RequestConfig
 from django_tables2 import SingleTableView
 from .tables import SiteReportTable
 
 import re
-import requests
 import calendar
 import numpy as np
-
+import os
+import requests
+import json
 # Get an instance of a logger
 import logging
 logger = logging.getLogger(__name__)
@@ -80,16 +82,51 @@ class RecommendationReadyView(LoginRequiredMixin, CreateView):
         date = request.GET.get('date')
         if date == None:
             date = datetime.date.today()
-        readings = Reading.objects.select_related('site__farm').select_related('site__technician').filter(date=date).order_by('date')
+        readings = Reading.objects.select_related('site__farm').select_related('site__technician').filter(site__is_active=True, type__name='Probe', date=date).order_by('date')
         return render(request, 'recommendation_ready.html', { 'readings': readings, 'form': SiteReportReadyForm() })
 
     def post(self, request, *args, **kwargs):
         reviewed = request.POST.getlist('reviewed')
-        logger.debug('Posted:' + str(reviewed))
-        for review in reviewed:
-            reading = Reading.objects.get(id=review)
-            reading.reviewed = True
-            reading.save()
+        sites = []
+        try:
+            key = os.getenv('HORTPLUS_API_KEY')
+            api_url = settings.PROPERTIES_API_URL
+            api_url = api_url + 'api/send-reports/irrigation'
+            logger.debug('post to url ' + api_url)
+            site_serialized_data = []
+            for review in reviewed:
+                reading = Reading.objects.get(id=review)
+                # Get site objects from the reading to post to hortplus
+                site = Site.objects.get(id=reading.site_id)
+                sites.append(site)
+                reading.reviewed = True
+                reading.save()
+                site_serialized_data.append({'id': site.id})
+            data = {
+                "service": "fruition",
+                "sites": site_serialized_data,
+            }
+            logger.debug(str(data))
+            headers = {
+                "X-Api-Key": key,
+                "Content-Type":"application/json",
+                "SeasonalDatabase":"fruition_2020",
+                "service":"fruition"}
+
+
+            r = requests.post(api_url, headers=headers, data=json.dumps(data))
+            logger.debug('status_code:' + str(r.status_code))
+            if r.status_code == 200:
+                logger.debug('response ' + str(r.text))
+                ojson = json.loads(r.text)
+                messages.info(request, 'Unknown Site IDs: ' + str(ojson['unknown_site_ids']))
+                messages.info(request, 'Unknown Users: ' + str(ojson['unknown_users']))
+                messages.info(request, 'Users Sent Report: ' + str(ojson['users_sent_report']))
+                messages.info(request, 'Users Not Sent Report: ' + str(ojson['users_not_sent_report']))
+            else:
+                raise Exception("Error processing request:" + str(r.status_code))
+        except Exception as e:
+            messages.error(request, "Error: " + str(e))
         return render(request, 'recommendation_ready.html', { 'form': SiteReportReadyForm() })
 
 class OnsiteCreateView(LoginRequiredMixin, CreateView):

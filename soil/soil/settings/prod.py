@@ -1,5 +1,7 @@
 from ._base import *
 
+PROPERTIES_API_URL = 'https://api.properties.metwatch.nz/'
+
 DEBUG = False
 
 SECURE_SSL_REDIRECT = True

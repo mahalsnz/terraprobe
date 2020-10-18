@@ -31,6 +31,8 @@ HORTPLUS_JACK_KEY = get_env_variable('HORTPLUS_JACK_KEY')
 SOIL_DB_PASSWORD = get_env_variable('SOIL_DB_PASSWORD')
 SOIL_DB_USER = get_env_variable('SOIL_DB_USER')
 SOIL_DB_NAME = get_env_variable('SOIL_DB_NAME')
+HORTPLUS_API_KEY = get_env_variable('HORTPLUS_API_KEY')
+PROPERTIES_API_URL = 'https://staging.api.properties.metwatch.nz/'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
