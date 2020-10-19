@@ -497,7 +497,7 @@ def load_graph(request):
 def load_sites(request):
     technician_id = request.GET.get('technician')
     farm_id = request.GET.get('farm')
-    sites = SiteDescription.objects.filter(Q(technician_id=technician_id)|Q(farm_id=farm_id)).order_by('name')
+    sites = SiteDescription.objects.filter(Q(technician_id=technician_id)|Q(farm_id=farm_id)).order_by('readings__created_date')
     return render(request, 'site_dropdown_list_options.html', {'sites':sites})
 
 def load_site_readings(request):

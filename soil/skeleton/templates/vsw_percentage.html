@@ -309,7 +309,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             vsw_readings_date_array.push(parsed_date)
 
             // Season to Date figures
-            std_irrigation += reading["irrigation_litres"]
+            std_irrigation += reading["irrigation_mms"]
             std_rain += reading["rain"]
 
             // Weekly vsw figures. This will be a map, keyed by date
