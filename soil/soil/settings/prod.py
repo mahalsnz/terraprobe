@@ -1,6 +1,6 @@
 from ._base import *
 
-PROPERTIES_API_URL = 'https://api.properties.metwatch.nz/'
+PROPERTIES_API_URL = 'https://api.properties.hortplus.com/'
 
 DEBUG = False
 

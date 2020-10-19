@@ -411,7 +411,7 @@ class Calibration(models.Model):
 #Site ID,Selected,Date,Type,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,SN,RZ1,RZ2,RZ3,DEFICIT,PDWU,EDWU,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,k16,Comment3
 class Reading(models.Model):
     # Preseume id is site
-    site = models.ForeignKey(Site, related_name='readings', null=False, on_delete=models.CASCADE)
+    site = models.ForeignKey(SiteDescription, related_name='readings', null=False, on_delete=models.CASCADE)
     type = models.ForeignKey(ReadingType, null=False, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now, null=False)
 

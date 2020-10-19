@@ -49,7 +49,7 @@ class ETReadingAdmin(admin.ModelAdmin):
 class ReadingAdmin(admin.ModelAdmin):
     list_display = ('site', 'type', 'date', 'serial_number', 'reviewed', 'depth1_count', 'comment')
     list_filter = ['type']
-    search_fields = ['site__name']
+    search_fields = ['site__name', 'site__site_number']
 
 class ReadingTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'comment', 'formula')
