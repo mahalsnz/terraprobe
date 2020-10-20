@@ -20,6 +20,11 @@ class Command(BaseCommand):
         logger.info('Sites' + str(sites))
         for site in sites:
             logger.info('Processing Site ' + site.name)
+
+            # Site needs an irrigation_position
+            if site.irrigation_position == None:
+                self.stdout.write('Site ' + site.name + ' has not irrigation position defined\n')
+                continue
             dates = get_site_season_start_end(site, season)
 
             readings = Reading.objects.filter(site=site.id, type=1, date__range=(dates.period_from, dates.period_to)).order_by('-date')
