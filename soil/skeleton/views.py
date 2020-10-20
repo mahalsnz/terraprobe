@@ -497,8 +497,22 @@ def load_graph(request):
 def load_sites(request):
     technician_id = request.GET.get('technician')
     farm_id = request.GET.get('farm')
-    sites = SiteDescription.objects.filter(Q(technician_id=technician_id)|Q(farm_id=farm_id)).order_by('site_number')
-    return render(request, 'site_dropdown_list_options.html', {'sites':sites})
+
+    sites = SiteDescription.objects.filter(Q(technician_id=technician_id)|Q(farm_id=farm_id), is_active=True, )
+
+    # Need to get sites ordered by the latest probe reading date. Which is complicated. There may be a better way then below.
+    final_sites = Reading.objects.none()
+    for site in sites:
+        latest_reading = None
+        try:
+            latest_reading = Reading.objects.filter(site=site.id, type=1).latest('date')
+            final_site = Reading.objects.select_related('site').filter(site__id=site.id, type=1, date=latest_reading.date)
+            final_sites |= final_site
+        except ObjectDoesNotExist:
+            pass
+
+    final_sites = final_sites.order_by('-date')
+    return render(request, 'site_dropdown_list_options.html', {'readings':final_sites})
 
 def load_site_readings(request):
     readings = None
