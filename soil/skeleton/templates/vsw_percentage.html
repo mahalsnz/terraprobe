@@ -759,8 +759,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       $("#last-week-data td.previous-rain").html(previous_rain);
       $("#last-week-data td.root-zone").html(root_zone);
       $("#last-week-data td.weekly-edwu").html(weekly_edwu);
-      $("#season-data td.std-irrigation").html(std_irrigation);
-      $("#season-data td.std-rain").html(std_rain);
+      $("#season-data td.std-irrigation").html(Math.round(std_irrigation));
+      $("#season-data td.std-rain").html(Math.round(std_rain));
       $("#last-week-data td.recommendation-reviewed").html(recommendation_reviewed);
       $("#last-week-data th.application-rate-heading").html("Amount Received Last Week (Based on an irrigation system application rate of " +
           application_rate + "mm/hr)");
