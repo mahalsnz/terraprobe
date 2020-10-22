@@ -166,6 +166,10 @@ def process_onsite_reading(request):
     try:
         reading_type = ReadingType.objects.get(name='Probe')
         site = Site.objects.get(id=site_id)
+
+        # round rain to one and meter to zero decimals
+        meter = round(float(meter))
+        rain = round(float(rain), 1)
         reading, created = Reading.objects.update_or_create(site=site, date=date, type=reading_type,
             defaults={"date": date, "type": reading_type, "created_by": request.user, "rain": rain, "meter": meter})
         messages.success(request, 'Saved.')
@@ -540,7 +544,8 @@ def load_site_readings(request):
 
                 # Total Rainfall and irrigation
                 rainfall_total = readings.aggregate(Sum('rain'))
-                irrigation_total = readings.aggregate(Sum('irrigation_litres'))
+                irrigation_total = readings.aggregate(Sum('irrigation_mms'))
+
     except Exception as e:
         messages.error(request, " Error is: " + str(e))
     return render(request, 'site_readings_list.html', {

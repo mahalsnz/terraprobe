@@ -1,4 +1,4 @@
 <option value="">----------</option>
 {% for reading in readings %}
-    <option value="{{ reading.site.pk }}">{{ reading.site }} {{ reading.date }}</option>
+    <option value="{{ reading.site.pk }}">{{ reading.site }} ({{ reading.date }})</option>
 {% endfor %}
