@@ -88,7 +88,7 @@ class Command(BaseCommand):
                             fields = line.split(",")
                             rainfall += float(fields[3])
                             logger.debug(str(rainfall))
-                    reading.rain = rainfall
+                    reading.rain = round(rainfall, 1)
                     reading.save()
                 else:
                     logger.debug('No previous reading for site so cannot calculate a rain reading')

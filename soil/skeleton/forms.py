@@ -39,8 +39,8 @@ class SiteSelectionForm(forms.ModelForm):
         required = False,
         initial=datetime.date.today,
     )
-    meter = forms.FloatField(required=False)
-    rain = forms.FloatField(required=False)
+    meter = forms.IntegerField(required=False)
+    rain = forms.IntegerField(required=False)
 
     class Meta:
         model = Site

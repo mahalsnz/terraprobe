@@ -116,10 +116,10 @@
            <b>Season to date totals:</b>
        </div>
        <div class="col-sm-4">
-           Irrigation: {{ irrigation.irrigation_litres__sum }}
+           Irrigation: {{ irrigation.irrigation_mms__sum|floatformat:"0" }}
        </div>
        <div class="col-sm-4">
-           Rainfall: {{ rainfall.rain__sum }}
+           Rainfall: {{ rainfall.rain__sum|floatformat:"0" }}
        </div>
    </div>
 </div>
