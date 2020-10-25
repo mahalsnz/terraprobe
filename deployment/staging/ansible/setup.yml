@@ -195,8 +195,8 @@
         src: ../../ansible_templates/logrotate.j2
         dest: /etc/logrotate.d/terraprobe
 
-    #- name: Create and Install Cert Using Plugin
-    #  command: "certbot --nginx -d {{ domain_name }} -d www.{{ domain_name }} -m mahalsnz@gmail.com --agree-tos --noninteractive --redirect"
+    #- name: Create and Install Cert Using Plugin. Ip address of new server needs to be assigned to domain first
+    #  command: "certbot certonly --nginx -d {{ domain_name }} -m mahalsnz@gmail.com --agree-tos --noninteractive --redirect"
 
   handlers:
     - name: update tzdata

@@ -13,6 +13,7 @@
       SOIL_DB_PASSWORD: "{{ soil_db_password }}"
       SOIL_DB_USER: "{{ soil_db_user }}"
       SOIL_DB_NAME: "{{ soil_db_name }}"
+      HORTPLUS_API_KEY: "{{ hortplus_api_key }}"
 
   tasks:
     - name: Clone/pull project repo
@@ -34,6 +35,7 @@
           export SOIL_DB_PASSWORD="{{ soil_db_password }}"
           export SOIL_DB_USER="{{ soil_db_user }}"
           export SOIL_DB_NAME="{{ soil_db_name }}"
+          export HORTPLUS_API_KEY="{{ hortplus_api_key }}"
         backup: yes
       become: yes
       become_user: "{{ user_username }}"

@@ -23,8 +23,8 @@ media_root: "{{ python_path }}/media"
 locale: en_NZ.UTF-8
 timezone: Pacific/Auckland
 
-domain_name: staging.terraprobe.mahal.co.nz
-django_settings: soil.settings.staging
+domain_name: dev.terraprobe.mahal.co.nz
+django_settings: soil.settings.dev
 
 letsencrypt_email: "mahalsnz@gmail.com"
-wsgi_file_name: wsgi_staging.py
+wsgi_file_name: wsgi_dev.py

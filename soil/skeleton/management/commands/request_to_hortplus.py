@@ -104,6 +104,6 @@ def post_request(data, serial):
             logger.debug('response ' + str(r.text))
             return r.text
         else:
-            raise Exception("Error processing request:" + str(r.status_code))
+            raise Exception("Error processing request:" + str(r.text))
     except Exception as e:
         messages.error(request, "Error: " + str(e))
