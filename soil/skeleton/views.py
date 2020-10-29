@@ -160,7 +160,7 @@ def load_onsite_reading(request):
 def process_onsite_reading(request):
     site_id = request.GET.get('site')
     date = request.GET.get('date')
-    meter = request.GET.get('meter') or None
+    meter = request.GET.get('meter') or 0
     rain = request.GET.get('rain') or None
 
     try:
@@ -169,7 +169,6 @@ def process_onsite_reading(request):
 
         # round rain to one and meter to zero decimals
         meter = round(float(meter))
-        rain = round(float(rain), 1)
         reading, created = Reading.objects.update_or_create(site=site, date=date, type=reading_type,
             defaults={"date": date, "type": reading_type, "created_by": request.user, "rain": rain, "meter": meter})
         messages.success(request, 'Saved.')

@@ -997,6 +997,7 @@
     "emitter_spacing": 5.0,
     "plant_spacing": 2.5,
     "comment": "",
+    "is_active": true,
     "created_date": "2019-06-24T23:53:03Z",
     "created_by": 1
   }
@@ -1005,7 +1006,7 @@
   "model": "skeleton.site",
   "pk": 2,
   "fields": {
-    "site_number": "3514",
+    "site_number": 3514,
     "farm": 2,
     "technician": 3,
     "selected": null,
@@ -1051,6 +1052,7 @@
     "emitter_spacing": 2.6,
     "plant_spacing": 1.3,
     "comment": "asedf",
+    "is_active": true,
     "created_date": "2019-06-27T21:46:01Z",
     "created_by": 1
   }
@@ -1059,7 +1061,7 @@
   "model": "skeleton.site",
   "pk": 3,
   "fields": {
-    "site_number": "3506",
+    "site_number": 3506,
     "farm": 2,
     "technician": 4,
     "selected": null,
@@ -1105,6 +1107,7 @@
     "emitter_spacing": 5.0,
     "plant_spacing": 2.5,
     "comment": "asdfasdf",
+    "is_active": true,
     "created_date": "2019-06-30T21:53:59Z",
     "created_by": 1
   }
@@ -1113,7 +1116,7 @@
   "model": "skeleton.site",
   "pk": 4,
   "fields": {
-    "site_number": "68",
+    "site_number": 68,
     "farm": 3,
     "technician": 3,
     "selected": null,
@@ -1159,6 +1162,7 @@
     "emitter_spacing": 2.5,
     "plant_spacing": 2.5,
     "comment": "",
+    "is_active": true,
     "created_date": "2019-11-18T22:24:21Z",
     "created_by": 1
   }
@@ -1167,7 +1171,7 @@
   "model": "skeleton.site",
   "pk": 5,
   "fields": {
-    "site_number": "71",
+    "site_number": 71,
     "farm": 3,
     "technician": 3,
     "selected": null,
@@ -1213,6 +1217,7 @@
     "emitter_spacing": 2.5,
     "plant_spacing": 2.5,
     "comment": "111",
+    "is_active": true,
     "created_date": "2019-11-18T22:27:09Z",
     "created_by": 1
   }
@@ -1221,14 +1226,14 @@
   "model": "skeleton.site",
   "pk": 6,
   "fields": {
-    "site_number": "28",
+    "site_number": 28,
     "farm": 3,
     "technician": 4,
     "selected": null,
     "name": "Jazz",
     "product": 2,
     "report": null,
-    "irrigation_method": 1,
+    "irrigation_method": 0,
     "irrigation_area": 10.0,
     "irrigation_time": 3.0,
     "irrigation_delivered_volume": 1103.0,
@@ -1267,6 +1272,7 @@
     "emitter_spacing": 2.4,
     "plant_spacing": 2.4,
     "comment": "asdf",
+    "is_active": true,
     "created_date": "2019-12-01T21:42:25Z",
     "created_by": 1
   }
@@ -11594,6 +11600,19 @@
     "object_repr": "Jazz:2019-05-07",
     "action_flag": 1,
     "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 350,
+  "fields": {
+    "action_time": "2020-10-26T18:35:05.342Z",
+    "user": 1,
+    "content_type": 26,
+    "object_id": "6",
+    "object_repr": "Jazz",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Irrigation method\"]}}]"
   }
 }
 ]

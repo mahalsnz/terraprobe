@@ -55,7 +55,7 @@ class Command(BaseCommand):
                 dates = get_site_season_start_end(reading.site, season)
                 # If a site has only one reading we cannot calculate the previous reading date. A try block is the only way to catch this
                 try:
-                    previous_reading = reading.get_previous_by_date(site=reading.site, date__range=(dates.period_from, dates.period_to))
+                    previous_reading = reading.get_previous_by_date(site=reading.site, type=1, date__range=(dates.period_from, dates.period_to))
                 except:
                     previous_reading = None
                 if previous_reading:
@@ -77,6 +77,7 @@ class Command(BaseCommand):
                         'stations': weatherstation.code,
                         'metvars' : 'RN_T'
                     }
+
                     response_text = post_request(data, serial)
 
                     lines = response_text.split("\n")
@@ -100,6 +101,7 @@ class Command(BaseCommand):
 def post_request(data, serial):
     try:
         r = requests.post('https://hortplus.metwatch.nz/index.php?pageID=wxn_wget_post&serial=' + serial, data=data)
+        logger.debug('data in request ' + str(data))
         if r.status_code == 200:
             logger.debug('response ' + str(r.text))
             return r.text
