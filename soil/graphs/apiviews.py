@@ -127,6 +127,7 @@ class FruitionSummary(APIView):
                     'site_id': site.id,
                     'latest_reading_date': latest_reading.date,
                     'latest_reading_date_rz1': latest_reading.rz1,
+                    'strategy_date': before_strategy.strategy_date,
                     'full_point': full.rz1,
                     'refill_point': refill.rz1,
                     'strategy_max' : round(strategy_max, 2),
