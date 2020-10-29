@@ -87,7 +87,8 @@ class Command(BaseCommand):
                         valid = re.search("^\w.*", line) # make sure we have a valid line to split
                         if valid:
                             fields = line.split(",")
-                            rainfall += float(fields[3])
+                            if fields[3] != '-':
+                                rainfall += float(fields[3])
                             logger.debug(str(rainfall))
                     reading.rain = round(rainfall, 1)
                     reading.save()
