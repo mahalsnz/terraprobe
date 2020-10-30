@@ -60,7 +60,10 @@ class FruitionSummary(APIView):
                 logger.debug('Before Upper:' + str(before_upper) + ' After Upper:' + str(after_upper) )
                 diff_upper = after_upper - before_upper
                 logger.debug('Difference between Upper Strategies:' + str(diff_upper))
-                day_change_upper = diff_upper / days_between_strategies
+                if diff_upper == 0 or days_between_strategies == 0:
+                    day_change_upper = 0
+                else:
+                    day_change_upper = diff_upper / days_between_strategies
                 logger.debug('Day change for Upper:' + str(day_change_upper))
 
                 before_lower = before_upper - ( diff * before_strategy.strategy_percentage )
@@ -68,7 +71,10 @@ class FruitionSummary(APIView):
                 logger.debug('Before Lower:' + str(before_lower) + ' After Lower:' + str(after_lower) )
                 diff_lower = after_lower - before_lower
                 logger.debug('Difference between Lower Strategies:' + str(diff_lower))
-                day_change_lower = diff_lower / days_between_strategies
+                if diff_upper == 0 or days_between_strategies == 0:
+                    day_change_lower = 0
+                else:
+                    day_change_lower = diff_lower / days_between_strategies
                 logger.debug('Day change for Lower:' + str(day_change_lower))
 
                 # Days between the before strategy and the reading date
