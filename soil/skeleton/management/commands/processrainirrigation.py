@@ -14,16 +14,16 @@ class Command(BaseCommand):
         logger.info('Running processrainirrigation.....')
         logger.info('Check for meter and null irrigation (litres).....')
 
-        # Get sites in current season that have readngs with a rain reading but no effective_rain_1
+        # Get sites in current season that have no effective_irrigation
         season = get_current_season()
-        sites = Site.objects.filter(is_active=True, readings__rain__isnull=False, readings__type__name='Probe').distinct()
+        sites = Site.objects.filter(is_active=True, readings__effective_irrigation__isnull=True, readings__type__name='Probe').distinct()
 
         for site in sites:
             dates = get_site_season_start_end(site, season)
 
             # Get Full Point Reading for the Season
             rz1_full = get_rz1_full_point_reading(site, season)
-            logger.info('Full Point RZ1 reading:' + str(rz1_full))
+
             readings = Reading.objects.filter(site=site.id, type=1, date__range=(dates.period_from, dates.period_to)).order_by('-date')
             previous_date = None
             previous_rz1 = 0
@@ -33,6 +33,10 @@ class Command(BaseCommand):
             previous_irrigation_mms = 0
 
             for reading in readings:
+                if reading.serial_number is None:
+                    self.stdout.write('Site ' + str(site.site_number) + ':' + site.name + ' has a reading on ' + str(reading.date) + ' that appears to have no serial number\n')
+                    continue
+
                 date = reading.date
                 rz1 = reading.rz1
                 edwu = reading.estimated_dwu

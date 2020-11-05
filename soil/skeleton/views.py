@@ -355,9 +355,9 @@ def index(request):
             if button_clicked == 'processmeter':
                 management.call_command('processmeter', stdout=out)
             if button_clicked == 'processdailywateruse':
-                management.call_command('processdailywateruse')
+                management.call_command('processdailywateruse', stdout=out)
             if button_clicked == 'processrain':
-                management.call_command('processrainirrigation')
+                management.call_command('processrainirrigation', stdout=out)
             if button_clicked == 'processall':
                 management.call_command('processall_readings')
             if button_clicked == 'load-rainfall':
