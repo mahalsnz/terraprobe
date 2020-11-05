@@ -119,14 +119,14 @@ def process_probe_data(readings, serial_unique_id, request, type):
     for key, site_info in readings.items():
         # get the mean of the readings. Use nanmean as nan used for zeros and we don't want them affecting the mean
         result = [np.nanmean(k) for k in zip(*site_info)]
-        logger.info("result after working out mean:" + str(result))
+
 
         # Need to get objects for keys of reading (date, site, type, probe)
         split_key = key.split(",")
         date = split_key[1]
         reading_type_name = str(split_key[2])
         site_number = split_key[0]
-
+        logger.info("Result after working out mean for site_number:" + str(site_number) + '\n' + str(result))
         reading_type = ReadingType.objects.get(name=reading_type_name)
         site = Site.objects.get(site_number=site_number)
         probe = Probe.objects.get(pk=serial_unique_id)

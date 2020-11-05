@@ -348,6 +348,8 @@ def index(request):
         out = StringIO()
         try:
             button_clicked = request.POST['button']
+            #if button_clicked == 'processreport':
+            #    management.call_command('process_report', stdout=out)
             if button_clicked == 'processrootzones':
                 management.call_command('processrootzones')
             if button_clicked == 'processmeter':
@@ -648,6 +650,7 @@ def handle_neutron_file(file_data, request):
             logger.debug("***We have a note line:" + line)
             # If not first note line of file
             if any(data):
+                logger.debug("***Reversing data:")
                 readings.reverse() # Neutron Probe files go from deepest to shallowest
                 data[key].append(readings)
                 readings = []
@@ -680,6 +683,8 @@ def handle_neutron_file(file_data, request):
         else:
             logger.info("Else not valid processing line!"  + line)
 
+    logger.debug("***Reversing data:")
+    readings.reverse()
     data[key].append(readings) # Always insert last reading
     logger.info("Final Data submitted to process_probe_data:" + str(data))
     process_probe_data(data, serial_number_id, request, 'N')
