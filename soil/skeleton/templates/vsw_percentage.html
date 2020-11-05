@@ -345,19 +345,31 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 application_rate = reading["site"]["application_rate"];
                 root_zone += reading["rz1_bottom"] + ' cm';
                 weekly_edwu = reading["weekly_edwu"];
+
+                this_litres_plant = reading["irrigation_litres"];
+                this_mms_plant = reading["irrigation_mms"];
+                this_rain = reading["rain"];
+                this_hours_irrigation = Math.round(this_mms_plant / application_rate);
+
             }
 
             // Get last weeks readings if not false
             if (last_week_exists) {
                 if (last_week_date == formatTime(parsed_date)) {
-                    /* Calculate values for Amounts Recieved last Week */
+
                     previous_litres_plant = reading["irrigation_litres"];
                     previous_mms_plant = reading["irrigation_mms"];
                     previous_rain = reading["rain"];
-                    previous_hours_irrigation = Math.round(previous_mms_plant / application_rate);
+                    previous_hours_irrigation = previous_mms_plant / application_rate;
                 }
             }
         }
+
+        /* Calculate values for Amounts Recieved last Week */
+        recieved_last_week_rain = Math.round(previous_rain - this_rain)
+        recieved_last_week_litres_plant = Math.round(previous_litres_plant - this_litres_plant)
+        recieved_last_week_mms_plant = Math.round(previous_mms_plant - this_mms_plant)
+        recieved_last_week_hours_irrigation = Math.round(previous_hours_irrigation - this_hours_irrigation)
 
         // Get the Full Point and Refill - These are the vsw figures
         if (reading.reading_type.name == "Full Point") {
@@ -753,10 +765,16 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
           .text(function(d) { return d; });
 
       // Update recommendation fields
-      $("#last-week-data td.mms-plant").html(previous_mms_plant);
-      $("#last-week-data td.litres-plant").html(previous_litres_plant);
-      $("#last-week-data td.hours").html(previous_hours_irrigation);
-      $("#last-week-data td.previous-rain").html(previous_rain);
+      /*
+      recieved_last_week_rain = this_rain - previous_rain
+      recieved_last_week_litres_plant = this_litres_plant - previous_litres_plant
+      recieved_last_week_mms_plant = this_mms_plant - previous_mms_plant
+      recieved_last_week_hours_irrigation
+      */
+      $("#last-week-data td.mms-plant").html(recieved_last_week_mms_plant);
+      $("#last-week-data td.litres-plant").html(recieved_last_week_litres_plant);
+      $("#last-week-data td.hours").html(recieved_last_week_hours_irrigation);
+      $("#last-week-data td.previous-rain").html(recieved_last_week_rain);
       $("#last-week-data td.root-zone").html(root_zone);
       $("#last-week-data td.weekly-edwu").html(weekly_edwu);
       $("#season-data td.std-irrigation").html(Math.round(std_irrigation));
