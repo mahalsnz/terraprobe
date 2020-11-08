@@ -250,10 +250,10 @@ var refill_rz1 = 0;
 var season_critical_dates = {};
 
 // Recommedations
-var previous_rain = 0;
-var previous_hours_irrigation = 0;
-var previous_mms_plant = 0;
-var previous_litres_plant = 0;
+var weekly_rain = 0;
+var weekly_hours_irrigation = 0;
+var weekly_mms_plant = 0;
+var weekly_litres_plant = 0;
 var std_irrigation = 0;
 var std_rain = 0;
 var root_zone = '0 - ';
@@ -346,14 +346,15 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 root_zone += reading["rz1_bottom"] + ' cm';
                 weekly_edwu = reading["weekly_edwu"];
 
-                this_litres_plant = reading["irrigation_litres"];
-                this_mms_plant = reading["irrigation_mms"];
-                this_rain = reading["rain"];
-                this_hours_irrigation = Math.round(this_mms_plant / application_rate);
+                weekly_litres_plant = Math.round(reading["irrigation_litres"], 1);
+                weekly_mms_plant = Math.round(reading["irrigation_mms"], 1);
+                weekly_rain = Math.round(reading["rain"], 1);
+                weekly_hours_irrigation = Math.round(weekly_mms_plant / application_rate);
 
             }
 
             // Get last weeks readings if not false
+            /*
             if (last_week_exists) {
                 if (last_week_date == formatTime(parsed_date)) {
 
@@ -363,13 +364,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                     previous_hours_irrigation = previous_mms_plant / application_rate;
                 }
             }
+            */
         }
-
-        /* Calculate values for Amounts Recieved last Week */
-        recieved_last_week_rain = Math.round(previous_rain - this_rain)
-        recieved_last_week_litres_plant = Math.round(previous_litres_plant - this_litres_plant)
-        recieved_last_week_mms_plant = Math.round(previous_mms_plant - this_mms_plant)
-        recieved_last_week_hours_irrigation = Math.round(previous_hours_irrigation - this_hours_irrigation)
 
         // Get the Full Point and Refill - These are the vsw figures
         if (reading.reading_type.name == "Full Point") {
@@ -771,10 +767,10 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
       recieved_last_week_mms_plant = this_mms_plant - previous_mms_plant
       recieved_last_week_hours_irrigation
       */
-      $("#last-week-data td.mms-plant").html(recieved_last_week_mms_plant);
-      $("#last-week-data td.litres-plant").html(recieved_last_week_litres_plant);
-      $("#last-week-data td.hours").html(recieved_last_week_hours_irrigation);
-      $("#last-week-data td.previous-rain").html(recieved_last_week_rain);
+      $("#last-week-data td.mms-plant").html(weekly_mms_plant);
+      $("#last-week-data td.litres-plant").html(weekly_litres_plant);
+      $("#last-week-data td.hours").html(weekly_hours_irrigation);
+      $("#last-week-data td.previous-rain").html(weekly_rain);
       $("#last-week-data td.root-zone").html(root_zone);
       $("#last-week-data td.weekly-edwu").html(weekly_edwu);
       $("#season-data td.std-irrigation").html(Math.round(std_irrigation));
