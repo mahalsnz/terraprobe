@@ -346,9 +346,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 root_zone += reading["rz1_bottom"] + ' cm';
                 weekly_edwu = reading["weekly_edwu"];
 
-                weekly_litres_plant = Math.round(reading["irrigation_litres"], 1);
-                weekly_mms_plant = Math.round(reading["irrigation_mms"], 1);
-                weekly_rain = Math.round(reading["rain"], 1);
+                weekly_litres_plant = reading["irrigation_litres"];
+                weekly_mms_plant = reading["irrigation_mms"];
+                weekly_rain = reading["rain"];
                 weekly_hours_irrigation = Math.round(weekly_mms_plant / application_rate);
 
             }
