@@ -11,6 +11,36 @@ logger = logging.getLogger(__name__)
 
 from .models import Site, Reading, ReadingType, Season, SeasonStartEnd, Probe
 
+"""
+    Accepts a reading object
+    Returns the week start abbrivation (MO, TU.....), the week start number and an array of weekly values for the reading
+    (week_start_abbr, week_start, week_values) = get_weekly_reading_values(reading)
+"""
+
+def get_weekly_reading_values(reading):
+
+    week_start = reading.date.weekday() + 1
+    week_start_abbr = calendar.day_abbr[week_start]
+    week_values = {}
+    day_value = 0
+    water_day_value = 0
+    for day in list(calendar.day_abbr):
+        logger.debug(day)
+        day_value = request.GET.get(day)
+
+        logger.debug('request day value:' + str(day_value))
+        column = 'rec_' + str(day)
+        if day_value:
+            setattr(reading, column, day_value)
+        day_value = getattr(reading, column)
+        if day_value is None:
+            day_value = 0
+        week_values[day] = day_value
+
+        water_day_value = round(float(site.application_rate) * float(day_value))
+        week_values[day + '-water'] = water_day_value
+    return (week_start_abbr, week_start, week_values)
+
 class SiteReadingException(Exception):
 
     """

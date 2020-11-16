@@ -185,18 +185,21 @@ def process_onsite_reading(request):
 
     return JsonResponse({'date' : date, 'meter' : meter, 'rain' : rain, 'messages': django_messages})
 
+"""
+    Uses django-autocomplete-light for a Select box for Sites based on Site Number
+"""
+
 class SiteAutocompleteView(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         qs = SiteDescription.objects.filter(is_active=True).order_by('site_number')
 
         if self.q:
             qs = qs.filter(site_number__icontains=self.q)
-
         return qs
 
-'''
-    Handles ajax call to display or update site note from the main Readings screen
-'''
+"""
+    Handles ajax call to display or update Site Note from the main Readings screen
+"""
 
 def process_reading_recommendation(request):
     site_id = request.GET.get('site')
@@ -206,38 +209,88 @@ def process_reading_recommendation(request):
     site = Site.objects.get(id=site_id)
     season = Season.objects.get(id=season_id)
 
-    logger.debug('Application Rate:' + str(site.application_rate))
+    # Some default values
+    latest_reading = None
+    previous_reading = None
+    latest_comment = None
+    previous_comment = None
+
+    week_values = {}
+    week_start = 0
+    week_start_abbr = 'MO'
 
     dates = get_site_season_start_end(site, season)
-    reading = Reading.objects.filter(site=site, type__name='Probe', date__range=(dates.period_from, dates.period_to)).latest('date')
+    readings = Reading.objects.filter(site=site, type__name='Probe', date__range=(dates.period_from, dates.period_to)).order_by('-date')
 
-    week_start = reading.date.weekday() + 1
-    week_start_abbr = calendar.day_abbr[week_start]
-    week_values = {}
-    day_value = 0
-    water_day_value = 0
-    for day in list(calendar.day_abbr):
-        logger.debug(day)
-        day_value = request.GET.get(day)
+    try:
+        latest_reading = readings[0]
+        latest_comment = latest_reading.comment
+    except:
+        pass
+    try:
+        previous_reading = readings[1]
+        previous_comment = previous_reading.comment
+    except:
+        pass
 
-        logger.debug('request day value:' + str(day_value))
-        column = 'rec_' + str(day)
-        if day_value:
-            setattr(reading, column, day_value)
-        day_value = getattr(reading, column)
-        if day_value is None:
-            day_value = 0
-        week_values[day] = day_value
+    # If we have a latest comment
+    if latest_comment or comment:
 
-        water_day_value = round(float(site.application_rate) * float(day_value))
-        week_values[day + '-water'] = water_day_value
-        reading.save()
+        week_start = latest_reading.date.weekday() + 1
+        week_start_abbr = calendar.day_abbr[week_start]
+        day_value = 0
+        water_day_value = 0
+        for day in list(calendar.day_abbr):
+            logger.debug(day)
+            day_value = request.GET.get(day)
 
-    logger.debug('Day of week to start:' + str(week_start_abbr) + ' values ' + str(week_values)) # Monday is zero
-    if comment:
-        reading.comment = comment
-        reading.save()
-    return JsonResponse({ 'comment' : reading.comment, 'week_start_abbr' : week_start_abbr, 'week_start': week_start, 'values' : week_values })
+            logger.debug('request day value:' + str(day_value))
+            column = 'rec_' + str(day)
+            if day_value:
+                setattr(latest_reading, column, day_value)
+            day_value = getattr(latest_reading, column)
+            if day_value is None:
+                day_value = 0
+            week_values[day] = day_value
+
+            water_day_value = round(float(site.application_rate) * float(day_value))
+            week_values[day + '-water'] = water_day_value
+
+            latest_reading.save()
+
+        logger.debug('Day of week to start:' + str(week_start_abbr) + ' values ' + str(week_values)) # Monday is zero
+        if comment:
+            latest_reading.comment = comment
+            latest_reading.save()
+        return JsonResponse({ 'comment' : latest_reading.comment, 'week_start_abbr' : week_start_abbr, 'week_start': week_start, 'values' : week_values })
+    elif previous_comment:
+        logger.debug('No comment for lastest reading so pre-populate')
+
+        week_start = previous_reading.date.weekday() + 1
+        week_start_abbr = calendar.day_abbr[week_start]
+
+        day_value = 0
+        water_day_value = 0
+        for day in list(calendar.day_abbr):
+            logger.debug(day)
+            day_value = request.GET.get(day)
+
+            logger.debug('request day value:' + str(day_value))
+            column = 'rec_' + str(day)
+            if day_value:
+                setattr(previous_reading, column, day_value)
+            day_value = getattr(previous_reading, column)
+            if day_value is None:
+                day_value = 0
+            week_values[day] = day_value
+
+            water_day_value = round(float(site.application_rate) * float(day_value))
+            week_values[day + '-water'] = water_day_value
+        return JsonResponse({ 'comment' : previous_reading.comment, 'week_start_abbr' : week_start_abbr, 'week_start': week_start, 'values' : week_values })
+    else:
+        logger.debug('No previous reading so provide blanks')
+        comment = ""
+        return JsonResponse({ 'comment' : comment, 'week_start_abbr' : week_start_abbr, 'week_start': week_start, 'values' : week_values })
 
 def process_site_note(request):
     site_id = request.GET.get('site')
@@ -248,6 +301,7 @@ def process_site_note(request):
         site.save()
     return JsonResponse({ 'comment' : site.comment })
 
+"""
 class SeasonWizard(SessionWizardView):
     def get_template_names(self):
         return [TEMPLATES[self.steps.current]]
@@ -339,6 +393,7 @@ def process_form_data(form_list, self):
             )
             reading.save()
     return (form_data, success_data)
+"""
 
 from io import StringIO
 

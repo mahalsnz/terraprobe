@@ -116,6 +116,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="submit" class="btn bg-green" id="save-reading-recommendation" data-dismiss="modal">Submit</button>
+          <button type="reset" class="btn bg-green" id="reset-reading-recommendation">Reset</button>
         </div>
 
       </div>
@@ -316,6 +317,17 @@
                 updateReadingRecommendations(result.week_start_abbr, result.week_start);
             }
         });
+    });
+    $("#reset-reading-recommendation").click(function() {
+        $('#reading-recommendation-modal textarea#reading-recommendation-text').val('')
+        $("#reading-recommendation-modal input#Mon").val('')
+        $("#reading-recommendation-modal input#Tue").val('');
+        $("#reading-recommendation-modal input#Wed").val('');
+        $("#reading-recommendation-modal input#Thu").val('');
+        $("#reading-recommendation-modal input#Fri").val('');
+        $("#reading-recommendation-modal input#Sat").val('');
+        $("#reading-recommendation-modal input#Sun").val('');
+
     });
     $("#save-reading-recommendation").click(function() {
         var siteId = $("#id_site").val();
