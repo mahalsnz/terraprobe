@@ -1,9 +1,8 @@
-from django.test import TestCase
-from skeleton.models import Reading, Site, ReadingType
+from django.test import TestCase, Client
+from skeleton.models import Reading, Site, ReadingType, Season
 from django.core import management
 from skeleton.utils import get_current_season, get_site_season_start_end
 
-# Get an instance of a logger
 import logging
 logger = logging.getLogger(__name__)
 
@@ -23,14 +22,16 @@ class ProcessTest(TestCase):
 
     def testProcesses(self):
 
+        season = get_current_season()
+        site = Site.objects.get(id=1)
+        dates = get_site_season_start_end(site, season)
+
+        management.call_command('request_to_hortplus')
         management.call_command('processrootzones')
         management.call_command('processdailywateruse')
         management.call_command('processmeter')
         management.call_command('processrainirrigation')
 
-        season = get_current_season()
-        site = Site.objects.get(id=1)
-        dates = get_site_season_start_end(site, season)
         readings = Reading.objects.filter(site=site, date__range=(dates.period_from, dates.period_to))
 
         for reading in readings:
@@ -105,3 +106,37 @@ class ProcessTest(TestCase):
             if str(reading.date) == '2019-05-7':
                 self.assertEquals(reading.irrigation_litres, 0)
                 self.assertEquals(reading.irrigation_mms, 0)
+
+    def testNuetronProbeFileUpload(self):
+
+        # Update season to 2019-2020
+        season = Season.objects.get(name="2018-2019")
+        season.current_flag = False
+        season = Season.objects.get(name="2019-2020")
+        season.current_flag = True
+
+        c = Client()
+
+        # Need a meter reading before uplaoding file for that date or else the upload will complain
+        c.post('/readings/onsite/', {'site':'1', 'date':'2019-11-18', 'meter':'37000'})
+
+        with open('skeleton/tests/files/neutron_probe_test_upload_1_site.csv') as fp:
+            c.post('/upload_readings_file/', {'description': 'test', 'attachment': fp})
+
+        site = Site.objects.get(id=1)
+        dates = get_site_season_start_end(site, season)
+        readings = Reading.objects.filter(site=site, date__range=(dates.period_from, dates.period_to))
+
+        for reading in readings:
+            logger.debug(str(reading))
+            if str(reading.date) == '2019-11-18':
+                self.assertEquals(reading.depth1, 23.0)
+            if str(reading.date) == '2019-8-23':
+                self.assertEquals(reading.depth1, 15256.0)
+                self.assertEquals(reading.depth2, 15420.0)
+                self.assertEquals(reading.depth3, 14866.6666666667)
+                self.assertEquals(reading.depth4, 14256.0)
+                self.assertEquals(reading.depth5, 14501.3333333333)
+                self.assertEquals(reading.depth6, 15121.3333333333)
+                self.assertEquals(reading.depth7, 15282.6666666667)
+                self.assertEquals(reading.depth8, 17916.0)

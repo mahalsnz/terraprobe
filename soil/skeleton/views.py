@@ -574,6 +574,7 @@ class UploadReadingsFileView(LoginRequiredMixin, CreateView):
         return render(request, 'upload_readings_file.html', { 'form': DocumentForm() })
 
     def post(self, request, *args, **kwargs):
+        out = StringIO()
         form = DocumentForm(request.POST, request.FILES)
         files = request.FILES.getlist('document')
 
@@ -582,7 +583,18 @@ class UploadReadingsFileView(LoginRequiredMixin, CreateView):
                 logger.info('***Saving File:' + str(f))
                 form.save()
                 try:
-                    handle_file(f, request)
+                    sites = handle_file(f, request)
+                    logger.debug("Sites:" + str(sites))
+
+                    management.call_command('processrootzones', stdout=out, sites=sites)
+
+                    logger.debug("Sites:" + str(sites))
+
+                    management.call_command('request_to_hortplus', stdout=out, sites=sites)
+                    management.call_command('processmeter', stdout=out, sites=sites)
+                    management.call_command('processdailywateruse', stdout=out, sites=sites)
+                    #management.call_command('processrain', stdout=out, sites=sites)
+
                     messages.success(request, "Successfully Uploaded file: " + str(f))
                 except Exception as e:
                     messages.info(request, "info with file: " + str(f) + " info is: " + str(e))
@@ -608,9 +620,11 @@ def handle_file(f, request):
     finally:
         # Call different handlers
         if type == 'neutron':
-            handle_neutron_file(file_data, request)
+            sites = handle_neutron_file(file_data, request)
+            return sites
         elif type == 'diviner_7003' or type == 'diviner_7777' or type == 'diviner_953':
-            handle_diviner_file(file_data, request, type)
+            sites = handle_diviner_file(file_data, request, type)
+            return sites
         else:
             handle_prwin_file(file_data, request)
 
@@ -621,14 +635,14 @@ def handle_file(f, request):
 '''
 
 def handle_neutron_file(file_data, request):
-    logger.debug("***Handling Neutron")
-    # process
+    logger.info("***Handling Neutron Probe File")
+
     lines = file_data.split("\n")
-    logger.info("Serial Line:" + lines[1])
+    logger.debug("Serial Line:" + lines[1])
     serialfields = lines[1].split(",")
     serialnumber = serialfields[1]
     serialnumber_formatted = serialnumber.lstrip("0")
-    logger.info("Serial Number:" + serialnumber_formatted)
+    logger.debug("Serial Number:" + serialnumber_formatted)
 
     # Check Serial Number exists and return info message if is not. Then get the serial number unique id
     if not Probe.objects.filter(serial_number=serialnumber_formatted).exists():
@@ -650,7 +664,6 @@ def handle_neutron_file(file_data, request):
             logger.debug("***We have a note line:" + line)
             # If not first note line of file
             if any(data):
-                logger.debug("***Reversing data:")
                 readings.reverse() # Neutron Probe files go from deepest to shallowest
                 data[key].append(readings)
                 readings = []
@@ -683,11 +696,11 @@ def handle_neutron_file(file_data, request):
         else:
             logger.info("Else not valid processing line!"  + line)
 
-    logger.debug("***Reversing data:")
     readings.reverse()
     data[key].append(readings) # Always insert last reading
     logger.info("Final Data submitted to process_probe_data:" + str(data))
-    process_probe_data(data, serial_number_id, request, 'N')
+    sites = process_probe_data(data, serial_number_id, request, 'N')
+    return sites
 
 '''
     handle_diviner_file
@@ -696,7 +709,7 @@ def handle_neutron_file(file_data, request):
 '''
 
 def handle_diviner_file(file_data, request, type):
-    logger.info("***Handling Diviner")
+    logger.info("***Handling Diviner Probe File")
     # Get probe serial number for type
     probes = type.split("_")
     file_type_sn = probes[1]
@@ -772,7 +785,8 @@ def handle_diviner_file(file_data, request, type):
             logger.info("Not a line to process:"  + line)
 
     logger.info("Final Data:" + str(data))
-    process_probe_data(data, serial_number_id, request, 'D')
+    sites = process_probe_data(data, serial_number_id, request, 'D')
+    return sites
 
 '''
     handle_prwin_file

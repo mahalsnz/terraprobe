@@ -10,13 +10,20 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
     help = 'Processes formulas to populate reading fields derived from rain (runs last)'
 
+    def add_arguments(self, parser):
+        parser.add_argument('-s', '--sites', type=open, help='A list of sites to process rain and irrigation for.')
+
     def handle(self, *args, **kwargs):
         logger.info('Running processrainirrigation.....')
-        logger.info('Check for meter and null irrigation (litres).....')
 
-        # Get sites in current season that have no effective_irrigation
         season = get_current_season()
-        sites = Site.objects.filter(is_active=True, readings__effective_irrigation__isnull=True, readings__type__name='Probe').distinct()
+
+        if kwargs['sites']:
+            sites = kwargs['sites']
+            logger.info('Starting update of rain and irrigation readings for sites that have just been uploaded.' + str(sites))
+        else:
+            sites = Site.objects.filter(is_active=True, readings__effective_irrigation__isnull=True, readings__type__name='Probe').distinct()
+            logger.info('Starting update of rain and irrigation readings for all sites that have a null effective irrigation.' + str(sites))
 
         for site in sites:
             dates = get_site_season_start_end(site, season)
@@ -34,8 +41,7 @@ class Command(BaseCommand):
 
             for reading in readings:
                 if reading.serial_number is None:
-                    self.stdout.write('Site ' + str(site.site_number) + ':' + site.name + ' has a reading on ' + str(reading.date) + ' that appears to have no serial number\n')
-                    continue
+                    raise SiteReadingException("No serial number found for reading date " + str(date), site)
 
                 date = reading.date
                 rz1 = reading.rz1

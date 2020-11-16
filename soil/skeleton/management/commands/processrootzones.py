@@ -4,7 +4,7 @@ from skeleton.models import Reading, Site
 from graphs.models import vsw_reading
 from django.db.models import Q
 
-from skeleton.utils import get_current_season, get_site_season_start_end, get_rootzone_mapping
+from skeleton.utils import get_current_season, get_site_season_start_end, get_rootzone_mapping, SiteReadingException
 
 import logging
 import decimal
@@ -16,13 +16,21 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
     help = 'Processes formulas to populate reading fields derived from rain and meter'
 
+    def add_arguments(self, parser):
+        parser.add_argument('-s', '--sites', type=open, help='A list of sites to get request rainfall for.')
+
     def handle(self, *args, **kwargs):
         logger.info('Running processrootzones.....')
 
-        logger.info('Starting update of empty root zone readings for current season (all reading types).....')
         season = get_current_season()
-        # This will still get some sites that do not need to be updated eg. Old reading with no rz1. Will be very rare in production
-        sites = Site.objects.filter(is_active=True, readings__rz1__isnull=True).distinct()
+
+        if kwargs['sites']:
+            sites = kwargs['sites']
+            logger.info('Starting update of root zone readings for sites that have just been uploaded.' + str(sites))
+        else:
+            sites = Site.objects.filter(is_active=True, readings__rz1__isnull=True).distinct()
+            logger.info('Starting update of root zone readings for all sites that have rz1 empty.'  + str(sites))
+
         for site in sites:
             dates = get_site_season_start_end(site, season)
             rootzones = get_rootzone_mapping(site)
@@ -98,4 +106,4 @@ class Command(BaseCommand):
                 # Finished looping through rootzones
             # Finished looping through readings
         # Finished looping through sites
-        logger.info('Finished Update.....')
+        logger.info('Finished Update of Rootzones')

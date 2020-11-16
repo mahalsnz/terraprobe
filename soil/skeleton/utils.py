@@ -11,6 +11,22 @@ logger = logging.getLogger(__name__)
 
 from .models import Site, Reading, ReadingType, Season, SeasonStartEnd, Probe
 
+class SiteReadingException(Exception):
+
+    """
+        Takes a message as well as a Site object
+
+        exaple usage: SiteReadingException("Root Zone 1 is blank for reading on " + str(date), site)
+    """
+
+    def __init__(self, message, site):
+        self.message = message
+        self.site = site
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f'{self.site.site_number} - {self.site.name} >>> {self.message}'
+
 '''
     Takes a site_id
     Returns a String Title Composing 'FarmName - SiteName (TechnicanFullName)'
@@ -115,7 +131,7 @@ def get_site_season_start_end(site, season):
 
 def process_probe_data(readings, serial_unique_id, request, type):
     logger.info("*** process_probe_data")
-
+    sites = []
     for key, site_info in readings.items():
         # get the mean of the readings. Use nanmean as nan used for zeros and we don't want them affecting the mean
         result = [np.nanmean(k) for k in zip(*site_info)]
@@ -152,8 +168,10 @@ def process_probe_data(readings, serial_unique_id, request, type):
             reading, created = Reading.objects.update_or_create(site=site, date=date, type=reading_type,
                 defaults=data)
             data = {} # reset
+            sites.append(site)
 
     logger.info("Outside of Process Probe Data Loop:")
+    return sites
 
 '''
     Similar to process_probe_data but:

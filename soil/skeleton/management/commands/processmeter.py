@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from skeleton.models import Reading, Site
-from skeleton.utils import get_site_season_start_end, get_current_season
+from skeleton.utils import get_site_season_start_end, get_current_season, SiteReadingException
 
 # Get an instance of a logger
 import logging
@@ -10,14 +10,23 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
     help = 'Processes formulas to populate reading fields derived from meter'
 
+    def add_arguments(self, parser):
+        parser.add_argument('-s', '--sites', type=open, help='A list of sites to get request rainfall for.')
+
     def handle(self, *args, **kwargs):
         logger.info('Running processmeter.....')
         logger.info('Check for meter and null irrigation (litres).....')
 
         # Get sites in current season that have readngs with at least one meter reading but no irrigation in litres
         season = get_current_season()
-        sites = Site.objects.filter(is_active=True, readings__meter__isnull=False, readings__irrigation_litres__isnull=True, readings__type__name='Probe').distinct()
-        logger.info('Sites' + str(sites))
+
+        if kwargs['sites']:
+            sites = kwargs['sites']
+            logger.info('Starting update of meter readings for sitesthat have just been uploaded.' + str(sites))
+        else:
+            sites = Site.objects.filter(is_active=True, readings__meter__isnull=False, readings__irrigation_litres__isnull=True, readings__type__name='Probe').distinct()
+            logger.info('Starting update of sites that have meter readings but null irrigation readings.' + str(sites))
+
         for site in sites:
             logger.info('Processing Site ' + site.name + ' irrigation method ' + str(site.irrigation_method))
 
@@ -44,8 +53,7 @@ class Command(BaseCommand):
 
                         # Site needs an irrigation_position
                         if site.irrigation_position == None:
-                            self.stdout.write('Site ' + site.name + ' has not irrigation position defined\n')
-                            continue
+                            raise SiteReadingException("No irrigation position defined", site)
 
                         # When it comes to processing the standar meter reading, if the difference between last week and this week is less than one,
                         # the system will realise that this is a faulty meter and data cannot be derived between the reset and previous meter reading.
@@ -67,9 +75,7 @@ class Command(BaseCommand):
                     else:
                         logger.debug('No previous date for reading date:' + str(date))
                         if meter == None:
-                            # Alert but don't stop for No Meter Reading
-                            self.stdout.write('No meter reading for latest reading date ' + str(date) + ' for site ' + site.name + '\n')
-                            continue
+                            raise SiteReadingException("No meter reading for latest reading date " + str(date), site)
 
                 # non standard irrigation
                 else:

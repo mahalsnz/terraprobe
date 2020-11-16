@@ -29,6 +29,7 @@ class Command(BaseCommand):
         parser.add_argument('-i', '--interval', type=str, help='The type of weather data. H for hourly and D for daily.')
         parser.add_argument('-t', '--stations', type=str, help='The list of weather station ids separated by a comma.')
         parser.add_argument('-m', '--metvars', type=str, help='The list of weather variable and measurement type TD_M,RN_T combined with an underscore, separated by a comma.')
+        parser.add_argument('--sites', type=open, help='A list of sites to get request rainfall for.')
 
     def handle(self, *args, **kwargs):
 
@@ -48,11 +49,19 @@ class Command(BaseCommand):
                 data['startdate'] = kwargs['startdate']
             response_text = post_request(data, serial)
         else:
-            readings = Reading.objects.select_related('site__farm__weatherstation').filter(rain__isnull=True, type=1)
+            readings = None
+            if kwargs['sites']:
+                sites = kwargs['sites']
+                logger.info('Starting update of rainfall for sites that have just been uploaded and have a null rain reading.' + str(sites))
+                readings = Reading.objects.select_related('site__farm__weatherstation').filter(site__in=sites, rain__isnull=True, type=1)
+            else:
+                logger.info('Starting update of rainfall for all sites that have a null rain reading')
+                readings = Reading.objects.select_related('site__farm__weatherstation').filter(rain__isnull=True, type=1)
             for reading in readings:
                 logger.debug('Reading object to process: ' + str(reading))
                 season = get_current_season()
                 dates = get_site_season_start_end(reading.site, season)
+
                 # If a site has only one reading we cannot calculate the previous reading date. A try block is the only way to catch this
                 try:
                     previous_reading = reading.get_previous_by_date(site=reading.site, type=1, date__range=(dates.period_from, dates.period_to))
