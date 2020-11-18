@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import url
 from django.views.generic import TemplateView
-from .views import SiteReadingsView, UploadReadingsFileView, SeasonWizard, OnsiteCreateView, SiteAutocompleteView \
+from .views import SiteReadingsView, UploadReadingsFileView, OnsiteCreateView, SiteAutocompleteView \
 , RecommendationReadyView, ProbeDivinerListView
 from . import views
 from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm, SiteSelectionForm
@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('readings/site/', SiteReadingsView.as_view(), name='site_readings'),
     path('upload_readings_file/', UploadReadingsFileView.as_view(), name='upload_readings_file'),
-    path('season_wizard/', SeasonWizard.as_view(FORMS), name='season_wizard'),
+    #path('season_wizard/', SeasonWizard.as_view(FORMS), name='season_wizard'),
     path('recommendation_ready/', RecommendationReadyView.as_view(), name='recommendation_ready'),
 
     path("vsw_percentage/<int:site_id>/<isodate:date>/", views.vsw_percentage),

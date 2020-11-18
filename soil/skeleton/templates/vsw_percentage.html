@@ -274,9 +274,9 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     d3.json('/graphs/api/vsw_strategy/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(strategy_data) {
         strategy_data.forEach(function(strategy) {
             season_critical_dates[strategy.critical_date_type] = parseTime(strategy.critical_date);
-            strategy_percentage = strategy.strategy_percentage
+            strategy_percentage = strategy.strategy_percentage; // This is the overall strategy percentage for the strategy type
             parsed_date = parseTime(strategy.strategy_date);
-            // 'strategy_percentage' is the same for all
+
             seasons_upper_strategy.push({
                 'date' : parsed_date,
                 'percentage' : strategy.percentage
@@ -344,27 +344,14 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 site_note = reading["site"]["comment"];
                 application_rate = reading["site"]["application_rate"];
                 root_zone += reading["rz1_bottom"] + ' cm';
+                root_zone1_bottom = reading["rz1_bottom"]
                 weekly_edwu = reading["weekly_edwu"];
 
                 weekly_litres_plant = reading["irrigation_litres"];
                 weekly_mms_plant = reading["irrigation_mms"];
                 weekly_rain = reading["rain"];
                 weekly_hours_irrigation = Math.round(weekly_mms_plant / application_rate);
-
             }
-
-            // Get last weeks readings if not false
-            /*
-            if (last_week_exists) {
-                if (last_week_date == formatTime(parsed_date)) {
-
-                    previous_litres_plant = reading["irrigation_litres"];
-                    previous_mms_plant = reading["irrigation_mms"];
-                    previous_rain = reading["rain"];
-                    previous_hours_irrigation = previous_mms_plant / application_rate;
-                }
-            }
-            */
         }
 
         // Get the Full Point and Refill - These are the vsw figures
@@ -432,7 +419,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     if (seasons_upper_strategy.length > 0) {
         console.log('start reading date' + seasons_refill_readings[0]['date'])
         // First date of both strategies will be season start date (period from)
-        seasons_upper_strategy.push({
+        /*seasons_upper_strategy.push({
             'date' : seasons_vsw_readings[0]['date'],
             'percentage' : 1
         });
@@ -440,10 +427,10 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
             'date' : seasons_vsw_readings[0]['date'],
             'percentage' : 0
         });
+        */
 
         diff = full_point_rz1 - refill_rz1
 
-        new_seasons_lower_strategy = [];
         // replace all lowere with upper - diff
         for (var i = 0; i < seasons_upper_strategy.length; i++) {
             upper_total = full_point_rz1 - (diff - (diff * seasons_upper_strategy[i]['percentage']))
@@ -456,7 +443,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
     }
     seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
     seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
-
+    console.log(seasons_upper_strategy)
     season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
@@ -471,15 +458,14 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     // Min and max for seasony and then set domain on it. Max could be full point of vsw, min could be refill or vsw
     vsws = seasons_vsw_readings.map(d => d.total); // get the vsw readings for the season
-    console.log(vsws)
+
     max = Math.max(...vsws)
     min = Math.min(...vsws)
     max_seasony = 0
     min_seasony = 0
     if (max >= full_point_rz1){ max_seasony = max } else { max_seasony = full_point_rz1 }
     if (min <= refill_rz1){ min_seasony = min } else { min_seasony = refill_rz1 }
-    console.log('max_seasony:' + max_seasony)
-    console.log('min_seasony:' + min_seasony)
+
     seasony0.domain([min_seasony - 50, max_seasony + 20]);
 
     /*********************** Weekly Graph Shaded Area between This Week and Previous weeks line ********************/
@@ -554,14 +540,31 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     // Add the full point line
     weekly_graph.append("path")
-      .data([full_point_readings])
-      .attr("class", "line")
-      .style("stroke", "green")
-      .attr("d", full_point_line);
+        .data([full_point_readings])
+        .attr("class", "line")
+        .style("stroke", "green")
+        .attr("d", full_point_line);
+
+    // Add a line for the bottom of root zone 1
+    weekly_graph.append("line")
+        .attr("x1", 0)
+        .attr("y1", weekly_y(root_zone1_bottom))
+        .attr("x2", width)
+        .attr("y2", weekly_y(root_zone1_bottom))
+        .style("stroke-width", 2)
+        .style("stroke-dasharray", ("5, 5"))
+        .style("stroke", 'blue')
+        .style("fill", "none");
+
+    weekly_graph.append("text")
+        .attr("y", weekly_y(root_zone1_bottom))
+        .attr("x", width + 17)
+        .attr('text-anchor', 'middle')
+        .attr("class", "myLabel")
+        .text('RZ1');
 
     // Add the X Axis
     weekly_graph.append("g")
-      //.attr("transform", "translate(0," + height + ")")
       .call(d3.axisTop(weekly_x));
 
     weekly_graph.append("text")
@@ -761,12 +764,6 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
           .text(function(d) { return d; });
 
       // Update recommendation fields
-      /*
-      recieved_last_week_rain = this_rain - previous_rain
-      recieved_last_week_litres_plant = this_litres_plant - previous_litres_plant
-      recieved_last_week_mms_plant = this_mms_plant - previous_mms_plant
-      recieved_last_week_hours_irrigation
-      */
       $("#last-week-data td.mms-plant").html(weekly_mms_plant);
       $("#last-week-data td.litres-plant").html(weekly_litres_plant);
       $("#last-week-data td.hours").html(weekly_hours_irrigation);
