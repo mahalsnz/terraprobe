@@ -35,8 +35,7 @@ class Command(BaseCommand):
             dates = get_site_season_start_end(site, season)
             rootzones = get_rootzone_mapping(site)
 
-            # Only get readings where rz1 is null
-            readings = vsw_reading.objects.filter(site_id=site.id, rz1__isnull=True, date__range=(dates.period_from, dates.period_to)).order_by('date')
+            readings = vsw_reading.objects.filter(site_id=site.id, date__range=(dates.period_from, dates.period_to)).order_by('date')
             for reading in readings:
                 # find rootzones in map for site and rz
                 logger.debug("Reading Date: " + str(reading.date) + " Type: " + reading.type)

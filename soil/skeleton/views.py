@@ -642,17 +642,14 @@ class UploadReadingsFileView(LoginRequiredMixin, CreateView):
                     logger.debug("Sites:" + str(sites))
 
                     management.call_command('processrootzones', stdout=out, sites=sites)
-
-                    logger.debug("Sites:" + str(sites))
-
                     management.call_command('request_to_hortplus', stdout=out, sites=sites)
                     management.call_command('processmeter', stdout=out, sites=sites)
                     management.call_command('processdailywateruse', stdout=out, sites=sites)
-                    #management.call_command('processrain', stdout=out, sites=sites)
+                    management.call_command('processrainirrigation', stdout=out, sites=sites)
 
-                    messages.success(request, "Successfully Uploaded file: " + str(f))
                 except Exception as e:
                     messages.info(request, "info with file: " + str(f) + " info is: " + str(e))
+                messages.success(request, "Successfully Uploaded file: " + str(f))
             return redirect('upload_readings_file')
         else:
             logger.info('***Form not valid:' + str(form))

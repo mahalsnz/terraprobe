@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django import forms
+from django.core import management
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 from .models import Farm, Site, SiteDescription, Crop, Product, Reading
 from .models import Report
@@ -17,6 +20,9 @@ from .models import CriticalDate, UserFullName
 from .models import SeasonStartEnd
 from .models import WeatherStation
 from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType
+
+import logging
+logger = logging.getLogger(__name__)
 
 class StrategyAdmin(admin.ModelAdmin):
     list_display = ('type', 'critical_date_type', 'days', 'percentage')
@@ -50,6 +56,19 @@ class ReadingAdmin(admin.ModelAdmin):
     list_display = ('site', 'type', 'date', 'serial_number', 'reviewed', 'depth1_count', 'comment')
     list_filter = ['type']
     search_fields = ['site__name', 'site__site_number']
+
+    def response_change(self, request, obj):
+        if "_run-processes" in request.POST:
+            try:
+                sites = [obj.site]
+                management.call_command('processrootzones', sites=sites)
+                management.call_command('processmeter', sites=sites)
+                management.call_command('processdailywateruse', sites=sites)
+                management.call_command('processrainirrigation', sites=sites)
+            except Exception as e:
+                messages.error(request, "Error: " + str(e))
+            return HttpResponseRedirect(".")
+        return super().response_change(request, obj)
 
 class ReadingTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'comment', 'formula')
