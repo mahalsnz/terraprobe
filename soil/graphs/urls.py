@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from . import views
 from .apiviews import VSWReadingList, VSWReadingReadyList, VSWStrategyList, VSWDateList, FruitionSummary, FruitionSummaryV2
@@ -13,5 +14,5 @@ urlpatterns = [
     path("customer_weekly/<int:site_id>/", views.customer_weekly, name="customer_weekly"),
     #path("api/v1/fruition_summary/<int:pk>/", FruitionSummary.as_view()),
     path("api/v1/fruition_summary/<str:site_ids>/", FruitionSummary.as_view()),
-    path("api/v2/fruition_summary/<str:site_ids>/", FruitionSummaryV2.as_view()),
+    path("api/v2/fruition_summary/<str:site_ids>/", cache_page(60 * 15)(FruitionSummaryV2.as_view())),
 ]
