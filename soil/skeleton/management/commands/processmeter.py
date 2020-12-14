@@ -47,8 +47,7 @@ class Command(BaseCommand):
                 if site.irrigation_method:
                     logger.debug('Calculating standard irrigation method')
 
-
-                    if previous_date and meter:
+                    if previous_date and meter is not None:
                         logger.debug('Date:' + str(date) + ' meter:' + str(meter) + ' PreviousDate:' + str(previous_date) + ' previous meter:' + str(previous_meter))
 
                         # Site needs an irrigation_position
