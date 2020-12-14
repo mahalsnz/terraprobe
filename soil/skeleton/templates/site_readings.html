@@ -117,6 +117,7 @@
         <div class="modal-footer">
           <button type="submit" class="btn bg-green" id="save-reading-recommendation" data-dismiss="modal">Submit</button>
           <button type="reset" class="btn bg-green" id="reset-reading-recommendation">Reset</button>
+          <input type="hidden" id="action" name="action" value="submit">
         </div>
 
       </div>
@@ -320,19 +321,21 @@
     });
     $("#reset-reading-recommendation").click(function() {
         $('#reading-recommendation-modal textarea#reading-recommendation-text').val('')
-        $("#reading-recommendation-modal input#Mon").val('')
-        $("#reading-recommendation-modal input#Tue").val('');
-        $("#reading-recommendation-modal input#Wed").val('');
-        $("#reading-recommendation-modal input#Thu").val('');
-        $("#reading-recommendation-modal input#Fri").val('');
-        $("#reading-recommendation-modal input#Sat").val('');
-        $("#reading-recommendation-modal input#Sun").val('');
+        $("#reading-recommendation-modal input#Mon").val(0)
+        $("#reading-recommendation-modal input#Tue").val(0);
+        $("#reading-recommendation-modal input#Wed").val(0);
+        $("#reading-recommendation-modal input#Thu").val(0);
+        $("#reading-recommendation-modal input#Fri").val(0);
+        $("#reading-recommendation-modal input#Sat").val(0);
+        $("#reading-recommendation-modal input#Sun").val(0);
+
 
     });
     $("#save-reading-recommendation").click(function() {
         var siteId = $("#id_site").val();
         var seasonId = $("#id_season").val();
         var comment = $('#reading-recommendation-modal textarea#reading-recommendation-text').val();
+        var action = $("#reading-recommendation-modal input#action").val();
 
         var mon = $("#reading-recommendation-modal input#Mon").val();
         var tue = $("#reading-recommendation-modal input#Tue").val();
@@ -348,6 +351,7 @@
                 'site': siteId,
                 'comment': comment,
                 'season' : seasonId,
+                'action' : action,
                 'Mon' : mon,
                 'Tue' : tue,
                 'Wed' : wed,

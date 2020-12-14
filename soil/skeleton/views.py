@@ -205,6 +205,10 @@ def process_reading_recommendation(request):
     site_id = request.GET.get('site')
     season_id = request.GET.get('season')
     comment = request.GET.get('comment')
+    action = request.GET.get('action')
+
+    logger.debug('request:' + str(request))
+    logger.debug('action:' + str(action))
 
     site = Site.objects.get(id=site_id)
     season = Season.objects.get(id=season_id)
@@ -255,11 +259,12 @@ def process_reading_recommendation(request):
 
             water_day_value = round(float(site.application_rate) * float(day_value))
             week_values[day + '-water'] = water_day_value
-
-            latest_reading.save()
+            if action == 'submit':
+                latest_reading.save()
 
         logger.debug('Day of week to start:' + str(week_start_abbr) + ' values ' + str(week_values)) # Monday is zero
-        if comment:
+        if action == 'submit':
+            logger.debug('Saving comment')
             latest_reading.comment = comment
             latest_reading.save()
         return JsonResponse({ 'comment' : latest_reading.comment, 'week_start_abbr' : week_start_abbr, 'week_start': week_start, 'values' : week_values })
@@ -272,7 +277,7 @@ def process_reading_recommendation(request):
         day_value = 0
         water_day_value = 0
         for day in list(calendar.day_abbr):
-            logger.debug(day)
+
             day_value = request.GET.get(day)
 
             logger.debug('request day value:' + str(day_value))
