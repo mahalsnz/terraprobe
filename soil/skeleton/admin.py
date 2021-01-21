@@ -89,11 +89,11 @@ class FarmAdmin(admin.ModelAdmin):
     list_display = ('name', 'weatherstation')
 
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ('site_number', 'name', 'farm', 'product', 'technician', 'is_active', 'application_rate')
+    list_display = ('site_number', 'name', 'farm', 'product', 'technician', 'is_active', 'latitude', 'longitude', 'application_rate')
     list_filter = ('is_active', 'technician')
     search_fields = ['site_number', 'name']
     fieldsets = [
-        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'product','comment','is_active','created_date', 'created_by']}),
+        ('Main',        {'fields': ['site_number', 'farm', 'technician', 'name', 'product','comment', 'is_active','latitude', 'longitude', 'created_date', 'created_by']}),
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
             'classes': ['collapse']}),
         ('Root Zones',

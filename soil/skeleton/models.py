@@ -238,6 +238,8 @@ class Site(models.Model):
     name = models.CharField(max_length=100, null=True)
     product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     # Irrigations
     irrigation_method = models.IntegerField(choices=IRRIGATION_METHOD, default=1, help_text="Are you sure you want to change this to Overhead?") # Drip
