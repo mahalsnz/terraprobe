@@ -71,11 +71,24 @@ $("#id_site_number").change(function() {
 });
 $("#submit-reading").click(function() {
     var siteId = $("#id_site_number").val();
-    console.log("siteId:" + siteId);
     var date = $("#id_date").val();
+    var previous_meter = $("#previous_meter").text();
     var meter = $("#id_meter").val();
     var rain = $("#id_rain").val();
-    console.log("date:" + date);
+
+    // Check water meter reading is not greater than 100 fomr first reading
+    if (meter) {
+        var target = parseInt(previous_meter) + 100;
+        console.log(meter, target)
+
+        if (target  < meter ) {
+            var ok = confirm('Your inputted meter reading is over 100 litres different from the previous reading. Is that correct?');
+            if (ok == false) {
+                return false;
+            }
+        }
+    }
+
     $.ajax({
         url: "/ajax/process-onsite-reading/",
         data: {
