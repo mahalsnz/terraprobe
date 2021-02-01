@@ -560,7 +560,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
         .attr("y", weekly_y(root_zone1_bottom))
         .attr("x", width + 17)
         .attr('text-anchor', 'middle')
-        .attr("class", "myLabel")
+        .attr("class", "lineLabel")
         .text('RZ1');
 
     // Add the X Axis
@@ -604,8 +604,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
            .attr("y", -10)
            .attr("x", seasonx(critical_date))
            .attr('text-anchor', 'middle')
-           .attr("class", "myLabel")//easy to style with CSS
-           .text(type);
+           .attr("class", "lineLabel")
+           .text(type + "\n" + formatTime(critical_date));
         colour_index++;
     }
 

@@ -9,7 +9,7 @@ app_name = 'graphs'
 urlpatterns = [
     path("api/vsw_reading/<int:pk>/<isodate:period_from>/<isodate:period_to>/", VSWReadingList.as_view(), name="vsw_data"),
     path("api/vsw_reading/<int:pk>/<isodate:period_from>/<isodate:period_to>/<str:reviewed>/", cache_page(60 * 30)(VSWReadingReadyList.as_view()), name="vsw_data"),
-    path("api/vsw_strategy/<int:pk>/<isodate:period_from>/<isodate:period_to>/", cache_page(60 * 30)(VSWStrategyList.as_view()), name="vsw_strategy"),
+    path("api/vsw_strategy/<int:pk>/<isodate:period_from>/<isodate:period_to>/", VSWStrategyList.as_view(), name="vsw_strategy"),
     path("api/vsw_date/<int:pk>/", cache_page(60 * 30)(VSWDateList.as_view()), name="vsw_date"),
     path("customer_weekly/<int:site_id>/", views.customer_weekly, name="customer_weekly"),
     #path("api/v1/fruition_summary/<int:pk>/", FruitionSummary.as_view()),
