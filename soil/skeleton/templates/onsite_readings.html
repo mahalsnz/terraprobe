@@ -76,13 +76,13 @@ $("#submit-reading").click(function() {
     var meter = $("#id_meter").val();
     var rain = $("#id_rain").val();
 
-    // Check water meter reading is not greater than 100 fomr first reading
+    // Check water meter reading is not greater than 10000 fomr first reading
     if (meter) {
-        var target = parseInt(previous_meter) + 100;
+        var target = parseInt(previous_meter) + 10000;
         console.log(meter, target)
 
         if (target  < meter ) {
-            var ok = confirm('Your inputted meter reading is over 100 litres different from the previous reading. Is that correct?');
+            var ok = confirm('Your inputted meter reading is over 10000 litres different from the previous reading. Is that correct?');
             if (ok == false) {
                 return false;
             }
