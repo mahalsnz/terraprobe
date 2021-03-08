@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'bootstrap4',
     'corsheaders',
+    'import_export',
 ]
 
 MIDDLEWARE = [

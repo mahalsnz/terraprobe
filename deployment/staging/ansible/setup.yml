@@ -112,6 +112,7 @@
         - django-rest-auth==0.9.5
         - coreapi==2.3.3
         - numpy==1.19.2
+        - django-import-export==2.5.0
 
     - name: Create main directory for the project
       file:

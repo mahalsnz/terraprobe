@@ -4,6 +4,8 @@ from django import forms
 from django.core import management
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 from .models import Farm, Site, SiteDescription, Crop, Product, Reading
 from .models import Report
@@ -52,10 +54,17 @@ class KCReadingAdmin(admin.ModelAdmin):
 class ETReadingAdmin(admin.ModelAdmin):
     list_display = ('date', 'state', 'daily')
 
-class ReadingAdmin(admin.ModelAdmin):
+class ReadingResource(resources.ModelResource):
+
+    class Meta:
+        model = Reading
+        fields = ('site__name', 'site__site_number', 'site__farm__name', 'date', 'type', 'rain', 'meter', 'irrigation_litres', 'irrigation_mms', 'effective_rainfall', 'effective_irrigation')
+
+class ReadingAdmin(ImportExportModelAdmin):
     list_display = ('site', 'type', 'date', 'serial_number', 'reviewed', 'depth1_count', 'comment')
     list_filter = ['type']
     search_fields = ['site__name', 'site__site_number']
+    resource_class = ReadingResource
 
     def response_change(self, request, obj):
         if "_run-processes" in request.POST:
