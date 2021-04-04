@@ -58,7 +58,7 @@ class ReadingResource(resources.ModelResource):
 
     class Meta:
         model = Reading
-        fields = ('site__name', 'site__site_number', 'site__farm__name', 'date', 'type', 'rain', 'meter', 'irrigation_litres', 'irrigation_mms', 'effective_rainfall', 'effective_irrigation')
+        fields = ('site__name', 'site__site_number', 'site__farm__name', 'date', 'type', 'rain', 'meter', 'irrigation_litres', 'irrigation_mms', 'effective_rainfall', 'effective_irrigation','estimated_dwu')
 
 class ReadingAdmin(ImportExportModelAdmin):
     list_display = ('site', 'type', 'date', 'serial_number', 'reviewed', 'depth1_count', 'comment')
