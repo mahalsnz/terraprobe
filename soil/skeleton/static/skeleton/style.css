@@ -133,14 +133,55 @@ nav {
 }
 
 div.tooltip {
-position: absolute;
-text-align: center;
-width: 80px;
-height: 30px;
-padding: 2px;
-font: 12px sans-serif;
-background: lightsteelblue;
-border: 0px;
-border-radius: 8px;
-pointer-events: none;
+    position: absolute;
+    text-align: center;
+    width: 80px;
+    height: 30px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/* For the EOY Report gauges that use High Charts */
+
+.highcharts-figure .chart-container {
+	width: 200px;
+	height: 180px;
+    float: left;
+}
+
+.highcharts-figure, .highcharts-data-table table {
+	width: 200px;
+	/* margin: 0 auto; */
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #EBEBEB;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+	font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
 }

@@ -10,6 +10,9 @@ from bootstrap_datepicker_plus import DatePickerInput
 import datetime
 from dal import autocomplete
 
+class EOYReportForm(forms.ModelForm):
+    farm = forms.ModelChoiceField(Farm.objects.all().order_by('-name'), widget=forms.Select())
+
 class DivinerForm(forms.ModelForm):
     probe = forms.ModelChoiceField(Probe.objects.all(), widget=forms.Select())
     site = forms.ModelChoiceField(SiteDescription.objects.filter(is_active=True).order_by('site_number'), widget=forms.Select())

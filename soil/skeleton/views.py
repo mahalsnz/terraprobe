@@ -13,9 +13,10 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
 from django.db.models import Sum, Q
+from django.db.models.functions import Coalesce
 from graphs.models import vsw_reading
 from .models import Probe, ProbeDiviner, Diviner, Reading, ReadingType, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType \
-, Variety, VarietySeasonTemplate, SiteDescription
+, Variety, VarietySeasonTemplate, SiteDescription, Farm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from formtools.wizard.views import SessionWizardView
@@ -437,6 +438,53 @@ def index(request):
     Reports
 '''
 
+from wkhtmltopdf.views import PDFTemplateResponse
+# Leaving in for now to see if I can get this working later
+class EOYPDFView(View):
+
+    template='report_eoy.html' # the template
+
+    def get(self, request, farm_id):
+
+        farms = Farm.objects.filter(id=farm_id)
+        eoy_data = []
+
+        data = {
+            'eoy_data': eoy_data,
+        }
+        jsondata = json.dumps(data)
+
+
+        response = PDFTemplateResponse(request=request,
+                                       template=self.template,
+                                       filename="hello.pdf",
+                                       context= data,
+                                       show_content_in_browser=False,
+                                       cmd_options={'margin-top': 10,
+                                          "zoom":1,
+                                           "viewport-size" :"1366 x 513",
+                                           "javascript-delay" : "4000",
+                                           'footer-center' :'[page]/[topage]',
+                                           "no-stop-slow-scripts" : True},
+                                       )
+        return response
+
+'''
+class ReportEOYView(LoginRequiredMixin, CreateView):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'report_eoy.html', { 'form': EOYReportForm() })
+
+    def(post):
+'''
+
+# This reports calls an API via javascript for data
+def report_eoy(request, farm_id):
+
+    farm = Farm.objects.get(id=farm_id)
+    return render(request, "report_eoy.html", {'farm_name': farm.name, 'farm_id': farm_id})
+
+
 def report_season_dates(request):
     season = get_current_season()
     sites = SiteReportTable(Site.objects.filter(is_active=True).filter(~Q(seasonstartend__season=season)))
@@ -499,11 +547,16 @@ def report_no_meter_reading(request):
 def weather(request):
     return render(request, 'weather.html', {})
 
+#from django.core.urlresolvers import reverse
+
 @login_required
 def report_home(request):
     if request.method == 'POST':
         try:
             button_clicked = request.POST['button']
+            if button_clicked == 'reportEOY':
+                url = reverse('report_eoy', kwargs={'farm_id': 1})
+                return HttpResponseRedirect(url)
             if button_clicked == 'reportSeasonDates':
                 return HttpResponseRedirect(reverse('report_season_dates'))
             if button_clicked == 'reportMissingReadingTypes':

@@ -1,0 +1,144 @@
+<!-- templates/report_eoy.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>EOY</h1>
+
+<h2>{{ farm_name }}</h2>
+
+<div id="report">
+
+</div>
+
+<!--{% for data in eoy_data.eoy_data %} <p>-{{ data }}- - {{ data.rainfall }} {{ counter }}</p> {% endfor %}-->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+<script>
+$(document).ready(function(){
+    var farm_id = "{{ farm_id }}";
+
+    $.ajax({
+        url: "/api/eoy_farm_report/" + farm_id + "/",
+        dataType: 'json',
+        success: function(result) {
+            console.log(result);
+            var gauges = {
+                'rain' : 'Rain',
+                'irrigation_mms': 'Irrigation MMS',
+                'irrigation_litres': 'Irrigation Litres',
+                'eff_rain': 'Effective Rain'};
+
+            result.forEach(function(d) {
+
+                $("#report").append("<h4>" + d.site + " - " + d.season + "</h4>");
+
+                // We need rows of highcharts gauges. So each row needs a unique identifier of site id and season eg row-238-2020-2021
+                var row = '';
+                row_id = 'row-' + d.site_id + "-" + d.season;
+                row += "<div class='row' id='" + row_id + "'></row>"
+                $("div[id='report']").append(row)
+
+                // Loop thrugh the gauges we are going to display
+                for (var key in gauges) {
+
+                    var gauge_name = key + '-' + d.site_id + '-' + d.season; // this is unique for each gauge/chart eg. irrigation_mms-238-2020-2021
+                    var gauge_data = d[key]
+                    var gauge_data_diff = d[key + '_diff'];
+
+                    content = '';
+                    content += "<figure class='highcharts-figure'>"
+                    content += "<div id='" + gauge_name + "' class='chart-container'></div></figure>"
+                    $("div[id='" + row_id + "']").append(content);
+
+                    // Start Gauge Options //
+                    gaugeOptions = {
+                        chart: { type: 'solidgauge' },
+                        title: null,
+                        pane: {
+                            centre: ['10', '120'],
+                            size: '120',
+                            startAngle: -90,
+                            endAngle: 90,
+                            background: {
+                                backgroundColor:
+                                    Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                                innerRadius: '60%',
+                                outerRadius: '100%',
+                                shape: 'arc'
+                            }
+                        },
+                        // the value axis
+                        yAxis: {
+                            // Where the colour changes
+                            stops: [
+                                [0.1, '#55BF3B'], // green
+                                [0.5, '#DDDF0D'], // yellow
+                                [0.9, '#DF5353'] // red
+                            ],
+                            lineWidth: 2,
+                            tickWidth: 2,
+                            minorTickInterval: null,
+                            tickAmount: 2,
+                            title: {
+                                y: -70
+                            },
+                            labels: {
+                                y: 16
+                            }
+                        },
+
+                        plotOptions: {
+                            solidgauge: {
+                                dataLabels: {
+                                    y: 5,
+                                    borderWidth: 0,
+                                    useHTML: true
+                                }
+                            }
+                        }
+                    }; // End Gauge Options
+
+                    /////////////////////////////////////////////////////////////
+                    var gaugeChart = Highcharts.chart(gauge_name, Highcharts.merge(gaugeOptions, {
+                        yAxis: {
+                            min: 0,
+                            max: gauge_data,
+                            title: {
+                                text: gauges[key],
+                                align: 'low',
+                                textAlign: 'center',
+                                style: {
+                                    color: 'black',
+                                    'font-weight': 'bold',
+                                    'font-size': '14px'
+                                }
+                            }
+                        },
+
+                        credits: { enabled: false },
+
+                        series: [{
+                            data: [gauge_data_diff],
+                            //' + gauge_name + ' ' + gauge_data + '
+                            dataLabels: {
+                                allowOverlap: true,
+                                format:
+                                    '<div style="text-align:centre">' +
+                                    '<span style="font-size:14px">Total ' + gauge_data + '</span><br/>' +
+                                    '<span style="font-size:14px;opacity:0.8">Diff {y}</span>' +
+                                    '</div>'
+                            },
+                        }]
+                    })); // End Gauge Chart
+                } // End loop of Gauges
+            }); // End loop of data
+        }
+    });
+});
+</script>
+
+{% endblock content %}
