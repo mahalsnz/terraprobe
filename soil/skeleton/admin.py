@@ -34,7 +34,7 @@ class StrategyTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'percentage')
 
 class WeatherStationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'region', 'code')
+    list_display = ('name', 'region', 'code', 'average_rainfall')
 
 class ProbeDivinerAdmin(admin.ModelAdmin):
     list_display = ('probe', 'diviner')
@@ -92,10 +92,6 @@ class CalibrationAdmin(admin.ModelAdmin):
     list_display = ('serial_number', 'soil_type', 'period_from', 'period_to', 'slope', 'intercept')
     list_filter = ('serial_number', 'soil_type')
     search_fields = ['serial_number_id__serial_number']
-    #raw_id_fields = ('serial_number',)
-
-class FarmAdmin(admin.ModelAdmin):
-    list_display = ('name', 'weatherstation')
 
 class SiteAdmin(admin.ModelAdmin):
     list_display = ('site_number', 'name', 'farm', 'product', 'technician', 'is_active', 'latitude', 'longitude', 'application_rate')

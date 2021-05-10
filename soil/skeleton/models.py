@@ -101,6 +101,7 @@ class WeatherStation(models.Model):
     region = models.ForeignKey('address.State', null=False, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
     code = models.CharField(max_length=4, null=True)
+    average_rainfall = models.IntegerField(null=True, default=0, help_text="In mms the average 10 year rainfall for that weatherstation for a growing season (Not the full year).")
 
     def __str__(self):
         return self.name
