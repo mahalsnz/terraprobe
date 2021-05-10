@@ -529,6 +529,10 @@ class ETReading(models.Model):
     created_date = models.DateTimeField('date published', default=timezone.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
 
+    class Meta:
+        unique_together = (('date', 'state'))
+
+
     def __str__(self):
         state_text = str(self.state)
         date_text = str(self.date)
