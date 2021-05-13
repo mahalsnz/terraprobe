@@ -4,12 +4,93 @@ import json
 import numpy as np
 import math
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Sum
+from django.db.models.functions import Coalesce
+from datetime import timedelta
 
 # Get an instance of a logger
 import logging
 logger = logging.getLogger(__name__)
 
 from .models import Site, Reading, ReadingType, Season, SeasonStartEnd, Probe
+
+"""
+    From a full point and refill value calculates and returns a string soil type of heavy, meduim or light
+"""
+
+def get_soil_type(full, refill):
+    logger.debug("Full " + str(full) +" Refill " + str(refill))
+
+    diff = int(full) - int(refill)
+    if diff > 200:
+        return "Heavy"
+    elif diff > 100:
+        return "Light"
+    else:
+        return "Meduim"
+
+def get_average_for_all_sites(period_from, period_to, passed_soil_type):
+    sites = Site.objects.filter(is_active=True)
+    sites_to_average = []
+
+    # We want to stretch the period from and to dates out to cover as many sites as we can in that season (These dates start out for a particular site)
+    #logger.debug("Before period_to:" + str(period_to))
+    period_to = period_to + timedelta(31)
+    #logger.debug("After period_to:" + str(period_to))
+
+    #logger.debug("Before period_from:" + str(period_from))
+    period_from = period_from + timedelta(-31)
+    #logger.debug("After period_from:" + str(period_from))
+
+    for site in sites:
+        # Decide first what soil type a site is
+        try:
+            full_point = Reading.objects.get(site=site.id, type__name="Full Point", date__range=(period_from, period_to))
+            refill = Reading.objects.get(site=site.id, type__name="Refill", date__range=(period_from, period_to))
+
+            if ((full_point.rz1 is None) or (refill.rz1 is None)):
+                continue
+
+            site_soil_type = get_soil_type(full_point.rz1, refill.rz1)
+
+            # If a match put it in list
+            if passed_soil_type == site_soil_type:
+                logger.debug("We have a match on soil types for site " + site.name)
+                sites_to_average.append(site.id)
+            else:
+                logger.debug("No match for site " + str(site.site_number))
+        except ObjectDoesNotExist:
+            logger.debug("****** " + str(site.site_number))
+            continue
+
+    # End find of sites
+
+    total_eff_irrigation = 0
+    total_irrigation_mms = 0
+    for site_id in sites_to_average:
+        readings = Reading.objects.filter(site=site_id, type__name="Probe", date__range=(period_from, period_to)).order_by('date')
+
+        irrigation_mms = readings.aggregate(irrigation_mms__sum=Coalesce(Sum('irrigation_mms'), 0))
+        irrigation_mms_sum = irrigation_mms.get('irrigation_mms__sum')
+
+        eff_irrigation = readings.aggregate(effective_irrigation__sum=Coalesce(Sum('effective_irrigation'), 0))
+        eff_irrigation_sum = eff_irrigation.get('effective_irrigation__sum')
+
+        total_eff_irrigation += eff_irrigation_sum
+        total_irrigation_mms += irrigation_mms_sum
+
+    total_sites = len(sites_to_average)
+    total_eff_irrigation = round(total_eff_irrigation / total_sites)
+    logger.debug('Total eff irrigation ' + str(total_eff_irrigation) + ' Total irrigation' + str(total_irrigation_mms) + ' total sites ' +
+        str(total_sites))
+
+    total_eff_irrigation_perc = 0
+
+    if total_sites > 0:
+        total_eff_irrigation_perc = round(total_eff_irrigation /  round(total_irrigation_mms / total_sites) * 100)
+
+    logger.debug('Total eff irrigation percentage %' + str(total_eff_irrigation_perc))
+    return (total_eff_irrigation, total_eff_irrigation_perc)
 
 """
     Accepts a reading object

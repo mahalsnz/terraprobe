@@ -12,7 +12,7 @@ from .models import Report, Season, Farm, Reading, Site, ReadingType, SeasonStar
 from address.models import Address, Locality, State, Country
 from .serializers import CountrySerializer, StateSerializer, LocalitySerializer, AddressSerializer, ReportSerializer, SeasonSerializer, FarmSerializer \
 , ReadingSerializer, SiteSerializer, ReadingTypeSerializer
-from skeleton.utils import get_current_season, get_site_season_start_end
+from skeleton.utils import get_current_season, get_site_season_start_end, get_soil_type, get_average_for_all_sites
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -74,78 +74,91 @@ class SiteReadingList(generics.ListCreateAPIView):
 class EOYFarmSummary(APIView):
 
     def get(self, request, farm_id, format=None):
-        logger.debug(str(request.GET))
-
-        farms = Farm.objects.filter(id=farm_id)
+        farms = Farm.objects.select_related('weatherstation').filter(id=farm_id)
         eoy_data = []
-        averge_rainfall = 200
 
         for farm in farms:
-            sites = Site.objects.filter(farm=farm)
+            average_rainfall = farm.weatherstation.average_rainfall
+            sites = Site.objects.select_related('product__crop').select_related('product__variety').filter(farm=farm)
 
             for site in sites:
                 seasons = SeasonStartEnd.objects.filter(site_id=site.id).order_by('period_from')
 
-                previous_rainfall = 0.0
                 previous_irrigation_mms = 0.0
                 previous_eff_rain = 0.0
-                previous_irrigation_litres = 0.0
 
                 rain_diff = 0.0
+                rain_perc = 0.0
+
                 irrigation_mms_diff = 0.0
-                eff_rain_diff = 0.0
-                irrigation_litres_diff = 0.0
+                irrigation_mms_perc = 0.0
+
+                eff_irrigation_diff = 0.0
+                eff_irrigation_perc = 0.0
+
+                average_eff_irrigation = 0.0
+                average_eff_irrigation_perc = 0.0
+                average_eff_irrigation_diff = 0.0
 
                 for season in seasons:
-                    readings = Reading.objects.filter(site=site.id, type=1, date__range=(season.period_from, season.period_to)).order_by('date')
+                    readings = Reading.objects.filter(site=site.id, type__name="Probe", date__range=(season.period_from, season.period_to)).order_by('date')
+                    full_point = Reading.objects.get(site=site.id, type__name="Full Point", date__range=(season.period_from, season.period_to))
+                    refill = Reading.objects.get(site=site.id, type__name="Refill", date__range=(season.period_from, season.period_to))
 
+                    soil_type = get_soil_type(full_point.rz1, refill.rz1)
+                    (average_eff_irrigation, average_eff_irrigation_perc) = get_average_for_all_sites(season.period_from, season.period_to, soil_type)
+                    logger.debug('average_eff_irrigation_perc for all sites of that soil type:' + str(average_eff_irrigation_perc))
+
+                    logger.debug(str(full_point.rz1) + " : " + str(refill.rz1))
                     rainfall = readings.aggregate(rain__sum=Coalesce(Sum('rain'), 0))
                     rain_sum = rainfall.get('rain__sum')
-
-                    irrigation_litres = readings.aggregate(irrigation_litres__sum=Coalesce(Sum('irrigation_litres'), 0))
-                    irrigation_litres_sum = irrigation_litres.get('irrigation_litres__sum')
 
                     irrigation_mms = readings.aggregate(irrigation_mms__sum=Coalesce(Sum('irrigation_mms'), 0))
                     irrigation_mms_sum = irrigation_mms.get('irrigation_mms__sum')
 
-                    eff_rain = readings.aggregate(effective_rainfall__sum=Coalesce(Sum('effective_rainfall'), 0))
-                    eff_rain_sum = eff_rain.get('effective_rainfall__sum')
+                    eff_irrigation = readings.aggregate(effective_irrigation__sum=Coalesce(Sum('effective_irrigation'), 0))
+                    eff_irrigation_sum = eff_irrigation.get('effective_irrigation__sum')
 
-                    if previous_rainfall:
-                        rain_diff = round(rain_sum - previous_rainfall)
-                        logger.debug('Rainfall Diff from last year:' + str(rain_diff))
-                    previous_rainfall = rain_sum
+                    rain_diff = round(rain_sum - average_rainfall)
+                    rain_perc = round(rain_sum / average_rainfall * 100)
+                    logger.debug('Rainfall Diff from average:' + str(rain_diff) + ' % Diff ' + str(rain_perc))
 
-                    if previous_eff_rain:
-                        eff_rain_diff = round(eff_rain_sum - previous_eff_rain)
-                        logger.debug('eff_rain Diff from last year:' + str(eff_rain_diff))
-                    previous_eff_rain = eff_rain_sum
+                    eff_irrigation_perc = (eff_irrigation_sum / irrigation_mms_sum * 100)
+                    logger.debug('Effective Irrigation %:' + str(eff_irrigation_perc))
 
                     if previous_irrigation_mms:
                         irrigation_mms_diff = round(irrigation_mms_sum - previous_irrigation_mms)
-                        logger.debug('irrigation_mms Diff from last year:' + str(irrigation_mms_diff))
+                        irrigation_mms_perc = round(irrigation_mms_sum / previous_irrigation_mms * 100)
+                        logger.debug('irrigation_mms Diff from last year:' + str(irrigation_mms_diff) + ' % Diff ' + str(irrigation_mms_perc))
                     previous_irrigation_mms = irrigation_mms_sum
 
-                    if previous_irrigation_litres:
-                        irrigation_litres_diff = round(irrigation_litres_sum - previous_irrigation_litres)
-                        logger.debug('irrigation_litres Diff from last year:' + str(irrigation_litres_diff))
-                    previous_irrigation_litres = irrigation_litres_sum
+                    average_eff_irrigation_diff = average_eff_irrigation_perc - eff_irrigation_perc
 
-                    logger.debug('Season: ' + str(season.season_name) + ' Farm:' + str(farm.name) + ' Site:' + str(site.site_number) + ' Rainfall:' + str(rain_sum))
+                    logger.debug('Season: ' + str(season.season_name) + ' Farm:' + str(farm.name) + ' Weatherstation ' + farm.weatherstation.name +
+                        ' Site:' + str(site.site_number) + ' Rainfall:' + str(rain_sum))
 
                     eoy_data.append({
                         "farm": farm.name,
+                        'average_rainfall': average_rainfall,
                         'site' : site.name,
                         'site_id' : site.id,
                         'season': season.season_name,
+                        'soil_type' : soil_type,
+                        'product' : site.product.crop.name + ' - ' + site.product.variety.name,
+                        'rz1' : site.rz1_bottom,
+                        'application_rate' : site.application_rate,
                         'rain': rain_sum,
+                        'rain_perc': rain_perc,
                         'rain_diff': rain_diff,
-                        'irrigation_litres': irrigation_litres_sum,
-                        'irrigation_litres_diff': irrigation_litres_diff,
                         'irrigation_mms': irrigation_mms_sum,
+                        'irrigation_mms_perc': irrigation_mms_perc,
                         'irrigation_mms_diff': irrigation_mms_diff,
-                        'eff_rain' : eff_rain_sum,
-                        'eff_rain_diff' : eff_rain_diff,
+                        'eff_irrigation' : eff_irrigation_sum,
+                        'eff_irrigation_diff' : eff_irrigation_diff,
+                        'eff_irrigation_perc' : eff_irrigation_perc,
+                        'average_eff_irrigation' : average_eff_irrigation,
+                        'average_eff_irrigation_diff' : average_eff_irrigation_diff,
+                        'average_eff_irrigation_perc' : average_eff_irrigation_perc
                     })
 
         #reorder data

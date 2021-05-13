@@ -6,8 +6,6 @@
 
 <h1>EOY</h1>
 
-<h2>{{ farm_name }}</h2>
-
 <div id="report">
 
 </div>
@@ -29,12 +27,16 @@ $(document).ready(function(){
             var gauges = {
                 'rain' : 'Rain',
                 'irrigation_mms': 'Irrigation MMS',
-                'irrigation_litres': 'Irrigation Litres',
-                'eff_rain': 'Effective Rain'};
+                'eff_irrigation': 'Effective Irrigation',
+                'average_eff_irrigation': 'Average Effective Irrigation',
+            };
+
+            $("#report").append("<h3>" + result[0].farm + " - 10 Year Average Rainfall mms " + result[0].average_rainfall + "</h3>")
 
             result.forEach(function(d) {
 
-                $("#report").append("<h4>" + d.site + " - " + d.season + "</h4>");
+                $("#report").append("<h4>" + d.site + " - " + d.season  + " - " + d.soil_type + " Soil - Root Zone " + d.rz1 + " - Application Rate " +
+                    d.application_rate + "</h4>");
 
                 // We need rows of highcharts gauges. So each row needs a unique identifier of site id and season eg row-238-2020-2021
                 var row = '';
@@ -48,6 +50,7 @@ $(document).ready(function(){
                     var gauge_name = key + '-' + d.site_id + '-' + d.season; // this is unique for each gauge/chart eg. irrigation_mms-238-2020-2021
                     var gauge_data = d[key]
                     var gauge_data_diff = d[key + '_diff'];
+                    var gauge_data_perc = d[key + '_perc'];
 
                     content = '';
                     content += "<figure class='highcharts-figure'>"
@@ -75,9 +78,9 @@ $(document).ready(function(){
                         yAxis: {
                             // Where the colour changes
                             stops: [
-                                [0.1, '#55BF3B'], // green
-                                [0.5, '#DDDF0D'], // yellow
-                                [0.9, '#DF5353'] // red
+                                [0.5, 'red'], // green
+                                [0.75, 'orange'], // yellow
+                                [0.99, 'green'] // red
                             ],
                             lineWidth: 2,
                             tickWidth: 2,
@@ -87,7 +90,7 @@ $(document).ready(function(){
                                 y: -70
                             },
                             labels: {
-                                y: 16
+                                y: 9
                             }
                         },
 
@@ -106,7 +109,7 @@ $(document).ready(function(){
                     var gaugeChart = Highcharts.chart(gauge_name, Highcharts.merge(gaugeOptions, {
                         yAxis: {
                             min: 0,
-                            max: gauge_data,
+                            max: 100,
                             title: {
                                 text: gauges[key],
                                 align: 'low',
@@ -122,14 +125,15 @@ $(document).ready(function(){
                         credits: { enabled: false },
 
                         series: [{
-                            data: [gauge_data_diff],
+                            data: [gauge_data_perc],
                             //' + gauge_name + ' ' + gauge_data + '
                             dataLabels: {
                                 allowOverlap: true,
                                 format:
                                     '<div style="text-align:centre">' +
                                     '<span style="font-size:14px">Total ' + gauge_data + '</span><br/>' +
-                                    '<span style="font-size:14px;opacity:0.8">Diff {y}</span>' +
+                                    '<span style="font-size:14px;opacity:0.8">Diff {y}%</span><br/>' +
+                                    '<span style="font-size:14px;opacity:0.8">Diff ' + gauge_data_diff + '</span>' +
                                     '</div>'
                             },
                         }]
