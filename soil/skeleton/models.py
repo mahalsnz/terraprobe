@@ -20,6 +20,12 @@ IRRIGATION_METHOD = (
     (1, "Drip")
 )
 
+SOIL_TYPE = (
+    ("LIG", "Light"),
+    ("MED", "Medium"),
+    ("HEV", "Heavy"),
+)
+
 DEPTH_VALUES = (
     (0, 0),
     (10, 10),
@@ -96,6 +102,16 @@ class Season(models.Model):
 
     def __str__(self):
         return self.name
+
+class SeasonalSoilStat(models.Model):
+    season = models.ForeignKey(Season, on_delete=models.PROTECT, null=False)
+    soil_type = models.CharField(choices=SOIL_TYPE, max_length=3, default='HEV', null=False)
+    total_irrigation_mms= models.IntegerField(null=True, default=0, help_text="Total Irrigation for all sites of that soil type")
+    total_effective_irrigation = models.IntegerField(null=True, default=0, help_text="Total Effective Irrigation for all sites of that soil type")
+    perc_effective_irrigation = models.IntegerField(null=True, default=0, help_text="Percentage Effective Irrigation for all sites of that soil type")
+
+    class Meta:
+        unique_together = (('season', 'soil_type'))
 
 class WeatherStation(models.Model):
     region = models.ForeignKey('address.State', null=False, on_delete=models.CASCADE)

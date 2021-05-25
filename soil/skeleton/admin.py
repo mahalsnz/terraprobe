@@ -21,10 +21,13 @@ from .models import CriticalDateType
 from .models import CriticalDate, UserFullName
 from .models import SeasonStartEnd
 from .models import WeatherStation
-from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType
+from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType, SeasonalSoilStat
 
 import logging
 logger = logging.getLogger(__name__)
+
+class SeasonalSoilStatAdmin(admin.ModelAdmin):
+    list_display = ('season', 'soil_type', 'total_irrigation_mms', 'total_effective_irrigation', 'perc_effective_irrigation')
 
 class StrategyAdmin(admin.ModelAdmin):
     list_display = ('type', 'critical_date_type', 'days', 'percentage')
@@ -166,6 +169,7 @@ admin.site.register(Calibration, CalibrationAdmin)
 admin.site.register(ReadingType, ReadingTypeAdmin)
 admin.site.register(Probe, ProbeAdmin)
 admin.site.register(Season, SeasonAdmin)
+admin.site.register(SeasonalSoilStat, SeasonalSoilStatAdmin)
 admin.site.register(ETReading, ETReadingAdmin)
 admin.site.register(KCReading, KCReadingAdmin)
 admin.site.register(Diviner, DivinerAdmin)
