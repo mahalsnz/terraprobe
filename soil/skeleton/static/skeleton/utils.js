@@ -2,6 +2,29 @@
     Helper functions that are used in multiple places. Not worrying about namespace yet
 */
 
+
+
+    /*
+    Promise.all([
+    	await fetch('/graphs/api/vsw_reading/14/14-10-2019/29-04-2020/?format=json'),
+    	await fetch('/graphs/api/vsw_strategy/14/14-10-2019/29-04-2020/?format=json')
+    ]).then(function (responses) {
+    // Get a JSON object from each of the responses
+    return Promise.all(responses.map(function (response) {
+        return response.json();
+    }));
+    }).then(function (data) {
+    // Log the data to the console
+    // You would do something with both sets of data here
+    console.log(data)
+    return data;
+    }).catch(function (error) {
+    // if there's an error, log it
+    console.log(error);
+    });
+    */
+
+
 /*
     Called in ajax returns to update the django messages
     $.ajax({

@@ -273,6 +273,8 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
 
     d3.json('/graphs/api/vsw_strategy/' + "{{ site_id }}" + '/' + "{{ period_from }}" + '/' + "{{ period_to }}" + '/?format=json').then(function(strategy_data) {
         strategy_data.forEach(function(strategy) {
+
+            console.log(strategy);
             season_critical_dates[strategy.critical_date_type] = parseTime(strategy.critical_date);
             strategy_percentage = strategy.strategy_percentage; // This is the overall strategy percentage for the strategy type
             parsed_date = parseTime(strategy.strategy_date);
@@ -281,6 +283,7 @@ d3.json('/graphs/api/vsw_reading/' + "{{ site_id }}" + '/' + "{{ period_from }}"
                 'date' : parsed_date,
                 'percentage' : strategy.percentage
             });
+
 
             seasons_lower_strategy.push({
                 'date' : parsed_date,

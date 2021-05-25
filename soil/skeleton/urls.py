@@ -19,7 +19,8 @@ urlpatterns = [
     path('reports', views.report_home, name='report_home'),
     path("reports/eoy/<int:farm_id>", views.report_eoy, name='report_eoy'),
     path("reports/eoy_pdf/<int:farm_id>", views.EOYPDFView.as_view()),
-
+    path("season/", views.season, name="season"),
+    
     #url(r'^pdf/$', PDFTemplateView.as_view(template_name='my_template.html',
     #                                       filename='my_pdf.pdf'), name='pdf'),
     path("reports/season_dates", views.report_season_dates, name='report_season_dates'),

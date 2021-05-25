@@ -8,11 +8,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers import serialize
 from django.db.models import Q, Sum
 from django.db.models.functions import Coalesce
-from .models import Report, Season, Farm, Reading, Site, ReadingType, SeasonStartEnd
+from .models import Report, Season, Farm, Reading, Site, ReadingType, SeasonStartEnd, SeasonalSoilStat
 from address.models import Address, Locality, State, Country
 from .serializers import CountrySerializer, StateSerializer, LocalitySerializer, AddressSerializer, ReportSerializer, SeasonSerializer, FarmSerializer \
 , ReadingSerializer, SiteSerializer, ReadingTypeSerializer
-from skeleton.utils import get_current_season, get_site_season_start_end, get_soil_type, get_average_for_all_sites
+from skeleton.utils import get_current_season, get_site_season_start_end, get_soil_type, calculate_seasonal_soil_stat
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -74,9 +74,12 @@ class SiteReadingList(generics.ListCreateAPIView):
 class EOYFarmSummary(APIView):
 
     def get(self, request, farm_id, format=None):
+
+        # Checks each season and calculates stats if not there
+        calculate_seasonal_soil_stat()
+
         farms = Farm.objects.select_related('weatherstation').filter(id=farm_id)
         eoy_data = []
-
         for farm in farms:
             average_rainfall = farm.weatherstation.average_rainfall
             sites = Site.objects.select_related('product__crop').select_related('product__variety').filter(farm=farm)
@@ -96,20 +99,19 @@ class EOYFarmSummary(APIView):
                 eff_irrigation_diff = 0.0
                 eff_irrigation_perc = 0.0
 
-                average_eff_irrigation = 0.0
-                average_eff_irrigation_perc = 0.0
                 average_eff_irrigation_diff = 0.0
 
                 for season in seasons:
                     readings = Reading.objects.filter(site=site.id, type__name="Probe", date__range=(season.period_from, season.period_to)).order_by('date')
                     full_point = Reading.objects.get(site=site.id, type__name="Full Point", date__range=(season.period_from, season.period_to))
-                    refill = Reading.objects.get(site=site.id, type__name="Refill", date__range=(season.period_from, season.period_to))
 
-                    soil_type = get_soil_type(full_point.rz1, refill.rz1)
-                    (average_eff_irrigation, average_eff_irrigation_perc) = get_average_for_all_sites(season.period_from, season.period_to, soil_type)
-                    logger.debug('average_eff_irrigation_perc for all sites of that soil type:' + str(average_eff_irrigation_perc))
+                    soil_type = get_soil_type(full_point.rz1)
+                    stats = SeasonalSoilStat.objects.get(season=season.season, soil_type=soil_type)
+                    average_eff_irrigation = stats.total_effective_irrigation
+                    average_eff_irrigation_perc = stats.perc_effective_irrigation
+                    soil_type = stats.get_soil_type_display()
+                    logger.debug('Average_eff_irrigation_perc for all sites of soil type:' + soil_type + ' is ' + str(average_eff_irrigation_perc))
 
-                    logger.debug(str(full_point.rz1) + " : " + str(refill.rz1))
                     rainfall = readings.aggregate(rain__sum=Coalesce(Sum('rain'), 0))
                     rain_sum = rainfall.get('rain__sum')
 
@@ -143,6 +145,8 @@ class EOYFarmSummary(APIView):
                         'site' : site.name,
                         'site_id' : site.id,
                         'season': season.season_name,
+                        'period_from' : season.period_from,
+                        'period_to' : season.period_to,
                         'soil_type' : soil_type,
                         'product' : site.product.crop.name + ' - ' + site.product.variety.name,
                         'rz1' : site.rz1_bottom,
