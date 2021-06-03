@@ -51,7 +51,7 @@ def season(request):
 #        'site_id' : site_id,
     }
     return HttpResponse(template.render(context, request))
-    
+
 ###
 #    probe_diviner_detail actually adds a diviner and probe deviner entry with NO error checking
 #    A quick and dirty way to add without using two admin screens for each entry.
@@ -486,10 +486,11 @@ class ReportEOYView(LoginRequiredMixin, CreateView):
 '''
 
 # This reports calls an API via javascript for data
-def report_eoy(request, farm_id):
+def report_eoy(request, farm_id, season_id):
 
     farm = Farm.objects.get(id=farm_id)
-    return render(request, "report_eoy.html", {'farm_name': farm.name, 'farm_id': farm_id})
+    season = Season.objects.get(id=season_id)
+    return render(request, "report_eoy.html", {'farm_name': farm.name, 'farm_id': farm_id, 'season_name': season.name, 'season_id': season_id})
 
 
 def report_season_dates(request):

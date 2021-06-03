@@ -73,7 +73,7 @@ class SiteReadingList(generics.ListCreateAPIView):
 
 class EOYFarmSummary(APIView):
 
-    def get(self, request, farm_id, format=None):
+    def get(self, request, farm_id, season_id, format=None):
 
         # Checks each season and calculates stats if not there
         calculate_seasonal_soil_stat()
@@ -85,7 +85,7 @@ class EOYFarmSummary(APIView):
             sites = Site.objects.select_related('product__crop').select_related('product__variety').filter(farm=farm)
 
             for site in sites:
-                seasons = SeasonStartEnd.objects.filter(site_id=site.id).order_by('period_from')
+                seasons = SeasonStartEnd.objects.filter(site_id=site.id, season_id=season_id).order_by('period_from')
 
                 previous_irrigation_mms = 0.0
                 previous_eff_rain = 0.0
@@ -106,7 +106,7 @@ class EOYFarmSummary(APIView):
                     full_point = Reading.objects.get(site=site.id, type__name="Full Point", date__range=(season.period_from, season.period_to))
 
                     soil_type = get_soil_type(full_point.rz1)
-                    stats = SeasonalSoilStat.objects.get(season=season.season, soil_type=soil_type)
+                    stats = SeasonalSoilStat.objects.get(season=season.season, crop=site.product.crop, soil_type=soil_type)
                     average_eff_irrigation = stats.total_effective_irrigation
                     average_eff_irrigation_perc = stats.perc_effective_irrigation
                     soil_type = stats.get_soil_type_display()
@@ -122,15 +122,26 @@ class EOYFarmSummary(APIView):
                     eff_irrigation_sum = eff_irrigation.get('effective_irrigation__sum')
 
                     rain_diff = round(rain_sum - average_rainfall)
-                    rain_perc = round(rain_sum / average_rainfall * 100)
+                    try:
+                        rain_perc = round(rain_sum / average_rainfall * 100)
+                    except ZeroDivisionError:
+                        rain_perc = 0
+
                     logger.debug('Rainfall Diff from average:' + str(rain_diff) + ' % Diff ' + str(rain_perc))
 
-                    eff_irrigation_perc = (eff_irrigation_sum / irrigation_mms_sum * 100)
+                    try:
+                        eff_irrigation_perc = (eff_irrigation_sum / irrigation_mms_sum * 100)
+                    except ZeroDivisionError:
+                        eff_irrigation_perc = 0
                     logger.debug('Effective Irrigation %:' + str(eff_irrigation_perc))
 
                     if previous_irrigation_mms:
                         irrigation_mms_diff = round(irrigation_mms_sum - previous_irrigation_mms)
-                        irrigation_mms_perc = round(irrigation_mms_sum / previous_irrigation_mms * 100)
+
+                        try:
+                            irrigation_mms_perc = round(irrigation_mms_sum / previous_irrigation_mms * 100)
+                        except ZeroDivisionError:
+                            irrigation_mms_perc = 0
                         logger.debug('irrigation_mms Diff from last year:' + str(irrigation_mms_diff) + ' % Diff ' + str(irrigation_mms_perc))
                     previous_irrigation_mms = irrigation_mms_sum
 
@@ -144,6 +155,7 @@ class EOYFarmSummary(APIView):
                         'average_rainfall': average_rainfall,
                         'site' : site.name,
                         'site_id' : site.id,
+                        'site_number' : site.site_number,
                         'season': season.season_name,
                         'period_from' : season.period_from,
                         'period_to' : season.period_to,

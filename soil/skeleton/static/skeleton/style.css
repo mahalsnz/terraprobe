@@ -145,17 +145,19 @@ div.tooltip {
     pointer-events: none;
 }
 
-/* For the EOY Report gauges that use High Charts */
+/* For the EOY Report gauges that use High Charts
 
-.highcharts-figure .chart-container {
+.highcharts-figure-season-gauges .chart-season-gauges {
 	width: 200px;
 	height: 180px;
+
+    right: 100px;
     float: left;
 }
 
-.highcharts-figure, .highcharts-data-table table {
+.highcharts-figure-season-gauges, .highcharts-data-table table {
 	width: 200px;
-	/* margin: 0 auto; */
+	margin: 0 auto;
 }
 
 .highcharts-data-table table {
@@ -185,3 +187,4 @@ div.tooltip {
 .highcharts-data-table tr:hover {
     background: #f1f7ff;
 }
+*/

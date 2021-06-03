@@ -12,7 +12,7 @@ from datetime import timedelta
 import logging
 logger = logging.getLogger(__name__)
 
-from .models import Site, Reading, ReadingType, Season, SeasonStartEnd, Probe, SeasonalSoilStat
+from .models import Site, Reading, ReadingType, Season, SeasonStartEnd, Probe, SeasonalSoilStat, Crop
 
 """
     From a full point and refill value calculates and returns a string soil type of heavy, meduim or light
@@ -34,37 +34,44 @@ def calculate_seasonal_soil_stat():
     for season in seasons:
         count = SeasonalSoilStat.objects.filter(season=season).count()
         logger.debug("Records for season " + season.name + " is:" + str(count))
-        if count != 3:
+        if count == 0:
             logger.debug("Need to calculate seasons " + str(seasons_to_calculate))
             seasons_to_calculate.append(season.id)
-
     if seasons_to_calculate:
         for season_id in seasons_to_calculate:
             calculate_soil_averages_for_all_sites(season_id)
-    else:
-        return False
 
 def calculate_soil_averages_for_all_sites(season_id):
-    seasons = SeasonStartEnd.objects.filter(season_id=season_id).order_by('period_from')
+    logger.debug("calculate_soil_averages_for_all_sites")
+    # Only get active sites
+    seasons = SeasonStartEnd.objects.select_related('site__product__crop').filter(site__is_active=True, season_id=season_id).order_by('period_from')
+
+    # Get crops that have active sites
+    crops = Crop.objects.all()
 
     # TODO! get each of the three choices for soil type SeasonalSoilStat.objects.filter(
     sites = {}
-    sites["HEV"] = []
-    sites["MED"] = []
-    sites["LIG"] = []
+    for crop in crops:
+        sites["HEV-" + str(crop.id)] = []
+        sites["MED-" + str(crop.id)] = []
+        sites["LIG-" + str(crop.id)] = []
 
+    logger.debug(sites)
     for season in seasons:
+        logger.debug('site id' + str(season.site_id) + str(season.period_from) + str(season.period_to))
         try:
             full_point = Reading.objects.get(site=season.site_id, type__name="Full Point", date__range=(season.period_from, season.period_to))
+            logger.debug('full point' + str(full_point))
+            crop_id = str(season.site.product.crop.id)
             if (full_point.rz1 is None):
                 continue
             site_soil_type = get_soil_type(full_point.rz1)
             if site_soil_type == "HEV":
-                sites["HEV"].append(season.site_id)
+                sites["HEV-" + crop_id].append(season.site_id)
             elif site_soil_type == "MED":
-                sites["MED"].append(season.site_id)
+                sites["MED-" + crop_id].append(season.site_id)
             else:
-                sites["LIG"].append(season.site_id)
+                sites["LIG-" + crop_id].append(season.site_id)
         except ObjectDoesNotExist:
             logger.debug("******ObjectDoesNotExist for site " + season.site_name)
             continue
@@ -76,35 +83,43 @@ def calculate_soil_averages_for_all_sites(season_id):
         total_eff_irrigation = 0
         total_irrigation_mms = 0
 
-        for site_id in sites[key]:
-            season = SeasonStartEnd.objects.get(season_id=season_id, site_id=site_id)
-            logger.debug('Site ' + str(site_id))
+        if sites[key]:
+            for site_id in sites[key]:
+                season = SeasonStartEnd.objects.get(season_id=season_id, site_id=site_id)
+                logger.debug('Site ' + str(site_id))
 
-            readings = Reading.objects.filter(site=site_id, type__name="Probe", date__range=(season.period_from, season.period_to)).order_by('date')
+                readings = Reading.objects.filter(site=site_id, type__name="Probe", date__range=(season.period_from, season.period_to)).order_by('date')
 
-            irrigation_mms = readings.aggregate(irrigation_mms__sum=Coalesce(Sum('irrigation_mms'), 0))
-            irrigation_mms_sum = irrigation_mms.get('irrigation_mms__sum')
+                irrigation_mms = readings.aggregate(irrigation_mms__sum=Coalesce(Sum('irrigation_mms'), 0))
+                irrigation_mms_sum = irrigation_mms.get('irrigation_mms__sum')
 
-            eff_irrigation = readings.aggregate(effective_irrigation__sum=Coalesce(Sum('effective_irrigation'), 0))
-            eff_irrigation_sum = eff_irrigation.get('effective_irrigation__sum')
+                eff_irrigation = readings.aggregate(effective_irrigation__sum=Coalesce(Sum('effective_irrigation'), 0))
+                eff_irrigation_sum = eff_irrigation.get('effective_irrigation__sum')
 
-            total_eff_irrigation += eff_irrigation_sum
-            total_irrigation_mms += irrigation_mms_sum
+                total_eff_irrigation += eff_irrigation_sum
+                total_irrigation_mms += irrigation_mms_sum
 
-        total_sites = len(sites[key])
-        total_eff_irrigation = round(total_eff_irrigation / total_sites)
-        logger.debug('Total eff irrigation ' + str(total_eff_irrigation) + ' Total irrigation' + str(total_irrigation_mms) + ' total sites ' +
-            str(total_sites))
+            total_sites = len(sites[key])
+            split_key = key.split("-")
+            crop = Crop.objects.get(id=int(split_key[1]))
 
-        total_eff_irrigation_perc = 0
+            total_eff_irrigation = round(total_eff_irrigation / total_sites)
+            logger.debug('Total eff irrigation ' + str(total_eff_irrigation) + ' Total irrigation' + str(total_irrigation_mms) + ' total sites ' +
+                str(total_sites))
 
-        if total_sites > 0:
-            total_eff_irrigation_perc = round(total_eff_irrigation /  round(total_irrigation_mms / total_sites) * 100)
+            total_eff_irrigation_perc = 0
 
-        logger.debug('Total eff irrigation percentage %' + str(total_eff_irrigation_perc))
+            if total_sites > 0:
+                total_eff_irrigation_perc = round(total_eff_irrigation /  round(total_irrigation_mms / total_sites) * 100)
 
-        SeasonalSoilStat.objects.update_or_create(season=season.season, soil_type=str(key), total_irrigation_mms=total_irrigation_mms,
-            total_effective_irrigation=total_eff_irrigation, perc_effective_irrigation=total_eff_irrigation_perc)
+            logger.debug('Total eff irrigation percentage %' + str(total_eff_irrigation_perc))
+            SeasonalSoilStat.objects.update_or_create(season=season.season, soil_type=split_key[0], crop=crop, total_irrigation_mms=total_irrigation_mms,
+                total_effective_irrigation=total_eff_irrigation, perc_effective_irrigation=total_eff_irrigation_perc)
+        else:
+            logger.debug('Key ' + str(key) + ' has no sites to process')
+
+
+
 
 """
     sites = Site.objects.filter(is_active=True)

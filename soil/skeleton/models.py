@@ -103,16 +103,6 @@ class Season(models.Model):
     def __str__(self):
         return self.name
 
-class SeasonalSoilStat(models.Model):
-    season = models.ForeignKey(Season, on_delete=models.PROTECT, null=False)
-    soil_type = models.CharField(choices=SOIL_TYPE, max_length=3, default='HEV', null=False)
-    total_irrigation_mms= models.IntegerField(null=True, default=0, help_text="Total Irrigation for all sites of that soil type")
-    total_effective_irrigation = models.IntegerField(null=True, default=0, help_text="Total Effective Irrigation for all sites of that soil type")
-    perc_effective_irrigation = models.IntegerField(null=True, default=0, help_text="Percentage Effective Irrigation for all sites of that soil type")
-
-    class Meta:
-        unique_together = (('season', 'soil_type'))
-
 class WeatherStation(models.Model):
     region = models.ForeignKey('address.State', null=False, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
@@ -206,6 +196,29 @@ class Product(models.Model):
     class Meta:
         unique_together = (('crop', 'variety'))
 
+class SeasonalSoilStat(models.Model):
+    season = models.ForeignKey(Season, on_delete=models.PROTECT, null=False)
+    crop = models.ForeignKey(Crop, on_delete=models.PROTECT, null=False, default=1)
+    soil_type = models.CharField(choices=SOIL_TYPE, max_length=3, default='HEV', null=False)
+    total_irrigation_mms= models.IntegerField(null=True, default=0, help_text="Total Irrigation for all sites of that soil type")
+    total_effective_irrigation = models.IntegerField(null=True, default=0, help_text="Total Effective Irrigation for all sites of that soil type")
+    perc_effective_irrigation = models.IntegerField(null=True, default=0, help_text="Percentage Effective Irrigation for all sites of that soil type")
+
+    class Meta:
+        unique_together = (('season', 'crop', 'soil_type'))
+
+    """
+    def seasonalsoilstat_soil_type(self):
+        soil_type = self.SeasonalSoilStat_set.order_by('-soil_type').distinct().values_list(
+        'soil_type', flat=True)
+        lists = []
+        for q in soil_type:
+            for choice in SOIL_TYPE:
+                if choice[0] == q:
+                    lists.append({'soil_type': choice[1]})
+        return lists
+    """
+    
 class StrategyType(models.Model):
     name = models.CharField(max_length=50, null=False)
     percentage = models.FloatField(null=False, default=0, help_text="A percentage between 0 and 1 indicating the difference that the lower strategy should be below the upper strategy for a site. This is taken from the high limit.")

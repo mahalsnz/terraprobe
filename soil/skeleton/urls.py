@@ -17,10 +17,10 @@ urlpatterns = [
     path('probe_diviner/add/', views.probe_diviner_detail, name='probe_diviner_add'),
 
     path('reports', views.report_home, name='report_home'),
-    path("reports/eoy/<int:farm_id>", views.report_eoy, name='report_eoy'),
+    path("reports/eoy/<int:farm_id>/<int:season_id>/", views.report_eoy, name='report_eoy'),
     path("reports/eoy_pdf/<int:farm_id>", views.EOYPDFView.as_view()),
     path("season/", views.season, name="season"),
-    
+
     #url(r'^pdf/$', PDFTemplateView.as_view(template_name='my_template.html',
     #                                       filename='my_pdf.pdf'), name='pdf'),
     path("reports/season_dates", views.report_season_dates, name='report_season_dates'),
@@ -52,7 +52,7 @@ urlpatterns = [
     path("api/reading/", ReadingList.as_view(), name="readings_list"),
     path("api/reading/<int:pk>/", ReadingDetail.as_view(), name="readings_detail"),
     path("api/site_reading/<int:pk>/", SiteReadingList.as_view(), name="graph_data"),
-    path("api/eoy_farm_report/<int:farm_id>/", EOYFarmSummary.as_view()),
+    path("api/eoy_farm_report/<int:farm_id>/<int:season_id>/", EOYFarmSummary.as_view()),
 
     #ajax
     path('ajax/load-sites/', views.load_sites, name='ajax_load_sites'),

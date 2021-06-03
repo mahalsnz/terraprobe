@@ -2,10 +2,24 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<style>
+@media print
+{
+    @page
+    {
+        size: landscape;
+    }
+}
+.highcharts-figure-season-graph {
+    /*position: absolute;
+    top: 10%;
+    left: 6%;*/
+}
 
-<h1>EOY</h1>
 
-<div id="report">
+</style>
+
+<div class="card" id="report">
 
 </div>
 
@@ -20,129 +34,18 @@
 <script>
 $(document).ready(function(){
     var farm_id = "{{ farm_id }}";
-
+    var season_id = "{{ season_id }}";
     $.ajax({
-        url: "/api/eoy_farm_report/" + farm_id + "/",
+        url: "/api/eoy_farm_report/" + farm_id + "/" + season_id + "/",
         dataType: 'json',
         success: function(result) {
             console.log(result);
-            var gauges = {
-                'rain' : 'Rain',
-                'irrigation_mms': 'Irrigation MMS',
-                'eff_irrigation': 'Effective Irrigation',
-                'average_eff_irrigation': 'Average Effective Irrigation',
-            };
-
-            $("#report").append("<h3>" + result[0].farm + " - 10 Year Average Rainfall mms " + result[0].average_rainfall + "</h3>")
 
             result.forEach(function(d) {
-
-                /////////////////////////////////////// Start Gauges ////////////////////////////////////////////
-                $("#report").append("<h4>" + d.site + " - " + d.season  + " - " + d.soil_type + " Soil - Root Zone " + d.rz1 + " - Application Rate " +
-                    d.application_rate + "</h4>");
-
-                // We need rows of highcharts gauges. So each row needs a unique identifier of site id and season eg row-238-2020-2021
-                var row = '';
-                row_id = 'row-' + d.site_id + "-" + d.season;
-                row += "<div class='row' id='" + row_id + "'></row>"
-                $("div[id='report']").append(row)
-
-                // Loop thrugh the gauges we are going to display
-                for (var key in gauges) {
-
-                    var gauge_name = key + '-' + d.site_id + '-' + d.season; // this is unique for each gauge/chart eg. irrigation_mms-238-2020-2021
-                    var gauge_data = d[key]
-                    var gauge_data_diff = d[key + '_diff'];
-                    var gauge_data_perc = d[key + '_perc'];
-
-                    content = '';
-                    content += "<figure class='highcharts-figure'>"
-                    content += "<div id='" + gauge_name + "' class='chart-container'></div></figure>"
-                    $("div[id='" + row_id + "']").append(content);
-
-                    // Start Gauge Options //
-                    gaugeOptions = {
-                        chart: { type: 'solidgauge' },
-                        title: null,
-                        pane: {
-                            centre: ['10', '120'],
-                            size: '120',
-                            startAngle: -90,
-                            endAngle: 90,
-                            background: {
-                                backgroundColor:
-                                    Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
-                                innerRadius: '60%',
-                                outerRadius: '100%',
-                                shape: 'arc'
-                            }
-                        },
-                        // the value axis
-                        yAxis: {
-                            // Where the colour changes
-                            stops: [
-                                [0.5, 'red'], // green
-                                [0.75, 'orange'], // yellow
-                                [0.99, 'green'] // red
-                            ],
-                            lineWidth: 2,
-                            tickWidth: 2,
-                            minorTickInterval: null,
-                            tickAmount: 2,
-                            title: {
-                                y: -70
-                            },
-                            labels: {
-                                y: 9
-                            }
-                        },
-
-                        plotOptions: {
-                            solidgauge: {
-                                dataLabels: {
-                                    y: 5,
-                                    borderWidth: 0,
-                                    useHTML: true
-                                }
-                            }
-                        }
-                    }; // End Gauge Options
-
-                    /////////////////////////////////////////////////////////////
-                    var gaugeChart = Highcharts.chart(gauge_name, Highcharts.merge(gaugeOptions, {
-                        yAxis: {
-                            min: 0,
-                            max: 100,
-                            title: {
-                                text: gauges[key],
-                                align: 'low',
-                                textAlign: 'center',
-                                style: {
-                                    color: 'black',
-                                    'font-weight': 'bold',
-                                    'font-size': '14px'
-                                }
-                            }
-                        },
-
-                        credits: { enabled: false },
-
-                        series: [{
-                            data: [gauge_data_perc],
-                            dataLabels: {
-                                allowOverlap: true,
-                                format:
-                                    '<div style="text-align:centre">' +
-                                    '<span style="font-size:14px">Total ' + gauge_data + '</span><br/>' +
-                                    '<span style="font-size:14px;opacity:0.8">Diff {y}%</span><br/>' +
-                                    '<span style="font-size:14px;opacity:0.8">Diff ' + gauge_data_diff + '</span>' +
-                                    '</div>'
-                            },
-                        }]
-                    })); // End Gauge Chart
-                } // End loop of Gauges
-                /////////////////////////////////////// End Gauges ////////////////////////////////////////////
-
+                $("#report").append("<div class='card-header'><h4>" + d.season + " - " + d.farm +
+                    "      " + d.site + " Site : (" + d.site_number + ")</h4></div>")
+                $("#report").append("<div class='card-header'>Seasonal Summary and Strategy&emsp;&emsp;&emsp;&emsp;&emsp;Rootzone: 0-" +
+                    d.rz1 + " cm&emsp;&emsp;&emsp;&emsp;Soil Classification: " + d.soil_type + "</div>")
                 /////////////////////////////////////// Start Season Graph ///////////////////////////////////
                 var parseTime = d3.timeParse("%d-%m-%Y");
                 var formatTime = d3.timeFormat("%d-%m-%Y");
@@ -161,15 +64,14 @@ $(document).ready(function(){
                 period_to = moment(d.period_to);
                 parameter_string = d.site_id + '/' + period_from.format('DD-MM-YYYY') + '/' + period_to.format('DD-MM-YYYY');
 
-                $("div[id='report']").append("<h5>Season Graph</h5>");
                 var row = '';
-                row_id = 'row-' + d.site_id + "-" + d.season + "-graph";
+                row_id = 'row-' + d.site_id + "-graph";
                 row += "<div class='row' id='" + row_id + "'></row>"
                 $("div[id='report']").append(row);
-                var chart_name = 'chart-' + d.site_id + '-' + d.season;
+                var chart_name = 'season-graph-' + d.site_id;
                 content = '';
-                content += "<figure class='highcharts-figure-season_graph'>"
-                content += "<div id='" + chart_name + "' class='chart-season_graph'></div></figure>"
+                content += "<div class='card-body'><figure class='highcharts-figure-season-graph'>"
+                content += "<div id='" + chart_name + "' class='chart-season-graph'></div></figure></div>"
                 $("div[id='" + row_id + "']").append(content);
 
                 d3.json('/graphs/api/vsw_reading/' + parameter_string + '/?format=json').then(function(data) {
@@ -186,7 +88,7 @@ $(document).ready(function(){
                                 });
                                 rainfall_data.push({
                                     x : parsed_date,
-                                    y : reading.rainfall
+                                    y : reading.rain
                                 });
                                 irrigation_data.push({
                                     x : parsed_date,
@@ -230,13 +132,14 @@ $(document).ready(function(){
                         if (minReading <= refill){ minY = minReading } else { minY = refill }
 
                         var options = {
+                            exporting: { enabled: false },
                             title: null,
                             credits: { enabled: false },
                             chart: {
                                 title: 'Season',
-                                renderTo: 'season_graph',
+                                renderTo: 'season-graph',
                                 type: 'area',
-                                height: 400,
+                                height: 250,
                                 width: 900
                             },
                             xAxis: {
@@ -347,6 +250,191 @@ $(document).ready(function(){
                     }); // End json strategy call
                 }); // End json reading call
 
+                /////////////////////////////////////// End Season Graph ////////////////////////////////////////////
+
+                // We need rows of highcharts gauges. So each row needs a unique identifier of site id and season eg row-238-2020-2021
+                var row = '';
+                row_id = 'row-' + d.site_id;
+                row += "<div class='row' id='" + row_id + "'></row>"
+                $("div[id='report']").append(row)
+                var gauges = {
+                    rain : {
+                        title: "Season's Rainfall",
+                        blurb: "<b>How does your block compare?</b><br/><p>Here's how the " + d.season + " season rainfall compares<br/> with the previous 10 seasons.</p>",
+                    },
+                    eff_irrigation: {
+                        title: 'Irrigation Efficency (Site)',
+                        blurb: "Here's how effective your irrigation for<br/> the season has been. Effective irrigation<br/> is the % of irrigation applied <br/>" +
+                            "that remains in the effective <br/>rootzone and is used by the tree."
+                    },
+                    average_eff_irrigation: {
+                        title: 'Irrigation Efficency (Comparison)',
+                        blurb: 'asfasdfasdfasdfasdfasdf'
+                    }
+                };
+
+                // Loop thrugh the gauges we are going to display
+                for (var key in gauges) {
+
+                    var gauge_name = key + '-' + d.site_id; // this is unique for each gauge/chart eg. irrigation_mms-238-2020-2021
+                    var gauge_data = d[key]
+                    var gauge_data_diff = d[key + '_diff'];
+                    var gauge_data_perc = d[key + '_perc'];
+
+                    content = '';
+                    content += "<figure class='highcharts-figure-season-gauges'>"
+                    content += "<div id='" + gauge_name + "' class='chart-season-gauges'></div></figure>"
+                    $("div[id='" + row_id + "']").append(content);
+
+                    // Start Gauge Options //
+                    gaugeOptions = {
+                        exporting: { enabled: false },
+                        chart: {
+                            type: 'solidgauge',
+                            height: 200,
+                            width: 300
+                        },
+                        title: null,
+                        pane: {
+                            centre: ['10', '120'],
+                            size: '120',
+                            startAngle: -90,
+                            endAngle: 90,
+                            background: {
+                                backgroundColor:
+                                    Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                                innerRadius: '60%',
+                                outerRadius: '100%',
+                                shape: 'arc'
+                            }
+                        },
+                        // the value axis
+                        yAxis: {
+                            // Where the colour changes
+                            stops: [
+                                [0.5, 'red'], // green
+                                [0.75, 'orange'], // yellow
+                                [0.99, 'green'] // red
+                            ],
+                            lineWidth: 2,
+                            tickWidth: 2,
+                            minorTickInterval: null,
+                            tickAmount: 2,
+                            title: {
+                                y: -70
+                            },
+                            labels: {
+                                y: 9
+                            }
+                        },
+
+                        plotOptions: {
+                            solidgauge: {
+                                dataLabels: {
+                                    y: 5,
+                                    borderWidth: 0,
+                                    useHTML: true
+                                }
+                            }
+                        }
+                    }; // End Gauge Options
+
+                    /////////////////////////////////////////////////////////////
+                    var gaugeChart = Highcharts.chart(gauge_name, Highcharts.merge(gaugeOptions, {
+                        yAxis: {
+                            min: 0,
+                            max: 100,
+                            title: {
+                                text: gauges[key].title,
+                                align: 'low',
+                                textAlign: 'center',
+                                style: {
+                                    color: 'black',
+                                    'font-weight': 'bold',
+                                    'font-size': '14px'
+                                }
+                            }
+                        },
+
+                        credits: { enabled: false },
+
+                        series: [{
+                            data: [gauge_data_perc],
+                            dataLabels: {
+                                allowOverlap: true,
+                                format:
+                                    '<div style="text-align:centre">' +
+
+                                    '<span style="font-size:14px;">{y}%</span><br/>' +
+                                    '<span style="font-size:12px;">' + gauges[key].blurb + '</span>' +
+                                    '</div>'
+                            },
+                        }]
+                    })); // End Gauge Chart
+                } // End loop of Gauges
+                /////////////////////////////////////// End Gauges ////////////////////////////////////////////
+
+                /////////////////////////////////////// Start Season Summary ////////////////////////////////////////////
+
+                $("div[id='report']").append("<p><b>How does your block compare?</b><br />" +
+                    "Here's how your seasonal water usage compares against other blocks with the same crop and a similar soil type for the " +
+                    d.season + " season.<br /></p>");
+
+                var summary_name = 'season-summary-' + d.site_id;
+                var row = '';
+                row_id = 'row-' + d.site_id + "-season-summary";
+                row += "<div class='row' id='" + row_id + "'></row>"
+                $("div[id='report']").append(row);
+                content = '';
+                content += "<figure class='highcharts-figure-season-summary'>"
+                content += "<div id='" + summary_name + "' class='chart-season-summary'></div></figure>"
+                $("div[id='" + row_id + "']").append(content);
+
+                /////////////////////////////////////// End Season Summary ////////////////////////////////////////////
+
+                var season_summary_options = {
+                    exporting: { enabled: false },
+                    title: null,
+                    credits: { enabled: false },
+                    chart: { type: 'bar',
+                        renderTo: 'season-summary',
+                        height: 150,
+                        width: 700
+                    },
+                    legend: { enabled: false },
+                    xAxis: {
+                        categories: ['You', 'Similar Sites'],
+                        title: { text: null },
+                        labels: {
+                            style: {
+                                fontSize: "14px",
+                            }
+                        }
+                    },
+                    yAxis: {
+                        title: { text: null },
+                        min: 100,
+                        visible: false,
+                    },
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{y} liters</b>',
+                            }
+                        }
+                    },
+                    series: [{
+                        name: null,
+                        data: [
+                            ['You', d.irrigation_mms],
+                            ['Similar Sites', d.average_eff_irrigation],
+                        ],
+                    }],
+                }
+                var season_summary_chart = new Highcharts.Chart(summary_name, season_summary_options)
+
+                $("div[id='report']").append("<p>Data based on supplied irrigation system specifications: <b>" + d.application_rate + " L/plant/Hr</b></p>")
             }); // End loop of data
         }
     });

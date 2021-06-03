@@ -27,7 +27,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class SeasonalSoilStatAdmin(admin.ModelAdmin):
-    list_display = ('season', 'soil_type', 'total_irrigation_mms', 'total_effective_irrigation', 'perc_effective_irrigation')
+    list_display = ('season', 'soil_type', 'crop', 'total_irrigation_mms', 'total_effective_irrigation', 'perc_effective_irrigation')
 
 class StrategyAdmin(admin.ModelAdmin):
     list_display = ('type', 'critical_date_type', 'days', 'percentage')

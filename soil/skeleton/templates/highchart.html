@@ -43,7 +43,7 @@ d3.json('/graphs/api/vsw_reading/14/14-10-2019/29-04-2020/?format=json').then(fu
             });
             rainfall_data.push({
                 x : parsed_date,
-                y : reading.rainfall
+                y : reading.rain
             });
             irrigation_data.push({
                 x : parsed_date,
@@ -80,7 +80,7 @@ d3.json('/graphs/api/vsw_reading/14/14-10-2019/29-04-2020/?format=json').then(fu
     reading_data.sort((a, b) => a.x - b.x);
     rainfall_data.sort((a, b) => a.x - b.x);
     irrigation_data.sort((a, b) => a.x - b.x);
-
+    console.log(rainfall_data)
     maxY = 0;
     minY = 0;
     if (maxReading >= fullpoint){ maxY = maxReading } else { maxY = fullpoint }
