@@ -36,7 +36,7 @@ import json
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm, SiteReportReadyForm, DivinerForm
+from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm, SiteReportReadyForm, DivinerForm, EOYReportForm
 
 import datetime
 
@@ -485,13 +485,10 @@ class ReportEOYView(LoginRequiredMixin, CreateView):
     def(post):
 '''
 
-# This reports calls an API via javascript for data
-def report_eoy(request, farm_id, season_id):
+class EOYReportView(LoginRequiredMixin, CreateView):
 
-    farm = Farm.objects.get(id=farm_id)
-    season = Season.objects.get(id=season_id)
-    return render(request, "report_eoy.html", {'farm_name': farm.name, 'farm_id': farm_id, 'season_name': season.name, 'season_id': season_id})
-
+    def get(self, request, *args, **kwargs):
+        return render(request, 'report_eoy.html', { 'form': EOYReportForm() })
 
 def report_season_dates(request):
     season = get_current_season()
@@ -555,15 +552,13 @@ def report_no_meter_reading(request):
 def weather(request):
     return render(request, 'weather.html', {})
 
-#from django.core.urlresolvers import reverse
-
 @login_required
 def report_home(request):
     if request.method == 'POST':
         try:
             button_clicked = request.POST['button']
             if button_clicked == 'reportEOY':
-                url = reverse('report_eoy', kwargs={'farm_id': 1})
+                url = reverse('report_eoy')
                 return HttpResponseRedirect(url)
             if button_clicked == 'reportSeasonDates':
                 return HttpResponseRedirect(reverse('report_season_dates'))

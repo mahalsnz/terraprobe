@@ -1,6 +1,7 @@
 <!-- templates/report_eoy.html -->
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 <style>
 @media print
@@ -18,7 +19,19 @@
 
 
 </style>
-
+<form method="post" id="eoyReportForm" data-sites-url="{% url 'ajax_load_sites' %}" novalidate>
+    {% csrf_token %}
+<div class="container-sm">
+    <div class="row selector">
+        &emsp;<div class="col-sm-3 form-control-sm">
+            {{ form.farm|as_crispy_field }}
+        </div>
+        <div class="col-sm-3 form-control-sm">
+            {{ form.season|as_crispy_field }}
+        </div>
+    </div>
+</div>
+</form>
 <div class="card" id="report">
 
 </div>
@@ -33,19 +46,26 @@
 
 <script>
 $(document).ready(function(){
-    var farm_id = "{{ farm_id }}";
-    var season_id = "{{ season_id }}";
-    $.ajax({
-        url: "/api/eoy_farm_report/" + farm_id + "/" + season_id + "/",
-        dataType: 'json',
-        success: function(result) {
+
+    $("#id_farm").change(function() {
+        //var url = $("#eoyReportForm").attr("data-sites-url");
+        //console.log("URL:" + url);
+        var farm_id = $(this).val();  // get the selected technician ID from the HTML input
+        var season_id = $("#id_season").val();
+        console.log("farm_id:" + farm_id);
+        $.ajax({
+            url: "/api/eoy_farm_report/" + farm_id + "/" + season_id + "/",
+            dataType: 'json',
+            success: function(result) { // `data` is the return of the `load_cities` view function
+            $("#report").empty();
             console.log(result);
 
             result.forEach(function(d) {
                 $("#report").append("<div class='card-header'><h4>" + d.season + " - " + d.farm +
-                    "      " + d.site + " Site : (" + d.site_number + ")</h4></div>")
+                    "      " + d.site + " Site : (" + d.site_number + ")&emsp;&emsp;<img style='width: 170px; height: 28px;'src='{% static 'skeleton/images/fruition_logo.png' %}'/></h4></div>")
                 $("#report").append("<div class='card-header'>Seasonal Summary and Strategy&emsp;&emsp;&emsp;&emsp;&emsp;Rootzone: 0-" +
                     d.rz1 + " cm&emsp;&emsp;&emsp;&emsp;Soil Classification: " + d.soil_type + "</div>")
+
                 /////////////////////////////////////// Start Season Graph ///////////////////////////////////
                 var parseTime = d3.timeParse("%d-%m-%Y");
                 var formatTime = d3.timeFormat("%d-%m-%Y");
@@ -66,12 +86,12 @@ $(document).ready(function(){
 
                 var row = '';
                 row_id = 'row-' + d.site_id + "-graph";
-                row += "<div class='row' id='" + row_id + "'></row>"
+                row += "<div class='card-body'><div class='row' id='" + row_id + "'></row></div>"
                 $("div[id='report']").append(row);
                 var chart_name = 'season-graph-' + d.site_id;
                 content = '';
-                content += "<div class='card-body'><figure class='highcharts-figure-season-graph'>"
-                content += "<div id='" + chart_name + "' class='chart-season-graph'></div></figure></div>"
+                content += "<figure class='highcharts-figure-season-graph'>"
+                content += "<div id='" + chart_name + "' class='chart-season-graph'></div></figure>"
                 $("div[id='" + row_id + "']").append(content);
 
                 d3.json('/graphs/api/vsw_reading/' + parameter_string + '/?format=json').then(function(data) {
@@ -255,7 +275,7 @@ $(document).ready(function(){
                 // We need rows of highcharts gauges. So each row needs a unique identifier of site id and season eg row-238-2020-2021
                 var row = '';
                 row_id = 'row-' + d.site_id;
-                row += "<div class='row' id='" + row_id + "'></row>"
+                row += "<div class='card-body'><div class='row' id='" + row_id + "'></row></div>"
                 $("div[id='report']").append(row)
                 var gauges = {
                     rain : {
@@ -269,7 +289,8 @@ $(document).ready(function(){
                     },
                     average_eff_irrigation: {
                         title: 'Irrigation Efficency (Comparison)',
-                        blurb: 'asfasdfasdfasdfasdfasdf'
+                        blurb:  "Here's how effective your irrigation for<br/> the season has been. Effective irrigation<br/> is the % of irrigation applied <br/>" +
+                            "that remains in the effective <br/>rootzone and is used by the tree."
                     }
                 };
 
@@ -349,7 +370,7 @@ $(document).ready(function(){
                                 align: 'low',
                                 textAlign: 'center',
                                 style: {
-                                    color: 'black',
+                                    color: 'blue',
                                     'font-weight': 'bold',
                                     'font-size': '14px'
                                 }
@@ -365,8 +386,8 @@ $(document).ready(function(){
                                 format:
                                     '<div style="text-align:centre">' +
 
-                                    '<span style="font-size:14px;">{y}%</span><br/>' +
-                                    '<span style="font-size:12px;">' + gauges[key].blurb + '</span>' +
+                                    '<span style="font-size:18px;text-align:centre;">{y}%</span><br/>' +
+                                    '<span style="font-size:12px;font-weight:lighter;">' + gauges[key].blurb + '</span>' +
                                     '</div>'
                             },
                         }]
@@ -376,15 +397,16 @@ $(document).ready(function(){
 
                 /////////////////////////////////////// Start Season Summary ////////////////////////////////////////////
 
-                $("div[id='report']").append("<p><b>How does your block compare?</b><br />" +
-                    "Here's how your seasonal water usage compares against other blocks with the same crop and a similar soil type for the " +
-                    d.season + " season.<br /></p>");
+
 
                 var summary_name = 'season-summary-' + d.site_id;
                 var row = '';
                 row_id = 'row-' + d.site_id + "-season-summary";
-                row += "<div class='row' id='" + row_id + "'></row>"
+                row += "<div class='card-body'><div class='row' id='" + row_id + "'></row></div>"
                 $("div[id='report']").append(row);
+                /*$("div[id='" + row_id + "']").append("<p><b>How does your block compare?</b><br />" +
+                    "Here's how your seasonal water usage compares against other blocks with the same crop and a similar soil type for the " +
+                    d.season + " season.<br /></p>");*/
                 content = '';
                 content += "<figure class='highcharts-figure-season-summary'>"
                 content += "<div id='" + summary_name + "' class='chart-season-summary'></div></figure>"
@@ -392,13 +414,18 @@ $(document).ready(function(){
 
                 /////////////////////////////////////// End Season Summary ////////////////////////////////////////////
 
+                var summary_title = "<b>How does your block compare?</b><br />" +
+                    "Here's how your seasonal water usage compares against other blocks with the same crop and a similar soil type for the " +
+                    d.season + " season.<br /></p>";
+                var summary_caption = "<i>Data based on supplied irrigation system specifications:</i> <b>" + d.application_rate + " L/plant/Hr</b>";
+
                 var season_summary_options = {
                     exporting: { enabled: false },
-                    title: null,
+                    title: { text: summary_title},
                     credits: { enabled: false },
                     chart: { type: 'bar',
                         renderTo: 'season-summary',
-                        height: 150,
+                        height: 250,
                         width: 700
                     },
                     legend: { enabled: false },
@@ -412,9 +439,15 @@ $(document).ready(function(){
                         }
                     },
                     yAxis: {
-                        title: { text: null },
+                        title: {
+                            text: summary_caption,
+                            textAlign: 'center',
+                            style: {
+                                'font-size': '14px'
+                            },
+                        },
                         min: 100,
-                        visible: false,
+                        visible: true,
                     },
                     plotOptions: {
                         bar: {
@@ -433,11 +466,10 @@ $(document).ready(function(){
                     }],
                 }
                 var season_summary_chart = new Highcharts.Chart(summary_name, season_summary_options)
-
-                $("div[id='report']").append("<p>Data based on supplied irrigation system specifications: <b>" + d.application_rate + " L/plant/Hr</b></p>")
             }); // End loop of data
         }
     });
+}); // End onchange farm
 });
 </script>
 

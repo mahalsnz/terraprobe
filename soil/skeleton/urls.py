@@ -17,9 +17,8 @@ urlpatterns = [
     path('probe_diviner/add/', views.probe_diviner_detail, name='probe_diviner_add'),
 
     path('reports', views.report_home, name='report_home'),
-    path("reports/eoy/<int:farm_id>/<int:season_id>/", views.report_eoy, name='report_eoy'),
-    path("reports/eoy_pdf/<int:farm_id>", views.EOYPDFView.as_view()),
-    path("season/", views.season, name="season"),
+    path("reports/eoy/", views.EOYReportView.as_view(), name='report_eoy'),
+    # path("season/", views.season, name="season"), example highcharts 
 
     #url(r'^pdf/$', PDFTemplateView.as_view(template_name='my_template.html',
     #                                       filename='my_pdf.pdf'), name='pdf'),

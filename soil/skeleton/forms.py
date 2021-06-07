@@ -11,7 +11,16 @@ import datetime
 from dal import autocomplete
 
 class EOYReportForm(forms.ModelForm):
-    farm = forms.ModelChoiceField(Farm.objects.all().order_by('-name'), widget=forms.Select())
+    farm = forms.ModelChoiceField(Farm.objects.all().order_by('name'), widget=forms.Select())
+    season = forms.ModelChoiceField(Season.objects.all().order_by('-current_flag'), empty_label=None, widget=forms.Select())
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.layout = Layout('farm','season')
+
+    class Meta:
+        model = Farm
+        fields = ['id',]
+
 
 class DivinerForm(forms.ModelForm):
     probe = forms.ModelChoiceField(Probe.objects.all(), widget=forms.Select())
