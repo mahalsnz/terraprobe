@@ -13,6 +13,7 @@ from dal import autocomplete
 class EOYReportForm(forms.ModelForm):
     farm = forms.ModelChoiceField(Farm.objects.all().order_by('name'), widget=forms.Select())
     season = forms.ModelChoiceField(Season.objects.all().order_by('-current_flag'), empty_label=None, widget=forms.Select())
+    template = forms.ModelChoiceField(Document.objects.filter(description='EOY'), empty_label=None, widget=forms.Select())
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.layout = Layout('farm','season')

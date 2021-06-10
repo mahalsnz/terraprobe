@@ -20,7 +20,7 @@ from .models import ProbeDiviner
 from .models import CriticalDateType
 from .models import CriticalDate, UserFullName
 from .models import SeasonStartEnd
-from .models import WeatherStation
+from .models import WeatherStation, Document
 from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType, SeasonalSoilStat
 
 import logging
@@ -159,6 +159,10 @@ class SeasonStartEndAdmin(admin.ModelAdmin):
 class VarietySeasonTemplateAdmin(admin.ModelAdmin):
     list_display = ['variety', 'critical_date_type', 'formatted_variety_season_date']
 
+class DocumentAdmin(admin.ModelAdmin):
+    list_display = ['description', 'document']
+    list_filter = ['description',]
+
 admin.site.register(Site, SiteAdmin)
 admin.site.register(Farm, FarmAdmin)
 admin.site.register(Product, ProductAdmin)
@@ -178,6 +182,7 @@ admin.site.register(CriticalDateType, CriticalDateTypeAdmin)
 admin.site.register(CriticalDate, CriticalDateAdmin)
 admin.site.register(SeasonStartEnd, SeasonStartEndAdmin)
 admin.site.register(WeatherStation, WeatherStationAdmin)
+admin.site.register(Document, DocumentAdmin)
 admin.site.register(Variety)
 admin.site.register(VarietySeasonTemplate, VarietySeasonTemplateAdmin)
 admin.site.register(Strategy, StrategyAdmin)

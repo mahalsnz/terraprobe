@@ -69,6 +69,10 @@ class Document(models.Model):
     description = models.CharField(max_length=255, blank=True)
     document = models.FileField(upload_to='documents/')
 
+    def __str__(self):
+        file = str(self.document)
+        return file
+
 class ReadingType(models.Model):
     name = models.CharField(max_length=100, null=False)
     comment = models.CharField(max_length=200, null=True, blank=True)
@@ -218,7 +222,7 @@ class SeasonalSoilStat(models.Model):
                     lists.append({'soil_type': choice[1]})
         return lists
     """
-    
+
 class StrategyType(models.Model):
     name = models.CharField(max_length=50, null=False)
     percentage = models.FloatField(null=False, default=0, help_text="A percentage between 0 and 1 indicating the difference that the lower strategy should be below the upper strategy for a site. This is taken from the high limit.")

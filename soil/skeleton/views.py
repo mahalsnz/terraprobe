@@ -15,7 +15,7 @@ from django.contrib import messages
 from django.db.models import Sum, Q
 from django.db.models.functions import Coalesce
 from graphs.models import vsw_reading
-from .models import Probe, ProbeDiviner, Diviner, Reading, ReadingType, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType \
+from .models import Probe, Document, ProbeDiviner, Diviner, Reading, ReadingType, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType \
 , Variety, VarietySeasonTemplate, SiteDescription, Farm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -714,6 +714,8 @@ class UploadReadingsFileView(LoginRequiredMixin, CreateView):
             return redirect('upload_readings_file')
         else:
             logger.info('***Form not valid:' + str(form))
+
+
 
 '''
     handle_file - Generic file handler to create a data file as it is uploaded through a web form

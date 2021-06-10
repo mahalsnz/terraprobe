@@ -6,6 +6,18 @@ body {
     color: #16161d;
 }
 
+@media print
+{
+    @page
+    {
+        size: landscape;
+    }
+    .pagebreak {
+        clear: both;
+        page-break-after: always;
+    } /* page-break-after works, as well */
+}
+
 header {
     margin-bottom: 36px;
 }
@@ -144,47 +156,3 @@ div.tooltip {
     border-radius: 8px;
     pointer-events: none;
 }
-
-/* For the EOY Report gauges that use High Charts
-
-.highcharts-figure-season-gauges .chart-season-gauges {
-	width: 200px;
-	height: 180px;
-
-    right: 100px;
-    float: left;
-}
-
-.highcharts-figure-season-gauges, .highcharts-data-table table {
-	width: 200px;
-	margin: 0 auto;
-}
-
-.highcharts-data-table table {
-    font-family: Verdana, sans-serif;
-    border-collapse: collapse;
-    border: 1px solid #EBEBEB;
-    margin: 10px auto;
-    text-align: center;
-    width: 100%;
-    max-width: 300px;
-}
-.highcharts-data-table caption {
-    padding: 1em 0;
-    font-size: 1.2em;
-    color: #555;
-}
-.highcharts-data-table th {
-	font-weight: 600;
-    padding: 0.5em;
-}
-.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
-    padding: 0.5em;
-}
-.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
-    background: #f8f8f8;
-}
-.highcharts-data-table tr:hover {
-    background: #f1f7ff;
-}
-*/

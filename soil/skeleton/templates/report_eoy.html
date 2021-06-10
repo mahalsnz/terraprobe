@@ -3,36 +3,25 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-<style>
-@media print
-{
-    @page
-    {
-        size: landscape;
-    }
-}
-.highcharts-figure-season-graph {
-    /*position: absolute;
-    top: 10%;
-    left: 6%;*/
-}
-
-
-</style>
-<form method="post" id="eoyReportForm" data-sites-url="{% url 'ajax_load_sites' %}" novalidate>
+<div class="d-print-none">
+<form method="post" id="eoyReportForm" novalidate>
     {% csrf_token %}
 <div class="container-sm">
     <div class="row selector">
-        &emsp;<div class="col-sm-3 form-control-sm">
+        &emsp;<div class="col-sm-2 form-control-sm">
             {{ form.farm|as_crispy_field }}
         </div>
-        <div class="col-sm-3 form-control-sm">
+        <div class="col-sm-2 form-control-sm">
             {{ form.season|as_crispy_field }}
+        </div>
+        <div class="col-sm-3 form-control-sm">
+            {{ form.template|as_crispy_field }}
         </div>
     </div>
 </div>
 </form>
-<div class="card" id="report">
+</div>
+<div id="report">
 
 </div>
 
@@ -40,31 +29,40 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <script>
 $(document).ready(function(){
 
+    Highcharts.setOptions({
+        credits: { enabled: false },
+        exporting: { enabled: false },
+    });
+
+    var bar_colors = ['blue','green'];
+
     $("#id_farm").change(function() {
-        //var url = $("#eoyReportForm").attr("data-sites-url");
-        //console.log("URL:" + url);
         var farm_id = $(this).val();  // get the selected technician ID from the HTML input
         var season_id = $("#id_season").val();
+        var template_id = $("#id_template").val();
         console.log("farm_id:" + farm_id);
         $.ajax({
-            url: "/api/eoy_farm_report/" + farm_id + "/" + season_id + "/",
+            url: "/api/eoy_farm_report/" + farm_id + "/" + season_id + "/" + template_id + "/",
             dataType: 'json',
             success: function(result) { // `data` is the return of the `load_cities` view function
-            $("#report").empty();
-            console.log(result);
+                $("#report").empty();
+                console.log(result.template);
+                $("#report").append("<img style='width: 900px; height: 100px;'src='{% static 'skeleton/images/fruition_report_header.png' %}'/><p>" + result.template + "</p><div class='pagebreak'> </div>")
 
-            result.forEach(function(d) {
-                $("#report").append("<div class='card-header'><h4>" + d.season + " - " + d.farm +
-                    "      " + d.site + " Site : (" + d.site_number + ")&emsp;&emsp;<img style='width: 170px; height: 28px;'src='{% static 'skeleton/images/fruition_logo.png' %}'/></h4></div>")
-                $("#report").append("<div class='card-header'>Seasonal Summary and Strategy&emsp;&emsp;&emsp;&emsp;&emsp;Rootzone: 0-" +
-                    d.rz1 + " cm&emsp;&emsp;&emsp;&emsp;Soil Classification: " + d.soil_type + "</div>")
+                var farm = result.farm;
+                var average_rainfall = result.average_rainfall;
+                var season = result.season;
+                var data = result.site_data;
+            data.forEach(function(d) {
+                $("#report").append("<h4>" + season + " - " + farm +
+                    "      " + d.site + " Site : (" + d.site_number + ")&emsp;&emsp;<img style='width: 170px; height: 28px;'src='{% static 'skeleton/images/fruition_logo.png' %}'/></h4>")
+                $("#report").append("<h5>Seasonal Summary and Strategy&emsp;&emsp;&emsp;&emsp;&emsp;Rootzone: 0-" +
+                    d.rz1 + " cm&emsp;&emsp;&emsp;&emsp;Soil Classification: " + d.soil_type + "</h5>")
 
                 /////////////////////////////////////// Start Season Graph ///////////////////////////////////
                 var parseTime = d3.timeParse("%d-%m-%Y");
@@ -86,7 +84,7 @@ $(document).ready(function(){
 
                 var row = '';
                 row_id = 'row-' + d.site_id + "-graph";
-                row += "<div class='card-body'><div class='row' id='" + row_id + "'></row></div>"
+                row += "<div class='row' id='" + row_id + "'></div>"
                 $("div[id='report']").append(row);
                 var chart_name = 'season-graph-' + d.site_id;
                 content = '';
@@ -152,9 +150,7 @@ $(document).ready(function(){
                         if (minReading <= refill){ minY = minReading } else { minY = refill }
 
                         var options = {
-                            exporting: { enabled: false },
                             title: null,
-                            credits: { enabled: false },
                             chart: {
                                 title: 'Season',
                                 renderTo: 'season-graph',
@@ -272,26 +268,80 @@ $(document).ready(function(){
 
                 /////////////////////////////////////// End Season Graph ////////////////////////////////////////////
 
-                // We need rows of highcharts gauges. So each row needs a unique identifier of site id and season eg row-238-2020-2021
+                // It looks like we need a row of a bar chart, then a gauge and then another bar chart. This will be called mini-charts
                 var row = '';
-                row_id = 'row-' + d.site_id;
-                row += "<div class='card-body'><div class='row' id='" + row_id + "'></row></div>"
-                $("div[id='report']").append(row)
-                var gauges = {
-                    rain : {
-                        title: "Season's Rainfall",
-                        blurb: "<b>How does your block compare?</b><br/><p>Here's how the " + d.season + " season rainfall compares<br/> with the previous 10 seasons.</p>",
+                row_id = 'row-' + d.site_id + '-mini-charts';
+                row += "<div class='row' id='" + row_id + "'></div>";
+                $("#report").append(row);
+
+                /////////////////////////////////////// Start Rainfall Bar Graph ////////////////////////////////////////////
+                var rainfall_season_name = "rainfall-season-" + d.site_id;
+                content = '';
+                content += "<figure class='highcharts-figure-rainfall-season'>"
+                content += "<div id='" + rainfall_season_name + "' class='chart-rainfall-season'></div></figure>"
+                $("div[id='" + row_id + "']").append(content);
+
+                var rainfall_season_caption = "<b>How does your block compare?</b><br/><p>Here's how the " + season + " season rainfall compares<br/> with the previous 10 seasons.</p>";
+                var rainfall_season_options = {
+                    title: {
+                        text: "Season's Rainfall",
+                        align: 'low',
+                        textAlign: 'center',
+                        style: {
+                            color: 'blue',
+                            'font-weight': 'bold',
+                            'font-size': '14px'
+                        },
                     },
+                    chart: { type: 'column',
+                        renderTo: 'rainfall-season',
+                        height: 200,
+                        width: 300
+                    },
+                    legend: { enabled: false },
+                    xAxis: {
+                        categories: ['You', '10 Year Average'],
+                        title: {
+                            text: rainfall_season_caption,
+                        },
+                        //min: 100,
+                        visible: true,
+                    },
+                    yAxis: {
+                        min: 0,
+                        visible: true,
+                        title: { text: null },
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    },
+                    series: [{
+                        name: null,
+                        data: [
+                            {y: d.rain, color: bar_colors[0]},
+                            {y: average_rainfall, color: bar_colors[1]},
+                        ],
+                    }],
+                }
+                var rainfall_season_chart = new Highcharts.Chart(rainfall_season_name, rainfall_season_options)
+
+                var gauges = {
+
                     eff_irrigation: {
                         title: 'Irrigation Efficency (Site)',
                         blurb: "Here's how effective your irrigation for<br/> the season has been. Effective irrigation<br/> is the % of irrigation applied <br/>" +
                             "that remains in the effective <br/>rootzone and is used by the tree."
                     },
-                    average_eff_irrigation: {
+                    /*average_eff_irrigation: {
                         title: 'Irrigation Efficency (Comparison)',
                         blurb:  "Here's how effective your irrigation for<br/> the season has been. Effective irrigation<br/> is the % of irrigation applied <br/>" +
                             "that remains in the effective <br/>rootzone and is used by the tree."
-                    }
+                    }*/
                 };
 
                 // Loop thrugh the gauges we are going to display
@@ -309,7 +359,6 @@ $(document).ready(function(){
 
                     // Start Gauge Options //
                     gaugeOptions = {
-                        exporting: { enabled: false },
                         chart: {
                             type: 'solidgauge',
                             height: 200,
@@ -376,9 +425,6 @@ $(document).ready(function(){
                                 }
                             }
                         },
-
-                        credits: { enabled: false },
-
                         series: [{
                             data: [gauge_data_perc],
                             dataLabels: {
@@ -402,27 +448,24 @@ $(document).ready(function(){
                 var summary_name = 'season-summary-' + d.site_id;
                 var row = '';
                 row_id = 'row-' + d.site_id + "-season-summary";
-                row += "<div class='card-body'><div class='row' id='" + row_id + "'></row></div>"
+                row += "<div class='row' id='" + row_id + "'></div>"
                 $("div[id='report']").append(row);
-                /*$("div[id='" + row_id + "']").append("<p><b>How does your block compare?</b><br />" +
-                    "Here's how your seasonal water usage compares against other blocks with the same crop and a similar soil type for the " +
-                    d.season + " season.<br /></p>");*/
+
                 content = '';
                 content += "<figure class='highcharts-figure-season-summary'>"
                 content += "<div id='" + summary_name + "' class='chart-season-summary'></div></figure>"
                 $("div[id='" + row_id + "']").append(content);
+                $("div[id='report']").append("<div class='pagebreak'> </div>");
 
                 /////////////////////////////////////// End Season Summary ////////////////////////////////////////////
 
                 var summary_title = "<b>How does your block compare?</b><br />" +
                     "Here's how your seasonal water usage compares against other blocks with the same crop and a similar soil type for the " +
-                    d.season + " season.<br /></p>";
+                    season + " season.<br /></p>";
                 var summary_caption = "<i>Data based on supplied irrigation system specifications:</i> <b>" + d.application_rate + " L/plant/Hr</b>";
 
                 var season_summary_options = {
-                    exporting: { enabled: false },
                     title: { text: summary_title},
-                    credits: { enabled: false },
                     chart: { type: 'bar',
                         renderTo: 'season-summary',
                         height: 250,
@@ -460,8 +503,8 @@ $(document).ready(function(){
                     series: [{
                         name: null,
                         data: [
-                            ['You', d.irrigation_mms],
-                            ['Similar Sites', d.average_eff_irrigation],
+                            {y: d.irrigation_mms, color: bar_colors[0]},
+                            {y: d.average_eff_irrigation, color: bar_colors[1]},
                         ],
                     }],
                 }

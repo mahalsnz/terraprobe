@@ -6,7 +6,7 @@ from .views import SiteReadingsView, UploadReadingsFileView, OnsiteCreateView, S
 from . import views
 from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm, SiteSelectionForm
 
-from .apiviews import ReportList, ReportDetail, SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
+from .apiviews import SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
 , FarmList, FarmDetail, ReadingDetail, ReadingList, SiteReadingList, SiteList, SiteDetail, EOYFarmSummary
 
 FORMS = [("select_crsf", SelectCropRegionSeasonForm)]
@@ -18,7 +18,7 @@ urlpatterns = [
 
     path('reports', views.report_home, name='report_home'),
     path("reports/eoy/", views.EOYReportView.as_view(), name='report_eoy'),
-    # path("season/", views.season, name="season"), example highcharts 
+    # path("season/", views.season, name="season"), example highcharts
 
     #url(r'^pdf/$', PDFTemplateView.as_view(template_name='my_template.html',
     #                                       filename='my_pdf.pdf'), name='pdf'),
@@ -38,8 +38,6 @@ urlpatterns = [
     path('weather', views.weather, name='weather'),
 
     # API
-    path("api/report/", ReportList.as_view(), name="reports_list"),
-    path("api/report/<int:pk>/", ReportDetail.as_view(), name="reports_detail"),
     path("api/season/", SeasonList.as_view(), name="seasons_list"),
     path("api/season/<int:pk>/", SeasonDetail.as_view(), name="seasons_detail"),
     path("api/reading_type/", ReadingTypeList.as_view(), name="reading_types_list"),
@@ -51,7 +49,7 @@ urlpatterns = [
     path("api/reading/", ReadingList.as_view(), name="readings_list"),
     path("api/reading/<int:pk>/", ReadingDetail.as_view(), name="readings_detail"),
     path("api/site_reading/<int:pk>/", SiteReadingList.as_view(), name="graph_data"),
-    path("api/eoy_farm_report/<int:farm_id>/<int:season_id>/", EOYFarmSummary.as_view()),
+    path("api/eoy_farm_report/<int:farm_id>/<int:season_id>/<int:template_id>/", EOYFarmSummary.as_view()),
 
     #ajax
     path('ajax/load-sites/', views.load_sites, name='ajax_load_sites'),

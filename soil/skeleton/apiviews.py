@@ -8,7 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers import serialize
 from django.db.models import Q, Sum
 from django.db.models.functions import Coalesce
-from .models import Report, Season, Farm, Reading, Site, ReadingType, SeasonStartEnd, SeasonalSoilStat
+from .models import Report, Season, Farm, Reading, Site, ReadingType, SeasonStartEnd, SeasonalSoilStat, Document
 from address.models import Address, Locality, State, Country
 from .serializers import CountrySerializer, StateSerializer, LocalitySerializer, AddressSerializer, ReportSerializer, SeasonSerializer, FarmSerializer \
 , ReadingSerializer, SiteSerializer, ReadingTypeSerializer
@@ -16,14 +16,6 @@ from skeleton.utils import get_current_season, get_site_season_start_end, get_so
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
-
-class ReportList(generics.ListCreateAPIView):
-    queryset = Report.objects.all();
-    serializer_class = ReportSerializer
-
-class ReportDetail(generics.RetrieveDestroyAPIView):
-    queryset = Report.objects.all();
-    serializer_class = ReportSerializer
 
 class SeasonList(generics.ListCreateAPIView):
     queryset = Season.objects.all();
@@ -73,12 +65,13 @@ class SiteReadingList(generics.ListCreateAPIView):
 
 class EOYFarmSummary(APIView):
 
-    def get(self, request, farm_id, season_id, format=None):
+    def get(self, request, farm_id, season_id, template_id, format=None):
 
         # Checks each season and calculates stats if not there
         calculate_seasonal_soil_stat()
 
         farms = Farm.objects.select_related('weatherstation').filter(id=farm_id)
+        template = Document.objects.get(pk=template_id)
         eoy_data = []
         for farm in farms:
             average_rainfall = farm.weatherstation.average_rainfall
@@ -151,12 +144,9 @@ class EOYFarmSummary(APIView):
                         ' Site:' + str(site.site_number) + ' Rainfall:' + str(rain_sum))
 
                     eoy_data.append({
-                        "farm": farm.name,
-                        'average_rainfall': average_rainfall,
                         'site' : site.name,
                         'site_id' : site.id,
                         'site_number' : site.site_number,
-                        'season': season.season_name,
                         'period_from' : season.period_from,
                         'period_to' : season.period_to,
                         'soil_type' : soil_type,
@@ -179,9 +169,13 @@ class EOYFarmSummary(APIView):
 
         #reorder data
         eoy_data.reverse()
-
+        template_data = template.document.read()
         data = {
-            'eoy_data': eoy_data,
+            "farm": farm.name,
+            'average_rainfall': average_rainfall,
+            'season': season.season_name,
+            'template': template_data,
+            'site_data': eoy_data,
         }
 
-        return Response(eoy_data)
+        return Response(data)
