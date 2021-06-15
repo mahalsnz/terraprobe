@@ -303,6 +303,7 @@ class EOYFarmSummary(APIView):
         template = Document.objects.get(pk=template_id)
         template_data = template.document.read() # Store template as we are going to return it as part of API data
 
+        # Test Data with prod switch for testing
         rain_json = [{
                     "Oct": 76
                 },
@@ -330,12 +331,12 @@ class EOYFarmSummary(APIView):
                 {
                     "Jun": 3
                 }]
-
         average_rainfall = 786
+
         eoy_data = []
         for farm in farms:
 
-            prod = False
+            prod = True
             if prod == True:
                 rain_data = management.call_command('request_to_hortplus', purpose='generate_eoy_data', stations=farm.weatherstation.code)
                 rain_data = json.loads(rain_data)
@@ -344,7 +345,7 @@ class EOYFarmSummary(APIView):
                 rain_json = []
                 for month in rain_data:
                     if (rain_data[month]['avg'] > 0):
-                        average = round(rain_data[month]['avg'] / 10) # Average is total for 10 years
+                        average_rainfall = round(rain_data[month]['avg'] / 10) # Average is total for 10 years
                         d = round(rain_data[month]['cur'] / average_rainfall * 100)
                         int_month = int(month)
                         rain_json.append({ calendar.month_abbr[int_month]: d })
@@ -424,6 +425,7 @@ class EOYFarmSummary(APIView):
         data = {
             "farm": farm.name,
             'season': season.season_name,
+            'weatherstation': farm.weatherstation.name,
             'ten_year_average_rainfall': average_rainfall,
             'template': template_data,
             'site_data': eoy_data,

@@ -60,13 +60,13 @@ $(document).ready(function(){
                 var season = result.season;
                 var data = result.site_data;
                 var rain_data = result.rain_data;
+                var weatherstation = result.weatherstation;
+                var ten_year_average_rainfall = result.ten_year_average_rainfall;
 
                 var rain_categories = []
                 var rain_y = [] // The y values for the Rain Column graph
-                var ten_year_average_rainfall = result.ten_year_average_rainfall;
 
                 /////////////////////////////////////// Start Rain Column Graph ///////////////////////////////////
-
                 rain_data.forEach(function(r) {
                     console.log(r)
                     for (key in r) {
@@ -74,72 +74,70 @@ $(document).ready(function(){
                         rain_y.push(r[key])
                     }
                 });
-                    console.log(rain_categories)
-                    var rainfall_comparison_name = "rainfall-comparison-" + farm_id;
-                    $("div[id='report']").append("<img style='width: 900px; height: 100px;'src='{% static 'skeleton/images/fruition_report_header.png' %}'></img>")
-                    var row = '';
-                    row_id = 'row-' + rainfall_comparison_name;
-                    row += "<div class='row' id='" + row_id + "'></div>"
-                    $("div[id='report']").append(row);
 
+                var rainfall_comparison_name = "rainfall-comparison-" + farm_id;
+                $("div[id='report']").append("<img style='width: 900px; height: 100px;'src='{% static 'skeleton/images/fruition_report_header.png' %}'></img>")
+                var row = '';
+                row_id = 'row-' + rainfall_comparison_name;
+                row += "<div class='row' id='" + row_id + "'></div>"
+                $("div[id='report']").append(row);
 
-                    content = '';
-                    content += "<figure class='highcharts-figure-rainfall-comparison'>"
-                    content += "<div id='" + rainfall_comparison_name + "' class='chart-rainfall-season'></div></figure>"
-                    $("div[id='" + row_id + "']").append(content);
-                    $("div[id='report']").append("<div class='pagebreak'> </div>");
+                content = '';
+                content += "<figure class='highcharts-figure-rainfall-comparison'>"
+                content += "<div id='" + rainfall_comparison_name + "' class='chart-rainfall-season'></div></figure>"
+                $("div[id='" + row_id + "']").append(content);
+                $("div[id='report']").append("<div class='pagebreak'> </div>");
 
-                    var rainfall_comparison_title = farm + ' ' + season + " Rainfall percentage comparison with 10 previous years";
-                    var options = {
+                var rainfall_comparison_title = "<b>" + farm + ' ' + season + "</b> Rainfall percentage comparison with 10 previous years. ("
+                    + weatherstation + ")";
+
+                var options = {
+                    title: {
+                        text: rainfall_comparison_title,
+                    },
+                    chart: { type: 'column',
+                        renderTo: 'rainfall-comparison',
+                        height: 450,
+                        width: 900,
+                    },
+                    xAxis: {
+                        categories: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                         title: {
-                            text: rainfall_comparison_title,
+                            text: "0% is no rainfall, 100% is average rainfall, 200% is twice average rainfall",
                         },
-                        chart: { type: 'column',
-                            renderTo: 'rainfall-comparison',
-                            height: 450,
-                            width: 800
-                        },
-                        xAxis: {
-                            categories: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                            title: {
-                                text: "0% is no rainfall, 100% is average rainfall, 200% is twice average rainfall",
+                        visible: true,
+                    },
+                    yAxis: {
+                        min: 0,
+                        visible: true,
+                        title: { text: "% of Average Rainfall" },
+                    },
+                    plotOptions: {
+                        column: {
+                            zones: [{
+                                value: 100,
+                                color: 'red'
                             },
-                            visible: true,
-                        },
-                        yAxis: {
-                            min: 0,
-                            visible: true,
-                            title: { text: "% of Average Rainfall" },
-                        },
-                        plotOptions: {
-                            column: {
-                                zones: [{
-                                    value: 100,
-                                    color: 'red'
-                                },
-                                {
-                                    color: 'blue'
-                                }],
-                                //stacking: 'normal',
-                                dataLabels: {
-                                    enabled: true
-                                }
+                            {
+                                color: 'blue'
+                            }],
+                            //stacking: 'normal',
+                            dataLabels: {
+                                enabled: true
                             }
-                        },
-                        series: []
-                    };
+                        }
+                    },
+                    series: []
+                };
 
-                    options.series.push({name: 'Rainfall',  type: 'column', threshold: 100,
-                     data: rain_y});
-                    var rainfall_season_chart = new Highcharts.Chart(rainfall_comparison_name, options)
-
+                options.series.push({name: 'Rainfall',  type: 'column', threshold: 100, data: rain_y});
+                var rainfall_season_chart = new Highcharts.Chart(rainfall_comparison_name, options)
 
             data.forEach(function(d) {
-                $("#report").append("<h4>" + season + " - " + farm +
-                    "      " + d.site + " Site : (" + d.site_number + ")&emsp;&emsp;<img style='width: 170px; height: 28px;'src='{% static 'skeleton/images/fruition_logo.png' %}'/></h4>")
+                $("#report").append("<h4><b>" + season + " - " + farm +
+                    "      " + d.site + " Site : (" + d.site_number + ")</b>&emsp;&emsp;<img style='width: 170px; height: 28px;'src='{% static 'skeleton/images/fruition_logo.png' %}'/></h4>")
                 $("#report").append("<h5>Seasonal Summary and Strategy&emsp;&emsp;&emsp;&emsp;&emsp;Rootzone: 0-" +
                     d.rz1 + " cm&emsp;&emsp;&emsp;&emsp;Soil Classification: " + d.soil_type + "</h5>")
-
 
                 /////////////////////////////////////// Start Season Graph ///////////////////////////////////
                 var parseTime = d3.timeParse("%d-%m-%Y");
@@ -171,7 +169,6 @@ $(document).ready(function(){
 
                 d3.json('/graphs/api/vsw_reading/' + parameter_string + '/?format=json').then(function(data) {
                     d3.json('/graphs/api/vsw_strategy/' + parameter_string + '/?format=json').then(function(strategy_data) {
-
                         data.forEach(function(reading) {
 
                             parsed_date = parseTime(reading.date);
@@ -367,7 +364,7 @@ $(document).ready(function(){
                     },
                     chart: { type: 'column',
                         renderTo: 'rainfall-season',
-                        height: 200,
+                        height: 300,
                         width: 300
                     },
                     xAxis: {
@@ -375,11 +372,8 @@ $(document).ready(function(){
                         title: {
                             text: rainfall_season_caption,
                         },
-                        //visible: true,
                     },
                     yAxis: {
-                        //min: 0,
-                        //visible: true,
                         title: { text: null },
                     },
                     plotOptions: {
@@ -431,7 +425,7 @@ $(document).ready(function(){
                     gaugeOptions = {
                         chart: {
                             type: 'solidgauge',
-                            height: 200,
+                            height: 300,
                             width: 300,
                         },
                         title: {
@@ -439,7 +433,7 @@ $(document).ready(function(){
                         },
                         pane: {
                             centre: ['10', '120'],
-                            size: '120',
+                            size: '200',
                             startAngle: -90,
                             endAngle: 90,
                             background: {
@@ -515,7 +509,7 @@ $(document).ready(function(){
                     },
                     chart: { type: 'column',
                         renderTo: 'irrigation-season',
-                        height: 200,
+                        height: 300,
                         width: 300
                     },
                     xAxis: {

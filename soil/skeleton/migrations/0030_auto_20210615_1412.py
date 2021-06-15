@@ -14,9 +14,4 @@ class Migration(migrations.Migration):
             model_name='weatherstation',
             name='average_rainfall',
         ),
-        migrations.AlterField(
-            model_name='weatherstation',
-            name='code',
-            field=models.CharField(max_length=4, null=True, unique=True),
-        ),
     ]
