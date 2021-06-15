@@ -429,7 +429,7 @@ def index(request):
             if button_clicked == 'processall':
                 management.call_command('processall_readings')
             if button_clicked == 'load-rainfall':
-                management.call_command('request_to_hortplus')
+                management.call_command('request_to_hortplus', purpose='process_readings')
         except Exception as e:
             messages.error(request, "Error: " + str(e))
 
@@ -445,49 +445,10 @@ def index(request):
     Reports
 '''
 
-from wkhtmltopdf.views import PDFTemplateResponse
-# Leaving in for now to see if I can get this working later
-class EOYPDFView(View):
-
-    template='report_eoy.html' # the template
-
-    def get(self, request, farm_id):
-
-        farms = Farm.objects.filter(id=farm_id)
-        eoy_data = []
-
-        data = {
-            'eoy_data': eoy_data,
-        }
-        jsondata = json.dumps(data)
-
-
-        response = PDFTemplateResponse(request=request,
-                                       template=self.template,
-                                       filename="hello.pdf",
-                                       context= data,
-                                       show_content_in_browser=False,
-                                       cmd_options={'margin-top': 10,
-                                          "zoom":1,
-                                           "viewport-size" :"1366 x 513",
-                                           "javascript-delay" : "4000",
-                                           'footer-center' :'[page]/[topage]',
-                                           "no-stop-slow-scripts" : True},
-                                       )
-        return response
-
-'''
-class ReportEOYView(LoginRequiredMixin, CreateView):
-
-    def get(self, request, *args, **kwargs):
-        return render(request, 'report_eoy.html', { 'form': EOYReportForm() })
-
-    def(post):
-'''
-
 class EOYReportView(LoginRequiredMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
+
         return render(request, 'report_eoy.html', { 'form': EOYReportForm() })
 
 def report_season_dates(request):

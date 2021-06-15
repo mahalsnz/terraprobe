@@ -5,12 +5,16 @@ from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 
 from .models import vsw_reading, vsw_strategy
-from skeleton.models import Farm, Site, SeasonStartEnd
+from skeleton.models import Farm, Site, Reading, SeasonStartEnd, SeasonalSoilStat, Document
 from .serializers import VSWSerializer, SiteSerializer, FarmSerializer, ReadingTypeSerializer, VSWStrategySerializer, VSWDateSerializer
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers import serialize
-from skeleton.utils import get_current_season, get_site_season_start_end
+from skeleton.utils import get_current_season, get_site_season_start_end, get_soil_type, calculate_seasonal_soil_stat, get_rain_data
+from django.db.models.functions import Coalesce
+
+from django.core import management
+import json, calendar
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -287,3 +291,143 @@ class VSWStrategyList(generics.ListAPIView):
 
         return queryset
     serializer_class = VSWStrategySerializer
+
+class EOYFarmSummary(APIView):
+
+    def get(self, request, farm_id, season_id, template_id, format=None):
+
+        # Checks each season and calculates stats if not there
+        calculate_seasonal_soil_stat()
+
+        farms = Farm.objects.select_related('weatherstation').filter(id=farm_id)
+        template = Document.objects.get(pk=template_id)
+        template_data = template.document.read() # Store template as we are going to return it as part of API data
+
+        rain_json = [{
+                    "Oct": 76
+                },
+                {
+                    "Nov": 524
+                },
+                {
+                    "Dec": 19
+                },
+                {
+                    "Jan": 21
+                },
+                {
+                    "Feb": 132
+                },
+                {
+                    "Mar": 44
+                },
+                {
+                    "Apr": 1
+                },
+                {
+                    "May": 13
+                },
+                {
+                    "Jun": 3
+                }]
+
+        average_rainfall = 786
+        eoy_data = []
+        for farm in farms:
+
+            prod = False
+            if prod == True:
+                rain_data = management.call_command('request_to_hortplus', purpose='generate_eoy_data', stations=farm.weatherstation.code)
+                rain_data = json.loads(rain_data)
+                logger.debug('Rain data:' + str(rain_data))
+
+                rain_json = []
+                for month in rain_data:
+                    if (rain_data[month]['avg'] > 0):
+                        average = round(rain_data[month]['avg'] / 10) # Average is total for 10 years
+                        d = round(rain_data[month]['cur'] / average_rainfall * 100)
+                        int_month = int(month)
+                        rain_json.append({ calendar.month_abbr[int_month]: d })
+                        logger.debug(rain_json)
+
+            sites = Site.objects.select_related('product__crop').select_related('product__variety').filter(farm=farm)
+
+            for site in sites:
+                season = SeasonStartEnd.objects.get(site_id=site.id, season_id=season_id) # get season
+                last_season = SeasonStartEnd.objects.filter(site_id=site.id).order_by('-period_from') # get season
+                last_season = last_season[1]
+                logger.debug('This season:' + season.season_name + ' Last Season:' + last_season.season_name)
+
+                rain_sum = 0
+                irrigation_mms_diff = 0.0
+                irrigation_mms_perc = 0.0
+
+                eff_irrigation_diff = 0.0
+                eff_irrigation_perc = 0.0
+                average_eff_irrigation_diff = 0.0
+
+                readings = Reading.objects.filter(site=site.id, type__name="Probe", date__range=(season.period_from, season.period_to))
+                last_season_readings = Reading.objects.filter(site=site.id, type__name="Probe", date__range=(last_season.period_from, last_season.period_to))
+                full_point = Reading.objects.get(site=site.id, type__name="Full Point", date__range=(season.period_from, season.period_to))
+
+                soil_type = get_soil_type(full_point.rz1)
+                stats = SeasonalSoilStat.objects.get(season=season.season, crop=site.product.crop, soil_type=soil_type)
+                average_eff_irrigation = stats.total_effective_irrigation
+                average_eff_irrigation_perc = stats.perc_effective_irrigation
+                soil_type = stats.get_soil_type_display()
+                logger.debug('Average_eff_irrigation_perc for all sites of soil type:' + soil_type + ' is ' + str(average_eff_irrigation_perc))
+
+                rainfall = readings.aggregate(rain__sum=Coalesce(Sum('rain'), 0))
+                rain_sum = rainfall.get('rain__sum')
+
+                irrigation_mms = readings.aggregate(irrigation_mms__sum=Coalesce(Sum('irrigation_mms'), 0))
+                irrigation_mms_sum = irrigation_mms.get('irrigation_mms__sum')
+
+                last_season_irrigation_mms = last_season_readings.aggregate(last_season_irrigation_mms__sum=Coalesce(Sum('irrigation_mms'), 0))
+                last_season_irrigation_mms_sum = last_season_irrigation_mms.get('last_season_irrigation_mms__sum')
+
+                eff_irrigation = readings.aggregate(effective_irrigation__sum=Coalesce(Sum('effective_irrigation'), 0))
+                eff_irrigation_sum = eff_irrigation.get('effective_irrigation__sum')
+
+                try:
+                    eff_irrigation_perc = round(eff_irrigation_sum / irrigation_mms_sum * 100)
+                except ZeroDivisionError:
+                    eff_irrigation_perc = 0
+                logger.debug('Effective Irrigation %:' + str(eff_irrigation_perc))
+
+                average_eff_irrigation_diff = average_eff_irrigation_perc - eff_irrigation_perc
+
+                logger.debug('Season: ' + str(season.season_name) + ' Farm:' + str(farm.name) + ' Weatherstation ' + farm.weatherstation.name +
+                    ' Site:' + str(site.site_number) + ' Rainfall:' + str(rain_sum))
+
+                eoy_data.append({
+                    'site' : site.name,
+                    'site_id' : site.id,
+                    'site_number' : site.site_number,
+                    'period_from' : season.period_from,
+                    'period_to' : season.period_to,
+                    'soil_type' : soil_type,
+                    'product' : site.product.crop.name + ' - ' + site.product.variety.name,
+                    'rz1' : site.rz1_bottom,
+                    'application_rate' : site.application_rate,
+                    'rain': rain_sum,
+                    'irrigation_mms': irrigation_mms_sum,
+                    'last_season_irrigation_mms': last_season_irrigation_mms_sum,
+                    'irrigation_mms_perc': irrigation_mms_perc,
+                    'eff_irrigation' : eff_irrigation_sum,
+                    'eff_irrigation_perc' : eff_irrigation_perc,
+                    'average_eff_irrigation' : average_eff_irrigation,
+                    'average_eff_irrigation_perc' : average_eff_irrigation_perc
+                })
+
+
+        data = {
+            "farm": farm.name,
+            'season': season.season_name,
+            'ten_year_average_rainfall': average_rainfall,
+            'template': template_data,
+            'site_data': eoy_data,
+            'rain_data': rain_json
+        }
+
+        return Response(data)

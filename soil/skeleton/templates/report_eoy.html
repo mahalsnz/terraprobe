@@ -37,6 +37,7 @@ $(document).ready(function(){
     Highcharts.setOptions({
         credits: { enabled: false },
         exporting: { enabled: false },
+        legend: { enabled: false },
     });
 
     var bar_colors = ['blue','green'];
@@ -47,22 +48,98 @@ $(document).ready(function(){
         var template_id = $("#id_template").val();
         console.log("farm_id:" + farm_id);
         $.ajax({
-            url: "/api/eoy_farm_report/" + farm_id + "/" + season_id + "/" + template_id + "/",
+            url: "/graphs/api/v1/eoy_farm_report/" + farm_id + "/" + season_id + "/" + template_id + "/",
             dataType: 'json',
             success: function(result) { // `data` is the return of the `load_cities` view function
                 $("#report").empty();
-                console.log(result.template);
-                $("#report").append("<img style='width: 900px; height: 100px;'src='{% static 'skeleton/images/fruition_report_header.png' %}'/><p>" + result.template + "</p><div class='pagebreak'> </div>")
+
+                $("#report").append("<img style='width: 900px; height: 100px;'src='{% static 'skeleton/images/fruition_report_header.png' %}'/><p>"
+                    + result.template + "</p><div class='pagebreak'> </div>")
 
                 var farm = result.farm;
-                var average_rainfall = result.average_rainfall;
                 var season = result.season;
                 var data = result.site_data;
+                var rain_data = result.rain_data;
+
+                var rain_categories = []
+                var rain_y = [] // The y values for the Rain Column graph
+                var ten_year_average_rainfall = result.ten_year_average_rainfall;
+
+                /////////////////////////////////////// Start Rain Column Graph ///////////////////////////////////
+
+                rain_data.forEach(function(r) {
+                    console.log(r)
+                    for (key in r) {
+                        rain_categories.push(key)
+                        rain_y.push(r[key])
+                    }
+                });
+                    console.log(rain_categories)
+                    var rainfall_comparison_name = "rainfall-comparison-" + farm_id;
+                    $("div[id='report']").append("<img style='width: 900px; height: 100px;'src='{% static 'skeleton/images/fruition_report_header.png' %}'></img>")
+                    var row = '';
+                    row_id = 'row-' + rainfall_comparison_name;
+                    row += "<div class='row' id='" + row_id + "'></div>"
+                    $("div[id='report']").append(row);
+
+
+                    content = '';
+                    content += "<figure class='highcharts-figure-rainfall-comparison'>"
+                    content += "<div id='" + rainfall_comparison_name + "' class='chart-rainfall-season'></div></figure>"
+                    $("div[id='" + row_id + "']").append(content);
+                    $("div[id='report']").append("<div class='pagebreak'> </div>");
+
+                    var rainfall_comparison_title = farm + ' ' + season + " Rainfall percentage comparison with 10 previous years";
+                    var options = {
+                        title: {
+                            text: rainfall_comparison_title,
+                        },
+                        chart: { type: 'column',
+                            renderTo: 'rainfall-comparison',
+                            height: 450,
+                            width: 800
+                        },
+                        xAxis: {
+                            categories: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                            title: {
+                                text: "0% is no rainfall, 100% is average rainfall, 200% is twice average rainfall",
+                            },
+                            visible: true,
+                        },
+                        yAxis: {
+                            min: 0,
+                            visible: true,
+                            title: { text: "% of Average Rainfall" },
+                        },
+                        plotOptions: {
+                            column: {
+                                zones: [{
+                                    value: 100,
+                                    color: 'red'
+                                },
+                                {
+                                    color: 'blue'
+                                }],
+                                //stacking: 'normal',
+                                dataLabels: {
+                                    enabled: true
+                                }
+                            }
+                        },
+                        series: []
+                    };
+
+                    options.series.push({name: 'Rainfall',  type: 'column', threshold: 100,
+                     data: rain_y});
+                    var rainfall_season_chart = new Highcharts.Chart(rainfall_comparison_name, options)
+
+
             data.forEach(function(d) {
                 $("#report").append("<h4>" + season + " - " + farm +
                     "      " + d.site + " Site : (" + d.site_number + ")&emsp;&emsp;<img style='width: 170px; height: 28px;'src='{% static 'skeleton/images/fruition_logo.png' %}'/></h4>")
                 $("#report").append("<h5>Seasonal Summary and Strategy&emsp;&emsp;&emsp;&emsp;&emsp;Rootzone: 0-" +
                     d.rz1 + " cm&emsp;&emsp;&emsp;&emsp;Soil Classification: " + d.soil_type + "</h5>")
+
 
                 /////////////////////////////////////// Start Season Graph ///////////////////////////////////
                 var parseTime = d3.timeParse("%d-%m-%Y");
@@ -184,6 +261,7 @@ $(document).ready(function(){
                                 title: { text: 'Rain (mm)' },
                                 opposite: true
                             }],
+                            legend: { enabled: true },
                             plotOptions: {
                               series: {
                                 states: {
@@ -274,42 +352,34 @@ $(document).ready(function(){
                 row += "<div class='row' id='" + row_id + "'></div>";
                 $("#report").append(row);
 
-                /////////////////////////////////////// Start Rainfall Bar Graph ////////////////////////////////////////////
+                /////////////////////////////////////// Start Season Rainfall Bar Graph ////////////////////////////////////////////
+
                 var rainfall_season_name = "rainfall-season-" + d.site_id;
                 content = '';
                 content += "<figure class='highcharts-figure-rainfall-season'>"
                 content += "<div id='" + rainfall_season_name + "' class='chart-rainfall-season'></div></figure>"
                 $("div[id='" + row_id + "']").append(content);
 
-                var rainfall_season_caption = "<b>How does your block compare?</b><br/><p>Here's how the " + season + " season rainfall compares<br/> with the previous 10 seasons.</p>";
+                var rainfall_season_caption = "<b>How does your block compare?</b><br />Here's how the " + season + " season rainfall compares with the previous 10 seasons.";
                 var rainfall_season_options = {
                     title: {
                         text: "Season's Rainfall",
-                        align: 'low',
-                        textAlign: 'center',
-                        style: {
-                            color: 'blue',
-                            'font-weight': 'bold',
-                            'font-size': '14px'
-                        },
                     },
                     chart: { type: 'column',
                         renderTo: 'rainfall-season',
                         height: 200,
                         width: 300
                     },
-                    legend: { enabled: false },
                     xAxis: {
                         categories: ['You', '10 Year Average'],
                         title: {
                             text: rainfall_season_caption,
                         },
-                        //min: 100,
-                        visible: true,
+                        //visible: true,
                     },
                     yAxis: {
-                        min: 0,
-                        visible: true,
+                        //min: 0,
+                        //visible: true,
                         title: { text: null },
                     },
                     plotOptions: {
@@ -324,24 +394,25 @@ $(document).ready(function(){
                         name: null,
                         data: [
                             {y: d.rain, color: bar_colors[0]},
-                            {y: average_rainfall, color: bar_colors[1]},
+                            {y: ten_year_average_rainfall, color: bar_colors[1]},
                         ],
                     }],
                 }
                 var rainfall_season_chart = new Highcharts.Chart(rainfall_season_name, rainfall_season_options)
+                /////////////////////////////////////// End Season Rainfall Bar Graph ////////////////////////////////////////////
+
+                /////////////////////////////////////// Start Gauges Graphs ////////////////////////////////////////////
+
+                // This has gone from 3 gauge to one graph unfortunatly. It works by correctly naming the api fields.
+                // 1. The raw sum field for a season. "eff_irrigation": 346.94,
+                // 2. The percent diff between effective irrigation and total irrigation for a season "eff_irrigation_perc": 100.0,
 
                 var gauges = {
-
                     eff_irrigation: {
                         title: 'Irrigation Efficency (Site)',
                         blurb: "Here's how effective your irrigation for<br/> the season has been. Effective irrigation<br/> is the % of irrigation applied <br/>" +
                             "that remains in the effective <br/>rootzone and is used by the tree."
                     },
-                    /*average_eff_irrigation: {
-                        title: 'Irrigation Efficency (Comparison)',
-                        blurb:  "Here's how effective your irrigation for<br/> the season has been. Effective irrigation<br/> is the % of irrigation applied <br/>" +
-                            "that remains in the effective <br/>rootzone and is used by the tree."
-                    }*/
                 };
 
                 // Loop thrugh the gauges we are going to display
@@ -349,7 +420,6 @@ $(document).ready(function(){
 
                     var gauge_name = key + '-' + d.site_id; // this is unique for each gauge/chart eg. irrigation_mms-238-2020-2021
                     var gauge_data = d[key]
-                    var gauge_data_diff = d[key + '_diff'];
                     var gauge_data_perc = d[key + '_perc'];
 
                     content = '';
@@ -362,28 +432,28 @@ $(document).ready(function(){
                         chart: {
                             type: 'solidgauge',
                             height: 200,
-                            width: 300
+                            width: 300,
                         },
-                        title: null,
+                        title: {
+                            text: gauges[key].title,
+                        },
                         pane: {
                             centre: ['10', '120'],
                             size: '120',
                             startAngle: -90,
                             endAngle: 90,
                             background: {
-                                backgroundColor:
-                                    Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+                                //backgroundColor:
+                                //    Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
                                 innerRadius: '60%',
                                 outerRadius: '100%',
                                 shape: 'arc'
                             }
                         },
-                        // the value axis
                         yAxis: {
-                            // Where the colour changes
                             stops: [
-                                [0.5, 'red'], // green
-                                [0.75, 'orange'], // yellow
+                                [0.50, 'red'], // green
+                                [0.80, 'orange'], // yellow
                                 [0.99, 'green'] // red
                             ],
                             lineWidth: 2,
@@ -409,41 +479,78 @@ $(document).ready(function(){
                         }
                     }; // End Gauge Options
 
-                    /////////////////////////////////////////////////////////////
                     var gaugeChart = Highcharts.chart(gauge_name, Highcharts.merge(gaugeOptions, {
                         yAxis: {
                             min: 0,
                             max: 100,
-                            title: {
-                                text: gauges[key].title,
-                                align: 'low',
-                                textAlign: 'center',
-                                style: {
-                                    color: 'blue',
-                                    'font-weight': 'bold',
-                                    'font-size': '14px'
-                                }
-                            }
+                            visible: false,
                         },
                         series: [{
                             data: [gauge_data_perc],
                             dataLabels: {
                                 allowOverlap: true,
                                 format:
-                                    '<div style="text-align:centre">' +
-
-                                    '<span style="font-size:18px;text-align:centre;">{y}%</span><br/>' +
+                                    '<div style="text-align:center">' +
+                                    '<span style="font-size:18px;text-align:center;">{y}%</span><br/>' +
                                     '<span style="font-size:12px;font-weight:lighter;">' + gauges[key].blurb + '</span>' +
                                     '</div>'
                             },
                         }]
                     })); // End Gauge Chart
-                } // End loop of Gauges
-                /////////////////////////////////////// End Gauges ////////////////////////////////////////////
+                } // End loop of Gauges font-weight:lighter;
+                /////////////////////////////////////// End Gauge ////////////////////////////////////////////
+
+                //////////////////// Start Total Irrigation Bar Chart - Compares this years immigarion versus last year //////////////////////////////////
+
+                var irrigation_name = "irrigation-season-" + d.site_id;
+                content = '';
+                content += "<figure class='highcharts-figure-irrigation-season'>"
+                content += "<div id='" + irrigation_name + "' class='chart-irrigation-season'></div></figure>"
+                $("div[id='" + row_id + "']").append(content);
+
+                var irrigation_caption = "This compares " + season + " season total irrigation applied versus last seasons.";
+                var irrigation_options = {
+                    title: {
+                        text: "Irrigation Applied",
+                    },
+                    chart: { type: 'column',
+                        renderTo: 'irrigation-season',
+                        height: 200,
+                        width: 300
+                    },
+                    xAxis: {
+                        categories: ['This Year', 'Last year'],
+                        title: {
+                            text: irrigation_caption,
+                        },
+                        visible: true,
+                    },
+                    yAxis: {
+                        min: 0,
+                        visible: true,
+                        title: { text: null },
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    },
+                    series: [{
+                        name: null,
+                        data: [
+                            {y: d.irrigation_mms, color: bar_colors[0]},
+                            {y: d.last_season_irrigation_mms, color: bar_colors[1]},
+                        ],
+                    }],
+                }
+                var irrigation_chart = new Highcharts.Chart(irrigation_name, irrigation_options)
+
+                /////////////////////////////////////// End Irrigation Bar Chart ////////////////////////////////////////////
 
                 /////////////////////////////////////// Start Season Summary ////////////////////////////////////////////
-
-
 
                 var summary_name = 'season-summary-' + d.site_id;
                 var row = '';
@@ -458,10 +565,15 @@ $(document).ready(function(){
                 $("div[id='report']").append("<div class='pagebreak'> </div>");
 
                 /////////////////////////////////////// End Season Summary ////////////////////////////////////////////
+                var perc_comparison = 0;
+                perc_comparison = Math.round(((d.irrigation_mms - d.average_eff_irrigation) / ((d.irrigation_mms + d.average_eff_irrigation) / 2)) * 100)
+
+                var word = 'more'
+                if (perc_comparison < 0) { word = 'less'; }
 
                 var summary_title = "<b>How does your block compare?</b><br />" +
                     "Here's how your seasonal water usage compares against other blocks with the same crop and a similar soil type for the " +
-                    season + " season.<br /></p>";
+                    season + " season.<br />Your block used " + Math.abs(perc_comparison) + "% " + word + " water over the season</p>";
                 var summary_caption = "<i>Data based on supplied irrigation system specifications:</i> <b>" + d.application_rate + " L/plant/Hr</b>";
 
                 var season_summary_options = {
@@ -471,7 +583,6 @@ $(document).ready(function(){
                         height: 250,
                         width: 700
                     },
-                    legend: { enabled: false },
                     xAxis: {
                         categories: ['You', 'Similar Sites'],
                         title: { text: null },
@@ -489,7 +600,6 @@ $(document).ready(function(){
                                 'font-size': '14px'
                             },
                         },
-                        min: 100,
                         visible: true,
                     },
                     plotOptions: {

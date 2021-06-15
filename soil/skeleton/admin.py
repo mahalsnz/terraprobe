@@ -37,7 +37,7 @@ class StrategyTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'percentage')
 
 class WeatherStationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'region', 'code', 'average_rainfall')
+    list_display = ('name', 'region', 'code')
 
 class ProbeDivinerAdmin(admin.ModelAdmin):
     list_display = ('probe', 'diviner')

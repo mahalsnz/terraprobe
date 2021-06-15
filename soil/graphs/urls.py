@@ -2,7 +2,7 @@ from django.urls import path
 from django.views.decorators.cache import cache_page
 
 from . import views
-from .apiviews import VSWReadingList, VSWReadingReadyList, VSWStrategyList, VSWDateList, FruitionSummary, FruitionSummaryV2
+from .apiviews import VSWReadingList, VSWReadingReadyList, VSWStrategyList, VSWDateList, FruitionSummary, FruitionSummaryV2, EOYFarmSummary
 
 app_name = 'graphs'
 
@@ -15,4 +15,5 @@ urlpatterns = [
     #path("api/v1/fruition_summary/<int:pk>/", FruitionSummary.as_view()),
     path("api/v1/fruition_summary/<str:site_ids>/", cache_page(60 * 30)(FruitionSummary.as_view())),
     path("api/v2/fruition_summary/<str:site_ids>/", cache_page(60 * 30)(FruitionSummaryV2.as_view())),
+    path("api/v1/eoy_farm_report/<int:farm_id>/<int:season_id>/<int:template_id>/", cache_page(60 * 30)(EOYFarmSummary.as_view())),
 ]
