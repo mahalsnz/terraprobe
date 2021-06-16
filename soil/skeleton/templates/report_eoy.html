@@ -40,7 +40,7 @@ $(document).ready(function(){
         legend: { enabled: false },
     });
 
-    var bar_colors = ['blue','green'];
+    var bar_colors = ['red','green'];
 
     $("#id_farm").change(function() {
         var farm_id = $(this).val();  // get the selected technician ID from the HTML input
@@ -53,7 +53,7 @@ $(document).ready(function(){
             success: function(result) { // `data` is the return of the `load_cities` view function
                 $("#report").empty();
 
-                $("#report").append("<img style='width: 900px; height: 100px;'src='{% static 'skeleton/images/fruition_report_header.png' %}'/><p>"
+                $("#report").append("<img style='width: 900px; height: 100px;'src='{% static 'skeleton/images/fruition_bloom_header.png' %}'/><p>"
                     + result.template + "</p><div class='pagebreak'> </div>")
 
                 var farm = result.farm;
@@ -76,7 +76,7 @@ $(document).ready(function(){
                 });
 
                 var rainfall_comparison_name = "rainfall-comparison-" + farm_id;
-                $("div[id='report']").append("<img style='width: 900px; height: 100px;'src='{% static 'skeleton/images/fruition_report_header.png' %}'></img>")
+                $("div[id='report']").append("<img style='width: 900px; height: 100px;'src='{% static 'skeleton/images/fruition_bloom_header.png' %}'></img>")
                 var row = '';
                 row_id = 'row-' + rainfall_comparison_name;
                 row += "<div class='row' id='" + row_id + "'></div>"
@@ -88,8 +88,8 @@ $(document).ready(function(){
                 $("div[id='" + row_id + "']").append(content);
                 $("div[id='report']").append("<div class='pagebreak'> </div>");
 
-                var rainfall_comparison_title = "<b>" + farm + ' ' + season + "</b> Rainfall percentage comparison with 10 previous years. ("
-                    + weatherstation + ")";
+                var rainfall_comparison_title = "<b>" + farm + ' ' + season + "</b> Rainfall percentage comparison with 10 previous years. <br />"
+                    + weatherstation;
 
                 var options = {
                     title: {
@@ -103,7 +103,10 @@ $(document).ready(function(){
                     xAxis: {
                         categories: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                         title: {
-                            text: "0% is no rainfall, 100% is average rainfall, 200% is twice average rainfall",
+                            text: "<b>0% is no rainfall, 100% is average rainfall, 200% is twice average rainfall</b>",
+                            style: {
+                                'font-size': '20px',
+                            },
                         },
                         visible: true,
                     },
@@ -360,7 +363,7 @@ $(document).ready(function(){
                 var rainfall_season_caption = "<b>How does your block compare?</b><br />Here's how the " + season + " season rainfall compares with the previous 10 seasons.";
                 var rainfall_season_options = {
                     title: {
-                        text: "Season's Rainfall",
+                        text: "Season's Rainfall (mm)",
                     },
                     chart: { type: 'column',
                         renderTo: 'rainfall-season',
@@ -387,8 +390,8 @@ $(document).ready(function(){
                     series: [{
                         name: null,
                         data: [
-                            {y: d.rain, color: bar_colors[0]},
-                            {y: ten_year_average_rainfall, color: bar_colors[1]},
+                            {y: Math.round(d.rain), color: bar_colors[0]},
+                            {y: Math.round(ten_year_average_rainfall), color: 'blue'},
                         ],
                     }],
                 }
@@ -505,7 +508,7 @@ $(document).ready(function(){
                 var irrigation_caption = "This compares " + season + " season total irrigation applied versus last seasons.";
                 var irrigation_options = {
                     title: {
-                        text: "Irrigation Applied",
+                        text: "Irrigation Applied (mm)",
                     },
                     chart: { type: 'column',
                         renderTo: 'irrigation-season',
@@ -535,8 +538,8 @@ $(document).ready(function(){
                     series: [{
                         name: null,
                         data: [
-                            {y: d.irrigation_mms, color: bar_colors[0]},
-                            {y: d.last_season_irrigation_mms, color: bar_colors[1]},
+                            {y: Math.round(d.irrigation_mms), color: bar_colors[0]},
+                            {y: Math.round(d.last_season_irrigation_mms), color: bar_colors[1]},
                         ],
                     }],
                 }
@@ -566,7 +569,7 @@ $(document).ready(function(){
                 if (perc_comparison < 0) { word = 'less'; }
 
                 var summary_title = "<b>How does your block compare?</b><br />" +
-                    "Here's how your seasonal water usage compares against other blocks with the same crop and a similar soil type for the " +
+                    "Comparison of you seasonal water use with other blocks of similar crop type and soil type for the " +
                     season + " season.<br />Your block used " + Math.abs(perc_comparison) + "% " + word + " water over the season</p>";
                 var summary_caption = "<i>Data based on supplied irrigation system specifications:</i> <b>" + d.application_rate + " L/plant/Hr</b>";
 
@@ -600,15 +603,15 @@ $(document).ready(function(){
                         bar: {
                             dataLabels: {
                                 enabled: true,
-                                format: '<b>{y} liters</b>',
+                                format: '<b>{y} mm</b>',
                             }
                         }
                     },
                     series: [{
                         name: null,
                         data: [
-                            {y: d.irrigation_mms, color: bar_colors[0]},
-                            {y: d.average_eff_irrigation, color: bar_colors[1]},
+                            {y: Math.round(d.irrigation_mms), color: bar_colors[0]},
+                            {y: Math.round(d.average_eff_irrigation), color: bar_colors[1]},
                         ],
                     }],
                 }

@@ -11,6 +11,7 @@ body {
     @page
     {
         size: landscape;
+        margin: 15mm 15mm 15mm 15mm;
     }
     .pagebreak {
         clear: both;

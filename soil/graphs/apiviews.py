@@ -331,7 +331,7 @@ class EOYFarmSummary(APIView):
                 {
                     "Jun": 3
                 }]
-        average_rainfall = 786
+        ten_year_average_rainfall = 0
 
         eoy_data = []
         for farm in farms:
@@ -345,11 +345,12 @@ class EOYFarmSummary(APIView):
                 rain_json = []
                 for month in rain_data:
                     if (rain_data[month]['avg'] > 0):
-                        average_rainfall = round(rain_data[month]['avg'] / 10) # Average is total for 10 years
-                        d = round(rain_data[month]['cur'] / average_rainfall * 100)
+                        ten_year_average_rainfall += rain_data[month]['avg']
+                        d = round(rain_data[month]['cur'] / (rain_data[month]['avg'] / 10) * 100)
                         int_month = int(month)
                         rain_json.append({ calendar.month_abbr[int_month]: d })
                         logger.debug(rain_json)
+                ten_year_average_rainfall = ten_year_average_rainfall / 10 # Average is total for 10 years
 
             sites = Site.objects.select_related('product__crop').select_related('product__variety').filter(farm=farm)
 
@@ -426,7 +427,7 @@ class EOYFarmSummary(APIView):
             "farm": farm.name,
             'season': season.season_name,
             'weatherstation': farm.weatherstation.name,
-            'ten_year_average_rainfall': average_rainfall,
+            'ten_year_average_rainfall': ten_year_average_rainfall,
             'template': template_data,
             'site_data': eoy_data,
             'rain_data': rain_json
