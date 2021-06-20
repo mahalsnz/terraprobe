@@ -356,9 +356,16 @@ class EOYFarmSummary(APIView):
 
             for site in sites:
                 season = SeasonStartEnd.objects.get(site_id=site.id, season_id=season_id) # get season
-                last_season = SeasonStartEnd.objects.filter(site_id=site.id).order_by('-period_from') # get season
-                last_season = last_season[1]
-                logger.debug('This season:' + season.season_name + ' Last Season:' + last_season.season_name)
+
+                last_season = SeasonStartEnd.objects.filter(site_id=site.id).order_by('-period_from') # get last season
+                last_season_irrigation_mms_sum = 0
+                try:
+                    last_season = last_season[1]
+                    last_season_readings = Reading.objects.filter(site=site.id, type__name="Probe", date__range=(last_season.period_from, last_season.period_to))
+                    last_season_irrigation_mms = last_season_readings.aggregate(last_season_irrigation_mms__sum=Coalesce(Sum('irrigation_mms'), 0))
+                    last_season_irrigation_mms_sum = last_season_irrigation_mms.get('last_season_irrigation_mms__sum')
+                except IndexError:
+                    pass
 
                 rain_sum = 0
                 irrigation_mms_diff = 0.0
@@ -369,7 +376,6 @@ class EOYFarmSummary(APIView):
                 average_eff_irrigation_diff = 0.0
 
                 readings = Reading.objects.filter(site=site.id, type__name="Probe", date__range=(season.period_from, season.period_to))
-                last_season_readings = Reading.objects.filter(site=site.id, type__name="Probe", date__range=(last_season.period_from, last_season.period_to))
                 full_point = Reading.objects.get(site=site.id, type__name="Full Point", date__range=(season.period_from, season.period_to))
 
                 soil_type = get_soil_type(full_point.rz1)
@@ -384,9 +390,6 @@ class EOYFarmSummary(APIView):
 
                 irrigation_mms = readings.aggregate(irrigation_mms__sum=Coalesce(Sum('irrigation_mms'), 0))
                 irrigation_mms_sum = irrigation_mms.get('irrigation_mms__sum')
-
-                last_season_irrigation_mms = last_season_readings.aggregate(last_season_irrigation_mms__sum=Coalesce(Sum('irrigation_mms'), 0))
-                last_season_irrigation_mms_sum = last_season_irrigation_mms.get('last_season_irrigation_mms__sum')
 
                 eff_irrigation = readings.aggregate(effective_irrigation__sum=Coalesce(Sum('effective_irrigation'), 0))
                 eff_irrigation_sum = eff_irrigation.get('effective_irrigation__sum')
