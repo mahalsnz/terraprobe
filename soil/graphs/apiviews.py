@@ -352,10 +352,13 @@ class EOYFarmSummary(APIView):
                         logger.debug(rain_json)
                 ten_year_average_rainfall = ten_year_average_rainfall / 10 # Average is total for 10 years
 
-            sites = Site.objects.select_related('product__crop').select_related('product__variety').filter(farm=farm)
+            # Get only active sites
+            sites = Site.objects.select_related('product__crop').select_related('product__variety').filter(is_active=True, farm=farm)
 
             for site in sites:
                 season = SeasonStartEnd.objects.get(site_id=site.id, season_id=season_id) # get season
+                logger.debug('Season: ' + str(season.season_name) + ' Farm:' + str(farm.name) + ' Weatherstation ' + farm.weatherstation.name +
+                    ' Site:' + str(site.site_number))
 
                 last_season = SeasonStartEnd.objects.filter(site_id=site.id).order_by('-period_from') # get last season
                 last_season_irrigation_mms_sum = 0
@@ -402,8 +405,7 @@ class EOYFarmSummary(APIView):
 
                 average_eff_irrigation_diff = average_eff_irrigation_perc - eff_irrigation_perc
 
-                logger.debug('Season: ' + str(season.season_name) + ' Farm:' + str(farm.name) + ' Weatherstation ' + farm.weatherstation.name +
-                    ' Site:' + str(site.site_number) + ' Rainfall:' + str(rain_sum))
+                logger.debug('Rainfall Sum:' + str(rain_sum))
 
                 eoy_data.append({
                     'site' : site.name,
