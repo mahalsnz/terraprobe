@@ -45,13 +45,6 @@ from .utils import get_title, get_site_season_start_end, process_probe_data, pro
 from dal import autocomplete
 TEMPLATES = {"select_crsf": "wizard/season_select.html"}
 
-def season(request):
-    template = loader.get_template('highchart.html')
-    context = {
-#        'site_id' : site_id,
-    }
-    return HttpResponse(template.render(context, request))
-
 ###
 #    probe_diviner_detail actually adds a diviner and probe deviner entry with NO error checking
 #    A quick and dirty way to add without using two admin screens for each entry.

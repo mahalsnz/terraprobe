@@ -18,10 +18,6 @@ urlpatterns = [
 
     path('reports', views.report_home, name='report_home'),
     path("reports/eoy/", views.EOYReportView.as_view(), name='report_eoy'),
-    # path("season/", views.season, name="season"), example highcharts
-
-    #url(r'^pdf/$', PDFTemplateView.as_view(template_name='my_template.html',
-    #                                       filename='my_pdf.pdf'), name='pdf'),
     path("reports/season_dates", views.report_season_dates, name='report_season_dates'),
     path("reports/missing_reading_types", views.report_missing_reading_types, name='report_missing_reading_types'),
     path("reports/no_meter_reading", views.report_no_meter_reading, name='report_no_meter_reading'),
