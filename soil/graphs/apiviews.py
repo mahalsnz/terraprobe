@@ -10,7 +10,7 @@ from .serializers import VSWSerializer, SiteSerializer, FarmSerializer, ReadingT
 from django.db.models import Q, Sum
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers import serialize
-from skeleton.utils import get_current_season, get_site_season_start_end, get_soil_type, calculate_seasonal_soil_stat, get_rain_data
+from skeleton.utils import get_current_season, get_site_season_start_end, get_soil_type, calculate_seasonal_soil_stat
 from django.db.models.functions import Coalesce
 
 from django.core import management

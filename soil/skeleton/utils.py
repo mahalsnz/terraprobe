@@ -15,11 +15,6 @@ logger = logging.getLogger(__name__)
 
 from .models import Site, Reading, ReadingType, Season, SeasonStartEnd, Probe, SeasonalSoilStat, Crop
 
-
-def get_rain_data(station):
-    rain_data = management.call_command('request_to_hortplus', purpose='generate_eoy_data', stations=code)
-    return rain_data
-
 """
     From a full point and refill value calculates and returns a string soil type of heavy, meduim or light
 """
