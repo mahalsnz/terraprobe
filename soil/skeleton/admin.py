@@ -98,7 +98,7 @@ class SiteAdmin(admin.ModelAdmin):
         ('Irrigation',  {'fields': ['irrigation_method', 'irrigation_area', 'irrigation_time', 'irrigation_delivered_volume','irrigation_position','irrigation_yield','irrigation_allocation_volume'],
             'classes': ['collapse']}),
         ('Root Zones',
-                    {'fields': ['rz1_bottom','rz2_bottom','rz3_bottom', 'rz_percentage'], 'classes': ['collapse']}),
+                    {'fields': ['rz1_bottom','rz2_bottom','rz3_bottom', 'rz_percentage', 'rooting_barrier'], 'classes': ['collapse']}),
         ('Depths',  {'fields': [('depth1', 'depth_he1', 'profile1'),('depth2', 'depth_he2', 'profile2'),('depth3', 'depth_he3', 'profile3'),
             ('depth4', 'depth_he4', 'profile4'), ('depth5', 'depth_he5','profile5'),('depth6', 'depth_he6','profile6'),('depth7', 'depth_he7','profile7'),
             ('depth8', 'depth_he8','profile8'), ('depth9', 'depth_he9','profile9'),('depth10', 'depth_he10','profile10')],'classes': ['collapse']}),

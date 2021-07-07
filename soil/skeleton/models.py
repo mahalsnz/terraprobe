@@ -338,6 +338,8 @@ class Site(models.Model):
     profile9 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_9')
     profile10 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_10')
 
+    rooting_barrier = models.IntegerField(choices=DEPTH_VALUES, default=0, null=True, blank=True, help_text="Used in the Soil Profile to indicate a barrier for roots")
+
     #Scheduling
     upper_limit = models.ForeignKey(ReadingType, related_name="upper_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Upper line for Graph")
     lower_limit = models.ForeignKey(ReadingType, related_name="lower_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Lower line for Graph")
