@@ -56,8 +56,10 @@ class ReadingDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reading.objects.all();
     serializer_class = ReadingSerializer
 
+'''
 class SiteReadingList(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = Site.objects.filter(id=self.kwargs["pk"])
         return queryset
     serializer_class = SiteSerializer
+'''

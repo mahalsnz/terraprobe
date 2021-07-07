@@ -630,6 +630,7 @@ def load_site_readings(request):
 @login_required
 def vsw_percentage(request, site_id, year, month, day):
     template = loader.get_template('vsw_percentage.html')
+
     context = {
         'site_id' : site_id,
         'year' : year,

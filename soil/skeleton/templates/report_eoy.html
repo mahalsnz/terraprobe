@@ -46,7 +46,7 @@ $(document).ready(function(){
         var farm_id = $(this).val();  // get the selected technician ID from the HTML input
         var season_id = $("#id_season").val();
         var template_id = $("#id_template").val();
-        console.log("farm_id:" + farm_id);
+
         $.ajax({
             url: "/graphs/api/v1/eoy_farm_report/" + farm_id + "/" + season_id + "/" + template_id + "/",
             dataType: 'json',
@@ -68,7 +68,6 @@ $(document).ready(function(){
 
                 /////////////////////////////////////// Start Rain Column Graph ///////////////////////////////////
                 rain_data.forEach(function(r) {
-                    console.log(r)
                     for (key in r) {
                         rain_categories.push(key)
                         rain_y.push(r[key])
@@ -141,7 +140,7 @@ $(document).ready(function(){
                     "      " + d.site + " Site : (" + d.site_number + ")</b>&emsp;&emsp;<img style='width: 170px; height: 28px;'src='{% static 'skeleton/images/fruition_logo.png' %}'/></h4>")
                 $("#report").append("<h5>Seasonal Summary and Strategy&emsp;&emsp;&emsp;&emsp;&emsp;Rootzone: 0-" +
                     d.rz1 + " cm&emsp;&emsp;&emsp;&emsp;Soil Classification: " + d.soil_type + "</h5>")
-                console.log(d.site + " Site : (" + d.site_number)
+
                 /////////////////////////////////////// Start Season Graph ///////////////////////////////////
                 var parseTime = d3.timeParse("%d-%m-%Y");
                 var formatTime = d3.timeFormat("%d-%m-%Y");
@@ -157,9 +156,7 @@ $(document).ready(function(){
                 var minReading = undefined;
                 var maxReading = undefined;
 
-                period_from = moment(d.period_from);
-                period_to = moment(d.period_to);
-                parameter_string = d.site_id + '/' + period_from.format('DD-MM-YYYY') + '/' + period_to.format('DD-MM-YYYY');
+                promises = get_graph_data(d.site_id, d.period_from, d.period_to)
 
                 var row = '';
                 row_id = 'row-' + d.site_id + "-graph";
@@ -171,14 +168,10 @@ $(document).ready(function(){
                 content += "<div id='" + chart_name + "' class='chart-season-graph'></div></figure>"
                 $("div[id='" + row_id + "']").append(content);
 
-                promises = []
-                promises.push(d3.json('/graphs/api/vsw_reading/' + parameter_string + '/?format=json'))
-                promises.push(d3.json('/graphs/api/vsw_strategy/' + parameter_string + '/?format=json'))
-
                 Promise.all(promises).then(function(values) {
                     values[0].forEach(function(reading) {
                         parsed_date = parseTime(reading.date);
-                        if (reading.reading_type.name == "Probe") {
+                        if (reading.type == "Probe") {
                             rz1 = Math.round(reading["rz1"]);
                             reading_data.push({
                                 x : parsed_date,
@@ -196,15 +189,14 @@ $(document).ready(function(){
                                 minReading = rz1;
                             if (maxReading === undefined || rz1 > maxReading)
                                 maxReading = rz1;
-                        } else if (reading.reading_type.name == "Full Point") {
+                        } else if (reading.type == "Full Point") {
                             fullpoint = Math.round(reading["rz1"]);
-                        } else if (reading.reading_type.name == "Refill") {
+                        } else if (reading.type== "Refill") {
                             refill = Math.round(reading["rz1"]);
                         }
                     }); // End loop of reading data
                     diff = fullpoint - refill;
                     values[1].forEach(function(strategy) {
-                        console.log(strategy)
                         critical_data[strategy.critical_date_type] = strategy.critical_date;
 
                         var strategyDate = parseTime(strategy.strategy_date);

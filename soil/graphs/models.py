@@ -1,44 +1,12 @@
 from django.db import models
 
-class Farm(models.Model):
-    name = models.CharField(max_length=100, null=False)
-
-    class Meta:
-        managed = False
-        db_table = "graphs_farm"
-
-class Site(models.Model):
-    name = models.CharField(max_length=100, null=False)
-    application_rate = models.FloatField()
-    comment = models.TextField()
-    technician = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = "graphs_site"
-
-class ReadingType(models.Model):
-    name = models.CharField(max_length=100, null=False)
-
-    class Meta:
-        managed = False
-        db_table = "graphs_readingtype"
-
-
-class Product(models.Model):
-    crop = models.CharField(max_length=100, null=False)
-    variety = models.CharField(max_length=100, null=False)
-
-    class Meta:
-        managed = False
-        db_table = "graphs_product"
-
 class vsw_reading(models.Model):
     reading_id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
-    site = models.ForeignKey(Site, on_delete=models.CASCADE)
-    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
-    reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
+    site_id = models.IntegerField()
+    farm_id = models.IntegerField()
+    reading_type_id = models.IntegerField()
+    product_id = models.IntegerField()
     type = models.TextField()
     rz1_bottom = models.IntegerField()
     rz1 = models.FloatField()
@@ -107,7 +75,7 @@ class vsw_reading(models.Model):
 
     class Meta:
         managed = False
-        ordering = ('-date','reading_type') #add this line
+        ordering = ('-date','type') #add this line
         db_table = "graphs_vsw"
         get_latest_by = 'date'
 
@@ -115,9 +83,9 @@ class vsw_strategy(models.Model):
     strategytype_id = models.IntegerField()
     strategy_name = models.TextField()
     strategy_percentage = models.FloatField()
-    site = models.ForeignKey(Site, on_delete=models.CASCADE)
-    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
-    reading_type = models.ForeignKey(ReadingType, on_delete=models.CASCADE)
+    site_id = models.IntegerField()
+    farm_id = models.IntegerField()
+    reading_type_id = models.IntegerField()
     site_name = models.TextField()
     reading_type_name = models.TextField()
     reading_date = models.DateField(null=True)

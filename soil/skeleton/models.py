@@ -73,6 +73,17 @@ class Document(models.Model):
         file = str(self.document)
         return file
 
+class SoilProfileType(models.Model):
+    name = models.CharField(max_length=100, null=False)
+    color = models.CharField(max_length=7, null=True, default="#FFFFFF")
+    comment = models.CharField(max_length=200, null=True, blank=True)
+
+    created_date = models.DateTimeField('date published', default=timezone.now)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=User)
+
+    def __str__(self):
+        return self.name
+
 class ReadingType(models.Model):
     name = models.CharField(max_length=100, null=False)
     comment = models.CharField(max_length=200, null=True, blank=True)
@@ -315,6 +326,17 @@ class Site(models.Model):
     depth_he8 = models.IntegerField(choices=DEPTH_HE_VALUES, default=8, null=True, blank=True)
     depth_he9 = models.IntegerField(choices=DEPTH_HE_VALUES, default=9, null=True, blank=True)
     depth_he10 = models.IntegerField(choices=DEPTH_HE_VALUES, default=10, null=True, blank=True)
+
+    profile1 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_1')
+    profile2 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_2')
+    profile3 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_3')
+    profile4 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_4')
+    profile5 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_5')
+    profile6 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_6')
+    profile7 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_7')
+    profile8 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_8')
+    profile9 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_9')
+    profile10 = models.ForeignKey(SoilProfileType, blank=True, null=True, on_delete=models.PROTECT, related_name='soil_profile_type_10')
 
     #Scheduling
     upper_limit = models.ForeignKey(ReadingType, related_name="upper_limit_type", null=True, blank=True, on_delete=models.CASCADE, help_text="Target Upper line for Graph")

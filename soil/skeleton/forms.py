@@ -1,14 +1,27 @@
 from django import forms
-from .models import Probe, ProbeDiviner, Diviner, Document, Reading, ReadingType, Season, Farm, Site, UserFullName, SiteDescription, Product, CriticalDate, SeasonStartEnd
+from .models import (Probe, SoilProfileType, ProbeDiviner, Diviner, Document, Reading, ReadingType, Season, Farm, Site, UserFullName, SiteDescription,
+    Product, CriticalDate, SeasonStartEnd)
 from address.models import State
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
 
-from django.forms import ModelChoiceField, ModelMultipleChoiceField
-from django.forms import CheckboxInput
+from django.forms.widgets import TextInput
+
+from django.forms import ModelChoiceField, ModelMultipleChoiceField, ModelForm, CheckboxInput
 from bootstrap_datepicker_plus import DatePickerInput
 import datetime
 from dal import autocomplete
+
+class SoilProfileTypeForm(ModelForm):
+    class Meta:
+        model = SoilProfileType
+        fields = '__all__'
+        widgets = {
+            'color': TextInput(attrs={'type': 'color'}),
+        }
+
+#class SoilProfileTypeAdminForm(ModelForm):
+#    form = SoilProfileTypeForm
 
 class EOYReportForm(forms.ModelForm):
     farm = forms.ModelChoiceField(Farm.objects.all().order_by('name'), widget=forms.Select())

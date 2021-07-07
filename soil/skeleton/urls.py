@@ -7,7 +7,7 @@ from . import views
 from .forms import SelectCropRegionSeasonForm, CreateSeasonStartEndForm, CreateRefillFullPointForm, SiteSelectionForm
 
 from .apiviews import SeasonList, SeasonDetail, ReadingTypeList, ReadingTypeDetail \
-, FarmList, FarmDetail, ReadingDetail, ReadingList, SiteReadingList, SiteList, SiteDetail
+, FarmList, FarmDetail, ReadingDetail, ReadingList, SiteList, SiteDetail
 
 FORMS = [("select_crsf", SelectCropRegionSeasonForm)]
 
@@ -44,7 +44,6 @@ urlpatterns = [
     path("api/site/<int:pk>/", SiteDetail.as_view(), name="sites_detail"),
     path("api/reading/", ReadingList.as_view(), name="readings_list"),
     path("api/reading/<int:pk>/", ReadingDetail.as_view(), name="readings_detail"),
-    path("api/site_reading/<int:pk>/", SiteReadingList.as_view(), name="graph_data"),
 
     #ajax
     path('ajax/load-sites/', views.load_sites, name='ajax_load_sites'),

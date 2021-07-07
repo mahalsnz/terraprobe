@@ -7,24 +7,17 @@ from django.http import HttpResponseRedirect
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
-from .models import Farm, Site, SiteDescription, Crop, Product, Reading
-from .models import Report
-from .models import Calibration
-from .models import ReadingType
-from .models import Probe
-from .models import Season
-from .models import ETReading
-from .models import KCReading
-from .models import Diviner
-from .models import ProbeDiviner
-from .models import CriticalDateType
-from .models import CriticalDate, UserFullName
-from .models import SeasonStartEnd
-from .models import WeatherStation, Document
-from .models import Variety, VarietySeasonTemplate, Strategy, StrategyType, SeasonalSoilStat
+from .models import (Farm, Site, SiteDescription, Crop, Product, Reading, SoilProfileType, Calibration, ReadingType, Probe,
+    Season, ETReading, KCReading, Diviner, ProbeDiviner, CriticalDateType, CriticalDate, UserFullName, SeasonStartEnd, WeatherStation,
+    Document, Variety, VarietySeasonTemplate, Strategy, StrategyType, SeasonalSoilStat)
+from .forms import SoilProfileTypeForm
 
 import logging
 logger = logging.getLogger(__name__)
+
+class SoilProfileTypeAdmin(admin.ModelAdmin):
+    form = SoilProfileTypeForm
+    list_display = ('name', 'color')
 
 class SeasonalSoilStatAdmin(admin.ModelAdmin):
     list_display = ('season', 'soil_type', 'crop', 'total_irrigation_mms', 'total_effective_irrigation', 'perc_effective_irrigation')
@@ -106,9 +99,9 @@ class SiteAdmin(admin.ModelAdmin):
             'classes': ['collapse']}),
         ('Root Zones',
                     {'fields': ['rz1_bottom','rz2_bottom','rz3_bottom', 'rz_percentage'], 'classes': ['collapse']}),
-        ('Depths',  {'fields': [('depth1', 'depth_he1'),('depth2', 'depth_he2'),('depth3', 'depth_he3'),('depth4', 'depth_he4'),
-                                ('depth5', 'depth_he5'),('depth6', 'depth_he6'),('depth7', 'depth_he7'),('depth8', 'depth_he8'),
-                                ('depth9', 'depth_he9'),('depth10', 'depth_he10')],'classes': ['collapse']}),
+        ('Depths',  {'fields': [('depth1', 'depth_he1', 'profile1'),('depth2', 'depth_he2', 'profile2'),('depth3', 'depth_he3', 'profile3'),
+            ('depth4', 'depth_he4', 'profile4'), ('depth5', 'depth_he5','profile5'),('depth6', 'depth_he6','profile6'),('depth7', 'depth_he7','profile7'),
+            ('depth8', 'depth_he8','profile8'), ('depth9', 'depth_he9','profile9'),('depth10', 'depth_he10','profile10')],'classes': ['collapse']}),
         ('Schedule',    {'fields': ['upper_limit', 'lower_limit', 'strategy', 'emitter_rate', 'row_spacing', 'emitter_spacing', 'plant_spacing'],
             'classes': ['collapse']}),
     ]
@@ -167,8 +160,8 @@ admin.site.register(Site, SiteAdmin)
 admin.site.register(Farm, FarmAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Crop)
+admin.site.register(SoilProfileType, SoilProfileTypeAdmin)
 admin.site.register(Reading, ReadingAdmin)
-admin.site.register(Report)
 admin.site.register(Calibration, CalibrationAdmin)
 admin.site.register(ReadingType, ReadingTypeAdmin)
 admin.site.register(Probe, ProbeAdmin)
