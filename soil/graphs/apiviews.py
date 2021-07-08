@@ -130,12 +130,13 @@ class FruitionSummaryV2(APIView):
             try:
                 site = Site.objects.get(pk=site_id)
                 dates = get_site_season_start_end(site, season)
-                latest_reading = vsw_reading.objects.filter(site=site.id, date__range=(dates.period_from, dates.period_to), type='Probe', reviewed=True).latest('date')
+                latest_reading = vsw_reading.objects.filter(site_id=site_id, date__range=(dates.period_from, dates.period_to), type='Probe', reviewed=True).latest('date')
+
                 full = vsw_reading.objects.get(site_id=site_id, type='Full Point', date__range=(dates.period_from, dates.period_to))
                 refill = vsw_reading.objects.get(site_id=site_id, type='Refill', date__range=(dates.period_from, dates.period_to))
 
-                after_strategy = vsw_strategy.objects.filter(site=latest_reading.site).filter(Q(strategy_date__gte=latest_reading.date)).order_by('strategy_date')[0]
-                before_strategy = vsw_strategy.objects.filter(site=latest_reading.site).filter(Q(strategy_date__lte=latest_reading.date)).order_by('-strategy_date')[0]
+                after_strategy = vsw_strategy.objects.filter(site_id=site_id).filter(Q(strategy_date__gte=latest_reading.date)).order_by('strategy_date')[0]
+                before_strategy = vsw_strategy.objects.filter(site_id=site_id).filter(Q(strategy_date__lte=latest_reading.date)).order_by('-strategy_date')[0]
 
                 strategy_max, strategy_min = calculateStrategyPosition(after_strategy, before_strategy, latest_reading, full, refill)
                 alert_level = calculateAlertLevel(strategy_max, strategy_min, latest_reading, full, refill)
@@ -170,7 +171,6 @@ class FruitionSummaryV2(APIView):
 class FruitionSummary(APIView):
 
     def get(self, request, site_ids, format=None):
-        logger.debug(str(request.GET))
         ids = request.GET.getlist('sites[]')
         logger.debug(ids)
         season = get_current_season()
@@ -180,7 +180,7 @@ class FruitionSummary(APIView):
                 site = Site.objects.get(pk=site_id)
                 # Get sites full point and refill readings for season
                 dates = get_site_season_start_end(site, season)
-                latest_reading = vsw_reading.objects.filter(site=site.id, date__range=(dates.period_from, dates.period_to), type='Probe', reviewed=True).latest('date')
+                latest_reading = vsw_reading.objects.filter(site_id=site_id, date__range=(dates.period_from, dates.period_to), type='Probe', reviewed=True).latest('date')
                 logger.debug('Latest Date for site :' + str(site.name) + ' - ' + str(latest_reading.date) + ' RZ1:' + str(latest_reading.rz1))
 
                 full = vsw_reading.objects.get(site_id=site_id, type='Full Point', date__range=(dates.period_from, dates.period_to))
@@ -188,9 +188,9 @@ class FruitionSummary(APIView):
                 logger.debug('Full Point rz1:' + str(full.rz1) + ' Refill rz1:' + str(refill.rz1))
 
                 # get the strategy on either side of the latest reading date
-                after_strategy = vsw_strategy.objects.filter(site=latest_reading.site).filter(Q(strategy_date__gte=latest_reading.date)).order_by('strategy_date')[0]
+                after_strategy = vsw_strategy.objects.filter(site_id=latest_reading.site).filter(Q(strategy_date__gte=latest_reading.date)).order_by('strategy_date')[0]
                 logger.debug('After Strategy:' + str(after_strategy.strategy_date) + ' percentage ' + str(after_strategy.percentage) )
-                before_strategy = vsw_strategy.objects.filter(site=latest_reading.site).filter(Q(strategy_date__lte=latest_reading.date)).order_by('-strategy_date')[0]
+                before_strategy = vsw_strategy.objects.filter(site_id=latest_reading.site).filter(Q(strategy_date__lte=latest_reading.date)).order_by('-strategy_date')[0]
                 logger.debug('Before Strategy:' + str(before_strategy.strategy_date) + ' percentage ' + str(before_strategy.percentage) )
 
                 # Get the days between before and after
@@ -274,20 +274,18 @@ class FruitionSummary(APIView):
 
         return Response(data)
 
-#TODO: Not the best way to do the ready-reviwed option for getting readings.
 class VSWReadingList(generics.ListAPIView):
 
     def get_queryset(self):
-        #r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date').first()
         queryset = vsw_reading.objects.filter(site_id=self.kwargs["pk"], date__range=(self.kwargs["period_from"], self.kwargs["period_to"]) )
 
         return queryset
     serializer_class = VSWSerializer
 
+#TODO: Not the best way to do the ready-reviwed option for getting readings.
 class VSWReadingReadyList(generics.ListAPIView):
 
     def get_queryset(self):
-        #r = Reading.objects.filter(site__seasonstartend__site=site_id, site__seasonstartend__season=season_id, date__range=(dates.period_from, dates.period_to)).order_by('-date').first()
         queryset = vsw_reading.objects.filter(site_id=self.kwargs["pk"], date__range=(self.kwargs["period_from"], self.kwargs["period_to"]), reviewed=self.kwargs["reviewed"] )
 
         return queryset
