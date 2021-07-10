@@ -14,6 +14,7 @@ urlpatterns = [
     path("api/v2/vsw_date/<int:season_id>/<int:site_id>/", cache_page(60 * 30)(VSWDateListV2.as_view())),
     path("customer_weekly/<int:site_id>/", views.customer_weekly, name="customer_weekly"),
 
+    # https://staging.terraprobe.mahal.co.nz/graphs/api/v2/fruition_summary/sites_summary/?sites[]=1&sites[]=2
     path("api/v1/fruition_summary/<str:site_ids>/", cache_page(60 * 30)(FruitionSummary.as_view())),
     path("api/v2/fruition_summary/<str:site_ids>/", cache_page(60 * 30)(FruitionSummaryV2.as_view())),
     path("api/v1/eoy_farm_report/<int:farm_id>/<int:season_id>/<int:template_id>/", cache_page(60*60*4)(EOYFarmSummary.as_view())), # Cache for 4 hours. Very unlikely to have changes

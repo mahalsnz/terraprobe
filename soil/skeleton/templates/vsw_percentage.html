@@ -9,7 +9,9 @@
 <div class="row">
     <div class="col-4" id="weekly"></div>
     <div class="col-1">
-        <svg id="legend" height=300 width=200></svg>
+        <figure class='highcharts-figure-soil-profile'>
+            <div id='soil-profile' class='chart-soil-profile'></div>
+        </figure>
     </div>
     <div class="container col-7">
     <div class="row">
@@ -109,6 +111,8 @@
 <div class="row">
     <div class="col" id="seasonal_bar"></div>
 </div>
+<!--<script src="https://code.highcharts.com/highcharts.js"></script>-->
+<!--<script src="https://code.highcharts.com/highcharts-more.js"></script>-->
 <script>
 console.clear();
 var parseTime = d3.timeParse("%d-%m-%Y");
@@ -263,6 +267,7 @@ var root_zone = '0 - ';
 var weekly_edwu = 0;
 var recommendation_text = '';
 var site_note = '';
+var rooting_barrier = 0;
 var recommendation_reviewed = false
 var rec_mon = 0, rec_tue = 0, rec_wed = 0, rec_thu = 0, rec_fri = 0, rec_sat = 0, rec_sun = 0;
 
@@ -292,21 +297,20 @@ Promise.all(promises).then(function(values) {
     site = values[2];
     site_note = site.comment;
     application_rate = site.application_rate;
+    rooting_barrier = site.rooting_barrier
 
-    // Get profiles. Works much link the depths so use vsw count to get them all
-    profiles = []
+    // Get profiles. Works much like the depths so use vsw count to get them all
+    soil_profiles = []
     for (index = 1; index <= vsw_count; index++) {
         if (site["profile" + index] !== null) {
-            profile = site["profile" + index]
-            profiles.push({
-                'name' : profile.name,
-                'color' : profile.color,
+            soil_profile = site["profile" + index]
+            soil_profiles.push({
+                'name' : soil_profile.name,
+                'color' : soil_profile.color,
                 'depth' : site["depth" + index]
             });
         }
     }
-
-    console.log(profiles);
 
     values[0].forEach(function(reading) {
         parsed_date = parseTime(reading.date);
@@ -797,14 +801,90 @@ Promise.all(promises).then(function(values) {
 
       updateReadingRecommendations(week_start_abbr, week_start)
 
+      if (soil_profiles.length > 0) {
+          console.log('in soil profiles')
+          Highcharts.setOptions({
+              credits: { enabled: false },
+              exporting: { enabled: false },
+              legend: { enabled: false },
+          });
+
+          var options = {
+              title: {
+                  text: null,
+              },
+              chart: { type: 'column',
+                  renderTo: 'soil-profile',
+                  height: 320,
+                  width: 150,
+              },
+              xAxis: {
+                  categories: ['','RB'],
+              },
+              yAxis: {
+                  min: 0,
+                  tickInterval: 10,
+                  reversed: true,
+                  title: {
+                      text: null,
+                  },
+                  plotLines: [{
+                    value: rooting_barrier,
+                    color: 'black',
+                    width: 2,
+                    zIndex: 5,
+                    label: { text: 'Barrier' },
+                }],
+              },
+              plotOptions: {
+                  series: {
+                      groupPadding: 0
+                  },
+                  column: {
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: false
+                      }
+                  }
+              },
+              tooltip: {
+                  formatter: function () {
+                      return this.series.name;
+                  }
+              },
+              series: [],
+          };
+
+        var max = 0
+        var previous = 0
+        soil_profiles.reverse()
+
+        for (i=0;i < soil_profiles.length;i++) {
+            if (soil_profiles[i].depth > max) max = soil_profiles[i].depth; //get max of depths
+
+            // Work out the diff between the previous and this depth. This will populate data
+            data = Math.abs(soil_profiles[i].depth - previous)
+            options.series.push({
+                name: soil_profiles[i].name,
+                color: soil_profiles[i].color,
+                data: [data],
+            });
+            previous = soil_profiles[i].depth
+        }
+        options.yAxis.max = max
+        var soil_profile_chart = new Highcharts.Chart('soil-profile', options)
+
+    } else {// End if we have soil profiles
+        $("div[id='soil-profile']").append("No Soil Profiles set")
+    }
       // Handmade legend
-      var svg = d3.select("#legend")
+      /*var svg = d3.select("#legend")
         svg.append("circle").attr("cx",20).attr("cy",80).attr("r", 4).style("fill", "green")
         svg.append("circle").attr("cx",20).attr("cy",100).attr("r", 4).style("fill", "red")
         svg.append("text").attr("x", 30).attr("y", 50).text("Legend").style("font-size", "20px").attr("alignment-baseline","middle")
         svg.append("text").attr("x", 30).attr("y", 80).text("Full Point").style("font-size", "15px").attr("alignment-baseline","middle")
         svg.append("text").attr("x", 30).attr("y", 100).text("Refill").style("font-size", "15px").attr("alignment-baseline","middle")
-
+    */
     /*
         A function that updates the weekly chart
     */
