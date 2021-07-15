@@ -103,16 +103,20 @@
 </div>
 <div class="row">
     <div class="col" id="seasonal"></div>
+    <div class="col">
+        <figure class='highcharts-figure-irrigation-gauge'>
+            <div id='irrigation-gauge' class='irrigation-gauge'></div>
+        </figure>
+    </div>
+</div>
+<div class="row">
+    <div class="col" id="seasonal_bar"></div>
     <div class="col" id="alert-box">
         <textarea id="site-note" rows="4" cols="30" style="border:2px solid red;" readonly>
         </textarea>
     </div>
 </div>
-<div class="row">
-    <div class="col" id="seasonal_bar"></div>
-</div>
-<!--<script src="https://code.highcharts.com/highcharts.js"></script>-->
-<!--<script src="https://code.highcharts.com/highcharts-more.js"></script>-->
+
 <script>
 console.clear();
 var parseTime = d3.timeParse("%d-%m-%Y");
@@ -143,6 +147,7 @@ period_from = formatTime(parseTime(period_from));
 period_from = parseTime(period_from);
 
 var site_id = "{{ site_id }}";
+var season_id = "{{ season_id }}";
 
 // set the dimensions and margins of the weekly graph
 var margin = {top: 35, right: 30, bottom: 30, left: 40};
@@ -271,14 +276,20 @@ var rooting_barrier = 0;
 var recommendation_reviewed = false
 var rec_mon = 0, rec_tue = 0, rec_wed = 0, rec_thu = 0, rec_fri = 0, rec_sat = 0, rec_sun = 0;
 
+// Irrigation gauge
+var strategy_max = 0;
+var strategy_min = 0;
+var latest_reading = 0;
+
 function sortByDateAscending(a, b) {
     // Dates will be cast to numbers automagically:
     return a.date - b.date;
 }
 
-promises = get_graph_data(site_id, period_from, period_to)
+promises = get_graph_data(site_id, period_from, period_to, season_id)
 
 Promise.all(promises).then(function(values) {
+    console.log(values[3])
     values[1].forEach(function(strategy) {
         season_critical_dates[strategy.critical_date_type] = parseTime(strategy.critical_date);
         strategy_percentage = strategy.strategy_percentage; // This is the overall strategy percentage for the strategy type
@@ -311,6 +322,14 @@ Promise.all(promises).then(function(values) {
             });
         }
     }
+
+    // This is a single site display so we always get the first site
+    site = values[3].sites[0];
+
+    strategy_max = site.strategy_max;
+    strategy_min = site.strategy_min;
+    latest_reading = site.latest_reading_date_rz1;
+    console.log(latest_reading)
 
     values[0].forEach(function(reading) {
         parsed_date = parseTime(reading.date);
@@ -801,25 +820,25 @@ Promise.all(promises).then(function(values) {
 
       updateReadingRecommendations(week_start_abbr, week_start)
 
-      if (soil_profiles.length > 0) {
-          console.log('in soil profiles')
-          Highcharts.setOptions({
-              credits: { enabled: false },
-              exporting: { enabled: false },
-              legend: { enabled: false },
-          });
+      Highcharts.setOptions({
+          credits: { enabled: false },
+          exporting: { enabled: false },
+          legend: { enabled: false },
+      });
 
+      /**************************** Soil Profile Highcharts Stacked column ********************************/
+      if (soil_profiles.length > 0) {
           var options = {
               title: {
                   text: null,
               },
               chart: { type: 'column',
                   renderTo: 'soil-profile',
-                  height: 320,
-                  width: 150,
+                  height: 250,
+                  width: 140,
               },
               xAxis: {
-                  categories: ['','RB'],
+                  categories: [''],
               },
               yAxis: {
                   min: 0,
@@ -877,6 +896,97 @@ Promise.all(promises).then(function(values) {
     } else {// End if we have soil profiles
         $("div[id='soil-profile']").append("No Soil Profiles set")
     }
+
+    /**************************** Irrication Gauge Highcharts Stacked column ********************************/
+    // Turn data into a percentage
+    max_gauge = full_point_rz1;
+    min_gauge = refill_rz1;
+    //if (strategy_max >= full_point_rz1){ max_gauge = strategy_max } else if (latest_reading >= full_point_rz1) { max_gauge = latest_reading } else { max_gauge = full_point_rz1 };
+    //if (strategy_min <= refill_rz1){ min_gauge = strategy_min } else if (latest_reading <= refill_rz1) { min_gauge = latest_reading } else { min_gauge = refill_rz1 }
+
+    //console.log(max_gauge, min_gauge)
+
+    var divider = full_point_rz1 - refill_rz1;
+    //var range_gauge = full_point_rz1 - refill_rz1
+    console.log('Divider:' + divider)
+    //console.log('Range of Gauge:' + range_gauge)
+
+    var top = Math.round((full_point_rz1 - strategy_max) / divider * 100)
+    var middle = Math.round((strategy_max - strategy_min) / divider * 100)
+    var bottom = Math.round((strategy_min - refill_rz1) / divider * 100)
+    var latest_reading_perc = Math.round((latest_reading - refill_rz1) / divider * 100)
+
+    if (latest_reading_perc < 0) { latest_reading_perc = 0 } else if (latest_reading_perc > 100) { latest_reading_perc = 100 }
+    console.log(top, middle, bottom, latest_reading_perc)
+
+    var options = {
+        title: {
+            text: null,
+        },
+        chart: { type: 'column',
+            renderTo: 'irrigation-gauge',
+            height: 320,
+            width: 150,
+        },
+        xAxis: {
+            categories: [''],
+        },
+        yAxis: {
+            tickInterval: 50,
+            //reversed: true,
+            title: {
+                text: null,
+            },
+            plotLines: [{
+              value: latest_reading_perc,
+              color: 'black',
+              width: 2,
+              zIndex: 5,
+              label: { text: 'Latest Reading' },
+          }],
+        },
+        plotOptions: {
+            series: {
+                groupPadding: 0
+            },
+            column: {
+                stacking: 'percent',
+                dataLabels: {
+                    enabled: false
+                }
+            }
+        },
+        /*tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+            shared: true
+        },*/
+        series: [{
+            name: '',
+            data: [0.5],
+            color: 'red'
+        }, {
+            name: '',
+            data: [top],
+            color: 'orange'
+        },
+        {
+            name: '',
+            data: [middle],
+            color: 'green'
+        },
+        {
+            name: '',
+            data: [bottom],
+            color: 'orange'
+        },
+        {
+            name: '',
+            data: [0.5],
+            color: 'red'
+        }]};
+
+    var irrigation_gauge_chart = new Highcharts.Chart('irrigation-gauge', options)
+
       // Handmade legend
       /*var svg = d3.select("#legend")
         svg.append("circle").attr("cx",20).attr("cy",80).attr("r", 4).style("fill", "green")

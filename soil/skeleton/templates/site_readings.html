@@ -155,19 +155,14 @@
     //TODO: Refactor
     $("#previousSite").click(function() {
         var url = $("#reading-list").attr(screenDisplay);
-        console.log("URL:" + url);
         var siteId = $("#id_site option:selected").prev().val();
-        console.log("siteId:" + siteId);
         var seasonId = $("#id_season").val();
-        console.log("seasonId:" + seasonId);
         $("#id_site").val(siteId);
         loadScreen(siteId, seasonId, url);
     });
     $("#id_farm").change(function() {
         var url = $("#readingForm").attr("data-sites-url");
-        console.log("URL:" + url);
         var farmId = $(this).val();  // get the selected technician ID from the HTML input
-        console.log("farmId:" + farmId);
         $.ajax({
             url: url,
             data: {

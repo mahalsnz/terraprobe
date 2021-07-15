@@ -3,7 +3,7 @@
 */
 
 
-function get_graph_data(site_id, period_from, period_to) {
+function get_graph_data(site_id, period_from, period_to, season_id) {
 
     period_from = moment(period_from);
     period_to = moment(period_to);
@@ -13,84 +13,12 @@ function get_graph_data(site_id, period_from, period_to) {
     promises.push(d3.json('/graphs/api/vsw_reading/' + parameter_string + '/?format=json'));
     promises.push(d3.json('/graphs/api/vsw_strategy/' + parameter_string + '/?format=json'));
     promises.push(d3.json('/api/site/' + site_id + '/?format=json'));
-
+    if (season_id) {
+        promises.push(d3.json("/graphs/api/v3/fruition_summary/" + season_id + "/sites_summary/?sites[]=" + site_id));
+    }
     return promises;
-    
-    /*
 
 
-    var site_object = {};
-    var reading_data = [];
-    var rainfall_data = [];
-    var irrigation_data = [];
-    var critical_data = {};
-    var strategy_area_data = [];
-
-    var fullpoint = 0;
-    var refill = 0;
-    var minReading = undefined;
-    var maxReading = undefined;
-
-
-
-
-    Promise.all(promises).then(function(values) {
-        values[0].forEach(function(reading) {
-            parsed_date = parseTime(reading.date);
-            if (reading.type == "Probe") {
-                rz1 = Math.round(reading["rz1"]);
-                reading_data.push({
-                    x : parsed_date,
-                    y : rz1
-                });
-                rainfall_data.push({
-                    x : parsed_date,
-                    y : reading.rain
-                });
-                irrigation_data.push({
-                    x : parsed_date,
-                    y : reading.irrigation_mms
-                });
-                if (minReading === undefined || rz1 < minReading)
-                    minReading = rz1;
-                if (maxReading === undefined || rz1 > maxReading)
-                    maxReading = rz1;
-            } else if (reading.type == "Full Point") {
-                fullpoint = Math.round(reading["rz1"]);
-            } else if (reading.type == "Refill") {
-                refill = Math.round(reading["rz1"]);
-            }
-        }); // End loop of reading data
-        diff = fullpoint - refill;
-        values[1].forEach(function(strategy) {
-            critical_data[strategy.critical_date_type] = strategy.critical_date;
-
-            var strategyDate = parseTime(strategy.strategy_date);
-            var upper = fullpoint - (diff - diff * strategy.percentage);
-
-            strategy_area_data.push({
-                x: strategyDate,
-                high: upper,
-                low: upper - diff * 0.5
-            });
-        }); // End strategy data loop
-        // Sort by date (x) implicitly, dont rely on api call being in date order
-        strategy_area_data.sort((a, b) => a.x - b.x);
-        reading_data.sort((a, b) => a.x - b.x);
-        rainfall_data.sort((a, b) => a.x - b.x);
-        irrigation_data.sort((a, b) => a.x - b.x);
-
-        maxY = 0;
-        minY = 0;
-        if (maxReading >= fullpoint){ maxY = maxReading } else { maxY = fullpoint }
-        if (minReading <= refill){ minY = minReading } else { minY = refill }
-
-        site_object = values[2]
-        site_object[reading_data]=reading_data
-        site_object[rainfall_data]=reading_data
-        console.log(site_object)
-    });
-    */
 }
 
 function updateMessages(messages){

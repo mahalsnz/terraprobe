@@ -563,7 +563,8 @@ def load_graph(request):
             'date' : latest,
             'previous': previous,
             'period_to': dates.period_to,
-            'period_from': dates.period_from
+            'period_from': dates.period_from,
+            'season_id': season_id
         }
     except Exception as e:
         messages.error(request, "Error with Loading Graph: " + str(e))
