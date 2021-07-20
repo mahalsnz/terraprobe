@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.documentation import include_docs_urls
 from rest_framework.schemas import get_schema_view
+from rest_framework_simplejwt import views as jwt_views
 
 import datetime
 from django.urls import register_converter
@@ -41,7 +42,9 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('graphs/', include('graphs.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('api-auth/', include('rest_framework.urls')),
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    #path('api-auth/', include('rest_framework.urls')),
     path('docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)),
     path('schema/', schema_view),
 ]

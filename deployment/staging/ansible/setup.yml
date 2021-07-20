@@ -113,6 +113,7 @@
         - coreapi==2.3.3
         - numpy==1.19.2
         - django-import-export==2.5.0
+        - djangorestframework_simplejwt==4.7.2
 
     - name: Create main directory for the project
       file:
