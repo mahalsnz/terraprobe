@@ -81,6 +81,7 @@ class vsw_reading(models.Model):
 
 class vsw_strategy(models.Model):
     strategytype_id = models.IntegerField()
+    criticaldate_id = models.IntegerField()
     strategy_name = models.TextField()
     strategy_percentage = models.FloatField()
     site_id = models.IntegerField()

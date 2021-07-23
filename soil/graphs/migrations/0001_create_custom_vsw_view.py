@@ -17,6 +17,7 @@ CREATE OR REPLACE VIEW graphs_strategy AS
 SELECT
     skeleton_season.id AS season_id,
     skeleton_strategytype.id AS strategytype_id,
+    skeleton_criticaldate.id AS criticaldate_id,
 	skeleton_strategytype.name AS strategy_name,
     skeleton_strategytype.percentage AS strategy_percentage,
     skeleton_site.farm_id as farm_id,

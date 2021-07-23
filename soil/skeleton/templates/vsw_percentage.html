@@ -289,9 +289,15 @@ function sortByDateAscending(a, b) {
 promises = get_graph_data(site_id, period_from, period_to, season_id)
 
 Promise.all(promises).then(function(values) {
-    console.log(values[3])
+
     values[1].forEach(function(strategy) {
-        season_critical_dates[strategy.critical_date_type] = parseTime(strategy.critical_date);
+
+        season_critical_dates[strategy.critical_date_type] = [{
+            'date': parseTime(strategy.critical_date),
+            'id': strategy.criticaldate_id
+        }];
+        //[strategy.critical_date_type] = parseTime(strategy.critical_date);
+
         strategy_percentage = strategy.strategy_percentage; // This is the overall strategy percentage for the strategy type
         parsed_date = parseTime(strategy.strategy_date);
 
@@ -329,7 +335,10 @@ Promise.all(promises).then(function(values) {
     strategy_max = site.strategy_max;
     strategy_min = site.strategy_min;
     latest_reading = site.latest_reading_date_rz1;
-    console.log(latest_reading)
+    irrigation_gauge_top = site.irrigation_gauge_top;
+    irrigation_gauge_middle = site.irrigation_gauge_middle;
+    irrigation_gauge_bottom = site.irrigation_gauge_bottom;
+    irrigation_gauge_percentage = site.irrigation_gauge_percentage;
 
     values[0].forEach(function(reading) {
         parsed_date = parseTime(reading.date);
@@ -360,7 +369,6 @@ Promise.all(promises).then(function(values) {
                 }
                 weekly_vsw_map[formatTime(parsed_date)] = vsw_readings;
             } // end for loop
-
             if (this_week_date == formatTime(parsed_date) ) {
                 console.log("** Reading Date:" + parsed_date + " This week date:" + this_week_date)
 
@@ -451,11 +459,8 @@ Promise.all(promises).then(function(values) {
 
     // TODO: Do this better. Need to test if site actually has a strategy
     if (seasons_upper_strategy.length > 0) {
-        console.log('start reading date' + seasons_refill_readings[0]['date'])
-
         diff = full_point_rz1 - refill_rz1
 
-        // replace all lowere with upper - diff
         for (var i = 0; i < seasons_upper_strategy.length; i++) {
             upper_total = full_point_rz1 - (diff - (diff * seasons_upper_strategy[i]['percentage']))
 
@@ -467,7 +472,6 @@ Promise.all(promises).then(function(values) {
     }
     seasons_upper_strategy = seasons_upper_strategy.sort(sortByDateAscending);
     seasons_lower_strategy = seasons_lower_strategy.sort(sortByDateAscending);
-    console.log(seasons_upper_strategy)
     season_grouping  = season_grouping.sort(sortByDateAscending);
 
     // Scale the range of the data
@@ -610,29 +614,42 @@ Promise.all(promises).then(function(values) {
       .text("Depth (cm)");
     seasonx.domain([period_from, period_to]);
 
-    /* We use our season critical dates to draw vertical lines. We can have 1..n */
-    colours = ["navy", "salmon", "orchid", "lime", "aqua"]
-    colour_index = 0;
-    for (type in season_critical_dates) {
-        var critical_date = season_critical_dates[type];
-        season_graph.append("line")
-            .attr("x1", seasonx(critical_date))
-            .attr("y1", 0)
-            .attr("x2", seasonx(critical_date))
-            .attr("y2", season_height)
-            .style("stroke-width", 2)
-            .style("stroke", colours[colour_index])
-            .style("fill", "none");
+    // We use our season critical dates to draw vertical lines. We can have 1..n
+    colours = ["navy", "salmon", "orchid", "lime", "aqua", "magenta"]
+    colours_count = 0;
 
-        season_graph.append("text")
-           .attr("y", -30)
-           .attr("x", seasonx(critical_date))
-           .attr('text-anchor', 'left')
-           .attr("class", "lineLabel")
-           .text(type + "\n" + formatTime(critical_date))
-           .attr("transform", "rotate(90," + seasonx(critical_date) + ",-30)");
-        colour_index++;
+    for (type in season_critical_dates) {
+        for (var i = 0; i < season_critical_dates[type].length; i++) {
+            var critical_date = season_critical_dates[type][i].date;
+            var critical_date_id = season_critical_dates[type][i].id;
+
+            season_graph.append("line")
+                .attr("x1", seasonx(critical_date))
+                .attr("y1", 0)
+                .attr("x2", seasonx(critical_date))
+                .attr("y2", season_height)
+                .style("stroke-width", 2)
+                .style("stroke", colours[colours_count])
+                .style("fill", "none");
+
+            season_graph.append("text")
+               .attr("y", -30)
+               .attr("x", seasonx(critical_date))
+               .attr('text-anchor', 'left')
+               .attr("class", "lineLabel")
+               .text(type + "\n" + formatTime(critical_date))
+               .attr("transform", "rotate(90," + seasonx(critical_date) + ",-30)")
+               .attr("id", critical_date_id);
+            colours_count++;
+        }
     }
+    // This allows user to click on critical date text and open the admin change screen for that critical data
+    // This was the easiest way I could see to do with the way the lines and text are created
+    season_graph.selectAll("text")
+        .on("click", function(d) {
+            window.open("/admin/skeleton/criticaldate/" + this.id + "/change/")
+    });
+
     //season_graph.selectAll("text").attr("transform", "rotate(90)" );
     var tickValuesForAxis = seasons_vsw_readings.map(d => d.date);
 
@@ -899,26 +916,9 @@ Promise.all(promises).then(function(values) {
     }
 
     /**************************** Irrication Gauge Highcharts Stacked column ********************************/
-    // Turn data into a percentage
-    max_gauge = full_point_rz1;
-    min_gauge = refill_rz1;
-    //if (strategy_max >= full_point_rz1){ max_gauge = strategy_max } else if (latest_reading >= full_point_rz1) { max_gauge = latest_reading } else { max_gauge = full_point_rz1 };
-    //if (strategy_min <= refill_rz1){ min_gauge = strategy_min } else if (latest_reading <= refill_rz1) { min_gauge = latest_reading } else { min_gauge = refill_rz1 }
 
-    //console.log(max_gauge, min_gauge)
-
-    var divider = full_point_rz1 - refill_rz1;
-    //var range_gauge = full_point_rz1 - refill_rz1
-    console.log('Divider:' + divider)
-    //console.log('Range of Gauge:' + range_gauge)
-
-    var top = Math.round((full_point_rz1 - strategy_max) / divider * 100)
-    var middle = Math.round((strategy_max - strategy_min) / divider * 100)
-    var bottom = Math.round((strategy_min - refill_rz1) / divider * 100)
-    var latest_reading_perc = Math.round((latest_reading - refill_rz1) / divider * 100)
-
-    if (latest_reading_perc < 0) { latest_reading_perc = 0 } else if (latest_reading_perc > 100) { latest_reading_perc = 100 }
-    console.log(top, middle, bottom, latest_reading_perc)
+    console.log('Irrigation Gauge Values');
+    console.log('Top:', irrigation_gauge_top, 'Middle', irrigation_gauge_middle, 'Bottom', irrigation_gauge_bottom, 'Percentage', irrigation_gauge_percentage);
 
     var options = {
         title: {
@@ -926,24 +926,27 @@ Promise.all(promises).then(function(values) {
         },
         chart: { type: 'column',
             renderTo: 'irrigation-gauge',
-            height: 320,
+            height: 360,
             width: 150,
         },
         xAxis: {
             categories: [''],
         },
         yAxis: {
-            tickInterval: 50,
-            //reversed: true,
+            min: -20,
+            max: 120,
+            opposite: true,
+            tickInterval: 20,
             title: {
                 text: null,
             },
+
             plotLines: [{
-              value: latest_reading_perc,
+              value: irrigation_gauge_percentage,
               color: 'black',
-              width: 2,
+              width: 4,
               zIndex: 5,
-              label: { text: 'Latest Reading' },
+              label: { text: '' },
           }],
         },
         plotOptions: {
@@ -951,7 +954,7 @@ Promise.all(promises).then(function(values) {
                 groupPadding: 0
             },
             column: {
-                stacking: 'percent',
+                stacking: 'normal',
                 dataLabels: {
                     enabled: false
                 }
@@ -959,26 +962,26 @@ Promise.all(promises).then(function(values) {
         },
         series: [{
             name: '',
-            data: [0.5],
+            data: [20],
             color: 'red'
         }, {
             name: '',
-            data: [top],
+            data: [irrigation_gauge_top],
             color: 'orange'
         },
         {
             name: '',
-            data: [middle],
+            data: [irrigation_gauge_middle],
             color: 'green'
         },
         {
             name: '',
-            data: [bottom],
+            data: [irrigation_gauge_bottom],
             color: 'orange'
         },
         {
             name: '',
-            data: [0.5],
+            data: [-20],
             color: 'red'
         }]};
 
@@ -993,9 +996,9 @@ Promise.all(promises).then(function(values) {
         svg.append("text").attr("x", 30).attr("y", 100).text("Refill").style("font-size", "15px").attr("alignment-baseline","middle")
     */
     /*
-        A function that updates the weekly chart
+        A function that redraws the weekly chart
     */
-    function update(selectedGroup) {
+    function redraw_weekly_graph(selectedGroup) {
           // Create new data with the selection?
           var index = allGroup.indexOf(selectedGroup)
           var this_week = allGroup[index];
@@ -1055,14 +1058,14 @@ Promise.all(promises).then(function(values) {
     // When the button is changed, run the updateChart function
     d3.select("#selectButton").on("change", function(d) {
         var selectedOption = d3.select(this).property("value");
-        update(selectedOption)
+        redraw_weekly_graph(selectedOption)
     });
-
 
     // ** Update data section
     function updateWeeklyGraph(x) {
-        alert("Updating" + x);
+        redraw_weekly_graph(formatTime(x))
     }
+
 });
 
 </script>

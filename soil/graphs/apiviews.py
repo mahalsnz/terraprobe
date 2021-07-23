@@ -170,6 +170,32 @@ class FruitionSummaryV2(APIView):
 
 class FruitionSummaryV3(APIView):
 
+    """
+    Returns an extensive summary of derived data based on the latest reading date for a site and season. This helps to construct a picture of the
+    irrigation positon of a site in relation to it's irrigation strategy. This is then summarised to an easy to understand Alert Level.
+
+    However calculation that Alert Level is complicated.
+
+    The irrigation strategy point needs to interpolate between the strategy min point before the closest reading and
+    the strategy min point after the closest reading to give the strategy min on the day of the reading. (also does this for
+    stategy max). The process is:
+
+    First calculate the strategy change per day:
+        - get the first strategy min point before the reading = 221.3 on October 5th
+        - get the first strategy min point after the reading = 245.5 on November 25th
+        - calculate the difference in the strategy (245.5 - 221.3 = 24.2mm)
+        - calculate the number of days between the strategy points (November 25th - October 5th = 31 days)
+        - calculate the strategy change per day (24.2mm / 31 days = 0.78mm per day)
+
+    Then calculate the strategy on the reading date:
+        - calculate the days between the first strategy point before the reading and the reading (October 19th - October 5th = 14 days)
+        - determine the strategy change for that period (0.78mm per day x 14 days = 10.92mm)
+        - add this to the first strategy point before the reading (221.3 + 10.92 = 232.22mm on October 19th)
+
+    This will give you the interpoloated (and derived) strategy_max and strategy_min of the latest reading date for that site and season.
+
+    """
+
     def get(self, request, season_id, site_ids, format=None):
         logger.debug(request)
         ids = request.GET.getlist('sites[]')
@@ -193,6 +219,28 @@ class FruitionSummaryV3(APIView):
                 before_strategy_serializer = VSWStrategySerializer(before_strategy)
                 after_strategy_serializer = VSWStrategySerializer(after_strategy)
 
+                # Calculation for irrigation gauge
+                # Work out the divider, which is between full point and refill
+                divider = full.rz1 - refill.rz1;
+
+                # Work out diff between the 4 points in order and divide by divider to give top, middle and bottom
+                top = round((full.rz1 - strategy_max) / divider * 100)
+                middle = round((strategy_max - strategy_min) / divider * 100)
+                bottom = round((strategy_min - refill.rz1) / divider * 100)
+
+                # Latest reading needs the same treatment. Then we make sure it is between 0 and a 100.
+                latest_reading_perc = round((latest_reading.rz1 - refill.rz1) / divider * 100)
+                if (latest_reading_perc < 0):
+                    latest_reading_perc = 0
+                elif (latest_reading_perc > 100):
+                    latest_reading_perc = 100
+
+                # bottom can be a negative, turn it positive and remove value from other figures
+                if (bottom < 0):
+                    bottom = abs(bottom)
+                    middle = middle - bottom
+                    top = top - bottom
+
                 strategy_serialized_data.append({
                     'site_id': site.id,
                     'latest_reading_date': latest_reading.date,
@@ -202,6 +250,10 @@ class FruitionSummaryV3(APIView):
                     'strategy_max' : round(strategy_max, 2),
                     'strategy_min' : round(strategy_min, 2),
                     'alert_level' : alert_level,
+                    'irrigation_gauge_top': top,
+                    'irrigation_gauge_middle': middle,
+                    'irrigation_gauge_bottom': bottom,
+                    'irrigation_gauge_percentage': latest_reading_perc,
                     'latest_reading': reading_serializer.data,
                     'closest_strategies' : [before_strategy_serializer.data, after_strategy_serializer.data]
                 })
