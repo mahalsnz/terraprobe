@@ -53,7 +53,6 @@ class VSWDateListV2(generics.ListAPIView):
 """
 
 def calculateStrategyPosition(after_strategy, before_strategy, latest_reading, full, refill):
-
     days_between_strategies = (after_strategy.strategy_date - before_strategy.strategy_date).days
     logger.debug('Days between strategies:' + str(days_between_strategies))
 
@@ -168,6 +167,92 @@ class FruitionSummaryV2(APIView):
 
         return Response(data)
 
+"""
+    calculateAlertLevel - Returns the alert level between 1 and 3 based on straegy min and max, and the latest reading rz1
+"""
+
+def getSummarySerializedData(season_id, site_ids, reviewed):
+    season = Season.objects.get(id=season_id)
+    reviewed = reviewed if reviewed else 'False'
+    logger.debug('Reviewed:' + str(reviewed))
+    strategy_serialized_data = []
+    for site_id in site_ids:
+        try:
+            site = Site.objects.get(pk=site_id)
+            dates = get_site_season_start_end(site, season)
+            if reviewed == 'False':
+                latest_reading = vsw_reading.objects.filter(site_id=site_id, date__range=(dates.period_from, dates.period_to), type='Probe').latest('date')
+            else:
+                latest_reading = vsw_reading.objects.filter(site_id=site_id, date__range=(dates.period_from, dates.period_to), type='Probe', reviewed=True).latest('date')
+            full = vsw_reading.objects.get(site_id=site_id, type='Full Point', date__range=(dates.period_from, dates.period_to))
+            refill = vsw_reading.objects.get(site_id=site_id, type='Refill', date__range=(dates.period_from, dates.period_to))
+
+            after_strategy = vsw_strategy.objects.filter(site_id=site_id).filter(Q(strategy_date__gte=latest_reading.date)).order_by('strategy_date')[0]
+            before_strategy = vsw_strategy.objects.filter(site_id=site_id).filter(Q(strategy_date__lte=latest_reading.date)).order_by('-strategy_date')[0]
+
+            strategy_max, strategy_min = calculateStrategyPosition(after_strategy, before_strategy, latest_reading, full, refill)
+            alert_level = calculateAlertLevel(strategy_max, strategy_min, latest_reading, full, refill)
+            reading_serializer = VSWSerializer(latest_reading)
+            before_strategy_serializer = VSWStrategySerializer(before_strategy)
+            after_strategy_serializer = VSWStrategySerializer(after_strategy)
+
+            # Calculation for irrigation gauge
+            # Work out the divider, which is between full point and refill
+            divider = full.rz1 - refill.rz1;
+
+            # Work out diff between the 4 points in order and divide by divider to give top, middle and bottom
+            top = round((full.rz1 - strategy_max) / divider * 100)
+            middle = round((strategy_max - strategy_min) / divider * 100)
+            bottom = round((strategy_min - refill.rz1) / divider * 100)
+
+            # Latest reading needs the same treatment. Then we make sure it is between 0 and a 100.
+            latest_reading_perc = round((latest_reading.rz1 - refill.rz1) / divider * 100)
+            if (latest_reading_perc < 0):
+                latest_reading_perc = 0
+            elif (latest_reading_perc > 100):
+                latest_reading_perc = 100
+
+            # bottom can be a negative, turn it positive and remove value from other figures
+            if (bottom < 0):
+                bottom = abs(bottom)
+                middle = middle - bottom
+                top = top - bottom
+
+            strategy_serialized_data.append({
+                'site_id': site.id,
+                'latest_reading_date': latest_reading.date,
+                'latest_reading_date_rz1': latest_reading.rz1,
+                'full_point': full.rz1,
+                'refill_point': refill.rz1,
+                'strategy_max' : round(strategy_max, 2),
+                'strategy_min' : round(strategy_min, 2),
+                'alert_level' : alert_level,
+                'irrigation_gauge_top': top,
+                'irrigation_gauge_middle': middle,
+                'irrigation_gauge_bottom': bottom,
+                'irrigation_gauge_percentage': latest_reading_perc,
+                'latest_reading': reading_serializer.data,
+                'closest_strategies' : [before_strategy_serializer.data, after_strategy_serializer.data]
+            })
+
+        except ObjectDoesNotExist:
+            logger.error('No latest reading')
+            pass
+        except IndexError:
+            logger.error('No strategy')
+            pass
+
+    data = {
+        'sites': strategy_serialized_data,
+    }
+    return data
+
+class FruitionSummaryV3ReadingReady(APIView):
+    def get(self, request, season_id, reviewed, site_ids, format=None):
+        ids = request.GET.getlist('sites[]')
+        data = getSummarySerializedData(season_id, ids, reviewed,)
+        return Response(data)
+
 class FruitionSummaryV3(APIView):
 
     """
@@ -197,76 +282,8 @@ class FruitionSummaryV3(APIView):
     """
 
     def get(self, request, season_id, site_ids, format=None):
-        logger.debug(request)
         ids = request.GET.getlist('sites[]')
-        season = Season.objects.get(id=season_id)
-        strategy_serialized_data = []
-        for site_id in ids:
-            try:
-                site = Site.objects.get(pk=site_id)
-                dates = get_site_season_start_end(site, season)
-                latest_reading = vsw_reading.objects.filter(site_id=site_id, date__range=(dates.period_from, dates.period_to), type='Probe', reviewed=True).latest('date')
-
-                full = vsw_reading.objects.get(site_id=site_id, type='Full Point', date__range=(dates.period_from, dates.period_to))
-                refill = vsw_reading.objects.get(site_id=site_id, type='Refill', date__range=(dates.period_from, dates.period_to))
-
-                after_strategy = vsw_strategy.objects.filter(site_id=site_id).filter(Q(strategy_date__gte=latest_reading.date)).order_by('strategy_date')[0]
-                before_strategy = vsw_strategy.objects.filter(site_id=site_id).filter(Q(strategy_date__lte=latest_reading.date)).order_by('-strategy_date')[0]
-
-                strategy_max, strategy_min = calculateStrategyPosition(after_strategy, before_strategy, latest_reading, full, refill)
-                alert_level = calculateAlertLevel(strategy_max, strategy_min, latest_reading, full, refill)
-                reading_serializer = VSWSerializer(latest_reading)
-                before_strategy_serializer = VSWStrategySerializer(before_strategy)
-                after_strategy_serializer = VSWStrategySerializer(after_strategy)
-
-                # Calculation for irrigation gauge
-                # Work out the divider, which is between full point and refill
-                divider = full.rz1 - refill.rz1;
-
-                # Work out diff between the 4 points in order and divide by divider to give top, middle and bottom
-                top = round((full.rz1 - strategy_max) / divider * 100)
-                middle = round((strategy_max - strategy_min) / divider * 100)
-                bottom = round((strategy_min - refill.rz1) / divider * 100)
-
-                # Latest reading needs the same treatment. Then we make sure it is between 0 and a 100.
-                latest_reading_perc = round((latest_reading.rz1 - refill.rz1) / divider * 100)
-                if (latest_reading_perc < 0):
-                    latest_reading_perc = 0
-                elif (latest_reading_perc > 100):
-                    latest_reading_perc = 100
-
-                # bottom can be a negative, turn it positive and remove value from other figures
-                if (bottom < 0):
-                    bottom = abs(bottom)
-                    middle = middle - bottom
-                    top = top - bottom
-
-                strategy_serialized_data.append({
-                    'site_id': site.id,
-                    'latest_reading_date': latest_reading.date,
-                    'latest_reading_date_rz1': latest_reading.rz1,
-                    'full_point': full.rz1,
-                    'refill_point': refill.rz1,
-                    'strategy_max' : round(strategy_max, 2),
-                    'strategy_min' : round(strategy_min, 2),
-                    'alert_level' : alert_level,
-                    'irrigation_gauge_top': top,
-                    'irrigation_gauge_middle': middle,
-                    'irrigation_gauge_bottom': bottom,
-                    'irrigation_gauge_percentage': latest_reading_perc,
-                    'latest_reading': reading_serializer.data,
-                    'closest_strategies' : [before_strategy_serializer.data, after_strategy_serializer.data]
-                })
-
-            except ObjectDoesNotExist:
-                pass # No latest reading
-            except IndexError:
-                pass # No strategy
-
-        data = {
-            'sites': strategy_serialized_data,
-        }
-
+        data = getSummarySerializedData(season_id, ids, True)
         return Response(data)
 
 class VSWReadingList(generics.ListAPIView):

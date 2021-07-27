@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from django.core.exceptions import ImproperlyConfigured
 
 def get_env_variable(name):
@@ -165,6 +166,10 @@ REST_FRAMEWORK = {
         'anon': '600/min',
         'user': '600/min'
     }
+}
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 # Static files (CSS, JavaScript, Images)

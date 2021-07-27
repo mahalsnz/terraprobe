@@ -40,11 +40,11 @@ register_converter(IsoDateConverter, 'isodate')
 urlpatterns = [
     path('', include('skeleton.urls')),
     path('admin/', admin.site.urls, name='admin'),
+    path('api-auth/', include('rest_framework.urls')),
     path('graphs/', include('graphs.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    #path('api-auth/', include('rest_framework.urls')),
     path('docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)),
     path('schema/', schema_view),
 ]
@@ -52,3 +52,6 @@ urlpatterns = [
 admin.site.site_header = "Fruition Soil Moisture Administration"
 admin.site.site_title = "Fruition Soil Moisture Administration Portal"
 admin.site.index_title = "Welcome to the Fruition Soil Moisture Administration Portal"
+
+# curl --insecure -X POST -H "Content-Type: application/json" -d '{"username": "mabbettb", "password": ""}' https://staging.terraprobe.mahal.co.nz/api/token/
+# curl --insecure -X GET -H "Content-Type: application/json" -d '{"Authorization: Bearer token"}' https://staging.terraprobe.mahal.co.nz/api/site/
