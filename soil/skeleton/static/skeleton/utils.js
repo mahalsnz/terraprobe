@@ -14,7 +14,7 @@ function get_graph_data(site_id, period_from, period_to, season_id) {
     promises.push(d3.json('/graphs/api/vsw_strategy/' + parameter_string + '/?format=json'));
     promises.push(d3.json('/api/site/' + site_id + '/?format=json'));
     if (season_id) {
-        promises.push(d3.json("/graphs/api/v3/fruition_summary/" + season_id + "/sites_summary/?sites[]=" + site_id));
+        promises.push(d3.json("/graphs/api/v3/fruition_summary/" + season_id + "/False/sites_summary/?sites[]=" + site_id));
     }
     return promises;
 
