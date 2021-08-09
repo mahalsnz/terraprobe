@@ -1,0 +1,36 @@
+<!-- skeleton/templates/create_season_resources.html -->
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h5 align="center">If the season you want to create resources for does not exist, please create it in the Admin screen for Seasons.</h5>
+
+
+<form method="post">
+{% csrf_token %}
+<div class="container-md">
+    <div class="row">
+        &emsp;<div class="col-md-2 form-control-md">
+                {{ form.season_from|as_crispy_field }}
+        </div>
+        <div class="col-md-2 form-control-md">
+            {{ form.season_to|as_crispy_field }}
+        </div>
+    </div>
+    <div class="row">
+        &emsp;<div class="col-md-2 form-control-md">
+            {{ form.critical_date|as_crispy_field }}
+        </div>
+        <div class="col-md-2 form-control-md">
+            {{ form.crop_coefficient|as_crispy_field }}
+        </div>
+    </div>
+    <div class="row">
+        &emsp;<button class="btn bg-green" id="submit-resources" type="submit">Create Resources</button>
+    </div>
+</div>
+
+</form>
+
+{% endblock content %}

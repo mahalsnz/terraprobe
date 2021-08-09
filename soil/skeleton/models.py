@@ -168,22 +168,6 @@ class Variety(models.Model):
     def __str__(self):
         return self.name
 
-class VarietySeasonTemplate(models.Model):
-    variety = models.ForeignKey(Variety, null=False, on_delete=models.CASCADE)
-    critical_date_type = models.ForeignKey(CriticalDateType, null=False, on_delete=models.CASCADE, help_text='The Critical Date Type to create new season Critical Dates for all sites that are of this variety.')
-    season_date = models.DateField(default=timezone.now, null=False, help_text='The day and month to create new season Critical Dates for all sites that are of this variety.')
-
-    comment = models.TextField(null=True, blank=True)
-    created_date = models.DateTimeField('date published', default=timezone.now)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
-
-    def __str__(self):
-        return str(self.variety) + ' - ' + str(self.critical_date_type) + ' - ' + str(self.season_date.strftime('%B-%d'))
-
-    @property
-    def formatted_variety_season_date(self):
-        return self.season_date.strftime('%B-%d')
-
 class Crop(models.Model):
     name = models.CharField(max_length=100, null=False, default='Crop')
     report = models.ForeignKey(Report, null=True, blank=True, on_delete=models.CASCADE)
@@ -539,22 +523,14 @@ class Reading(models.Model):
         unique_together = (('date', 'site', 'type'))
         get_latest_by = 'date'
 
-'''
-These are crop coefficients (Kc) from .DWU files are daily water use data.
-The CSV files are:
-
-Day, crop KC
-
-Apples for example - season start is day 0 at a kc of 0.5
-This remains until day 31 when the KC changes to 1.0
-etc, etc
-The number 283 at the start is the beginning day of the season (~Oct 11th)
-
-Grapes.kc is the same different date format.
-It uses the Critical dates (CD) +- days to determine when the kc changes.
-'''
+"""
+These are crop coefficients (Kc) for average daily water use for a crop, region and season.
+These KC's change for periods
+"""
 
 class KCReading(models.Model):
+    region = models.ForeignKey('address.State', null=False, default=1, on_delete=models.CASCADE)
+    season = models.ForeignKey(Season, null=False, default=2, on_delete=models.CASCADE)
     crop = models.ForeignKey(Crop, null=False, on_delete=models.CASCADE)
     period_from = models.DateField(default=timezone.now, null=False)
     period_to = models.DateField(default=timezone.now, null=False)
@@ -571,9 +547,9 @@ class KCReading(models.Model):
         return crop_text + ":" + period_from_text + ":" + period_to_text + ":" + kc_text
 
 '''
-The ET data comes via Hortplus as a daily ET based on a refrence crop (grass)
+The ET data comes via Hortplus as a daily ET based on a refrence crop (grass) for a Weatherstation (Havelock North)
 
-The ET data from the reference crop is then multiplied by the crop KC (Is different for differnt crops. Have attached 3 examples)
+At present each date has an ET value and is used for every year
 '''
 
 class ETReading(models.Model):

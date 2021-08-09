@@ -11,12 +11,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from django.db.models import Sum, Q
 from django.db.models.functions import Coalesce
 from graphs.models import vsw_reading
 from .models import Probe, Document, ProbeDiviner, Diviner, Reading, ReadingType, Site, Season, SeasonStartEnd, CriticalDate, CriticalDateType \
-, Variety, VarietySeasonTemplate, SiteDescription, Farm
+, Variety, SiteDescription, Farm, KCReading
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from formtools.wizard.views import SessionWizardView
@@ -36,7 +38,7 @@ import json
 import logging
 logger = logging.getLogger(__name__)
 
-from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm, SiteReportReadyForm, DivinerForm, EOYReportForm
+from .forms import DocumentForm, SiteReadingsForm, SiteSelectionForm, SiteReportReadyForm, DivinerForm, EOYReportForm, CreateSeasonResourcesForm
 
 import datetime
 
@@ -65,10 +67,53 @@ def probe_diviner_detail(request):
         diviner_form = DivinerForm()
     return render(request, 'probe_diviner/detail.html', { 'diviner_form': diviner_form})
 
-class ProbeDivinerListView(ListView):
+class ProbeDivinerListView(PermissionRequiredMixin, ListView):
+    permission_required = ('is_superuser', )
     queryset = ProbeDiviner.objects.all().select_related('diviner__site')
     context_object_name = 'probe_diviners'
     template_name = 'probe_diviner/list.html'
+
+"""
+    This creates new critical dates and kc readings for a new season.
+    The user chooses which season to create from and which season to create into.
+
+"""
+
+class CreateSeasonResourcesView(PermissionRequiredMixin, CreateView):
+    permission_required = ('is_superuser', )
+
+    def get(self, request, *args, **kwargs):
+        seasons = Season.objects.all().order_by('season_date')
+        return render(request, 'create_season_resources.html', { 'form': CreateSeasonResourcesForm() })
+
+    def post(self, request, *args, **kwargs):
+
+        season_from = request.POST['season_from']
+        season_to = request.POST['season_to']
+
+        if season_from == season_to:
+            messages.error(request, "Season from and Season to are the same. They must be different.")
+        else:
+            season_from = Season.objects.get(id=season_from)
+            critical_dates = CriticalDate.objects.filter(season=season_from)
+
+            kc_readings = KCReading.objects.filter(season=season_from)
+
+            # add a year to every date
+            for critical_date in critical_dates:
+                cd = CriticalDate(site = critical_date.site, date = critical_date.date + relativedelta(years=+1), created_by = request.user,
+                    type = critical_date.type, season_id = season_to)
+                logger.debug(str(cd))
+                cd.save()
+
+            # add a year to every period_from and period_to date
+            for kc_reading in kc_readings:
+                kc = KCReading(period_from = kc_reading.period_from + relativedelta(years=+1), period_to = kc_reading.period_to + relativedelta(years=+1),
+                    season_id = season_to, created_by = request.user, region = kc_reading.region, crop = kc_reading.crop, kc = kc_reading.kc)
+                logger.debug(str(kc))
+                kc.save()
+
+        return render(request, 'create_season_resources.html', { 'form': CreateSeasonResourcesForm() })
 
 '''
     RecommendationReadyView:
@@ -76,7 +121,8 @@ class ProbeDivinerListView(ListView):
     Once reviewed field is true, it becomes avaiable in Graphs API
 '''
 
-class RecommendationReadyView(LoginRequiredMixin, CreateView):
+class RecommendationReadyView(PermissionRequiredMixin, CreateView):
+    permission_required = ('is_superuser', )
 
     def get(self, request, *args, **kwargs):
         # get todays date
@@ -306,100 +352,6 @@ def process_site_note(request):
         site.comment = comment
         site.save()
     return JsonResponse({ 'comment' : site.comment })
-
-"""
-class SeasonWizard(SessionWizardView):
-    def get_template_names(self):
-        return [TEMPLATES[self.steps.current]]
-
-    def done(self, form_list, **kwargs):
-        form_data = None
-        success_data = None
-        try:
-            (form_data, success_data) = process_form_data(form_list, self)
-        except Exception as e:
-            messages.error(self.request, "Error: " + str(e))
-        return render(self.request, 'wizard/season_create_data.html', { 'form_data': form_data, 'success_data': success_data })
-
-'''
-    From Season Wizard
-'''
-
-def process_form_data(form_list, self):
-    form_data = [form.cleaned_data for form in form_list]
-    success_data = {}
-
-    # Get form parameters
-    regions = form_data[0]['region']
-    products = form_data[0]['product']
-    season = form_data[0]['season']
-    multi_year_season = form_data[0]['multi_year_season']
-    refill_fullpoint_copy = form_data[0]['refill_fullpoint_copy']
-    logger.debug('Form ' + str(form_data[0]))
-
-    # Get sites we are going to work with
-    sites = Site.objects.none()
-    for region in regions:
-        for product in products:
-            sites |= Site.objects.filter(farm__address__locality__state=region, product=product)
-    logger.debug('Sites to process in Season Wizard:' + str(sites))
-
-    # If multi season, get season start year
-    if multi_year_season:
-        logger.debug('Season Year Start ' + str(season.formatted_season_start_year))
-        season_end_year = season.season_date + relativedelta(years=1)
-        logger.debug('Season Year End ' + season_end_year.strftime('%Y'))
-
-    for site in sites:
-        # Grap the start and end date types
-        site_season_start_date = None
-        site_season_end_date = None
-        if multi_year_season:
-            site_season_start = VarietySeasonTemplate.objects.get(variety__product__site__id=site.id, critical_date_type__name='Start')
-            site_season_start_date = site_season_start.season_date
-            logger.debug('For ' + str(site) + ' site_season_start_date' + str(site_season_start_date))
-
-        # get variety season TEMPLATES
-        templates = VarietySeasonTemplate.objects.filter(variety__product__site__id=site.id)
-        for template in templates:
-            template_season_date = None
-            logger.debug('For ' + str(site) + ' creating crtical date ' + str(template.critical_date_type) + str(template.season_date) + ' to season ' + str(season))
-
-
-
-            # Transofrm template.season_date by
-            try:
-                cd = CriticalDate(
-                    site = site,
-                    season = season,
-                    date = template.season_date,
-                    type = template.critical_date_type,
-                    created_by = self.request.user
-                )
-                #cd.save()
-                success_data['sites'] = sites
-            except Exception as e:
-                raise Exception("Cannot create critical date " + str(site) + " because " + str(e))
-
-    if form_data[1]['types_copy']:
-        logger.debug('Copying Refill and Full Point Types')
-
-        # Use previous seasons start date as the reading date
-        for site in sites:
-            dates = get_site_season_start_end(site, previous_season)
-    else:
-        period_from = form_data[1]['period_from']
-        logger.debug('Creating Refill and Full Point Types for season ' + str(season) + ' with reading date of ' + str(period_from))
-        for site in sites:
-            reading = Reading(
-                site = site,
-                date = period_from,
-                type = 'Refill',
-                depth1 = form_data[2]['refill_depth1_value']
-            )
-            reading.save()
-    return (form_data, success_data)
-"""
 
 from io import StringIO
 

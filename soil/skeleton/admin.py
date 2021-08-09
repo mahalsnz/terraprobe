@@ -9,7 +9,7 @@ from import_export.admin import ImportExportModelAdmin
 
 from .models import (Farm, Site, SiteDescription, Crop, Product, Reading, SoilProfileType, Calibration, ReadingType, Probe,
     Season, ETReading, KCReading, Diviner, ProbeDiviner, CriticalDateType, CriticalDate, UserFullName, SeasonStartEnd, WeatherStation,
-    Document, Variety, VarietySeasonTemplate, Strategy, StrategyType, SeasonalSoilStat)
+    Document, Variety, Strategy, StrategyType, SeasonalSoilStat)
 from .forms import SoilProfileTypeForm
 
 import logging
@@ -44,8 +44,8 @@ class DivinerAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 class KCReadingAdmin(admin.ModelAdmin):
-    list_display = ('crop', 'period_from', 'period_to', 'kc')
-    list_filter = ['crop']
+    list_display = ('crop', 'region', 'season', 'period_from', 'period_to', 'kc')
+    list_filter = ['crop', 'region', 'season']
 
 class ETReadingAdmin(admin.ModelAdmin):
     list_display = ('date', 'state', 'daily')
@@ -149,9 +149,6 @@ class SeasonStartEndAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
-class VarietySeasonTemplateAdmin(admin.ModelAdmin):
-    list_display = ['variety', 'critical_date_type', 'formatted_variety_season_date']
-
 class DocumentAdmin(admin.ModelAdmin):
     list_display = ['description', 'document']
     list_filter = ['description',]
@@ -177,6 +174,5 @@ admin.site.register(SeasonStartEnd, SeasonStartEndAdmin)
 admin.site.register(WeatherStation, WeatherStationAdmin)
 admin.site.register(Document, DocumentAdmin)
 admin.site.register(Variety)
-admin.site.register(VarietySeasonTemplate, VarietySeasonTemplateAdmin)
 admin.site.register(Strategy, StrategyAdmin)
 admin.site.register(StrategyType, StrategyTypeAdmin)

@@ -20,8 +20,19 @@ class SoilProfileTypeForm(ModelForm):
             'color': TextInput(attrs={'type': 'color'}),
         }
 
-#class SoilProfileTypeAdminForm(ModelForm):
-#    form = SoilProfileTypeForm
+class CreateSeasonResourcesForm(forms.ModelForm):
+    season_from = forms.ModelChoiceField(Season.objects.all().order_by('-season_date'), empty_label=None, widget=forms.Select())
+    season_to = forms.ModelChoiceField(Season.objects.all().order_by('-current_flag'), empty_label=None, widget=forms.Select())
+    critical_date = forms.BooleanField(initial=True)
+    crop_coefficient = forms.BooleanField(initial=True)
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.layout = Layout('farm','season')
+
+    class Meta:
+        model = Season
+        fields = []
+
 
 class EOYReportForm(forms.ModelForm):
     farm = forms.ModelChoiceField(Farm.objects.all().order_by('name'), widget=forms.Select())
@@ -34,7 +45,6 @@ class EOYReportForm(forms.ModelForm):
     class Meta:
         model = Farm
         fields = ['id',]
-
 
 class DivinerForm(forms.ModelForm):
     probe = forms.ModelChoiceField(Probe.objects.all(), widget=forms.Select())

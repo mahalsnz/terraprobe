@@ -50,10 +50,11 @@
                             <a class="nav-link" href="{% url 'site_readings' %}">| Readings</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'recommendation_ready' %}"> | Recommendation Review</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'onsite_readings' %}"> | On-Site </a>
+                        </li>
+                        {% if user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'recommendation_ready' %}"> | Recommendation Review</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'upload_readings_file' %}"> | Readings File Upload</a>
@@ -65,8 +66,12 @@
                             <a class="nav-link" href="{% url 'report_home' %}"> | Reports</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'create_season_resources' %}"> | Create Season</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/admin"> | Administration | </a>
                         </li>
+                        {% endif %}
                         {% if user.is_authenticated %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
